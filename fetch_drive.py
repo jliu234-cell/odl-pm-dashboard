@@ -19,10 +19,13 @@ The file ids default to the current ODL files; override with env vars if they mo
 """
 import os, sys, io, json
 
-# The live capacity workbook is a native Google Sheet (org-owned, in the ODL
-# shared drive); the Reflection folder holds the downloaded reflection PDFs.
+# Both sources live in the "NDL ODL" Google **shared drive** (org-owned, so they
+# outlast any one account). Easiest access: add the service account as a Viewer
+# MEMBER of that shared drive -- then it can read both without per-file shares.
+#   workbook  = the live capacity Google Sheet
+#   reflections = Shared drives/NDL ODL/ODL/ODL PM Folder/Project Reflection Reports 2025
 SHEET_ID = os.environ.get("ODL_WORKBOOK_FILE_ID", "1fGHuQqu9iWC3TXjPr0hKBvCqz-8ZB9o73e2r0lbZFFE")
-REFLECTION_FOLDER_ID = os.environ.get("ODL_REFLECTION_FOLDER_ID", "1_aRXhTszbd6Pmdq85voWGTGyuIhn9dXD")
+REFLECTION_FOLDER_ID = os.environ.get("ODL_REFLECTION_FOLDER_ID", "1R7A1ALplVfXd2XgUH_ojQPOGCHI1soTH")
 XLSX_MIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 WORKBOOK_NAME = "ODL Project and Capacity Planning.xlsx"
 

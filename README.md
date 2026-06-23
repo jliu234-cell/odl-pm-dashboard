@@ -89,8 +89,10 @@ One-time setup — repo **Settings → Secrets and variables → Actions**:
 1. **Create a Google service account** (Google Cloud Console → enable the Drive API
    → make a service account → download its JSON key). Ideally make it under a
    team/ND Google project so it outlives any one person.
-2. **Share** the workbook Sheet **and** the Reflection folder with the service
-   account's email (Viewer).
+2. **Grant the service account read access** to both sources. Easiest: add its
+   email as a **Viewer member of the "NDL ODL" shared drive** (where both the
+   workbook Sheet and the `…/ODL PM Folder/Project Reflection Reports 2025` folder
+   live) — then it can read both, and any new reflection reports, automatically.
 3. Add the secret **`GDRIVE_SA_KEY`** = the whole JSON key.
 4. Add the secret **`ESTIMATOR_REPO_TOKEN`** = a GitHub PAT with read access to
    `odl-estimator` (so the job can check out its `data_all`). Skip this if you make
@@ -105,12 +107,12 @@ and pushes (`--no-push` to commit only); `./install_schedule.sh` schedules it da
 via launchd while you're logged in. Use **one** daily mechanism, not both — pick the
 cloud workflow or the local schedule so two jobs don't fight over the same commit.
 
-> Continuity caveats (since the repos currently live under a personal GitHub
-> account): the live **workbook Sheet** is org-owned (ODL shared drive), but the
-> **Reflection folder** and the local `.xlsx` snapshot are owned by `jliu234@nd.edu`
-> — to keep reflections flowing after that account is gone, move the folder into the
-> shared drive (or re-point `ODL_REFLECTION_FOLDER_ID`). And transfer both repos to
-> an ND org / successor so the Actions and secrets survive.
+> Continuity: both data sources — the **workbook Sheet** and the **reflection-reports
+> folder** — now live in the **NDL ODL shared drive** (org-owned), so they survive
+> any one account. What still needs handling so it all keeps running after you leave:
+> transfer both GitHub repos to an ND org / successor (so the Actions + secrets
+> aren't tied to a personal account), and create the Google service account under a
+> team/ND Google project rather than a personal one.
 
 ## Live mode (real-time from Asana)
 

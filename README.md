@@ -70,6 +70,26 @@ The Asana snapshot is produced by the existing `../odl_estimator` pipeline
 Asana state, then `build.py` here to refresh the dashboard — or use the live
 server's **Sync Asana** button to pull and recompute in place.
 
+### Keeping GitHub in sync
+
+Unlike the sibling `odl_estimator` (which self-refreshes **in the cloud** via a
+GitHub Actions cron job, because it pulls Asana directly with a token), this
+dashboard rebuilds from the **local** capacity workbook (a Google-Drive sheet) and
+the Asana snapshot under `../odl_estimator/data_all/`. A cloud runner can't see
+those, so the refresh has to run **locally**, then push.
+
+- **Manual:** `./sync.sh` — runs `build.py`, commits the refreshed `data.json` /
+  `index.html`, and pushes. `./sync.sh --no-push` commits only.
+- **Daily (automatic):** `./install_schedule.sh` installs a launchd job that runs
+  `sync.sh` every morning at 08:00, while the Mac is awake and you're logged in (so
+  the macOS keychain can serve the GitHub credential). `./install_schedule.sh
+  uninstall` removes it; logs land in `sync_launchd.log` (git-ignored).
+
+If the daily push ever stalls on a credential prompt, store a GitHub personal
+access token once (`git config credential.helper osxkeychain` is already in use;
+re-authenticating from a normal `git push` caches it), or switch the remote to SSH
+with a deploy key.
+
 ## Live mode (real-time from Asana)
 
 ```bash

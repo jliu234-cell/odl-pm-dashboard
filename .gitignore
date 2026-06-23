@@ -11,5 +11,8 @@ __pycache__/
 *.bak
 *.bak_*
 
+# launchd / sync logs
+*.log
+
 # Source/reference material kept out of the repo (internal email transcript)
 prompts.pdf

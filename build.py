@@ -34,9 +34,12 @@ ND_DEPT_FILE = os.path.join(HERE, "nd_departments.json")  # ND-website dept enri
 DRIVE_LINKS_FILE = os.path.join(HERE, "reflection_drive_links.json")  # Drive URLs for Reflection/ PDFs
 BRIEF_INPUTS_FILE = os.path.join(HERE, "brief_inputs.json")  # manual weekly inputs for the Director Brief
 ROOT = os.path.dirname(HERE)
-XLSX = os.path.join(ROOT, "ODL Project and Capacity Planning.xlsx")
-ASANA_DIR = os.path.join(ROOT, "odl_estimator", "data_all")
-REFLECTION_DIR = os.path.join(ROOT, "Reflection")   # downloaded reflection PDFs
+# Sources default to the local Google-Drive layout, but each can be overridden by
+# an env var so the cloud refresh (GitHub Actions) can point them at fetched
+# copies — see fetch_drive.py and .github/workflows/refresh.yml.
+XLSX = os.environ.get("ODL_WORKBOOK") or os.path.join(ROOT, "ODL Project and Capacity Planning.xlsx")
+ASANA_DIR = os.environ.get("ODL_ASANA_DIR") or os.path.join(ROOT, "odl_estimator", "data_all")
+REFLECTION_DIR = os.environ.get("ODL_REFLECTION_DIR") or os.path.join(ROOT, "Reflection")   # downloaded reflection PDFs
 REFLECTION_REL = "../Reflection/"                    # link path relative to index.html
 POINT_HOURS = 32
 FULL_MONTHLY_POINTS = 4

@@ -1,0 +1,69 @@
+# Daily cloud refresh of the ODL PM dashboard -- no laptop required.
+# Rebuilds data.json + index.html from the live capacity workbook (Google Drive,
+# via a service account) and the Asana snapshot (read from the odl-estimator repo,
+# which self-refreshes nightly), then commits the result back to this repo.
+#
+# One-time setup -- Repo -> Settings -> Secrets and variables -> Actions:
+#   GDRIVE_SA_KEY        the service-account JSON key (must be shared Viewer on the
+#                        workbook Sheet AND the Reflection folder). See fetch_drive.py.
+#   ESTIMATOR_REPO_TOKEN a GitHub PAT (fine-grained, read access to jliu234-cell/
+#                        odl-estimator) so this job can check out its data_all.
+#                        (Not needed if odl-estimator is public -- then drop the
+#                        `token:` line below.)
+# Then: Actions tab -> dashboard-refresh -> "Run workflow" to test.
+name: dashboard-refresh
+
+on:
+  schedule:
+    - cron: "0 13 * * *"     # 13:00 UTC -- after the estimator's 11:30 UTC Asana pull finishes
+  workflow_dispatch: {}        # manual "Run workflow" button
+
+permissions:
+  contents: write              # to commit the refreshed data.json / index.html
+
+concurrency:
+  group: dashboard-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out the dashboard
+        uses: actions/checkout@v4
+
+      - name: Check out odl-estimator (for the fresh Asana snapshot)
+        uses: actions/checkout@v4
+        with:
+          repository: jliu234-cell/odl-estimator
+          token: ${{ secrets.ESTIMATOR_REPO_TOKEN }}
+          path: _estimator
+          sparse-checkout: data_all
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements-ci.txt
+
+      - name: Fetch the workbook + reflections from Google Drive
+        env:
+          GDRIVE_SA_KEY: ${{ secrets.GDRIVE_SA_KEY }}
+        run: python3 fetch_drive.py _sources
+
+      - name: Rebuild the dashboard
+        env:
+          ODL_WORKBOOK: ${{ github.workspace }}/_sources/ODL Project and Capacity Planning.xlsx
+          ODL_ASANA_DIR: ${{ github.workspace }}/_estimator/data_all
+          ODL_REFLECTION_DIR: ${{ github.workspace }}/_sources/Reflection
+        run: python3 build.py
+
+      - name: Commit & push the refreshed dashboard
+        run: |
+          git config user.name  "odl-dashboard-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data.json index.html statuses.json
+          git diff --cached --quiet || git commit -m "dashboard refresh $(date -u +%F)"
+          git push

@@ -14,5 +14,9 @@ __pycache__/
 # launchd / sync logs
 *.log
 
+# cloud-refresh working dirs (fetched at CI time, never committed)
+_sources/
+_estimator/
+
 # Source/reference material kept out of the repo (internal email transcript)
 prompts.pdf

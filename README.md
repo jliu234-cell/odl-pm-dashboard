@@ -72,23 +72,45 @@ server's **Sync Asana** button to pull and recompute in place.
 
 ### Keeping GitHub in sync
 
-Unlike the sibling `odl_estimator` (which self-refreshes **in the cloud** via a
-GitHub Actions cron job, because it pulls Asana directly with a token), this
-dashboard rebuilds from the **local** capacity workbook (a Google-Drive sheet) and
-the Asana snapshot under `../odl_estimator/data_all/`. A cloud runner can't see
-those, so the refresh has to run **locally**, then push.
+**Cloud refresh (recommended — no laptop required).** A GitHub Actions workflow
+(`.github/workflows/refresh.yml`) rebuilds the dashboard every day entirely on
+GitHub's runners and commits the result, so it keeps working after anyone leaves.
+It pulls its sources from the cloud:
 
-- **Manual:** `./sync.sh` — runs `build.py`, commits the refreshed `data.json` /
-  `index.html`, and pushes. `./sync.sh --no-push` commits only.
-- **Daily (automatic):** `./install_schedule.sh` installs a launchd job that runs
-  `sync.sh` every morning at 08:00, while the Mac is awake and you're logged in (so
-  the macOS keychain can serve the GitHub credential). `./install_schedule.sh
-  uninstall` removes it; logs land in `sync_launchd.log` (git-ignored).
+- the **capacity workbook** (the live ODL Google Sheet) via `fetch_drive.py` using
+  a Google service account;
+- the **Asana snapshot** by checking out `data_all` from the `odl-estimator` repo
+  (which already self-refreshes nightly in the cloud) — so no separate Asana token;
+- the **reflection PDFs** from the Reflection Drive folder (also via the service
+  account), so the reflection-grounded recommendations aren't wiped on rebuild.
 
-If the daily push ever stalls on a credential prompt, store a GitHub personal
-access token once (`git config credential.helper osxkeychain` is already in use;
-re-authenticating from a normal `git push` caches it), or switch the remote to SSH
-with a deploy key.
+One-time setup — repo **Settings → Secrets and variables → Actions**:
+
+1. **Create a Google service account** (Google Cloud Console → enable the Drive API
+   → make a service account → download its JSON key). Ideally make it under a
+   team/ND Google project so it outlives any one person.
+2. **Share** the workbook Sheet **and** the Reflection folder with the service
+   account's email (Viewer).
+3. Add the secret **`GDRIVE_SA_KEY`** = the whole JSON key.
+4. Add the secret **`ESTIMATOR_REPO_TOKEN`** = a GitHub PAT with read access to
+   `odl-estimator` (so the job can check out its `data_all`). Skip this if you make
+   `odl-estimator` public and drop the `token:` line in the workflow.
+5. **Actions → dashboard-refresh → Run workflow** to test, then it runs daily at
+   13:00 UTC (after the estimator's nightly Asana pull). File ids for the Sheet and
+   folder are defaults in `fetch_drive.py`; override with env vars if they move.
+
+**Local refresh (optional / fallback).** If you'd rather refresh from your own
+machine, `./sync.sh` runs `build.py`, commits the refreshed `data.json` / `index.html`,
+and pushes (`--no-push` to commit only); `./install_schedule.sh` schedules it daily
+via launchd while you're logged in. Use **one** daily mechanism, not both — pick the
+cloud workflow or the local schedule so two jobs don't fight over the same commit.
+
+> Continuity caveats (since the repos currently live under a personal GitHub
+> account): the live **workbook Sheet** is org-owned (ODL shared drive), but the
+> **Reflection folder** and the local `.xlsx` snapshot are owned by `jliu234@nd.edu`
+> — to keep reflections flowing after that account is gone, move the folder into the
+> shared drive (or re-point `ODL_REFLECTION_FOLDER_ID`). And transfer both repos to
+> an ND org / successor so the Actions and secrets survive.
 
 ## Live mode (real-time from Asana)
 

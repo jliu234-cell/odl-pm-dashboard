@@ -1,0 +1,15 @@
+# OS / editor cruft
+.DS_Store
+~$*
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+
+# Local backups
+*.bak
+*.bak_*
+
+# Source/reference material kept out of the repo (internal email transcript)
+prompts.pdf

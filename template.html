@@ -1,0 +1,1957 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ODL Capacity &amp; Performance</title>
+<style>
+  :root{
+    --navy:#0c2340; --navy2:#13315c; --gold:#ae9142; --gold2:#c9b079;
+    --ink:#1b2330; --muted:#5b6573; --line:#e4e7ec; --bg:#f4f6f9; --card:#fff;
+    --green:#1f9d57; --greenbg:#e6f6ec; --amber:#d98b14; --amberbg:#fdf2dd;
+    --red:#cf3a3a; --redbg:#fbe6e6; --blue:#3a78c2; --bluebg:#e7f0fb;
+    --shadow:0 1px 3px rgba(16,24,40,.08),0 1px 2px rgba(16,24,40,.04);
+    --radius:10px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);background:var(--bg);font-size:14px;line-height:1.45}
+  h1,h2,h3{margin:0;font-weight:650;letter-spacing:-.01em}
+  a{color:var(--navy2)}
+  button{font:inherit;cursor:pointer}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 18px}
+
+  header.top{background:linear-gradient(100deg,var(--navy),var(--navy2));color:#fff}
+  .top .wrap{display:flex;align-items:center;gap:18px;padding:14px 18px;flex-wrap:wrap}
+  .brand{display:flex;flex-direction:column}
+  .brand h1{font-size:18px;color:#fff}
+  .brand .sub{font-size:12px;color:#c8d2e0}
+  .top .spacer{flex:1}
+  .prov{font-size:11px;color:#aebdd1;text-align:right;line-height:1.5}
+  .chip-model{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+    color:#fff;border-radius:20px;padding:5px 11px;font-size:11.5px;font-weight:600;white-space:nowrap}
+
+  nav.tabs{background:var(--navy);position:sticky;top:0;z-index:30;box-shadow:var(--shadow)}
+  nav.tabs .wrap{display:flex;gap:2px;overflow-x:auto}
+  nav.tabs button{background:none;border:0;color:#c8d2e0;padding:11px 15px;font-size:13.5px;
+    font-weight:600;border-bottom:3px solid transparent;white-space:nowrap}
+  nav.tabs button:hover{color:#fff}
+  nav.tabs button.active{color:#fff;border-bottom-color:var(--gold)}
+  nav.tabs .badge{display:inline-block;min-width:18px;padding:0 5px;margin-left:5px;border-radius:10px;
+    background:var(--gold);color:var(--navy);font-size:11px;font-weight:700;text-align:center}
+
+  .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:16px 0}
+  .toolbar label{font-size:12px;color:var(--muted);font-weight:600;margin-right:4px}
+  select,input[type=text],input[type=url],input[type=number],textarea{
+    font:inherit;border:1px solid var(--line);border-radius:7px;padding:6px 8px;background:#fff;color:var(--ink)}
+  select:focus,input:focus,textarea:focus{outline:2px solid var(--gold2);outline-offset:0;border-color:var(--gold)}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:#fff}
+  .seg button{background:#fff;border:0;padding:6px 11px;font-size:12.5px;color:var(--muted);font-weight:600}
+  .seg button.active{background:var(--navy);color:#fff}
+
+  main{padding:6px 0 60px}
+  section.tab{display:none}
+  section.tab.active{display:block}
+  .grid{display:grid;gap:16px}
+  .cards{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:15px 16px;box-shadow:var(--shadow)}
+  .kpi .k{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+  .kpi .v{font-size:27px;font-weight:700;margin-top:4px;letter-spacing:-.02em}
+  .kpi .d{font-size:12px;color:var(--muted);margin-top:2px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);margin:16px 0;overflow:hidden}
+  .panel>.hd{padding:13px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .panel>.hd h2{font-size:15px}
+  .panel>.hd .desc{font-size:12px;color:var(--muted);font-weight:500}
+  .panel>.bd{padding:14px 16px;overflow-x:auto}
+  .panel>.hd .spacer{flex:1}
+
+  table{border-collapse:collapse;width:100%;font-size:12.5px}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);white-space:nowrap}
+  table.wrap td,table.wrap th{white-space:normal;overflow-wrap:anywhere;vertical-align:top}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);font-weight:700;
+    background:#fff;cursor:pointer;user-select:none}
+  th.nosort{cursor:default}
+  tbody tr:hover{background:#f8fafc}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  .hm td{padding:0;border:0}
+  .hm .mcell{width:34px;height:30px;text-align:center;font-size:10.5px;border:1px solid #fff;
+    color:#13233a;font-variant-numeric:tabular-nums}
+  .hm .rowlab{padding:4px 9px;font-size:12px;font-weight:600;white-space:nowrap;border-bottom:1px solid var(--line)}
+  .hm .mhdr{font-size:10px;color:var(--muted);text-align:center;padding:3px 0;font-weight:700;transform:rotate(0)}
+  .clickable{cursor:pointer}
+
+  .pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;line-height:1.6}
+  .pill.green{background:var(--greenbg);color:#157a42}
+  .pill.amber{background:var(--amberbg);color:#9a6206}
+  .pill.red{background:var(--redbg);color:#b02a2a}
+  .pill.blue{background:var(--bluebg);color:#2c5d97}
+  .pill.gray{background:#eef1f4;color:#5b6573}
+  .pill.navy{background:var(--navy);color:#fff}
+  .sev-high{background:var(--redbg);color:#b02a2a}
+  .sev-medium{background:var(--amberbg);color:#9a6206}
+  .sev-low{background:#eef1f4;color:#5b6573}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);align-items:center}
+  .legend .sw{display:inline-block;width:13px;height:13px;border-radius:3px;margin-right:5px;vertical-align:-2px}
+
+  .bar-row{display:flex;align-items:center;gap:8px;margin:3px 0}
+  .bar-row .lab{width:64px;font-size:11.5px;color:var(--muted);text-align:right}
+  .bar-track{flex:1;background:#eef1f4;border-radius:4px;height:16px;position:relative;overflow:hidden}
+  .bar-fill{height:100%;border-radius:4px}
+
+  .rec{border:1px solid var(--line);border-left:4px solid var(--line);border-radius:10px;margin:10px 0;background:#fff;box-shadow:var(--shadow)}
+  .rec.sev-high{border-left-color:var(--red)}
+  .rec.sev-medium{border-left-color:var(--amber)}
+  .rec.sev-low{border-left-color:var(--gold2)}
+  .rec-group{margin:24px 0 8px;color:var(--navy);font-size:15px}
+  .rec .rhd .caret{margin-left:auto;color:var(--muted);font-size:12px;align-self:center;transition:transform .15s}
+  .rec.open .rhd .caret{transform:rotate(90deg)}
+  .rec .track{margin-top:12px;padding-top:11px;border-top:1px dashed var(--line)}
+  .rec .track .tlabel{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:7px}
+  .rec .track .tnote{display:block;font-size:11px;color:var(--muted);font-weight:700;margin-top:11px}
+  .rec .track .tnote textarea{display:block;width:100%;margin-top:4px;font-weight:400;color:var(--ink);font-size:13px;
+    border:1px solid var(--line);border-radius:8px;padding:8px;font-family:inherit;resize:vertical}
+  .rec .rhd{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;cursor:pointer}
+  .rec .rhd .ico{font-size:14px}
+  .rec .rtitle{font-weight:650;font-size:14px}
+  .rec .rmeta{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.5}
+  .rec .rbody{padding:0 14px 14px 14px;border-top:1px dashed var(--line);display:none}
+  .rec.open .rbody{display:block}
+  .rec .actionline{font-size:12.5px;color:#33414f;background:#f8fafc;border-left:3px solid var(--gold);
+    padding:8px 10px;border-radius:0 6px 6px 0;margin:10px 0}
+  .editrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:8px}
+  .editrow label{display:block;font-size:11px;color:var(--muted);font-weight:700;margin-bottom:3px}
+  .editrow input,.editrow select,.editrow textarea{width:100%}
+  .statusbar{display:flex;gap:6px;flex-wrap:wrap}
+  .statusbar button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:4px 11px;font-size:12px;font-weight:600;color:var(--muted)}
+  .statusbar button.on{color:#fff}
+  .statusbar button.on.Not{background:#6b7280;border-color:#6b7280}
+  .statusbar button.on.In{background:var(--blue);border-color:var(--blue)}
+  .statusbar button.on.Ach{background:var(--green);border-color:var(--green)}
+  .statusbar button.on.Dis{background:#9aa0aa;border-color:#9aa0aa}
+
+  .btn{background:var(--navy);color:#fff;border:0;border-radius:7px;padding:8px 13px;font-size:13px;font-weight:600}
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.gold{background:var(--gold);color:var(--navy)}
+  .btn:disabled{opacity:.5;cursor:default}
+
+  .drawer-bg{position:fixed;inset:0;background:rgba(10,20,40,.4);z-index:50;display:none}
+  .drawer-bg.show{display:block}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:min(640px,94vw);background:#fff;z-index:51;
+    box-shadow:-4px 0 24px rgba(0,0,0,.18);transform:translateX(100%);transition:transform .22s ease;overflow:auto}
+  .drawer.show{transform:translateX(0)}
+  .drawer .dhd{position:sticky;top:0;background:var(--navy);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:10px}
+  .drawer .dhd h2{font-size:16px;color:#fff;flex:1}
+  .drawer .dhd .x{background:none;border:0;color:#fff;font-size:22px;line-height:1}
+  .drawer .dbd{padding:16px 18px}
+  .kv{display:grid;grid-template-columns:130px 1fr;gap:4px 12px;font-size:12.5px;margin:8px 0}
+  .kv .k{color:var(--muted);font-weight:600}
+  .muted{color:var(--muted)}
+  .small{font-size:12px}
+  .note{font-size:12px;color:var(--muted);background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:10px 0}
+  .gantt{display:flex;height:24px;border-radius:5px;overflow:hidden;background:#eef1f4;min-width:280px}
+  .gantt .seg{height:100%;overflow:hidden;border:0;border-radius:0;display:block}
+  .gantt-legend{display:flex;flex-wrap:wrap;gap:7px 16px;margin-top:9px;font-size:12px}
+  .gantt-legend .gl{display:inline-flex;align-items:center;gap:6px;color:var(--ink)}
+  .gantt-legend .gl .gsw{width:11px;height:11px;border-radius:3px;flex:none}
+  .gantt-legend .gl .gm{color:var(--muted)}
+  footer{color:var(--muted);font-size:11.5px;text-align:center;padding:24px}
+  .hide{display:none !important}
+  .livewrap{display:flex;align-items:center;gap:6px}
+  .livewrap .btn{padding:4px 9px;font-size:11.5px}
+  #liveBadge{cursor:default;white-space:nowrap}
+  #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(12px);
+    background:#13233a;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;
+    box-shadow:0 6px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:.2s;z-index:80;max-width:90vw}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .subseg{display:inline-flex;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .subseg button{background:#fff;border:0;padding:6px 12px;font-size:12.5px;cursor:pointer;color:var(--muted)}
+  .subseg button.active{background:var(--navy);color:#fff;font-weight:600}
+  table.master{font-size:11.5px}
+  table.master td.mc{text-align:center;padding:2px 4px;border-radius:0}
+  table.master tr.proj{cursor:pointer}
+  table.master tr.proj:hover td{background:#f3f6fb}
+  table.master tr.rolerow td{color:var(--muted);font-size:11px;background:#fbfcfe}
+  table.master td.pname{position:sticky;left:0;background:#fff;max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  table.master tr.proj.open td.pname{font-weight:600}
+  .mwrap{overflow:auto;max-height:70vh}
+  @media(max-width:640px){.kpi .v{font-size:22px}.prov{display:none}.livewrap .btn{display:none}}
+  /* ---- Director Brief ---- */
+  .brief-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:2px 0 14px}
+  .brief-hd h1{font-size:22px;margin:0}
+  .brief-hd .wk{color:var(--muted);font-size:13px}
+  .qnav{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px}
+  .qnav button{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-size:13px;
+    font-weight:600;color:var(--muted);cursor:pointer;text-align:left;line-height:1.3}
+  .qnav button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .qnav button .qn{display:block;font-size:11px;font-weight:700;opacity:.65;margin-bottom:1px}
+  .insight{padding:11px 2px;border-bottom:1px solid var(--line)}
+  .insight:last-child{border-bottom:0}
+  .insight .it{font-weight:700;font-size:14px}
+  .insight .is{font-size:13px;color:var(--ink);margin:2px 0 3px}
+  .insight .ia{font-size:12.5px;color:var(--muted)}
+  .insight .ia b{color:var(--navy)}
+  details.attn{border:1px solid var(--line);border-radius:9px;margin:7px 0;background:#fff;overflow:hidden}
+  details.attn>summary{cursor:pointer;padding:10px 13px;font-size:13.5px;display:flex;gap:9px;align-items:center;list-style:none}
+  details.attn>summary::-webkit-details-marker{display:none}
+  details.attn>summary::marker{content:""}
+  details.attn>summary .nm{font-weight:700}
+  details.attn>summary .pb{color:var(--muted);font-weight:400;font-size:12.5px}
+  details.attn[open]>summary{border-bottom:1px solid var(--line);background:#f8fafc}
+  details.attn .det{padding:11px 13px;font-size:13px}
+  details.attn .det .r{margin:0 0 9px}
+  details.attn .det .r:last-child{margin-bottom:0}
+  details.attn .det .r .a{color:var(--navy)}
+  .green-flag{background:var(--greenbg);color:var(--green);border:1px solid #bfe3cb;border-radius:20px;padding:1px 8px;font-size:10.5px;font-weight:700;white-space:nowrap}
+  .phbar{display:flex;align-items:center;gap:9px;margin:6px 0}
+  .phbar .pl{width:150px;font-size:12.5px;text-align:right;color:var(--ink);flex:none}
+  .phbar .track{flex:1;background:#eef1f4;border-radius:6px;height:22px}
+  .phbar .fill{height:100%;background:var(--navy2);border-radius:6px;min-width:3px}
+  .phbar .pn{font-size:11.5px;color:var(--muted);width:150px;flex:none}
+  .progseg{display:flex;height:16px;border-radius:8px;overflow:hidden;border:1px solid var(--line);margin:8px 0}
+  .progseg span{display:block;height:100%}
+  .blurb{background:#f8fafc;border:1px solid var(--line);border-radius:9px;padding:11px 13px;font-size:13px;line-height:1.5;margin:4px 0 0}
+  .copybtn{background:#fff;border:1px solid var(--line);border-radius:7px;padding:4px 11px;font-size:11.5px;font-weight:600;color:var(--navy);cursor:pointer;margin-top:8px}
+  .copybtn:hover{background:var(--bg)}
+  .tabdiv{display:inline-flex;align-items:center;color:#8aa0bd;font-size:10.5px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.05em;padding:0 6px 0 13px;border-left:1px solid rgba(255,255,255,.18);margin-left:6px}
+  .winrow{padding:9px 2px;border-bottom:1px solid var(--line);font-size:13px}
+  .winrow:last-child{border-bottom:0}
+  .winrow .src{color:var(--muted);font-size:11.5px}
+  .roundup-ta{width:100%;min-height:420px;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:9px;padding:12px 14px;resize:vertical}
+  .btnrow{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <h1>ODL Capacity &amp; Performance</h1>
+      <div class="sub">Online Digital Learning — project &amp; team capacity planning</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="chip-model" id="modelChip">1 point = 32h · 4 pts/mo = full load</div>
+    <div class="prov" id="prov"></div>
+  </div>
+</header>
+<nav class="tabs"><div class="wrap" id="tabbar" role="tablist" aria-label="Dashboard sections"></div></nav>
+
+<main class="wrap">
+  <div class="toolbar" id="globalbar">
+    <label>Window</label>
+    <select id="fromMonth"></select><span class="muted">→</span><select id="toMonth"></select>
+    <span class="seg" id="unitSeg"><button data-u="pts" class="active">Points</button><button data-u="hrs">Hours</button></span>
+    <span class="spacer" style="flex:1"></span>
+    <span class="livewrap">
+      <span id="liveBadge" class="pill gray" title="data source">📦 snapshot</span>
+      <button class="btn ghost" id="btnRefresh" title="Re-read current numbers (needs the local server)">↻ Refresh</button>
+      <button class="btn ghost" id="btnSync" title="Pull the latest from Asana (needs the local server + ASANA_TOKEN)">⟳ Sync Asana</button>
+    </span>
+  </div>
+
+  <section class="tab" id="tab-brief"></section>
+  <section class="tab" id="tab-overview"></section>
+  <section class="tab" id="tab-capacity"></section>
+  <section class="tab" id="tab-people"></section>
+  <section class="tab" id="tab-projects"></section>
+  <section class="tab" id="tab-faculty"></section>
+  <section class="tab" id="tab-plan"></section>
+  <section class="tab" id="tab-recs"></section>
+</main>
+
+<div class="drawer-bg" id="drawerBg" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" tabindex="-1"></aside>
+
+<footer id="foot"></footer>
+
+<script>
+/*__DATA__*/
+</script>
+<script>
+"use strict";
+// D and the data-derived globals are mutable: boot renders the baked snapshot
+// instantly, then a live fetch (/api/data, when served by serve.py) swaps in
+// real-time numbers via applyData(). On file:// the fetch fails and we keep the
+// baked snapshot — so the single file still works offline.
+let D = window.DATA;
+let MONTHS = D.meta.months;
+let PH = D.meta.point_hours, FULL = D.meta.full_monthly_points;
+let TODAY = D.meta.today, NOW = TODAY.slice(0,7);
+let SCOPES = D.capacity.scopes;
+let LIVE = false;
+const $ = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+const MON=["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function mlab(m){const[a,b]=m.split("-");return MON[+b]+" "+a.slice(2);}
+function mlabFull(m){const[a,b]=m.split("-");return MON[+b]+" "+a;}
+function esc(s){return (s==null?"":(""+s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));}
+function el(tag,attrs,html){const e=document.createElement(tag);if(attrs)for(const k in attrs){if(k==="class")e.className=attrs[k];else if(k==="html")e.innerHTML=attrs[k];else e.setAttribute(k,attrs[k]);}if(html!=null)e.innerHTML=html;return e;}
+function clampIdx(i){return Math.max(0,Math.min(MONTHS.length-1,i));}
+function nowIdx(){let i=MONTHS.indexOf(NOW);return i<0?Math.max(0,MONTHS.length-9):i;}
+function unit(){return state.unit;}
+function val(pts){if(pts==null)return null;return state.unit==="hrs"?Math.round(pts*PH):round(pts,2);}
+function unitLab(){return state.unit==="hrs"?"h":"pt";}
+function round(x,n=2){const f=Math.pow(10,n);return Math.round(x*f)/f;}
+function pct(x){return x==null?"—":Math.round(x*100)+"%";}
+
+/* ---------- state ---------- */
+const state = {tab:"brief", briefQ:"attention", from:clampIdx(nowIdx()-1), to:MONTHS.length-1,
+  unit:"pts", capScope:"Total", capMode:"summary", peopleMetric:"remaining", peopleTeam:"all",
+  facMode:"dept", masterExpand:{},
+  projFilter:{active:true,team:"all",status:"all",q:""}, projSort:{k:"name",dir:1},
+  recFilter:{status:"all",category:"all",severity:"all",q:""}, plan:[]};
+
+/* ---------- status persistence (localStorage overlay + export) ---------- */
+/* localStorage can be blocked on file:// / opaque origins, so fail safe to an
+   in-memory store (edits persist for the session; Export still shares them). */
+const MEM={};
+let STORAGE_OK=true;
+const store={
+  get(k){try{return localStorage.getItem(k);}catch(e){STORAGE_OK=false;return (k in MEM)?MEM[k]:null;}},
+  set(k,v){try{localStorage.setItem(k,v);}catch(e){STORAGE_OK=false;MEM[k]=v;}}
+};
+const LS = {
+  user(){return store.get("odlpm.user")||"";},
+  setUser(u){store.set("odlpm.user",u);},
+  edit(id){try{return JSON.parse(store.get("odlpm.status."+id)||"null");}catch(e){return null;}},
+  setEdit(id,obj){store.set("odlpm.status."+id,JSON.stringify(obj));},
+  manual(){try{return JSON.parse(store.get("odlpm.manual")||"[]");}catch(e){return [];}},
+  setManual(a){store.set("odlpm.manual",JSON.stringify(a));}
+};
+// merged recommendation list: baked + locally-added manual, with status overlay
+function recs(){
+  const baked = D.recommendations.map(r=>Object.assign({},r));
+  const ids = new Set(baked.map(r=>r.id));
+  const extra = LS.manual().filter(r=>!ids.has(r.id)).map(r=>Object.assign(
+    {source:"manual",category:"manual",severity:r.severity||"medium",scope_type:r.scope_type||"global",
+     status:"Not Started",owner:"",target_month:"",notes:"",evidence_url:"",first_seen:TODAY},r));
+  const all = baked.concat(extra);
+  for(const r of all){
+    const e = LS.edit(r.id);
+    if(e) Object.assign(r,e);
+  }
+  return all;
+}
+function saveRec(id,patch){
+  const cur = LS.edit(id)||{};
+  Object.assign(cur,patch,{updated_at:TODAY,updated_by:LS.user()||cur.updated_by||""});
+  LS.setEdit(id,cur);
+}
+
+/* ---------- color scales ---------- */
+function allocColor(p){ // p = fraction allocated
+  if(p==null) return "#eef1f4";
+  if(p>1.05) return "#cf3a3a";
+  if(p>=0.95) return "#e8913a";
+  if(p>=0.70) return "#2f9e57";
+  if(p>=0.40) return "#7fb98a";
+  return "#cfe3f6";
+}
+function allocText(p){return (p!=null&&p>0.95)?"#fff":"#13233a";}
+function remColor(r,est){ // remaining points; only a truly-missing capacity row is neutral
+  if(est==null) return "#eef1f4";
+  if(r < -0.01) return "#cf3a3a";
+  if(r < 0.5) return "#e8913a";
+  if(r <= 2) return "#2f9e57";
+  return "#3a78c2";
+}
+function teamOfRole(role){ // mirror build.py role_to_team for the planner
+  const r=(role||"").toLowerCase();
+  if(r.includes("develop"))return "Media";                       // developer/development (note: "development" contains "pm")
+  if(/\bpm\b/.test(r)||r.includes("project manager"))return "PM";
+  if(r.includes("design"))return "Design";
+  if(r.includes("media")||r.includes("graphic"))return "Media";
+  if(r.includes("intern"))return "Intern";
+  return "Other";
+}
+function allocTextColor(p){ // readable-on-white version of allocColor for text
+  if(p==null) return "#5b6573";
+  if(p>1.05) return "#b02a2a";
+  if(p>=0.95) return "#9a6206";
+  if(p>=0.70) return "#157a42";
+  return "#5b6573";
+}
+
+/* ---------- window helpers ---------- */
+function win(){return MONTHS.slice(state.from,state.to+1);}
+
+/* ---------- live data (real-time pull, with offline fallback) ---------- */
+function applyData(newData){
+  D = window.DATA = newData;
+  MONTHS = D.meta.months;
+  PH = D.meta.point_hours; FULL = D.meta.full_monthly_points;
+  TODAY = D.meta.today; NOW = TODAY.slice(0,7);
+  SCOPES = D.capacity.scopes;
+  // the month list can only ever grow at the tail in practice; clamp the window
+  // so saved indices stay in range after a refresh.
+  state.from = clampIdx(state.from); state.to = clampIdx(state.to);
+  if(state.to < state.from) state.to = state.from;
+  // drop master-view expansion state for projects no longer present (avoid a
+  // renamed→reused name inheriting a stale expanded row, and unbounded growth).
+  const liveNames=new Set((D.projects||[]).map(p=>p.name));
+  for(const k in state.masterExpand) if(!liveNames.has(k)) delete state.masterExpand[k];
+  setLiveBadge();
+  buildMonthPickers(); buildTabs(); render();
+}
+function setLiveBadge(){
+  const b=$("#liveBadge"); if(!b)return;
+  const snap=esc((D.meta.asana_snapshot_date||"").slice(0,10));
+  if(LIVE){const t=(D.meta.served_at||"").slice(11,16);
+    b.className="pill green"; b.innerHTML="🟢 Live"+(t?" · "+t:"");
+    b.title="Recomputed live from the capacity workbook + Asana snapshot ("+snap+"). Click Refresh to re-read.";
+  }else{
+    b.className="pill gray"; b.innerHTML="📦 Snapshot "+snap;
+    b.title="Baked offline snapshot. Run  python3 serve.py  and open the served URL for live numbers.";
+  }
+}
+function timedFetch(url,opts,ms){ // fetch with an AbortController cap (no UI hang)
+  const ac=(typeof AbortController!=="undefined")?new AbortController():null;
+  const to=ac?setTimeout(()=>ac.abort(),ms):null;
+  const o=Object.assign({},opts); if(ac)o.signal=ac.signal;
+  return fetch(url,o).finally(()=>{if(to)clearTimeout(to);});
+}
+function tryLive(force){
+  const b=$("#liveBadge"); if(b&&force){b.className="pill amber";b.innerHTML="… fetching";}
+  return timedFetch("/api/data"+(force?"?fresh=1":""),{cache:"no-store"},10000)
+    .then(r=>{if(!r.ok)throw new Error("http "+r.status);return r.json();})
+    .then(j=>{LIVE=true; applyData(j); if(force)toast("Refreshed live ✓");})
+    .catch(()=>{LIVE=false; setLiveBadge();
+      if(force)toast("Live data needs the local server — run: python3 serve.py");});
+}
+function syncAsana(){
+  if(!LIVE){toast("Start the live server first:  python3 serve.py");return;}
+  const btn=$("#btnSync"), b=$("#liveBadge"); if(!btn)return;
+  const label=btn.textContent; btn.disabled=true; btn.textContent="⟳ Syncing…";
+  if(b){b.className="pill amber";b.innerHTML="… syncing Asana";}
+  // generous finite cap (> the server's 900s pull) so a dropped connection can't
+  // wedge the button forever; .finally always re-enables it.
+  timedFetch("/api/sync",{method:"POST"},960000)
+    .then(r=>r.json().then(j=>({ok:r.ok,j})))
+    .then(({ok,j})=>{ if(!ok||(j&&j.error)) throw new Error((j&&j.error)||"sync failed");
+      applyData(j); toast("Pulled the latest from Asana ✓"); })
+    .catch(e=>{ setLiveBadge(); toast("Asana sync failed: "+(e.name==="AbortError"?"timed out":(e.message||e))); })
+    .finally(()=>{ btn.disabled=false; btn.textContent=label; });
+}
+let _toastT=null;
+function toast(msg){
+  let t=$("#toast"); if(!t){t=el("div",{id:"toast"});document.body.appendChild(t);}
+  t.textContent=msg; t.classList.add("show");
+  clearTimeout(_toastT); _toastT=setTimeout(()=>t.classList.remove("show"),4200);
+}
+
+/* ---------- staffing footprints (data-driven, with workbook fallback) ----- */
+// "How many projects can we take?" measures one project's demand against live
+// remaining capacity. The per-team footprint per size comes from REAL projects
+// of that size (recomputed every build) — not the frozen workbook template —
+// so it tracks what projects actually cost now (and includes real PM time).
+function sizeList(){
+  const sp=D.size_profiles;
+  if(sp&&sp.order&&sp.order.length)return sp.order;
+  return Object.keys(D.tshirt||{});
+}
+function sizeProf(sz){
+  const sp=D.size_profiles&&D.size_profiles.sizes&&D.size_profiles.sizes[sz];
+  if(sp)return sp;
+  const wb=D.tshirt&&D.tshirt[sz]; if(!wb)return null;            // last-resort fallback
+  const profile={Design:[],Media:[],PM:[],Intern:[]};
+  Object.entries(wb.roles||{}).forEach(([role,arr])=>{const t=teamOfRole(role);
+    if(!profile[t])return; arr.forEach((v,k)=>{while(profile[t].length<=k)profile[t].push(0);profile[t][k]+=v||0;});});
+  const teams={}; Object.entries(profile).forEach(([t,a])=>{const s=a.reduce((x,y)=>x+y,0);if(s>0)teams[t]=round(s,3);});
+  return {teams,profile,n:0,source:"workbook template",months:wb.n_months||0,total_pts:wb.total_points};
+}
+
+/* ===================================================================== */
+/*  TABS                                                                  */
+/* ===================================================================== */
+const TABS=[["brief","Director Brief"],["overview","Overview"],["capacity","Capacity"],["people","People"],
+  ["projects","Projects"],["faculty","Faculty"],["plan","Plan a project"],["recs","Recommendations"]];
+function openRecCount(){return recs().filter(r=>r.status!=="Achieved"&&r.status!=="Dismissed").length;}
+function buildTabs(){
+  const bar=$("#tabbar"); bar.innerHTML="";
+  for(const [id,label] of TABS){
+    // visual divider: "Director Brief" (for directors) vs the PM-detail tabs
+    if(id==="overview")bar.appendChild(el("span",{class:"tabdiv"},"PM detail"));
+    const b=el("button",{role:"tab","aria-selected":id===state.tab?"true":"false"},esc(label));
+    if(id==="recs"){const n=openRecCount();if(n)b.innerHTML+=` <span class="badge">${n}</span>`;}
+    if(id===state.tab)b.classList.add("active");
+    b.onclick=()=>{state.tab=id;location.hash=id;render();};
+    bar.appendChild(b);
+  }
+}
+function render(){
+  buildTabs();
+  $$(".tab").forEach(s=>s.classList.remove("active"));
+  $("#tab-"+state.tab).classList.add("active");
+  $("#globalbar").style.display = (state.tab==="brief"||state.tab==="recs"||state.tab==="projects"||state.tab==="plan"||state.tab==="faculty")?"none":"flex";
+  ({brief:renderBrief,overview:renderOverview,capacity:renderCapacity,people:renderPeople,
+    projects:renderProjects,faculty:renderFaculty,plan:renderPlan,recs:renderRecs}[state.tab])();
+}
+
+/* ===================================================================== */
+/*  DIRECTOR BRIEF — the executive summary (3 questions), for directors. */
+/*  Everything here is DERIVED from the same workbook + Asana data the    */
+/*  PM-detail tabs use; the only manual inputs are brief_inputs.json      */
+/*  (intake queue, All-Hands wins, curated round-ups, timesheet %).       */
+/* ===================================================================== */
+function briefInputs(){return (D.brief_inputs&&typeof D.brief_inputs==="object")?D.brief_inputs:{};}
+function briefActive(){return D.projects.filter(p=>p.active);}
+function sizeOrder(){return (D.size_profiles&&D.size_profiles.order)||["XS","S","M","L"];}
+function sizeIdx(s){return sizeOrder().indexOf(s);}
+function addDays(iso,n){const d=new Date(iso+"T00:00:00");d.setDate(d.getDate()+n);  // local-field math (toISOString would shift a day east of UTC)
+  const z=x=>String(x).padStart(2,"0");return d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate());}
+function weekOf(iso){const d=new Date(iso+"T00:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));
+  return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});}
+function briefPanel(title,desc){
+  const p=el("div",{class:"panel"});
+  p.innerHTML=`<div class="hd"><h2>${esc(title)}</h2>${desc?`<div class="desc">${esc(desc)}</div>`:""}</div>`;
+  const bd=el("div",{class:"bd"}); p.appendChild(bd);
+  return {panel:p,bd};
+}
+function briefDueWithin(days){const lim=addDays(TODAY,days);
+  return briefActive().filter(p=>{const d=(p.asana||{}).due_on;return d&&d>=TODAY&&d<=lim;}).length;}
+
+/* per-project attention signals — incl. "green in Asana but carries a risk" */
+function briefAttention(){
+  const out=[];
+  briefActive().forEach(p=>{
+    const a=p.asana||{}, st=a.status||p.status_display||"";
+    const reasons=[];
+    if(st==="On Hold") reasons.push({sev:3,p:"On hold.",a:"Decide whether to resume, rescope, or close it."});
+    if(a.due_on && a.due_on<TODAY && st!=="Complete")
+      reasons.push({sev:3,p:`Past its Asana due date (${esc(a.due_on)}), still active.`,a:"Confirm a new target date or surface what's blocking it."});
+    if((p.unstaffed_points||0)>0.25)
+      reasons.push({sev:2,p:`${round(p.unstaffed_points,1)} pts of committed work isn't staffed yet.`,a:"Assign an owner or defer the work."});
+    if(p.est_size&&p.actual_size&&sizeIdx(p.est_size)>=0&&sizeIdx(p.actual_size)>=0&&sizeIdx(p.actual_size)>sizeIdx(p.est_size))
+      reasons.push({sev:2,p:`Running larger than its ${esc(p.est_size)} estimate (now ${esc(p.actual_size)}).`,a:"Check scope creep and the capacity impact."});
+    if(a.impact_tracker==="Outdated")
+      reasons.push({sev:1,p:"Its Asana Impact Tracker is marked outdated.",a:"Refresh the tracker fields."});
+    if(!reasons.length) return;
+    reasons.sort((x,y)=>y.sev-x.sev);
+    // "unflagged" = a real Asana record that is simply In Progress (Asana has no
+    // RAG/health field, so we never claim a color). planOnly = capacity-plan only.
+    out.push({name:p.name, reasons, sev:reasons[0].sev,
+      unflagged:!!a.gid&&a.status==="In Progress", planOnly:!a.gid});
+  });
+  out.sort((x,y)=>y.sev-x.sev || y.reasons.length-x.reasons.length || x.name.localeCompare(y.name));
+  return out;
+}
+
+/* estimate vs actual SIZE — our proxy for estimate accuracy (improves w/ data) */
+function briefEstActual(){
+  let pairs=0,matched=0,bigger=0,smaller=0;
+  D.projects.forEach(p=>{
+    if(!p.est_size||!p.actual_size||sizeIdx(p.est_size)<0||sizeIdx(p.actual_size)<0)return;
+    pairs++;
+    if(p.est_size===p.actual_size)matched++;
+    else if(sizeIdx(p.actual_size)>sizeIdx(p.est_size))bigger++; else smaller++;
+  });
+  return {pairs,matched,bigger,smaller,pctMatched:pairs?matched/pairs:null};
+}
+
+/* Top 5 — concise: a one-line summary + a recommended action, director glance */
+function briefTop5(){
+  const cap=D.capacity, m=NOW, cand=[];
+  const pAll=cap.pct.Total[m];
+  if(pAll!=null&&pAll>1.05)
+    cand.push({w:60+(pAll-1)*100,t:"The team is over capacity this month",
+      s:`Scheduled work is at ${pct(pAll)} of capacity (${round(cap.scheduled.Total[m],1)} of ${round(cap.estimated.Total[m],1)} pts).`,
+      a:"Defer or rebalance lower-priority work to protect the critical path."});
+  else if(pAll!=null&&pAll<0.7)
+    cand.push({w:14,t:"There's headroom this month",
+      s:`The team is at ${pct(pAll)} of capacity — below a full load.`,
+      a:"A good window to pull a queued project forward or clear backlog."});
+  const overScopes=SCOPES.filter(sc=>sc!=="Total"&&sc!=="Intern"&&(cap.pct[sc]?.[m]??0)>1.05);
+  if(overScopes.length)
+    cand.push({w:48,t:`${overScopes.join(" & ")} over capacity this month`,
+      s:`Scheduled above 100% — ${overScopes.map(sc=>sc+" "+pct(cap.pct[sc][m])).join(", ")}.`,
+      a:"Rebalance staffing or extend timelines for these teams."});
+  const overPeople=Object.entries(cap.person).filter(([n,pp])=>pp.has_capacity&&(pp.remaining[m]??1)<-0.5).length;
+  if(overPeople)
+    cand.push({w:30+overPeople*3,t:`${overPeople} ${overPeople===1?"person is":"people are"} over capacity this month`,
+      s:"At least one person is scheduled beyond a full load.",
+      a:"Review individual loads on the People tab and redistribute."});
+  // (Projects needing attention has its own section below — kept out of Top 5 so
+  // the two don't duplicate. Top 5 stays at the portfolio level.)
+  const intake=(briefInputs().intake||[]).filter(x=>x&&x.name);
+  if(intake.length)
+    cand.push({w:38,t:`${intake.length} new intake ${intake.length===1?"request":"requests"} awaiting a decision`,
+      s:intake.map(x=>x.name).slice(0,3).join("; ")+(intake.length>3?"…":""),
+      a:"Triage in this week's intake review."});
+  const openRecs=recs().filter(r=>r.status!=="Achieved"&&r.status!=="Dismissed");
+  const highRecs=openRecs.filter(r=>r.severity==="high").length;
+  if(highRecs)
+    cand.push({w:26,t:`${highRecs} high-priority ${highRecs===1?"recommendation is":"recommendations are"} still open`,
+      s:`${openRecs.length} recommendations open in total.`,
+      a:"Assign owners and target dates on the Recommendations tab."});
+  const soon=briefDueWithin(60);
+  if(soon>=3)
+    cand.push({w:22,t:`${soon} projects are due to complete within 60 days`,
+      s:"A cluster of launches/closeouts is coming up.",
+      a:"Protect QA and launch-review capacity for the run-up."});
+  // ---- lower-weight portfolio facts: keep the brief a useful "Top 5" even on a calm week ----
+  const ea=briefEstActual();
+  if(ea.pairs>=4){
+    if(ea.bigger>ea.smaller&&ea.bigger>=Math.ceil(ea.pairs*0.3))
+      cand.push({w:20,t:"Projects are trending bigger than estimated",
+        s:`${ea.bigger} of ${ea.pairs} sized projects came in larger than estimate; ${ea.matched} matched.`,
+        a:"Right-size new estimates and watch capacity on the larger builds."});
+    else
+      cand.push({w:11,t:`Size estimates land on target ${pct(ea.pctMatched)} of the time`,
+        s:`${ea.matched} of ${ea.pairs} sized projects matched their estimate; ${ea.bigger} ran bigger, ${ea.smaller} smaller.`,
+        a:"Keep tracking — accuracy tightens as more projects close."});
+  }
+  const rpv=briefRecsProgress();
+  if(rpv.total&&rpv.achieved===0&&rpv.inprog===0)
+    cand.push({w:24,t:`None of the ${rpv.total} tracked recommendations are underway yet`,
+      s:"Every recommendation is still marked “Not Started.”",
+      a:"Pick the top few, assign owners and target dates."});
+  else if(rpv.total)
+    cand.push({w:12,t:`${rpv.achieved} of ${rpv.total-rpv.dism} recommendations achieved (${pct(rpv.pctAchieved)})`,
+      s:`${rpv.inprog} in progress, ${rpv.notst} not started.`,
+      a:"Review the tracker and push the stalled items."});
+  const yv=briefYTD();
+  cand.push({w:10,t:`${yv.completed} completed and ${yv.started} started so far in ${yv.yr}`,
+    s:`${yv.active} projects are active right now${yv.onHold?`, ${yv.onHold} on hold`:""}.`,
+    a:"Check the pipeline matches the team's capacity for the rest of the year."});
+  const phv=briefPhases().filter(r=>!["On Hold","Maintenance","Other / unspecified"].includes(r.phase));
+  if(phv.length){const busiest=phv.slice().sort((a,b)=>b.n-a.n)[0];
+    if(busiest.n>=3)cand.push({w:16,t:`${busiest.n} projects are in ${busiest.phase}`,
+      s:`That's the most-loaded recorded phase — it typically leans on ${busiest.team}.`,
+      a:"Check that team has bandwidth before routing more work there."});}
+  if(pAll!=null&&pAll>=0.7&&pAll<=1.05)
+    cand.push({w:8,t:`The team is at ${pct(pAll)} of capacity this month`,
+      s:`${round(cap.scheduled.Total[m],1)} of ${round(cap.estimated.Total[m],1)} pts scheduled — a healthy load.`,
+      a:"Hold steady; watch the months where allocation climbs."});
+  cand.sort((x,y)=>y.w-x.w);
+  return cand.slice(0,5);
+}
+
+/* phase congestion — how many active projects sit in each phase, & which team */
+const PHASE_PIPE=["Intake / Discovery","Design","Pre-Production","Production","Post-Production / Build","Build","QA","Launch","Evaluation","Maintenance","On Hold","Other / unspecified"];
+const PHASE_TEAM={"Intake / Discovery":"PM + Design","Design":"Learning Designers","Pre-Production":"Design + Media","Production":"Media","Post-Production / Build":"Media + Design","Build":"Design + Media","QA":"Design + Media","Launch":"PM","Evaluation":"PM + Design","Maintenance":"—","On Hold":"—","Other / unspecified":"—"};
+function canonPhase(label){
+  if(!label)return "Other / unspecified";
+  const s=(""+label).toLowerCase();
+  if(/hold/.test(s))return "On Hold";
+  if(/intake|soap|discovery|analysis|kickoff|charter|scoping/.test(s))return "Intake / Discovery";
+  if(/pre-?prod|script/.test(s))return "Pre-Production";
+  if(/post-?prod|edit/.test(s))return "Post-Production / Build";
+  if(/production|film|shoot|prod\//.test(s))return "Production";
+  if(/course map|design/.test(s))return "Design";
+  if(/build|develop/.test(s))return "Build";
+  if(/qa|quality|accessib/.test(s))return "QA";
+  if(/launch|pilot/.test(s))return "Launch";
+  if(/eval|retro|impact/.test(s))return "Evaluation";
+  if(/mainten|coordination/.test(s))return "Maintenance";
+  return "Other / unspecified";
+}
+function briefPhases(){
+  const counts={};
+  briefActive().forEach(p=>{const ph=canonPhase(p.current_phase);counts[ph]=(counts[ph]||0)+1;});
+  return PHASE_PIPE.filter(ph=>counts[ph]).map(ph=>({phase:ph,n:counts[ph],team:PHASE_TEAM[ph]}));
+}
+function briefYTD(){
+  const yr=TODAY.slice(0,4), ps=D.projects;
+  const started=ps.filter(p=>(p.start||"").slice(0,4)===yr).length;
+  // "completed" needs a REAL completion signal: asana.last_completed alone is a
+  // task-level timestamp that is also set on still-active projects, so require
+  // the project to actually be marked Complete first.
+  const completed=ps.filter(p=>{const a=p.asana||{};
+    const done=(a.status==="Complete")||p.status_display==="Complete";
+    if(!done)return false;
+    return (a.last_completed||"").slice(0,4)===yr||(p.end||"").slice(0,4)===yr;}).length;
+  return {yr,started,completed,active:briefActive().length,
+    onHold:briefActive().filter(p=>((p.asana||{}).status)==="On Hold").length,
+    due30:briefDueWithin(30),due60:briefDueWithin(60),due90:briefDueWithin(90)};
+}
+function briefRecsProgress(){
+  const all=recs(),by={};all.forEach(r=>by[r.status]=(by[r.status]||0)+1);
+  const achieved=by["Achieved"]||0,inprog=by["In Progress"]||0,notst=by["Not Started"]||0,dism=by["Dismissed"]||0;
+  const actionable=achieved+inprog+notst;  // same buckets the progress bar renders
+  const sevRank={high:0,medium:1,low:2};
+  return {total:all.length,achieved,inprog,notst,dism,actionable,pctAchieved:actionable>0?achieved/actionable:0,
+    stalled:all.filter(r=>r.status==="Not Started")
+      .sort((a,b)=>(sevRank[a.severity]??1)-(sevRank[b.severity]??1)).slice(0,4)};
+}
+function oneSentence(s){
+  s=(""+s).replace(/\s+/g," ").trim();
+  if(s.length<=200)return s;
+  let m=s.match(/^.*?[.!?](\s|$)/), t=m?m[0].trim():s;
+  if(t.length<40){ // first break is likely a false stop on an abbreviation (e.g. "Prof.")
+    const m2=s.match(/^.{40,}?[.!?](\s|$)/); if(m2)t=m2[0].trim();
+  }
+  return t.length>240?t.slice(0,237)+"…":t;
+}
+function briefWins(){
+  const bi=briefInputs(), rn=bi.running_notes||{};
+  const shouts=(rn.shoutouts||[]).filter(Boolean);
+  const manual=(bi.wins||[]).filter(w=>w&&w.text);
+  const derived=[];
+  ((D.faculty&&D.faculty.ratings)||[]).filter(r=>r.fsi!=null&&r.fsi>=4.9).sort((a,b)=>b.fsi-a.fsi).slice(0,4)
+    .forEach(r=>derived.push({text:`${r.project} earned a faculty satisfaction score of ${r.fsi}/5.`,src:"Faculty Impact Tracker"}));
+  const cutoff=addDays(TODAY,-120);
+  D.projects.filter(p=>{const a=p.asana||{};
+    const done=(a.status==="Complete")||p.status_display==="Complete";
+    const lc=(a.last_completed||"").slice(0,10);
+    return done&&lc&&lc>=cutoff;})  // only genuinely-completed projects
+    .slice(0,4).forEach(p=>derived.push({text:`Wrapped up ${p.name}.`,src:"Asana — recently completed"}));
+  return {shouts, shoutDate:rn.meeting_date, manual, derived};
+}
+// first clean prose sentence from a reflection report (summary is a list of
+// paragraphs; skip retrospective metadata/rating boilerplate)
+function cleanRefSentence(ref){
+  if(!ref)return "";
+  let arr=Array.isArray(ref.summary)?ref.summary:(ref.summary?[ref.summary]:[]);
+  if(!arr.length&&Array.isArray(ref.takeaways))arr=ref.takeaways;
+  const bad=/(project:|date of retrospective|participants:|highlights\s*\/|recommendations;|odl team rating|learning designer -|media producer -|faculty satisfaction index|net promoter score|survey -|memorable quotes|see above|^[-•])/i;
+  for(const raw of arr){
+    const s=(""+raw).replace(/\s+/g," ").trim();
+    if(s.length<30||s.length>320||!/\s/.test(s)||bad.test(s))continue;
+    return oneSentence(s);
+  }
+  return "";
+}
+function briefRoundup(){
+  const out=[],seen=new Set();
+  (briefInputs().roundup||[]).filter(x=>x&&x.blurb&&x.project).forEach(x=>{out.push({project:x.project,blurb:x.blurb});seen.add(x.project);});
+  const reflBy={};(D.reflections||[]).forEach(r=>{if(r.project)reflBy[r.project]=r;});
+  ((D.faculty&&D.faculty.ratings)||[]).filter(r=>r.fsi!=null).sort((a,b)=>b.fsi-a.fsi).slice(0,10).forEach(r=>{
+    if(seen.has(r.project))return; seen.add(r.project);
+    let blurb=`ODL partnered${r.faculty?` with ${r.faculty}`:""}${r.dept?` (${r.dept})`:""} on ${r.project}`;
+    if(r.type)blurb+=`, a ${(""+r.type).toLowerCase()} project`;
+    blurb+=".";
+    const extra=cleanRefSentence(reflBy[r.project]);
+    if(extra)blurb+=" "+extra;
+    // NPS here is the Impact Tracker's 0–100 likelihood-to-recommend (not the −100..100 scale)
+    if(r.fsi!=null)blurb+=` Faculty rated the experience ${r.fsi}/5${(r.nps!=null&&r.nps>=90)?" and would recommend ODL":""}.`;
+    out.push({project:r.project,blurb});
+  });
+  return out.slice(0,6);
+}
+function copyBlurb(btn,text){
+  const done=()=>{const o=btn.textContent;btn.textContent="Copied ✓";setTimeout(()=>btn.textContent=o,1400);};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(done,()=>_fallbackCopy(text,done));
+  else _fallbackCopy(text,done);
+}
+function _fallbackCopy(text,done){const ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";
+  document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done&&done();}catch(e){}document.body.removeChild(ta);}
+function kpiCard(lab,v,d){const e=el("div",{class:"card kpi"});e.innerHTML=`<div class="k">${esc(lab)}</div><div class="v">${v}</div><div class="d">${esc(d||"")}</div>`;return e;}
+function subHead(t){return el("div",{html:`<b>${esc(t)}</b>`,style:"font-size:12.5px;margin:12px 0 2px"});}
+
+function renderBrief(){
+  const c=$("#tab-brief"); c.innerHTML="";
+  const hd=el("div",{class:"brief-hd"});
+  hd.innerHTML=`<h1>Monday ODL Brief</h1><div class="wk">Week of ${esc(weekOf(TODAY))} · built from the capacity workbook + Asana snapshot (${esc(D.meta.asana_snapshot_date||TODAY)})</div>`;
+  c.appendChild(hd);
+  const QS=[["attention","①","What needs attention this week?"],["portfolio","②","How is the portfolio moving?"],["improving","③","How are we improving?"],["roundup","✍","Round-up email draft"]];
+  const nav=el("div",{class:"qnav"});
+  QS.forEach(([k,n,label])=>{const b=el("button",{},`<span class="qn">${n}</span>${esc(label)}`);
+    if(k===state.briefQ)b.classList.add("active");b.onclick=()=>{state.briefQ=k;renderBrief();};nav.appendChild(b);});
+  c.appendChild(nav);
+  ({attention:briefAttentionView,portfolio:briefPortfolioView,improving:briefImprovingView,roundup:briefRoundupView}[state.briefQ]||briefAttentionView)(c);
+}
+
+function briefAttentionView(c){
+  // Top 5
+  let P=briefPanel("Top 5 things to know","The signals worth a director's glance — each with a recommended action.");
+  const top=briefTop5();
+  if(!top.length)P.bd.innerHTML=`<div class="muted">Nothing notable this week — capacity, recommendations and projects all look steady. 🎉</div>`;
+  top.forEach((x,i)=>{const r=el("div",{class:"insight"});
+    r.innerHTML=`<div class="it">${i+1}. ${esc(x.t)}</div><div class="is">${esc(x.s)}</div><div class="ia"><b>→ ${esc(x.a)}</b></div>`;
+    P.bd.appendChild(r);});
+  c.appendChild(P.panel);
+  // Projects needing attention (cap 5, expandable)
+  const attn=briefAttention();
+  P=briefPanel("Projects needing attention","Active projects flagging a risk — including ones with no flag in Asana. Click any to expand.");
+  if(!attn.length)P.bd.innerHTML=`<div class="muted">No active project is flagging a risk right now.</div>`;
+  attn.slice(0,5).forEach(x=>{
+    const pill=x.sev>=3?'<span class="pill red">watch</span>':x.sev>=2?'<span class="pill amber">watch</span>':'<span class="pill blue">note</span>';
+    const badge=x.unflagged?'<span class="green-flag">No flag in Asana</span>':(x.planOnly?'<span class="pill gray">plan only</span>':"");
+    const det=x.reasons.map(rr=>`<div class="r">• ${rr.p}<br><span class="a">→ ${rr.a}</span></div>`).join("");
+    const d=el("details",{class:"attn"});
+    d.innerHTML=`<summary>${pill}<span class="nm">${esc(x.name)}</span> ${badge}<span class="pb">— ${x.reasons[0].p}</span></summary><div class="det">${det}</div>`;
+    P.bd.appendChild(d);});
+  if(attn.length>5){const m=el("div",{class:"muted small",html:`+${attn.length-5} more — see the <a href="#projects" onclick="state.tab='projects';render();return false;">Projects tab</a>.`});m.style.marginTop="8px";P.bd.appendChild(m);}
+  c.appendChild(P.panel);
+  // New intake to discuss
+  const intake=(briefInputs().intake||[]).filter(x=>x&&x.name);
+  P=briefPanel("New projects from intake to discuss","Requests that have come in and need a decision in the intake review.");
+  if(!intake.length)P.bd.innerHTML=`<div class="muted">No new intake requests queued. Add them in <code>brief_inputs.json</code> → <code>intake</code>.</div>`;
+  intake.forEach(x=>{const r=el("div",{class:"winrow"});
+    r.innerHTML=`<div><b>${esc(x.name)}</b>${x.requestor?` <span class="src">· ${esc(x.requestor)}</span>`:""}</div><div class="muted" style="margin-top:3px">${esc(x.description||"")}</div>`;
+    P.bd.appendChild(r);});
+  c.appendChild(P.panel);
+}
+
+function briefPortfolioView(c){
+  // Phase congestion
+  let P=briefPanel("Capacity & phase congestion","How many active projects sit in each phase, and which team it tends to tie up (mapped by ODL's standard workflow) — so you can see where work could pile up.");
+  const rows=briefPhases();
+  const shown=rows.filter(r=>r.phase!=="Other / unspecified"), mx=Math.max(1,...shown.map(r=>r.n));
+  shown.forEach(r=>{const bar=el("div",{class:"phbar"});
+    bar.innerHTML=`<div class="pl">${esc(r.phase)}</div><div class="track"><div class="fill" style="width:${Math.round(r.n/mx*100)}%"></div></div><div class="pn"><b>${r.n}</b> · ${esc(r.team)}</div>`;
+    P.bd.appendChild(bar);});
+  const real=shown.filter(r=>!["On Hold","Maintenance"].includes(r.phase));
+  if(real.length){const busiest=real.slice().sort((a,b)=>b.n-a.n)[0];
+    P.bd.appendChild(el("div",{class:"note",html:busiest.n>=3
+      ?`<b>${busiest.n} projects are in ${esc(busiest.phase)}</b> — watch ${esc(busiest.team)} for a bottleneck.`
+      :`Work is spread fairly evenly across phases — no single team is obviously pinched right now.`}));}
+  const other=rows.find(r=>r.phase==="Other / unspecified");
+  if(other)P.bd.appendChild(el("div",{class:"muted small",html:`${other.n} active projects have no clear phase recorded in Asana — setting a phase on those would sharpen this view.`}));
+  c.appendChild(P.panel);
+  // YTD
+  const y=briefYTD();
+  P=briefPanel(`Year-to-date (${esc(y.yr)})`,"Where the portfolio stands this calendar year.");
+  const g1=el("div",{class:"grid cards"});
+  [["Started YTD",y.started,"plan start this year"],["Completed YTD",y.completed,"finished this year"],
+   ["Active now",y.active,"in flight"],["Due ≤ 30 days",y.due30,"completing soon"],
+   ["Due ≤ 60 days",y.due60,""],["Due ≤ 90 days",y.due90,""],["On hold",y.onHold,""]]
+   .forEach(a=>g1.appendChild(kpiCard(a[0],a[1],a[2])));
+  P.bd.appendChild(g1);
+  if(y.due60>=3)P.bd.appendChild(el("div",{class:"note"},`Upcoming completion volume (${y.due60} within 60 days) may need extra QA / launch-review capacity.`));
+  c.appendChild(P.panel);
+  // Estimate vs actual
+  const ea=briefEstActual();
+  P=briefPanel("Estimated vs actual size","How close our up-front size estimates land to reality — a proxy for estimate accuracy. This should tighten as we track more projects.");
+  if(!ea.pairs)P.bd.innerHTML=`<div class="muted">Not enough projects have both an estimated and an actual size yet.</div>`;
+  else{const g2=el("div",{class:"grid cards"});
+    g2.appendChild(kpiCard("Matched estimate",pct(ea.pctMatched),`${ea.matched} of ${ea.pairs} sized projects`));
+    g2.appendChild(kpiCard("Came in bigger",ea.bigger,"larger than estimated"));
+    g2.appendChild(kpiCard("Came in smaller",ea.smaller,"smaller than estimated"));
+    P.bd.appendChild(g2);
+    const w=n=>Math.round(n/ea.pairs*100);
+    P.bd.appendChild(el("div",{class:"progseg",html:`<span style="width:${w(ea.matched)}%;background:var(--green)"></span><span style="width:${w(ea.bigger)}%;background:var(--amber)"></span><span style="width:${w(ea.smaller)}%;background:var(--blue)"></span>`}));
+    P.bd.appendChild(el("div",{class:"muted small",html:`Green = matched · amber = ran bigger · blue = ran smaller.${(D.drift&&D.drift.length)?` Capacity-plan drift is also tracked (${D.drift.length} month/scope cells differ from the workbook's hand-kept tab).`:""}`}));}
+  c.appendChild(P.panel);
+  // Timesheet compliance
+  const ops=briefInputs().ops||{};
+  P=briefPanel("Timesheet compliance","Time-tracking completeness — it's what turns estimates into better estimates and shows true capacity.");
+  if(ops.timesheet_compliance_pct==null)
+    P.bd.innerHTML=`<div class="muted">Not tracked automatically yet. Set <code>timesheet_compliance_pct</code> in <code>brief_inputs.json</code> to show the team's submission rate here.</div>`;
+  else{const v=Math.round(ops.timesheet_compliance_pct),col=v>=90?"var(--green)":v>=75?"var(--amber)":"var(--red)",
+    badge=v>=90?"Strong":v>=75?"Watch":"Needs attention";
+    const g3=el("div",{class:"grid cards"});
+    g3.appendChild(kpiCard("Team compliance",`<span style="color:${col}">${v}%</span>`,ops.timesheet_as_of?`as of ${esc(ops.timesheet_as_of)}`:""));
+    g3.appendChild(kpiCard("Status",badge,""));
+    P.bd.appendChild(g3);}
+  c.appendChild(P.panel);
+}
+
+function briefImprovingView(c){
+  // Recommendations progress
+  const rp=briefRecsProgress();
+  let P=briefPanel("Retrospective items & recommendations","Are we acting on what our reviews and reflections told us to fix?");
+  const g=el("div",{class:"grid cards"});
+  g.appendChild(kpiCard("Achieved",rp.achieved,`of ${rp.actionable} actionable`));
+  g.appendChild(kpiCard("In progress",rp.inprog,""));
+  g.appendChild(kpiCard("Not started",rp.notst,""));
+  g.appendChild(kpiCard("% achieved",pct(rp.pctAchieved),"of actionable items"));
+  P.bd.appendChild(g);
+  const den=Math.max(1,rp.achieved+rp.inprog+rp.notst),w=n=>Math.round(n/den*100);
+  P.bd.appendChild(el("div",{class:"progseg",html:`<span style="width:${w(rp.achieved)}%;background:var(--green)"></span><span style="width:${w(rp.inprog)}%;background:var(--blue)"></span><span style="width:${w(rp.notst)}%;background:#cfd6df"></span>`}));
+  P.bd.appendChild(el("div",{class:"muted small"},"Green = achieved · blue = in progress · grey = not started."));
+  if(rp.stalled.length){P.bd.appendChild(subHead("Top items not yet started:"));
+    rp.stalled.forEach(r=>P.bd.appendChild(el("div",{class:"winrow",html:`<b>${esc(r.title)}</b> <span class="src">— ${esc(r.suggested_action||"")}</span>`})));}
+  const btn=el("button",{class:"btn ghost"},"Open the recommendations tracker →");btn.style.marginTop="10px";
+  btn.onclick=()=>{state.tab="recs";render();};P.bd.appendChild(btn);
+  c.appendChild(P.panel);
+  // Wins & momentum
+  const wins=briefWins();
+  P=briefPanel("Wins & momentum","Positive signals from across the team — so the brief isn't only risks.");
+  if(wins.shouts.length){P.bd.appendChild(subHead(`From the All-Hands shout-outs${wins.shoutDate?` (week of ${esc(wins.shoutDate)})`:""}`));
+    wins.shouts.forEach(s=>P.bd.appendChild(el("div",{class:"winrow",html:esc(s)})));}
+  if(wins.manual.length){P.bd.appendChild(subHead("More wins"));
+    wins.manual.forEach(w2=>P.bd.appendChild(el("div",{class:"winrow",html:`${esc(w2.text)}${w2.who?` <span class="src">— ${esc(w2.who)}</span>`:""}${w2.source?` <span class="src">· ${esc(w2.source)}</span>`:""}`})));}
+  if(wins.derived.length){P.bd.appendChild(subHead("From project data"));
+    wins.derived.forEach(w2=>P.bd.appendChild(el("div",{class:"winrow",html:`${esc(w2.text)} <span class="src">· ${esc(w2.src)}</span>`})));}
+  if(!wins.shouts.length&&!wins.manual.length)P.bd.appendChild(el("div",{class:"note",html:`Tip: paste this week's All-Hands shout-outs into <code>brief_inputs.json</code> → <code>running_notes.shoutouts</code> to feature them here.`}));
+  c.appendChild(P.panel);
+  // ND Learning round-up
+  P=briefPanel("ND Learning round-up candidates","Draft story blurbs you can drop into the weekly round-up — edit before sending.");
+  const stories=briefRoundup();
+  if(!stories.length)P.bd.innerHTML=`<div class="muted">No round-up candidates surfaced yet.</div>`;
+  stories.forEach(s=>{const box=el("div",{class:"winrow"});
+    box.innerHTML=`<b>${esc(s.project)}</b><div class="blurb">${esc(s.blurb)}</div>`;
+    const cb=el("button",{class:"copybtn"},"Copy draft");cb.onclick=()=>copyBlurb(cb,s.blurb);box.appendChild(cb);
+    P.bd.appendChild(box);});
+  c.appendChild(P.panel);
+}
+
+/* ---- ④ Round-up email draft: a suggested email assembled from the team's
+   running notes (shout-outs + updates) and live Asana project activity. The
+   composition is deterministic; the user edits the draft and copies it. ---- */
+function joinList(arr){arr=(arr||[]).filter(Boolean);
+  if(arr.length<=1)return arr[0]||"";
+  if(arr.length===2)return arr[0]+" and "+arr[1];
+  return arr.slice(0,-1).join(", ")+", and "+arr[arr.length-1];}
+// rule-based prose round-up: one short paragraph per topic (shout-outs, wrapped-up,
+// in-progress work, team/project updates, celebrations, faculty highlights), in the
+// warm newsletter voice of the team's own round-up emails. Editable before sending.
+function composeRoundup(){
+  const rn=briefInputs().running_notes||{};
+  const P=[];
+  P.push("Hi all,");
+  P.push("It was great to see many of you at our team meeting this week. Here's a round-up of what folks have been up to.");
+  // shout-outs — already phrased "<name> for doing <x>"; vary the lead-in
+  const THANKS=["A big thank-you to","Shout-out to","Kudos to","Hats off to","Much appreciation to"];
+  (rn.shoutouts||[]).filter(Boolean).forEach((s,i)=>{
+    s=(""+s).trim().replace(/\.+$/,"");
+    P.push((/^(thanks|thank you|shout|kudos|hats off|much appreciation|a big)/i.test(s)?s:`${THANKS[i%THANKS.length]} ${s}`)+".");
+  });
+  // recently wrapped up
+  const shipped=briefWins().derived.filter(w=>/^Wrapped up/.test(w.text))
+    .map(w=>w.text.replace(/^Wrapped up /,"").replace(/\.$/,""));
+  if(shipped.length)P.push(`The team recently wrapped up ${joinList(shipped)}.`);
+  // in-progress work — one sentence per project: "<who> is working on <project> (<phase>)."
+  const shippedSet=new Set(shipped);
+  const LEADS=["is working on","is making progress on","continues work on","is busy with"];
+  const PLEADS=["are working on","are making progress on","continue work on","are busy with"];
+  const inprog=briefActive().filter(p=>{const a=p.asana||{},done=(a.status==="Complete")||p.status_display==="Complete";
+      return !done&&!shippedSet.has(p.name);})
+    .map(p=>{const raw=((p.asana||{}).point_person||(p.asana||{}).owner||"").replace(/\s+/g," ").trim();
+      return {name:p.name,phase:canonPhase(p.current_phase),
+        people:raw?raw.split(/\s*,\s*/).filter(Boolean):[]};})
+    .filter(p=>p.phase!=="Other / unspecified"&&p.phase!=="On Hold").slice(0,10);
+  inprog.forEach((p,i)=>{
+    const who=p.people.length?joinList(p.people):"The team";
+    const verb=(p.people.length>=2?PLEADS:LEADS)[i%4];
+    P.push(`${who} ${verb} ${p.name}${p.phase?` (${p.phase.toLowerCase()})`:""}.`);
+  });
+  // team / project updates from the running notes
+  (rn.project_updates||[]).filter(Boolean).forEach(u=>P.push((""+u).trim().replace(/\.$/,"")+"."));
+  // faculty highlights
+  const fac=((D.faculty&&D.faculty.ratings)||[]).filter(r=>r.fsi!=null&&r.fsi>=4.9)
+    .sort((a,b)=>b.fsi-a.fsi).slice(0,2);
+  if(fac.length)P.push(`On the faculty front, ${joinList(fac.map(r=>`${r.project} earned ${r.fsi}/5`))} in their post-project feedback.`);
+  // celebrations
+  const celeb=(rn.celebrations||[]).filter(Boolean);
+  if(celeb.length)P.push(`A few celebrations coming up: ${joinList(celeb)}.`);
+  P.push("[Add any personal news, travel, conferences, or other happenings here.]");
+  P.push("With appreciation,");
+  P.push("— [your name]");
+  return P.join("\n\n");
+}
+function briefRoundupView(c){
+  const rn=briefInputs().running_notes||{};
+  const P=briefPanel("Round-up email — suggested draft",
+    "A starting draft pulled together from the team's running notes (shout-outs + updates) and live Asana project activity. Edit it here, then copy — it's a suggestion, so review before sending.");
+  const ta=el("textarea",{class:"roundup-ta",rows:"24","aria-label":"Round-up email draft"});
+  ta.value=composeRoundup();
+  P.bd.appendChild(ta);
+  const row=el("div",{class:"btnrow"}); row.style.marginTop="10px";
+  const cb=el("button",{class:"btn"},"Copy draft"); cb.onclick=()=>copyBlurb(cb,ta.value);
+  const rb=el("button",{class:"btn ghost"},"Reset to generated"); rb.onclick=()=>{ta.value=composeRoundup();};
+  row.appendChild(cb); row.appendChild(rb); P.bd.appendChild(row);
+  if(!(rn.shoutouts&&rn.shoutouts.length))
+    P.bd.appendChild(el("div",{class:"note",html:`Paste the latest <b>Shout-outs</b> and <b>Project Updates</b> from the running-notes doc into <code>brief_inputs.json</code> → <code>running_notes</code> to enrich this draft.`}));
+  else
+    P.bd.appendChild(el("div",{class:"muted small",style:"margin-top:8px",html:`Shout-outs &amp; updates come from <code>running_notes</code> (week of ${esc(rn.meeting_date||"—")}); project progress is live from Asana. Refresh the notes weekly.`}));
+  c.appendChild(P.panel);
+}
+
+/* ===================================================================== */
+/*  OVERVIEW                                                              */
+/* ===================================================================== */
+function renderOverview(){
+  const c=$("#tab-overview"); c.innerHTML="";
+  const cap=D.capacity, m=NOW;
+  const total=cap.estimated.Total[m], sched=cap.scheduled.Total[m], rem=cap.remaining.Total[m], p=cap.pct.Total[m];
+  const activeProjects=D.projects.filter(x=>x.active).length;
+  const overPeople=Object.entries(cap.person).filter(([n,pp])=>pp.has_capacity&&(pp.remaining[m]??1)<-0.5).length;
+  const open=openRecCount();
+  const cards=el("div",{class:"grid cards"});
+  function kpi(k,v,d,cls){const e=el("div",{class:"card kpi"});e.innerHTML=`<div class="k">${k}</div><div class="v" ${cls?`style="color:${cls}"`:""}>${v}</div><div class="d">${d}</div>`;return e;}
+  cards.appendChild(kpi("Team allocation — "+mlabFull(m), pct(p), `${round(sched,1)} of ${round(total,1)} pts scheduled`, allocColor(p)));
+  cards.appendChild(kpi("Remaining this month", (rem>=0?"+":"")+round(rem,1)+" pts", Math.round(rem*PH)+" h of headroom", rem<0?"#cf3a3a":"#157a42"));
+  cards.appendChild(kpi("Active projects", activeProjects, D.projects.length+" total in plan"));
+  cards.appendChild(kpi("People over capacity", overPeople, "this month", overPeople?"#cf3a3a":"#157a42"));
+  cards.appendChild(kpi("Recommendations", open, "ways to improve our process", "#9a6206"));
+  c.appendChild(cards);
+
+  // team heatmap
+  c.appendChild(heatPanel("Team allocation by month", "Share of each team's capacity that is scheduled. Green = healthy, amber = tight, red = over.",
+    SCOPES.filter(s=>s!=="Intern"||Object.keys(cap.estimated.Intern).length),
+    (scope,m)=>{const p=cap.pct[scope]?.[m]; return {bg:allocColor(p),fg:allocText(p),txt:p==null?"":Math.round(p*100)};},
+    allocLegend()));
+
+  // top recommendations
+  const top=recs().filter(r=>r.status!=="Achieved"&&r.status!=="Dismissed")
+    .sort((a,b)=>({high:0,medium:1,low:2}[a.severity]-{high:0,medium:1,low:2}[b.severity])).slice(0,6);
+  const rp=el("div",{class:"panel"});
+  rp.innerHTML=`<div class="hd"><h2>Top ways to improve our process</h2><div class="spacer"></div><button class="btn ghost" onclick="state.tab='recs';render()">View all →</button></div>`;
+  const bd=el("div",{class:"bd"});
+  if(!top.length)bd.innerHTML=`<div class="muted">Nothing open — all recommendations are achieved or dismissed. 🎉</div>`;
+  top.forEach(r=>{const row=el("div",{class:"bar-row"});
+    row.innerHTML=`<span class="pill sev-${r.severity}" style="width:64px;text-align:center">${r.severity}</span>
+      <div style="flex:1"><b>${esc(r.title)}</b> <span class="muted small">— ${esc(r.suggested_action||"")}</span></div>`;
+    row.style.cursor="pointer"; row.onclick=()=>{state.tab="recs";render();};
+    bd.appendChild(row);});
+  rp.appendChild(bd); c.appendChild(rp);
+
+  if(D.drift&&D.drift.length){
+    c.appendChild(el("div",{class:"note"},`⚠ <b>Data hygiene:</b> the workbook's hand-maintained “Team Capacity” tab differs from the consistent recompute (from the Projects tab) in ${D.drift.length} month/scope cells. The figures shown here are recomputed from the Projects tab so they always reconcile. See the Capacity tab → “workbook reference”.`));
+  }
+}
+function statusPill(s){return s==="Achieved"?"green":s==="In Progress"?"blue":s==="Dismissed"?"gray":"amber";}
+function allocLegend(){return [["#cfe3f6","<40%"],["#7fb98a","40–70%"],["#2f9e57","70–95% healthy"],["#e8913a","95–105% tight"],["#cf3a3a",">105% over"]];}
+
+/* shared heatmap panel: rows=scopes/people, cols=window months */
+function heatPanel(title,desc,rows,cellFn,legend,onRowClick){
+  const months=win();
+  const p=el("div",{class:"panel"});
+  p.innerHTML=`<div class="hd"><h2>${esc(title)}</h2><div class="desc">${esc(desc)}</div></div>`;
+  const bd=el("div",{class:"bd"});
+  const t=el("table",{class:"hm"});
+  let head="<tr><td class='rowlab'></td>"+months.map(m=>`<td class="mhdr">${mlab(m)}</td>`).join("")+"</tr>";
+  let body="";
+  rows.forEach(r=>{
+    const name=typeof r==="string"?r:r.name;
+    body+=`<tr><td class="rowlab ${onRowClick?'clickable':''}" data-row="${esc(name)}">${esc(name)}</td>`;
+    months.forEach(m=>{const c=cellFn(name,m);
+      body+=`<td><div class="mcell" style="background:${c.bg};color:${c.fg||'#13233a'}" title="${esc(name)} · ${mlabFull(m)}: ${c.title||c.txt}">${c.txt===""?"":c.txt}</div></td>`;});
+    body+="</tr>";
+  });
+  t.innerHTML=head+body; bd.appendChild(t);
+  if(legend){const lg=el("div",{class:"legend"});lg.style.marginTop="10px";
+    lg.innerHTML=legend.map(([c,l])=>`<span><span class="sw" style="background:${c}"></span>${esc(l)}</span>`).join("");
+    bd.appendChild(lg);}
+  if(onRowClick){t.addEventListener("click",e=>{const rl=e.target.closest("[data-row]");if(rl)onRowClick(rl.getAttribute("data-row"));});}
+  p.appendChild(bd); return p;
+}
+
+/* ===================================================================== */
+/*  CAPACITY                                                             */
+/* ===================================================================== */
+function renderCapacity(){
+  const c=$("#tab-capacity"); c.innerHTML="";
+  const cap=D.capacity;
+  // view-mode toggle: team-level Summary vs the full per-project Master plan
+  const bar=el("div",{class:"toolbar"});
+  const modeSeg=el("span",{class:"subseg"});
+  [["summary","Summary"],["master","Master view"]].forEach(([k,l])=>{
+    const b=el("button",{},l);if(k===state.capMode)b.classList.add("active");
+    b.onclick=()=>{state.capMode=k;renderCapacity();};modeSeg.appendChild(b);});
+  bar.appendChild(el("label",{},"View")); bar.appendChild(modeSeg);
+  // scope selector
+  bar.appendChild(el("label",{style:"margin-left:6px"},"Scope"));
+  const seg=el("span",{class:"seg"});
+  SCOPES.forEach(s=>{if(s==="Intern"&&!Object.keys(cap.estimated.Intern).length)return;
+    const b=el("button",{},s);if(s===state.capScope)b.classList.add("active");
+    b.onclick=()=>{state.capScope=s;renderCapacity();};seg.appendChild(b);});
+  bar.appendChild(seg);
+  if(state.capMode==="summary"){
+    const ref=el("label",{},`<input type="checkbox" id="showRef"> show workbook reference`);
+    bar.appendChild(ref);
+  }
+  c.appendChild(bar);
+
+  const scope=state.capScope, months=win();
+  if(state.capMode==="master"){ renderCapacityMaster(c,scope,months); return; }
+  // chart: estimated (track) vs scheduled (fill) per month
+  const p=el("div",{class:"panel"});
+  p.innerHTML=`<div class="hd"><h2>${scope} — estimated vs scheduled capacity</h2>
+     <div class="desc">Bars show scheduled load against each month's estimated capacity. ${unit()==="hrs"?"Hours":"Points"} (1 pt = 32h).</div></div>`;
+  const bd=el("div",{class:"bd"});
+  bd.appendChild(capChart(scope,months));
+  p.appendChild(bd); c.appendChild(p);
+
+  // table
+  const tp=el("div",{class:"panel"});
+  tp.innerHTML=`<div class="hd"><h2>${scope} — monthly detail</h2></div>`;
+  const tb=el("div",{class:"bd"});
+  let rows="";
+  months.forEach(m=>{
+    const e=cap.estimated[scope][m], s=cap.scheduled[scope][m], r=cap.remaining[scope][m], pc=cap.pct[scope][m];
+    const un=cap.unassigned[scope]?.[m];
+    if(e==null&&s==null)return;
+    rows+=`<tr><td>${mlabFull(m)}</td>
+      <td class="num">${e==null?"—":val(e)}</td>
+      <td class="num">${s==null?"—":val(s)}</td>
+      <td class="num"><span class="pill ${r<0?'red':r<0.5?'amber':'green'}">${r==null?"—":(r>=0?"+":"")+val(r)}</span></td>
+      <td class="num"><span style="color:${allocTextColor(pc)};font-weight:700">${pct(pc)}</span></td>
+      <td class="num">${un?val(un):""}</td></tr>`;
+  });
+  tb.innerHTML=`<table><thead><tr><th class="nosort">Month</th><th class="num nosort">Estimated</th><th class="num nosort">Scheduled</th><th class="num nosort">Remaining</th><th class="num nosort">Allocated</th><th class="num nosort">Unstaffed</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="legend" style="margin-top:8px"><span>“Unstaffed” = committed work not yet assigned to a named person.</span></div>`;
+  tp.appendChild(tb); c.appendChild(tp);
+
+  // workbook reference / drift
+  const refp=el("div",{class:"panel hide",id:"refPanel"});
+  const wb=D.workbook_reference[scope]||{};
+  let drows="";
+  months.forEach(m=>{
+    const comp=cap.scheduled[scope][m], tab=wb.scheduled?.[m];
+    if(comp==null&&tab==null)return;
+    const dl=(comp!=null&&tab!=null)?round(comp-tab,2):null;
+    drows+=`<tr><td>${mlabFull(m)}</td><td class="num">${comp==null?"—":round(comp,2)}</td>
+      <td class="num">${tab==null?"—":round(tab,2)}</td>
+      <td class="num">${dl==null?"—":`<span class="pill ${Math.abs(dl)>2?'red':'gray'}">${dl>=0?"+":""}${dl}</span>`}</td></tr>`;
+  });
+  refp.innerHTML=`<div class="hd"><h2>${scope} — workbook reference</h2><div class="desc">The hand-maintained “Team Capacity” tab vs this dashboard's recompute from the Projects tab.</div></div>
+    <div class="bd"><table><thead><tr><th class="nosort">Month</th><th class="num nosort">Dashboard (computed)</th><th class="num nosort">Team Capacity tab</th><th class="num nosort">Δ</th></tr></thead><tbody>${drows}</tbody></table></div>`;
+  c.appendChild(refp);
+  $("#showRef").onchange=e=>{ $("#refPanel").classList.toggle("hide",!e.target.checked); };
+}
+function capChart(scope,months){
+  const cap=D.capacity;
+  const H=210,padL=38,padB=42,padT=10,bw=Math.max(16,Math.min(40,Math.floor(760/months.length)));
+  const W=padL+months.length*(bw+8)+10;
+  let maxV=0; months.forEach(m=>{maxV=Math.max(maxV,cap.estimated[scope][m]||0,cap.scheduled[scope][m]||0);});
+  maxV=Math.max(maxV,1); const sc=v=>(H-padB-padT)*(v/maxV);
+  let svg=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px"><g font-size="9" fill="#5b6573">`;
+  // gridlines
+  for(let g=0;g<=4;g++){const yv=maxV*g/4,y=H-padB-sc(yv);
+    svg+=`<line x1="${padL}" y1="${y}" x2="${W-6}" y2="${y}" stroke="#eef1f4"/><text x="${padL-5}" y="${y+3}" text-anchor="end">${state.unit==="hrs"?Math.round(yv*PH):round(yv,0)}</text>`;}
+  months.forEach((m,i)=>{
+    const x=padL+i*(bw+8)+6;
+    const e=cap.estimated[scope][m]||0, s=cap.scheduled[scope][m]||0, pc=cap.pct[scope][m];
+    const ey=H-padB-sc(e), sy=H-padB-sc(s);
+    svg+=`<rect x="${x}" y="${ey}" width="${bw}" height="${sc(e)}" rx="2" fill="#e7ebf1"/>`;
+    svg+=`<rect x="${x}" y="${sy}" width="${bw}" height="${sc(s)}" rx="2" fill="${allocColor(pc)}"><title>${mlabFull(m)}: ${round(s,1)}/${round(e,1)} pts (${pct(pc)})</title></rect>`;
+    svg+=`<text x="${x+bw/2}" y="${H-padB+12}" text-anchor="middle" transform="rotate(35 ${x+bw/2} ${H-padB+12})">${mlab(m)}</text>`;
+    if(m===NOW)svg+=`<rect x="${x-2}" y="${padT}" width="${bw+4}" height="${H-padB-padT}" fill="none" stroke="#ae9142" stroke-dasharray="3 2"/>`;
+  });
+  svg+=`</g></svg>`;
+  const wrap=el("div");wrap.innerHTML=svg;
+  const lg=el("div",{class:"legend"});lg.style.marginTop="6px";
+  lg.innerHTML=`<span><span class="sw" style="background:#e7ebf1"></span>Estimated capacity</span><span><span class="sw" style="background:#2f9e57"></span>Scheduled (colored by % allocated)</span><span><span class="sw" style="background:#fff;border:1px dashed #ae9142"></span>current month</span>`;
+  wrap.appendChild(lg);return wrap;
+}
+
+/* ---- CAPACITY: master view — the full capacity plan, project × month ---- */
+function projScopeByMonth(p,scope,months){
+  const by={}; let tot=0;
+  (p.roles||[]).forEach(r=>{ if(scope!=="Total"&&r.team!==scope)return;
+    months.forEach(m=>{const v=(r.alloc&&r.alloc[m])||0; if(v){by[m]=round((by[m]||0)+v,4); tot+=v;}});});
+  return {by, tot:round(tot,3)};
+}
+function masterCell(v){
+  if(!v||v<0.001) return {bg:"#f7f9fc",fg:"#c7ccd4",txt:""};
+  if(v>4) return {bg:"#cf3a3a",fg:"#fff",txt:val(v)};
+  const op=Math.min(1,0.16+v/5);
+  return {bg:`rgba(47,158,87,${op})`, fg:v>3?"#fff":"#13233a", txt:val(v)};
+}
+function renderCapacityMaster(c,scope,months){
+  const cap=D.capacity;
+  // every project with allocation in the window/scope, biggest first
+  const rows=D.projects.map(p=>{const s=projScopeByMonth(p,scope,months);
+      return s.tot>0?{p,by:s.by,tot:s.tot}:null;}).filter(Boolean)
+      .sort((a,b)=>b.tot-a.tot);
+  const p=el("div",{class:"panel"});
+  const liveTag=LIVE?`<span class="pill green" title="recomputed live from the workbook">live</span>`:`<span class="pill gray" title="baked snapshot">snapshot</span>`;
+  p.innerHTML=`<div class="hd"><h2>Capacity plan — master view ${liveTag}</h2>
+    <div class="desc">The full plan behind the summary: every project's ${scope==="Total"?"":esc(scope)+" "}staffing, month by month, exactly as it stands now${LIVE?" (live from the workbook)":""}. Click a project to expand its roles &amp; people. ${unit()==="hrs"?"Hours":"Points"} (1 pt = ${PH}h).</div></div>`;
+  const bd=el("div",{class:"bd"});
+  if(!rows.length){bd.innerHTML=`<div class="muted">No ${scope==="Total"?"":esc(scope)+" "}allocations in the selected window. Widen the window above.</div>`;p.appendChild(bd);c.appendChild(p);return;}
+
+  const mhead=months.map(m=>`<th class="num nosort"${m===NOW?' style="color:#ae9142"':''}>${mlab(m)}</th>`).join("");
+  let html=`<div class="mwrap"><table class="master"><thead><tr><th class="nosort pname">Project (${rows.length})</th>${mhead}<th class="num nosort">Total</th></tr></thead><tbody>`;
+  // context rows: estimated / scheduled / remaining for the scope
+  const ctx=(lab,get,cls)=>{let r=`<tr class="${cls}"><td class="pname"><b>${lab}</b></td>`;
+    months.forEach(m=>{const v=get(m);r+=`<td class="num mc">${v==null?"—":val(v)}</td>`;});
+    const tt=months.reduce((a,m)=>{const v=get(m);return a+(v==null?0:v);},0);
+    return r+`<td class="num"><b>${round(tt,1)}</b></td></tr>`;};
+  html+=ctx("Estimated capacity",m=>cap.estimated[scope]?.[m],"rolerow");
+  html+=ctx("Scheduled (all)",m=>cap.scheduled[scope]?.[m],"rolerow");
+  html+=`<tr class="rolerow"><td class="pname"><b>Remaining</b></td>`+
+    months.map(m=>{const r=cap.remaining[scope]?.[m];return `<td class="num mc" style="${r!=null&&r<0?'color:#cf3a3a;font-weight:700':''}">${r==null?"—":(r>=0?"+":"")+val(r)}</td>`;}).join("")+
+    `<td></td></tr>`;
+  // one row per project (+ expandable role rows)
+  rows.forEach(({p,by,tot})=>{
+    const id=p.name, open=!!state.masterExpand[id];
+    const st=p.status_display?`<span class="pill gray" style="font-size:9px">${esc(p.status_display)}</span>`:"";
+    let r=`<tr class="proj${open?' open':''}" data-pn="${esc(id)}"><td class="pname" title="${esc(id)}">${open?"▾ ":"▸ "}${esc(p.name)} ${st}</td>`;
+    months.forEach(m=>{const cc=masterCell(by[m]||0);r+=`<td class="mc" style="background:${cc.bg};color:${cc.fg}">${cc.txt}</td>`;});
+    r+=`<td class="num"><b>${val(tot)}</b></td></tr>`;
+    html+=r;
+    if(open){
+      const rls=(p.roles||[]).filter(rl=>scope==="Total"||rl.team===scope)
+        .map(rl=>({rl,tot:months.reduce((a,m)=>a+((rl.alloc&&rl.alloc[m])||0),0)}))
+        .filter(x=>x.tot>0).sort((a,b)=>b.tot-a.tot);
+      rls.forEach(({rl})=>{
+        const who=rl.generic?`<span class="pill amber" style="font-size:9px">unstaffed</span>`:esc(rl.person||"");
+        html+=`<tr class="rolerow"><td class="pname" style="padding-left:22px">${esc(rl.role)} ${scope==="Total"?`<span class="muted">· ${esc(rl.team)}</span>`:""} ${who}</td>`+
+          months.map(m=>{const v=(rl.alloc&&rl.alloc[m])||0;return `<td class="num mc">${v?val(v):""}</td>`;}).join("")+
+          `<td class="num">${val(round(months.reduce((a,m)=>a+((rl.alloc&&rl.alloc[m])||0),0),3))}</td></tr>`;
+      });
+    }
+  });
+  html+=`</tbody></table></div>`;
+  bd.innerHTML=html;
+  bd.querySelectorAll("tr.proj").forEach(tr=>tr.onclick=()=>{
+    const pn=tr.getAttribute("data-pn");state.masterExpand[pn]=!state.masterExpand[pn];renderCapacity();});
+  const lg=el("div",{class:"legend",style:"margin-top:8px"});
+  lg.innerHTML=`<span>Each cell = that project's ${scope==="Total"?"total":esc(scope)} load that month, in ${unit()==="hrs"?"hours":"points"}.</span><span><span class="sw" style="background:rgba(47,158,87,.6)"></span>≤ a person-month</span><span><span class="sw" style="background:#cf3a3a"></span>&gt; 4 pts (heavy)</span><span><span class="pill amber" style="font-size:9px">unstaffed</span> not yet assigned to a person</span>`;
+  bd.appendChild(lg);
+  // active Asana projects that aren't in the capacity workbook carry no point
+  // allocations, so they can't appear in this points grid — call them out.
+  const ao=(D.asana_only_projects||[]).filter(r=>r&&(r.status==='In Progress'||r.status==='On Hold')&&r.name);
+  if(ao.length){
+    const note=el("div",{class:"note",style:"margin-top:10px"});
+    note.innerHTML=`<b>${ao.length}</b> active Asana project${ao.length>1?'s are':' is'} not in the capacity workbook yet, so ${ao.length>1?'they carry':'it carries'} no point allocations and ${ao.length>1?'don’t':'doesn’t'} appear above: ${ao.slice(0,10).map(r=>esc(r.name)).join(", ")}${ao.length>10?` and ${ao.length-10} more`:""}.`;
+    bd.appendChild(note);
+  }
+  p.appendChild(bd);c.appendChild(p);
+}
+
+/* ===================================================================== */
+/*  PEOPLE                                                               */
+/* ===================================================================== */
+function renderPeople(){
+  const c=$("#tab-people"); c.innerHTML="";
+  const cap=D.capacity;
+  const bar=el("div",{class:"toolbar"});
+  bar.innerHTML=`<label>Show</label>`;
+  const seg=el("span",{class:"seg"});
+  [["remaining","Remaining"],["scheduled","Scheduled load"],["alloc","% Allocated"]].forEach(([k,l])=>{
+    const b=el("button",{},l);if(k===state.peopleMetric)b.classList.add("active");
+    b.onclick=()=>{state.peopleMetric=k;renderPeople();};seg.appendChild(b);});
+  bar.appendChild(seg);
+  const tsel=el("select");tsel.innerHTML=`<option value="all">All teams</option>`+["Design","Media","PM","Intern"].map(t=>`<option ${state.peopleTeam===t?"selected":""}>${t}</option>`).join("");
+  tsel.onchange=e=>{state.peopleTeam=e.target.value;renderPeople();};
+  bar.appendChild(el("label",{},"Team"));bar.appendChild(tsel);
+  c.appendChild(bar);
+
+  const wm=win();
+  let names=Object.keys(cap.person).filter(n=>state.peopleTeam==="all"||cap.person[n].team===state.peopleTeam)
+    // keep people who have capacity in the window, or non-trivial scheduled load
+    .filter(n=>{const pp=cap.person[n];
+      return wm.some(m=>pp.estimated[m]!=null) || wm.reduce((a,m)=>a+(pp.scheduled[m]||0),0)>=0.25;});
+  // sort by team then name
+  const torder={Design:0,Media:1,PM:2,Intern:3,Other:4};
+  names.sort((a,b)=>(torder[cap.person[a].team]-torder[cap.person[b].team])||a.localeCompare(b));
+  if(!names.length){c.appendChild(el("div",{class:"note"},"No people have capacity or scheduled load in the selected window. Widen the window above."));return;}
+
+  const metric=state.peopleMetric;
+  const desc=metric==="remaining"?"Free capacity each month (estimated − scheduled). Red = over capacity.":
+    metric==="scheduled"?"Scheduled load each month in "+(unit()==="hrs"?"hours":"points")+".":
+    "Share of each person's capacity that is scheduled.";
+  const legend=metric==="remaining"?[["#cf3a3a","over (<0)"],["#e8913a","0–0.5 free"],["#2f9e57","0.5–2 free"],["#3a78c2",">2 free"],["#eef1f4","no capacity row"]]:
+    metric==="alloc"?allocLegend():[["#cfe3f6","light"],["#2f9e57","mid"],["#cf3a3a","heavy (>4)"]];
+  const panel=heatPanel("People — "+(metric==="remaining"?"remaining capacity":metric==="scheduled"?"scheduled load":"% allocated"),
+    desc, names.map(n=>({name:n})),
+    (n,m)=>{
+      const pp=cap.person[n]; const e=pp.estimated[m], s=pp.scheduled[m]||0, r=pp.remaining[m];
+      if(metric==="remaining"){
+        const noCap=(e==null), empty=(e==null&&s===0)||(e===0&&s===0);
+        return {bg:(noCap||empty)?"#eef1f4":remColor(r,e),fg:(!noCap&&r<-0.01)?"#fff":"#13233a",
+                txt:empty?"":val(r),title:noCap?"no capacity row":`rem ${round(r,1)} pts`};}
+      if(metric==="alloc"){const p=e?s/e:null;return {bg:allocColor(p),fg:allocText(p),txt:p==null?"":Math.round(p*100),title:`${round(s,1)}/${e==null?"?":round(e,1)}`};}
+      const heavy=s>4?"#cf3a3a":s>0?"#2f9e57":"#eef1f4"; const op=s>0?Math.min(1,0.25+s/5):1;
+      return {bg:s>4?"#cf3a3a":(s>0?`rgba(47,158,87,${op})`:"#f4f6f9"),fg:s>3?"#fff":"#13233a",txt:s>0?val(s):"",title:`${round(s,1)} pts`};
+    }, legend, openPerson);
+  c.appendChild(panel);
+  c.appendChild(el("div",{class:"note"},`Mirrors the workbook's “Remaining Capacity” view (the team's red/green over/under check) — recomputed live from the Projects tab. Click a name for their projects.`));
+}
+function openPerson(name){
+  const pp=D.capacity.person[name]; if(!pp)return;
+  const months=win();
+  const projs=D.projects.map(p=>{
+    const roles=p.roles.filter(r=>r.person===name);
+    if(!roles.length)return null;
+    const by={};months.forEach(m=>{by[m]=roles.reduce((a,r)=>a+(r.alloc[m]||0),0);});
+    const tot=Object.values(by).reduce((a,b)=>a+b,0);
+    return tot>0?{name:p.name,roles:[...new Set(roles.map(r=>r.role))].join(", "),by,tot,status:p.status_display}:null;
+  }).filter(Boolean).sort((a,b)=>b.tot-a.tot);
+  let body=`<div class="kv"><div class="k">Team</div><div>${esc(pp.team)}</div>
+    <div class="k">Capacity row</div><div>${pp.has_capacity?"yes":'<span class="pill amber">missing — load not counted in team totals</span>'}</div></div>`;
+  body+=`<h3 style="margin:14px 0 6px">Projects (${projs.length})</h3>`;
+  if(!projs.length)body+=`<div class="muted">No allocations in the selected window.</div>`;
+  else{
+    body+=`<table><thead><tr><th class="nosort">Project</th><th class="nosort">Role</th><th class="num nosort">Total</th><th class="nosort">Status</th></tr></thead><tbody>`;
+    projs.forEach(pr=>{body+=`<tr><td>${esc(pr.name)}</td><td class="muted">${esc(pr.roles)}</td><td class="num">${val(pr.tot)} ${unitLab()}</td><td><span class="pill gray">${esc(pr.status)}</span></td></tr>`;});
+    body+=`</tbody></table>`;
+  }
+  body+=`<h3 style="margin:14px 0 6px">Monthly load</h3>`;
+  body+=`<table class="hm"><tr><td class='rowlab'></td>${months.map(m=>`<td class='mhdr'>${mlab(m)}</td>`).join("")}</tr>
+    <tr><td class="rowlab">Scheduled</td>${months.map(m=>{const s=pp.scheduled[m]||0;return `<td><div class="mcell" style="background:${s>0?'#e7f0fb':'#f4f6f9'}">${s>0?val(s):""}</div></td>`;}).join("")}</tr>
+    <tr><td class="rowlab">Remaining</td>${months.map(m=>{const r=pp.remaining[m];const e=pp.estimated[m];return `<td><div class="mcell" style="background:${remColor(r,e==null?null:e)};color:${(e!=null&&r<-0.01)?'#fff':'#13233a'}">${(e==null&&(pp.scheduled[m]||0)===0)?"":val(r)}</div></td>`;}).join("")}</tr></table>`;
+  drawer(name,`<span class="pill navy">${esc(pp.team)}</span>`,body);
+}
+
+/* ===================================================================== */
+/*  PROJECTS                                                            */
+/* ===================================================================== */
+function renderProjects(){
+  const c=$("#tab-projects"); c.innerHTML="";
+  const f=state.projFilter;
+  const bar=el("div",{class:"toolbar"});
+  bar.innerHTML=`<label>Search</label>`;
+  const q=el("input",{type:"text",placeholder:"project name…"});q.value=f.q;q.oninput=e=>{f.q=e.target.value;drawProjTable();};
+  bar.appendChild(q);
+  const tsel=el("select");tsel.innerHTML=`<option value="all">All teams</option>`+["Design","Media","PM"].map(t=>`<option ${f.team===t?"selected":""}>${t}</option>`).join("");
+  tsel.onchange=e=>{f.team=e.target.value;drawProjTable();};
+  bar.appendChild(el("label",{},"Team"));bar.appendChild(tsel);
+  const ssel=el("select");const statuses=["all",...new Set(D.projects.map(p=>p.status_display))];
+  ssel.innerHTML=statuses.map(s=>`<option value="${esc(s)}" ${f.status===s?"selected":""}>${s==="all"?"All statuses":esc(s)}</option>`).join("");
+  ssel.onchange=e=>{f.status=e.target.value;drawProjTable();};
+  bar.appendChild(el("label",{},"Status"));bar.appendChild(ssel);
+  const act=el("label",{},`<input type="checkbox" id="actChk" ${f.active?"checked":""}> active only`);
+  act.querySelector("input").onchange=e=>{f.active=e.target.checked;drawProjTable();};
+  bar.appendChild(act);
+  // "Size" is shown in the current unit; expose the toggle here since the global bar is hidden on this tab
+  const useg=el("span",{class:"seg"});
+  [["pts","Points"],["hrs","Hours"]].forEach(([u,l])=>{const b=el("button",{},l);if(state.unit===u)b.classList.add("active");b.onclick=()=>{state.unit=u;renderProjects();};useg.appendChild(b);});
+  bar.appendChild(el("label",{},"Units"));bar.appendChild(useg);
+  const sp=el("span");sp.style.flex="1";bar.appendChild(sp);
+  const sortSel=el("select",{id:"projSortSel"});
+  const SORTS=[["name","Project"],["size","Size"],["status","Status"],["start","First month"],["end","Last month"]];
+  sortSel.innerHTML=SORTS.map(([k,l])=>`<option value="${k}" ${state.projSort.k===k?"selected":""}>${l}</option>`).join("");
+  sortSel.onchange=e=>{state.projSort.k=e.target.value;drawProjTable();};
+  bar.appendChild(el("label",{},"Sort by"));bar.appendChild(sortSel);
+  const dirBtn=el("button",{class:"btn ghost",id:"projSortDir",title:"Toggle ascending / descending"});
+  dirBtn.innerHTML=state.projSort.dir>0?"▲ Asc":"▼ Desc";
+  dirBtn.onclick=()=>{state.projSort.dir*=-1;drawProjTable();};
+  bar.appendChild(dirBtn);
+  c.appendChild(bar);
+  const p=el("div",{class:"panel"});p.innerHTML=`<div class="hd"><h2>Projects</h2><div class="desc" id="projCount"></div></div><div class="bd" id="projTableBd"></div>`;
+  c.appendChild(p);
+  drawProjTable();
+}
+function filteredProjects(){
+  const f=state.projFilter;
+  return D.projects.filter(p=>{
+    if(f.active&&!p.active)return false;
+    if(f.team!=="all"&&!p.roles.some(r=>r.team===f.team))return false;
+    if(f.status!=="all"&&p.status_display!==f.status)return false;
+    if(f.q&&!p.name.toLowerCase().includes(f.q.toLowerCase()))return false;
+    return true;
+  });
+}
+function drawProjTable(){
+  const f=state.projFilter,s=state.projSort;
+  let list=filteredProjects();
+  // "Size" here = the project's effort (points/hours). The qualitative T-shirt
+  // size is intentionally not shown — that lives only in the Plan tab's staffing templates.
+  const get={name:p=>p.name.toLowerCase(),size:p=>p.total_points||0,
+    status:p=>p.status_display,start:p=>p.first_month||"",end:p=>p.last_month||""};
+  list.sort((a,b)=>{const g=get[s.k]||get.name;const x=g(a),y=g(b);return (x<y?-1:x>y?1:0)*s.dir;});
+  $("#projCount").textContent=`${list.length} of ${D.projects.length}`;
+  const cols=[["name","Project"],["size","Size","num"],["status","Status"],["start","First"],["end","Last"],["phase","Phase"]];
+  let head=cols.map(([k,l,cl])=>`<th class="${cl||""} ${k==="phase"?"nosort":""}" data-k="${k}" title="${k==="phase"?"":"Click to sort by "+l}">${l}${s.k===k?(s.dir>0?" ▲":" ▼"):(k==="phase"?"":' <span style="opacity:.4">↕</span>')}</th>`).join("");
+  let rows="";
+  list.forEach((p,i)=>{
+    rows+=`<tr class="clickable" data-i="${i}"><td><b>${esc(p.name)}</b></td>
+      <td class="num" title="project effort (1 pt = 32h)">${val(p.total_points)} ${unitLab()}</td>
+      <td><span class="pill ${projStatusPill(p.status_display)}">${esc(p.status_display)}</span></td>
+      <td>${p.first_month?mlab(p.first_month):"—"}</td><td>${p.last_month?mlab(p.last_month):"—"}</td>
+      <td class="muted">${esc(p.current_phase||"—")}</td></tr>`;
+  });
+  const bd=$("#projTableBd");
+  bd.innerHTML=`<table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table>`;
+  // keep the toolbar Sort controls in sync with header-click sorting
+  const ss=$("#projSortSel"); if(ss&&ss.value!==s.k)ss.value=s.k;
+  const db=$("#projSortDir"); if(db)db.innerHTML=s.dir>0?"▲ Asc":"▼ Desc";
+  bd.querySelectorAll("th[data-k]").forEach(th=>{if(th.classList.contains("nosort"))return;
+    th.onclick=()=>{const k=th.getAttribute("data-k");if(s.k===k)s.dir*=-1;else{s.k=k;s.dir=1;}drawProjTable();};});
+  bd.querySelectorAll("tr[data-i]").forEach(tr=>tr.onclick=()=>openProject(list[+tr.getAttribute("data-i")]));
+}
+function projStatusPill(s){return /complete/i.test(s)?"green":/progress|active/i.test(s)?"blue":/hold/i.test(s)?"amber":/upcoming/i.test(s)?"navy":"gray";}
+function openProject(p){
+  const a=p.asana||{};
+  const months=MONTHS.filter(m=>(p.first_month&&m>=p.first_month&&p.last_month&&m<=p.last_month));
+  if(!months.length)months.push(...win());
+  let body=`<div class="kv">
+    <div class="k">Status</div><div><span class="pill ${projStatusPill(p.status_display)}">${esc(p.status_display)}</span> ${a.current_phase?`· ${esc(a.current_phase)}`:""}</div>
+    <div class="k">Type</div><div>${esc(p.type||a.project_type||"—")}</div>
+    <div class="k">Project size</div><div>${val(p.total_points)} ${unitLab()} <span class="muted">effort (1 pt = ${PH}h)</span>${p.unstaffed_points>0.05?` · <span class="pill amber">${val(p.unstaffed_points)} ${unitLab()} unstaffed</span>`:""}</div>
+    <div class="k">Window</div><div>${p.first_month?mlabFull(p.first_month):"—"} → ${p.last_month?mlabFull(p.last_month):"—"}</div>
+    ${a.faculty?`<div class="k">Faculty</div><div>${esc(a.faculty)}</div>`:""}
+    ${a.dept?`<div class="k">Department</div><div>${esc(a.dept)}</div>`:""}
+    ${a.point_person?`<div class="k">Point person</div><div>${esc(a.point_person)}</div>`:""}
+    ${a.impact_tracker?`<div class="k">Impact tracker</div><div><span class="pill ${a.impact_tracker==='Outdated'?'red':'green'}">${esc(a.impact_tracker)}</span></div>`:""}
+    ${p.asana?"":`<div class="k">Asana</div><div class="muted">not matched to a live Asana project</div>`}
+    ${(function(){const rf=reflectionsFor(p.name);return rf.length?`<div class="k">Reflection</div><div>${rf.map(r=>`<a href="${esc(r.doc_url||r.drive_url||r.rel)}" target="_blank" rel="noopener">📄 ${esc(r.type)}</a>`).join(" · ")}</div>`:"";})()}
+  </div>`;
+  // phase gantt
+  if(p.phases&&p.phases.length){
+    body+=`<h3 style="margin:14px 0 6px">Phase timeline</h3>`;
+    const segs=p.phases; const colors=["#0c2340","#13315c","#3a78c2","#1f9d57","#ae9142","#9a6206","#8a5cf0"];
+    // colour by phase LABEL so a repeated phase is the same colour everywhere
+    const labColor={}; let ci=0;
+    segs.forEach(ph=>{if(!(ph.label in labColor)){labColor[ph.label]=colors[ci%colors.length];ci++;}});
+    body+=`<div class="gantt">`;
+    segs.forEach((ph,i)=>{const next=segs[i+1]?segs[i+1].month:(p.last_month||ph.month);
+      const w=Math.max(1,monthsBetween(ph.month,next));
+      body+=`<div class="seg" style="flex:${w};background:${labColor[ph.label]}" title="${esc(ph.label)} — ${mlabFull(ph.month)}"></div>`;});
+    body+=`</div>`;
+    // labels go in a readable legend below the bar (one row per distinct phase)
+    const legSeen={}, legItems=[];
+    segs.forEach(ph=>{if(!legSeen[ph.label]){legSeen[ph.label]=1;legItems.push(ph);}});
+    body+=`<div class="gantt-legend">`+legItems.map(ph=>
+      `<span class="gl"><span class="gsw" style="background:${labColor[ph.label]}"></span>${esc(ph.label)} <span class="gm">${esc(mlab(ph.month))}</span></span>`).join("")+`</div>`;
+    body+=`<div class="muted small" style="margin-top:6px">${esc(p.first_month?mlabFull(p.first_month):"")} → ${esc(p.last_month?mlabFull(p.last_month):"")}</div>`;
+  }
+  // staffing grid
+  body+=`<h3 style="margin:16px 0 6px">Staffing &amp; monthly allocation (${unit()==="hrs"?"hours":"points"})</h3>`;
+  const useM=months.filter(m=>p.roles.some(r=>r.alloc[m]));
+  body+=`<div style="overflow:auto"><table class="hm"><tr><td class="rowlab">Role / person</td>${useM.map(m=>`<td class="mhdr">${mlab(m)}</td>`).join("")}</tr>`;
+  p.roles.forEach(r=>{
+    body+=`<tr><td class="rowlab">${esc(r.role)} <span class="muted">${esc(r.person||(r.generic?"unassigned":""))}</span></td>`;
+    useM.forEach(m=>{const v=r.alloc[m];body+=`<td><div class="mcell" style="background:${v?'#e7f0fb':'#f8fafc'}">${v?val(v):""}</div></td>`;});
+    body+=`</tr>`;
+  });
+  body+=`</table></div>`;
+  drawer(p.name,`<span class="pill ${projStatusPill(p.status_display)}">${esc(p.status_display)}</span>`,body);
+}
+function monthsBetween(a,b){const[ay,am]=a.split("-").map(Number),[by,bm]=b.split("-").map(Number);return (by-ay)*12+(bm-am);}
+
+/* ===================================================================== */
+/*  FACULTY (ratings drawn from Asana Impact Tracker)                    */
+/* ===================================================================== */
+function renderFaculty(){
+  const c=$("#tab-faculty"); c.innerHTML="";
+  const f=D.faculty;
+  const DD=(D.departments&&D.departments.departments)||[];
+  if((!f||!f.fsi)&&!DD.length){c.appendChild(el("div",{class:"note"},"No faculty / department data found in the Asana snapshot (Impact Tracker board)."));return;}
+  c.appendChild(el("div",{class:"note"},`<b>Who ODL works with — the Notre Dame departments and faculty behind the Impact Tracker projects.</b> Departments come from Asana; gaps were filled from <b>nd.edu</b> (tagged <span class="pill gray">nd.edu</span>). Faculty feedback from the reflection reports now drives the <a href="#recs" onclick="state.tab='recs';render();return false;">Recommendations tab</a>; fuller perspectives data still lives in <b>Qualtrics</b> (access pending).`));
+
+  if(f&&f.fsi){
+    const cards=el("div",{class:"grid cards"});
+    const fsi=f.fsi, nps=f.nps;
+    cards.appendChild(kpiCard("Faculty Satisfaction", fsi.mean+" / "+f.scale, `median ${fsi.median} · range ${fsi.min}–${fsi.max}`, "#157a42"));
+    cards.appendChild(kpiCard("Net Promoter Score", nps?nps.mean:"—", nps?`median ${nps.median} · min ${nps.min}`:"", "#157a42"));
+    cards.appendChild(kpiCard("Projects rated", fsi.n, "of completed projects in the Impact Tracker"));
+    const promoters=f.distribution["5.0"]+f.distribution["4.5–4.9"];
+    cards.appendChild(kpiCard("Rated ≥ 4.5", Math.round(100*promoters/fsi.n)+"%", `${promoters} of ${fsi.n} projects`));
+    if(DD.length)cards.appendChild(kpiCard("Departments", DD.length, `ND units ODL has worked with`));
+    c.appendChild(cards);
+  }
+
+  // grouping toggle — the projects ODL works with, by department or by year
+  const gbar=el("div",{class:"toolbar"});
+  const gseg=el("span",{class:"subseg"});
+  [["dept","By department"],["year","By year"]].forEach(([k,l])=>{
+    const b=el("button",{},l);if(k===state.facMode)b.classList.add("active");
+    b.onclick=()=>{state.facMode=k;renderFaculty();};gseg.appendChild(b);});
+  gbar.appendChild(el("label",{},"Group projects")); gbar.appendChild(gseg);
+  c.appendChild(gbar);
+  if(state.facMode==="year") renderFacultyYears(c); else renderDepartments(c);
+
+  if(f&&f.fsi){
+    // distribution bars
+    const dp=el("div",{class:"panel"});
+    dp.innerHTML=`<div class="hd"><h2>Faculty Satisfaction distribution</h2><div class="desc">Index on a ${f.scale}-point scale, across ${f.fsi.n} rated projects.</div></div>`;
+    const dbd=el("div",{class:"bd"});
+    const maxd=Math.max(...Object.values(f.distribution),1);
+    Object.entries(f.distribution).forEach(([band,n])=>{
+      const row=el("div",{class:"bar-row"});
+      row.innerHTML=`<span class="lab">${esc(band)}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.round(100*n/maxd)}%;background:${band==='5.0'?'#1f9d57':band.startsWith('4.5')?'#6cc090':band.startsWith('4.0')?'#e8913a':'#cf3a3a'}"></div></div><span style="width:30px;text-align:right">${n}</span>`;
+      dbd.appendChild(row);
+    });
+    dp.appendChild(dbd); c.appendChild(dp);
+
+    // per-project ratings table (links to the live reflection report when we have one)
+    const tp=el("div",{class:"panel"});
+    tp.innerHTML=`<div class="hd"><h2>Satisfaction by project</h2><div class="desc">${f.ratings.length} rated projects, highest first.</div></div>`;
+    const rows=f.ratings.map(r=>{
+      const refs=reflectionsFor(r.project);
+      const link=(r.reflink||refs.length)?`<a href="${esc(r.reflink||refs[0].doc_url||refs[0].drive_url||refs[0].rel)}" target="_blank" rel="noopener">📄 report</a>`:"";
+      return `<tr><td><b>${esc(r.project)}</b></td>
+       <td class="num"><span class="pill ${r.fsi>=4.5?'green':r.fsi>=4.0?'amber':'red'}">${r.fsi}</span></td>
+       <td class="num">${r.nps!=null&&r.nps!==''?r.nps:'—'}</td>
+       <td>${esc(r.dept||'—')}</td><td>${esc(r.type||'—')}</td><td>${link}</td></tr>`;}).join("");
+    tp.appendChild(el("div",{class:"bd"},`<table class="wrap"><thead><tr><th class="nosort">Project</th><th class="num nosort">Faculty Satisfaction (/${f.scale})</th><th class="num nosort">NPS</th><th class="nosort">Department</th><th class="nosort">Type</th><th class="nosort">Reflection</th></tr></thead><tbody>${rows}</tbody></table>`));
+    c.appendChild(tp);
+  }
+}
+function renderDepartments(c){
+  const meta=D.departments||{}; const DD=meta.departments||[];
+  if(!DD.length)return;
+  const p=el("div",{class:"panel"});
+  const total=DD.reduce((a,d)=>a+d.n,0), unmapped=meta.unknown_count||0;
+  p.innerHTML=`<div class="hd"><h2>Departments ODL works with</h2><div class="desc">${DD.length} Notre Dame departments / units across ${total} Impact Tracker projects${unmapped?` · ${unmapped} project${unmapped>1?'s':''} not yet mapped to a department`:""}. Click a department to see its projects.</div></div>`;
+  const bd=el("div",{class:"bd"});
+  DD.forEach(d=>{
+    const card=el("div",{class:"rec"});
+    const open=d.n>=4;
+    const fsiPill=d.avg_fsi!=null?`<span class="pill ${d.avg_fsi>=4.5?'green':d.avg_fsi>=4?'amber':'red'}" title="mean Faculty Satisfaction across rated projects">avg ${d.avg_fsi}</span>`:"";
+    const src=d.context_source?` <a href="${esc(d.context_source)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Source: ${esc(d.context_source)}">ⓘ source</a>`:"";
+    const official=(d.official_name&&d.official_name!==d.dept)?` <span class="muted">— ${esc(d.official_name)}</span>`:"";
+    const projRows=d.projects.map(pr=>{
+      const link=pr.reflink?`<a href="${esc(pr.reflink)}" target="_blank" rel="noopener">report ↗</a>`:"";
+      const ndtag=pr.dept_source==='nd.edu'?` <span class="pill gray" title="Department inferred from the faculty member's nd.edu profile (${esc(pr.dept_confidence||'?')} confidence)${pr.dept_url?' — '+esc(pr.dept_url):''}">nd.edu${pr.dept_confidence&&pr.dept_confidence!=='high'?' · '+esc(pr.dept_confidence):''}</span>`:"";
+      const fp=pr.fsi!=null?`<span class="pill ${pr.fsi>=4.5?'green':pr.fsi>=4?'amber':'red'}">${pr.fsi}</span>`:'<span class="muted">—</span>';
+      return `<tr><td><b>${esc(pr.project)}</b>${ndtag}</td><td class="muted">${esc(pr.faculty||'—')}</td><td>${esc(pr.type||'—')}</td><td class="num">${fp}</td><td><span class="pill gray">${esc(pr.status||'—')}</span></td><td>${link}</td></tr>`;
+    }).join("");
+    card.innerHTML=`<div class="rhd"><span class="ico">🏛️</span>
+       <div style="flex:1"><div class="rtitle">${esc(d.dept)}${official}</div>
+         <div class="rmeta">${d.context?`<span>${esc(d.context)}</span>`:`<span class="muted">No description on file</span>`}${src}</div></div>
+       <span class="pill gray">${d.n} project${d.n>1?'s':''}</span> ${fsiPill}</div>
+     <div class="rbody">
+       <table class="wrap"><thead><tr><th class="nosort">Project</th><th class="nosort">Faculty</th><th class="nosort">Type</th><th class="num nosort">FSI</th><th class="nosort">Status</th><th class="nosort">Reflection</th></tr></thead><tbody>${projRows}</tbody></table>
+     </div>`;
+    if(open)card.classList.add("open");
+    card.querySelector(".rhd").onclick=()=>card.classList.toggle("open");
+    bd.appendChild(card);
+  });
+  p.appendChild(bd);c.appendChild(p);
+}
+function ymLabel(d){ // ISO date -> "Sep 2024"
+  if(!d||(""+d).length<7)return null; return mlabFull((""+d).slice(0,7));
+}
+function spanLabel(rec){
+  const s=ymLabel(rec.start), e=ymLabel(rec.end);
+  if(s&&e)return s===e?s:`${s} – ${e}`;
+  return s||e||"—";
+}
+function facProjRow(pr){
+  const ndtag=pr.dept_source==='nd.edu'?` <span class="pill gray" title="department inferred from the faculty member's nd.edu profile">nd.edu</span>`:"";
+  const fp=pr.fsi!=null?`<span class="pill ${pr.fsi>=4.5?'green':pr.fsi>=4?'amber':'red'}">${pr.fsi}</span>`:'<span class="muted">—</span>';
+  const link=pr.reflink?`<a href="${esc(pr.reflink)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">report ↗</a>`:"";
+  // cumulative hours (all years) — Asana only reliably populates one yearly bucket,
+  // so per-year attribution would be misleading; show the project total instead.
+  const th=(typeof pr.hours_total==='number'&&pr.hours_total>0)?Math.round(pr.hours_total)+'h':'';
+  return `<tr><td><b>${esc(pr.project)}</b></td><td>${esc(pr.dept||'—')}${ndtag}</td>
+    <td class="muted">${esc(pr.faculty||'—')}</td><td>${esc(pr.type||'—')}</td>
+    <td class="num">${fp}</td><td><span class="pill gray">${esc(pr.status||'—')}</span></td>
+    <td class="muted small">${esc(spanLabel(pr))}</td>
+    <td class="num" title="cumulative hours logged on Asana (all years)">${th}</td><td>${link}</td></tr>`;
+}
+function renderFacultyYears(c){
+  const meta=D.faculty_years||{}; const YY=meta.years||[];
+  if(!YY.length){c.appendChild(el("div",{class:"note"},"No Start/End dates on the Impact Tracker projects yet, so they can't be grouped by year. Add dates in Asana (or switch to “By department”)."));return;}
+  const p=el("div",{class:"panel"});
+  const tot=YY.reduce((a,y)=>a+y.n,0), unk=(meta.unknown||[]).length;
+  p.innerHTML=`<div class="hd"><h2>Projects ODL worked on, by year</h2><div class="desc">${meta.min_year}–${meta.max_year}. A project counts in every calendar year it was active (its Start → End on the Asana Impact Tracker), with its department shown alongside${unk?` · ${unk} project${unk>1?'s':''} have no dates yet (listed at the bottom)`:""}. Click a year to expand.</div></div>`;
+  const bd=el("div",{class:"bd"});
+  const FYHEAD=`<tr><th class="nosort">Project</th><th class="nosort">Department</th><th class="nosort">Faculty</th><th class="nosort">Type</th><th class="num nosort">FSI</th><th class="nosort">Status</th><th class="nosort">When</th><th class="num nosort">Hours</th><th class="nosort">Reflection</th></tr>`;
+  YY.forEach((y,i)=>{
+    const card=el("div",{class:"rec"});
+    const open=i<2; // most-recent two open by default
+    const fsiPill=y.avg_fsi!=null?`<span class="pill ${y.avg_fsi>=4.5?'green':y.avg_fsi>=4?'amber':'red'}" title="mean Faculty Satisfaction across this year's rated projects">avg FSI ${y.avg_fsi}</span>`:"";
+    const chips=Object.entries(y.dept_breakdown||{}).filter(([d])=>d!=="—").slice(0,8)
+      .map(([d,n])=>`<span class="pill gray" style="font-size:9.5px">${esc(d)} ·${n}</span>`).join(" ");
+    const deptLab=y.n_depts>0?` · ${y.n_depts} department${y.n_depts===1?'':'s'}`:"";
+    const projRows=y.projects.map(pr=>facProjRow(pr)).join("");
+    card.innerHTML=`<div class="rhd"><span class="ico">🗓️</span>
+       <div style="flex:1"><div class="rtitle">${y.year}</div>
+         <div class="rmeta"><span>${y.n} project${y.n>1?'s':''}${deptLab}</span> ${chips}</div></div>
+       ${fsiPill} <span class="pill navy">${y.year}</span></div>
+     <div class="rbody">
+       <table class="wrap"><thead>${FYHEAD}</thead><tbody>${projRows}</tbody></table>
+     </div>`;
+    if(open)card.classList.add("open");
+    card.querySelector(".rhd").onclick=()=>card.classList.toggle("open");
+    bd.appendChild(card);
+  });
+  // projects with no dates
+  if((meta.unknown||[]).length){
+    const det=el("details");det.style.margin="12px 0 0 0";
+    det.innerHTML=`<summary style="cursor:pointer;font-weight:600;font-size:13px">Projects without dates (${meta.unknown.length}) — can't be placed in a year</summary>`;
+    const t=el("div");t.style.margin="8px 0 0 0";
+    t.innerHTML=`<table class="wrap"><thead>${FYHEAD}</thead><tbody>${meta.unknown.map(pr=>facProjRow(pr)).join("")}</tbody></table>`;
+    det.appendChild(t);bd.appendChild(det);
+  }
+  p.appendChild(bd);c.appendChild(p);
+}
+function reflectionsFor(project){
+  const R=D.reflections||[];
+  return R.filter(r=>r.project===project);
+}
+function renderReflections(c){
+  const R=D.reflections||[];
+  if(!R.length)return;
+  const reports=R.filter(r=>r.type==="report"), surveys=R.filter(r=>r.type==="survey");
+  const p=el("div",{class:"panel"});
+  p.innerHTML=`<div class="hd"><h2>Faculty feedback &amp; reflection reports</h2><div class="desc">${reports.length} evaluation/retrospective reports + ${surveys.length} faculty survey responses from the Asana Impact Tracker — the basis for the faculty-feedback recommendations above. Links open the live Google Doc where available, otherwise the downloaded PDF.</div></div>`;
+  const bd=el("div",{class:"bd"});
+  const score=r=>((r.summary&&r.summary.length)||(r.takeaways&&r.takeaways.length)?0:1)+(r.project?0:0.5);
+  reports.sort((a,b)=>(score(a)-score(b))||(a.project||a.label).localeCompare(b.project||b.label));
+  reports.forEach(r=>{
+    const card=el("div",{class:"rec"});
+    const hasBody=(r.summary&&r.summary.length)||(r.takeaways&&r.takeaways.length);
+    card.innerHTML=`<div class="rhd"><span class="ico">📄</span>
+       <div style="flex:1"><div class="rtitle">${esc(r.project||r.label)}</div>
+         <div class="rmeta"><span class="pill gray">report</span>${r.project?"":`<span>${esc(r.label)}</span>`}
+           ${r.completion_rate?`<span>· completion ${esc(r.completion_rate)}</span>`:""}
+           <a href="${esc(r.doc_url||r.drive_url||r.rel)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${r.doc_url?"open report ↗":"open PDF ↗"}</a></div></div></div>
+       <div class="rbody">
+         ${(r.summary&&r.summary.length)?`<div style="margin:6px 0"><b>Summary / what faculty said</b><ul style="margin:6px 0 0 0;padding-left:18px">${r.summary.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div>`:""}
+         ${(r.takeaways&&r.takeaways.length)?`<div class="actionline" style="margin-top:8px"><b>Takeaways / action items</b><ul style="margin:6px 0 0 0;padding-left:18px">${r.takeaways.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div>`:""}
+         ${!hasBody?`<div class="muted small" style="margin:6px 0">No structured summary extracted — open the PDF for the full report.</div>`:""}
+       </div>`;
+    if(hasBody)card.querySelector(".rhd").onclick=()=>card.classList.toggle("open");
+    else card.querySelector(".rhd").style.cursor="default";
+    bd.appendChild(card);
+  });
+  if(surveys.length){
+    const det=el("details");det.style.marginTop="12px";
+    det.innerHTML=`<summary style="cursor:pointer;font-weight:600;font-size:13px">Faculty survey responses (${surveys.length}) — raw</summary>`;
+    const ul=el("div");ul.style.margin="8px 0 0 0";
+    surveys.sort((a,b)=>a.label.localeCompare(b.label));
+    ul.innerHTML=surveys.map(s=>`<div class="bar-row"><span class="ico">📝</span><div style="flex:1">${esc(s.label)}${s.project?` <span class="muted">— ${esc(s.project)}</span>`:""}</div><a href="${esc(s.doc_url||s.drive_url||s.rel)}" target="_blank" rel="noopener">open ↗</a></div>`).join("");
+    det.appendChild(ul);bd.appendChild(det);
+  }
+  p.appendChild(bd);c.appendChild(p);
+}
+
+/* ===================================================================== */
+/*  PLAN A PROJECT (what-if)                                            */
+/* ===================================================================== */
+function renderPlan(){
+  const c=$("#tab-plan"); c.innerHTML="";
+  c.appendChild(el("div",{class:"note"},`Model prospective projects against <b>current</b> capacity — everything already in flight is included, and the surplus comes straight from each team's live remaining capacity${LIVE?" (live from the workbook now)":", which refreshes whenever the plan is rebuilt or served live"}. A project's footprint per size is computed from <b>real recent projects</b>, not a frozen template, so the estimate tracks what projects actually cost now. Use the <b>estimator</b> to gauge how many new projects a season can absorb, and <b>stage</b> individual projects at <b>any</b> start month to see the month-by-month effect.`));
+  const sizes=sizeList();
+
+  // ---- estimator: how many can we take ----
+  const est=el("div",{class:"panel"});
+  est.innerHTML=`<div class="hd"><h2>How many projects can we take?</h2><div class="desc">Surplus capacity in a period (after current + staged work) ÷ the work one project needs, per team.</div></div>
+   <div class="bd">
+     <div class="editrow" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">
+       <div><label title="The per-team footprint of a project this size, computed from real recent projects (not the frozen workbook template).">Project size</label><select id="estSize">${sizes.map(s=>`<option>${s}</option>`).join("")}</select></div>
+       <div><label>From</label><select id="estFrom">${MONTHS.map(m=>`<option value="${m}">${mlabFull(m)}</option>`).join("")}</select></div>
+       <div><label>To</label><select id="estTo">${MONTHS.map(m=>`<option value="${m}">${mlabFull(m)}</option>`).join("")}</select></div>
+     </div>
+     <div id="estPresets" style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="muted small">Quick periods:</span></div>
+     <div id="estOut" style="margin-top:12px"></div>
+   </div>`;
+  c.appendChild(est);
+
+  // ---- stage a project ----
+  const p=el("div",{class:"panel"});
+  p.innerHTML=`<div class="hd"><h2>Stage a project</h2></div>
+   <div class="bd"><div class="editrow" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr))">
+     <div><label>Name</label><input type="text" id="planName" placeholder="New course…"></div>
+     <div><label title="The per-team footprint of a project this size, computed from real recent projects (not the frozen workbook template) — drives the capacity math below.">Project size</label><select id="planSize">${sizes.map(s=>`<option>${s}</option>`).join("")}</select></div>
+     <div><label>Start month</label><select id="planStart">${MONTHS.map(m=>`<option value="${m}" ${m===NOW?"selected":""}>${mlabFull(m)}</option>`).join("")}</select></div>
+     <div style="display:flex;align-items:flex-end"><button class="btn gold" id="planAdd">+ Stage project</button></div>
+   </div>
+   <div id="planProfile" class="muted small" style="margin-top:8px"></div></div>`;
+  c.appendChild(p);
+
+  const staged=el("div",{class:"panel"});
+  staged.innerHTML=`<div class="hd"><h2>Staged projects</h2><div class="spacer"></div><button class="btn ghost" id="planClear">Clear all</button></div><div class="bd" id="stagedBd"></div>`;
+  c.appendChild(staged);
+
+  const out=el("div",{class:"panel"});
+  out.innerHTML=`<div class="hd"><h2>Projected team allocation</h2><div class="desc">Existing scheduled load + staged projects, vs estimated capacity.</div></div><div class="bd" id="planOut"></div>`;
+  c.appendChild(out);
+
+  function showProfile(){
+    const sz=$("#planSize").value, prof=sizeProf(sz);
+    if(!prof){$("#planProfile").textContent="No staffing footprint available for this size.";return;}
+    const src=prof.source==="actual projects"?`computed from <b>${prof.n}</b> real ${esc(sz)} project${prof.n===1?'':'s'}`:`workbook template (too few real ${esc(sz)} projects)`;
+    const teams=Object.entries(prof.teams||{}).map(([t,v])=>`${esc(t)} ${round(v,1)}`).join(" · ");
+    $("#planProfile").innerHTML=`<b>${esc(sz)}</b> — ${round(prof.total_pts||0,1)} pts over ~${prof.months} months (peak ${round(prof.peak_monthly||0,1)} pts/mo), ${src}. Per team: ${teams||"—"}.`;
+  }
+  $("#planSize").onchange=showProfile; showProfile();
+  $("#planAdd").onclick=()=>{
+    const sz=$("#planSize").value,start=$("#planStart").value,name=$("#planName").value||`${sz} project`;
+    state.plan.push({name,size:sz,start}); $("#planName").value="";drawPlan();
+  };
+  $("#planClear").onclick=()=>{state.plan=[];drawPlan();};
+
+  // estimator wiring: preset period buttons + live recompute
+  const presets=planPresets(), ep=$("#estPresets");
+  presets.forEach(pr=>{const b=el("button",{class:"btn ghost"},pr.label);
+    b.onclick=()=>{$("#estFrom").value=pr.from;$("#estTo").value=pr.to;drawEstimate();};ep.appendChild(b);});
+  const def=presets[0]||{from:NOW,to:MONTHS[clampIdx(MONTHS.indexOf(NOW)+2)]};
+  $("#estFrom").value=def.from; $("#estTo").value=def.to;
+  ["estSize","estFrom","estTo"].forEach(id=>$("#"+id).onchange=drawEstimate);
+  drawPlan(); drawEstimate();
+}
+function planPresets(){
+  const lo=MONTHS[0], hi=MONTHS[MONTHS.length-1], clamp=m=>m<lo?lo:m>hi?hi:m;
+  const years=[...new Set(MONTHS.map(m=>+m.slice(0,4)))];
+  const defs=[];
+  years.forEach(y=>{defs.push({label:`Summer ${y}`,from:`${y}-06`,to:`${y}-08`});
+    defs.push({label:`Fall ${y}`,from:`${y}-08`,to:`${y}-12`});
+    defs.push({label:`Spring ${y}`,from:`${y}-01`,to:`${y}-05`});});
+  const ok=defs.filter(d=>!(d.to<lo||d.from>hi)).map(d=>({label:d.label,from:clamp(d.from),to:clamp(d.to)}));
+  ok.sort((a,b)=>a.from.localeCompare(b.from));
+  return ok.filter(d=>d.to>=NOW).concat(ok.filter(d=>d.to<NOW));  // current/future first
+}
+const PLAN_ORDER=["Design","Media","PM","Intern"];
+function planTeams(){ // teams that have a capacity row in scope
+  return PLAN_ORDER.filter(t=>D.capacity.remaining[t]&&Object.keys(D.capacity.remaining[t]).length);
+}
+function capacityEstimate(size,fromM,toM){
+  const prof=sizeProf(size); if(!prof) return null;
+  const months=MONTHS.filter(m=>m>=fromM&&m<=toM);
+  const staged=planAddedLoad();
+  // demand = each project's FULL per-team cost (not clipped to the window). The
+  // window's surplus is the spare capacity; dividing full cost by spare keeps the
+  // count monotonic in size — a long project's cost can't look "cheap" just
+  // because only its early months happen to land inside a short window.
+  const demand={};
+  PLAN_ORDER.forEach(t=>{
+    const arr=(prof.profile&&prof.profile[t])||[];
+    let d=0; for(let k=0;k<arr.length;k++) d+=arr[k]||0;
+    if(d>1e-9) demand[t]=d;
+  });
+  // every team with capacity OR real demand; a demand team with no capacity row
+  // gets surplus 0 and becomes binding, so the headline can't overstate.
+  const teams=PLAN_ORDER.filter(t=>(D.capacity.remaining[t]&&Object.keys(D.capacity.remaining[t]).length)||demand[t]>0);
+  const res={}; let K=Infinity, binding=null;
+  teams.forEach(t=>{
+    const rem=D.capacity.remaining[t]||{};
+    let surplus=0; months.forEach(m=>{const v=rem[m];
+      if(v!=null) surplus+=Math.max(0,v-((staged[t]||{})[m]||0));});
+    const dem=demand[t]||0, fits=dem>0?Math.floor(surplus/dem):null;
+    res[t]={surplus:round(surplus,1),demand:round(dem,1),fits};
+    if(dem>0&&fits<K){K=fits;binding=t;}
+  });
+  return {months,res,K:(K===Infinity?null:K),binding,teams};
+}
+function drawEstimate(){
+  if(!$("#estOut"))return;
+  const size=$("#estSize").value, fromM=$("#estFrom").value, toM=$("#estTo").value;
+  if(fromM>toM){$("#estOut").innerHTML=`<div class="muted">Set “From” no later than “To”.</div>`;return;}
+  const e=capacityEstimate(size,fromM,toM); if(!e){$("#estOut").innerHTML="";return;}
+  const teams=e.teams;
+  const rows=teams.map(t=>{const r=e.res[t];
+    return `<tr><td>${t}${t===e.binding?' <span class="pill amber">binding</span>':''}</td><td class="num">${r.surplus}</td><td class="num">${r.demand||'—'}</td><td class="num"><b>${r.fits==null?'—':r.fits}</b></td></tr>`;}).join("");
+  $("#estOut").innerHTML=`
+    <div class="card" style="display:inline-block;margin:0 0 12px">
+      <div class="k">Can absorb in ${mlabFull(fromM)} – ${mlabFull(toM)}</div>
+      <div class="v" style="color:${e.K===0?'#b02a2a':'#157a42'}">≈ ${e.K==null?'—':e.K} <span style="font-size:15px;font-weight:600;color:var(--muted)">more ${esc(size)} project${e.K===1?'':'s'}</span></div>
+      <div class="d">${e.binding?`limited by the <b>${e.binding}</b> team`:'no team constraint in the size profile'}${state.plan.length?` · after ${state.plan.length} staged`:''}</div>
+    </div>
+    <table><thead><tr><th class="nosort">Team</th><th class="num nosort">Surplus in period (pts)</th><th class="num nosort">Per ${esc(size)} project (pts)</th><th class="num nosort">Fits</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="legend" style="margin-top:8px"><span>Surplus = unused capacity summed over the period (after current + staged work) — straight from each team's live remaining capacity. Per-project demand is the <b>full</b> ${esc(size)} footprint (median total effort, PM included, split across teams by ODL's typical team mix). “Fits” = period surplus ÷ full project cost, so each project is counted at its whole cost against this window's spare capacity. A longer project actually spreads that cost over more months, so for short windows this is a conservative (lower-bound) count.</span></div>`;
+}
+function planAddedLoad(){ // returns {team:{month:pts}}
+  const add={Design:{},Media:{},PM:{},Intern:{},Other:{}};
+  state.plan.forEach(item=>{
+    const prof=sizeProf(item.size);if(!prof||!prof.profile)return;
+    const sIdx=MONTHS.indexOf(item.start);if(sIdx<0)return;
+    Object.entries(prof.profile).forEach(([team,arr])=>{
+      if(!add[team])add[team]={};
+      (arr||[]).forEach((v,k)=>{const mi=sIdx+k;if(mi<MONTHS.length&&v){const m=MONTHS[mi];add[team][m]=round((add[team][m]||0)+v,4);}});
+    });
+  });
+  return add;
+}
+function drawPlan(){
+  const bd=$("#stagedBd");
+  if(!state.plan.length)bd.innerHTML=`<div class="muted">Nothing staged yet.</div>`;
+  else{bd.innerHTML=state.plan.map((it,i)=>`<div class="bar-row"><div style="flex:1"><b>${esc(it.name)}</b> <span class="pill gray">${it.size}</span> <span class="muted">from ${mlabFull(it.start)}</span></div><button class="btn ghost" data-i="${i}">remove</button></div>`).join("");
+    bd.querySelectorAll("button[data-i]").forEach(b=>b.onclick=()=>{state.plan.splice(+b.getAttribute("data-i"),1);drawPlan();});}
+  // projection — start from the earliest staged month (so past starts show too)
+  const add=planAddedLoad();
+  const cap=D.capacity;
+  const startM=[NOW,...state.plan.map(it=>it.start).filter(Boolean)].sort()[0];
+  const months=MONTHS.filter(m=>m>=startM);
+  const teams=planTeams();
+  let warn=[];
+  let html=`<table><thead><tr><th class="nosort">Month</th>`+teams.map(t=>`<th class="num nosort">${t}</th>`).join("")+`</tr></thead><tbody>`;
+  months.forEach(m=>{
+    let cells="";
+    teams.forEach(t=>{
+      const est=cap.estimated[t][m]; const base=cap.scheduled[t][m]||0; const extra=add[t][m]||0;
+      const tot=base+extra; const p=est?tot/est:null;
+      const over=p!=null&&p>1.0;
+      if(over&&extra>0)warn.push(`${t} ${mlab(m)} → ${Math.round(p*100)}%`);
+      cells+=`<td class="num" title="${round(base,1)}+${round(extra,1)} / ${est==null?'?':round(est,1)}">`+
+        (extra>0?`<span style="color:${allocTextColor(p)};font-weight:700">${pct(p)}</span> <span class="muted">(+${round(extra,1)})</span>`:
+         `<span style="color:${allocTextColor(p)}">${pct(p)}</span>`)+`</td>`;
+    });
+    html+=`<tr><td>${mlabFull(m)}</td>${cells}</tr>`;
+  });
+  html+=`</tbody></table>`;
+  let banner = !state.plan.length?"":(warn.length?
+    `<div class="note" style="border-color:#f0c0c0;background:#fbe6e6;color:#8a2a2a">⚠ Staged work pushes capacity over 100% in: ${[...new Set(warn)].slice(0,12).join(", ")}${warn.length>12?"…":""}. Consider a later start, a smaller size, or adding staff.</div>`:
+    `<div class="note" style="border-color:#bfe3cc;background:#e6f6ec;color:#157a42">✓ All staged work fits within current estimated capacity for every team and month.</div>`);
+  $("#planOut").innerHTML=banner+html;
+  drawEstimate();   // staged projects change the surplus the estimator uses
+}
+
+/* ===================================================================== */
+/*  RECOMMENDATIONS TRACKER                                             */
+/* ===================================================================== */
+function renderRecs(){
+  const c=$("#tab-recs"); c.innerHTML="";
+  const all=recs();
+  c.appendChild(el("div",{class:"note",style:"border-color:#cdd9ea;background:#eef4fc"},
+    `<b>Ways we can improve our workflow and process.</b> Pulled automatically from the capacity model (who's over- or under-utilised, work that isn't staffed yet) and from what faculty told us in their reflection reports. Click an item to read the detail — and when the team acts on it, mark it <b>In progress</b> or <b>Done</b> and jot a note. Your marks save in this browser; use <b>Save our progress</b> to share the file with the team. The reflection reports are listed at the bottom.`));
+  // progress + save (the only controls — keep it simple)
+  const acted=all.filter(r=>r.status==="In Progress"||r.status==="Achieved").length;
+  const done=all.filter(r=>r.status==="Achieved").length;
+  const bar=el("div",{class:"toolbar"});
+  bar.appendChild(el("div",{style:"font-size:13px",html:`<b style="color:var(--green)">${done}</b> done · <b style="color:var(--blue)">${acted-done}</b> in progress · <b>${all.length-acted}</b> to do`}));
+  const sp=el("span");sp.style.flex="1";bar.appendChild(sp);
+  const save=el("button",{class:"btn ghost",title:"Download everyone's marks + notes as statuses.json to share / commit next to the dashboard"},"Save our progress ↓");save.onclick=exportStatuses;bar.appendChild(save);
+  const load=el("button",{class:"btn ghost",title:"Load a shared statuses.json into this browser"},"Load ↑");load.onclick=importStatuses;bar.appendChild(load);
+  c.appendChild(bar);
+  if(!STORAGE_OK)c.appendChild(el("div",{class:"note",style:"border-color:#f1d3d3;background:#fdf0f0"},`⚠ This browser is blocking local storage (common when opening the file directly) — your marks won't survive a reload, so <b>Save our progress</b> before closing, or open the dashboard from Canvas / the live server.`));
+  // group by theme so it reads as "here's what to improve", ordered most-actionable first
+  const ORDER=["capacity-person","capacity-team","capacity-unstaffed","faculty-feedback","post-project","on-hold","calibration","data-hygiene","data-quality","manual"];
+  const SEV={high:0,medium:1,low:2};
+  const groups={};
+  all.forEach(r=>{(groups[r.category]=groups[r.category]||[]).push(r);});
+  Object.keys(groups).sort((a,b)=>{const ai=ORDER.indexOf(a),bi=ORDER.indexOf(b);return (ai<0?99:ai)-(bi<0?99:bi);}).forEach(cat=>{
+    const items=groups[cat].sort((a,b)=>(SEV[a.severity]-SEV[b.severity])||a.title.localeCompare(b.title));
+    c.appendChild(el("h3",{class:"rec-group"},`${CATICON[cat]||"•"} ${esc(CATLABEL[cat]||cat)} <span class="muted" style="font-weight:400;font-size:13px">· ${items.length}</span>`));
+    items.forEach(r=>c.appendChild(recCard(r)));
+  });
+  renderReflections(c);   // the reflection reports & surveys the faculty items draw on
+}
+function kpiCard(k,v,d,col){const e=el("div",{class:"card kpi"});e.innerHTML=`<div class="k">${esc(k)}</div><div class="v" ${col?`style="color:${col}"`:""}>${v}</div><div class="d">${esc(d||"")}</div>`;return e;}
+function filterSelect(key,label,opts){
+  const wrap=el("span");wrap.appendChild(el("label",{},label));
+  const s=el("select");s.innerHTML=opts.map(o=>`<option value="${esc(o)}" ${state.recFilter[key]===o?"selected":""}>${o==="all"?"All":esc(key==="category"&&typeof CATLABEL!=="undefined"?(CATLABEL[o]||o):o)}</option>`).join("");
+  s.onchange=e=>{state.recFilter[key]=e.target.value;drawRecList();};wrap.appendChild(s);return wrap;
+}
+function drawRecList(){
+  const f=state.recFilter; let list=recs();
+  list=list.filter(r=>(f.status==="all"||r.status===f.status)&&(f.category==="all"||r.category===f.category)
+    &&(f.severity==="all"||r.severity===f.severity)
+    &&(!f.q||((r.title+" "+(r.detail||"")+" "+(r.scope||"")).toLowerCase().includes(f.q.toLowerCase()))));
+  const SEV={high:0,medium:1,low:2},ST={"Not Started":0,"In Progress":1,"Achieved":3,"Dismissed":4};
+  list.sort((a,b)=>(ST[a.status]-ST[b.status])||(SEV[a.severity]-SEV[b.severity])||a.title.localeCompare(b.title));
+  const wrap=$("#recList");wrap.innerHTML="";
+  if(!list.length){wrap.innerHTML=`<div class="muted" style="padding:20px">No recommendations match.</div>`;return;}
+  list.forEach(r=>wrap.appendChild(recCard(r)));
+}
+const CATICON={"capacity-team":"⚖️","capacity-person":"🧑","capacity-unstaffed":"🪑","post-project":"📝","on-hold":"⏸️","calibration":"🎯","data-hygiene":"🧹","data-quality":"🔍","faculty-feedback":"💬","manual":"✍️"};
+const CATLABEL={"capacity-team":"Capacity — team","capacity-person":"Capacity — person","capacity-unstaffed":"Unstaffed work","post-project":"Post-project report","on-hold":"On hold","calibration":"Estimation","data-hygiene":"Data hygiene","data-quality":"Data quality","faculty-feedback":"From a reflection report","manual":"Manual"};
+const STATUS_LABEL={"Not Started":"To do","In Progress":"In progress","Achieved":"Done","Dismissed":"Won't do"};
+const RECOPEN={};  // remembers which rec cards are expanded across re-renders
+function recCard(r){
+  // read what to improve; when the team acts on it, mark it + add a note (simple,
+  // clearly-labelled — no owner/target/evidence clutter).
+  const card=el("div",{class:"rec sev-"+r.severity+(RECOPEN[r.id]?" open":"")});
+  const st=r.status||"Not Started";
+  const showPill=st!=="Not Started";
+  card.innerHTML=`<div class="rhd">
+     <span class="ico">${CATICON[r.category]||"•"}</span>
+     <div style="flex:1">
+       <div class="rtitle">${esc(r.title)}</div>
+       ${r.scope&&r.scope_type!=="global"?`<div class="rmeta"><b>${esc(r.scope)}</b></div>`:""}
+     </div>
+     ${showPill?`<span class="pill ${statusPill(st)}">${esc(STATUS_LABEL[st]||st)}</span>`:""}
+     <span class="caret" aria-hidden="true">▸</span>
+   </div>
+   <div class="rbody">
+     <p style="margin:8px 0 0">${esc(r.detail||"")}</p>
+     ${r.suggested_action?`<div class="actionline"><b>What to do:</b> ${esc(r.suggested_action)}</div>`:""}
+     ${r.doc_url?`<div class="small" style="margin:8px 0 0"><a href="${esc(r.doc_url)}" target="_blank" rel="noopener">📄 Open the reflection report ↗</a></div>`:""}
+     <div class="track">
+       <div class="tlabel">Have we acted on this?</div>
+       <div class="statusbar" data-id="${esc(r.id)}">
+         ${[["Not Started","To do"],["In Progress","In progress"],["Achieved","Done"]].map(([v,lab])=>`<button data-s="${v}" class="${st===v?"on "+v.split(" ")[0].slice(0,3):""}">${lab}</button>`).join("")}
+       </div>
+       <label class="tnote">Notes — what we did or decided
+         <textarea data-fld="notes" rows="2" placeholder="e.g. raised at the 7/1 meeting; Bri is taking it on">${esc(r.notes||"")}</textarea>
+       </label>
+       ${r.updated_at?`<div class="muted small" style="margin-top:5px">Updated ${esc(r.updated_at)}${r.updated_by?" by "+esc(r.updated_by):""}</div>`:""}
+     </div>
+   </div>`;
+  card.querySelector(".rhd").onclick=()=>{const willOpen=!card.classList.contains("open");card.classList.toggle("open");RECOPEN[r.id]=willOpen;};
+  card.querySelectorAll(".statusbar button").forEach(b=>b.onclick=ev=>{
+    ev.stopPropagation(); ensureUser();
+    saveRec(r.id,{status:b.getAttribute("data-s")}); render();   // RECOPEN keeps this card open
+  });
+  card.querySelectorAll("[data-fld]").forEach(inp=>{
+    inp.onclick=e=>e.stopPropagation();
+    inp.onchange=()=>{ensureUser();saveRec(r.id,{[inp.getAttribute("data-fld")]:inp.value});};
+  });
+  return card;
+}
+function ensureUser(){if(!LS.user()){const u=prompt("Your name or initials (saved for the 'updated by' field):","");if(u)LS.setUser(u.trim());}}
+function showAddForm(){
+  const p=$("#addPanel");p.classList.remove("hide");
+  p.innerHTML=`<div class="hd"><h2>Add a manual recommendation</h2></div><div class="bd">
+    <div class="editrow"><div><label>Title *</label><input type="text" id="naTitle"></div>
+      <div><label>Severity</label><select id="naSev"><option>medium</option><option>high</option><option>low</option></select></div>
+      <div><label>Scope type</label><select id="naST"><option>global</option><option>team</option><option>person</option><option>project</option></select></div>
+      <div><label>Scope</label><input type="text" id="naScope" placeholder="e.g. Media / Bri / project"></div></div>
+    <div class="editrow" style="grid-template-columns:1fr"><div><label>Detail</label><textarea id="naDetail" rows="2"></textarea></div></div>
+    <div class="editrow" style="grid-template-columns:1fr"><div><label>Suggested action</label><input type="text" id="naAction"></div></div>
+    <div style="margin-top:10px;display:flex;gap:8px"><button class="btn gold" id="naSave">Add</button><button class="btn ghost" id="naCancel">Cancel</button></div>
+    <div class="muted small" style="margin-top:6px">Manual recommendations are stored in this browser. Use “Export status” + the <code>recommendations_manual.json</code> file to share them with the team.</div></div>`;
+  $("#naCancel").onclick=()=>p.classList.add("hide");
+  $("#naSave").onclick=()=>{
+    const title=$("#naTitle").value.trim();if(!title){alert("Title required");return;}
+    const id="manual-"+title.toLowerCase().replace(/[^a-z0-9]+/g,"-").slice(0,48)+"-"+Math.random().toString(36).slice(2,6);
+    const rec={id,title,severity:$("#naSev").value,scope_type:$("#naST").value,scope:$("#naScope").value,
+      detail:$("#naDetail").value,suggested_action:$("#naAction").value,source:"manual",category:"manual"};
+    const m=LS.manual();m.push(rec);LS.setManual(m);p.classList.add("hide");render();
+  };
+}
+function exportStatuses(){
+  // build statuses.json: every rec id -> tracked fields (baked + local edits)
+  const out={};
+  recs().forEach(r=>{out[r.id]={status:r.status,owner:r.owner||"",target_month:r.target_month||"",
+    notes:r.notes||"",evidence_url:r.evidence_url||"",updated_at:r.updated_at||"",updated_by:r.updated_by||"",
+    first_seen:r.first_seen||TODAY};});
+  download("statuses.json",JSON.stringify(out,null,1));
+  // also export any locally-added manual recs if present
+  const localManual=LS.manual();
+  if(localManual.length){
+    const baked=new Set(D.recommendations.filter(r=>r.source==="manual").map(r=>r.id));
+    const merged=D.recommendations.filter(r=>r.source==="manual").map(r=>({id:r.id,title:r.title,detail:r.detail,severity:r.severity,category:r.category,scope_type:r.scope_type,scope:r.scope,suggested_action:r.suggested_action,metric:r.metric}))
+      .concat(localManual.filter(r=>!baked.has(r.id)));
+    setTimeout(()=>download("recommendations_manual.json",JSON.stringify(merged,null,1)),350);
+  }
+}
+function importStatuses(){
+  const inp=el("input",{type:"file",accept:"application/json"});
+  inp.onchange=e=>{const file=e.target.files[0];if(!file)return;const fr=new FileReader();
+    fr.onload=()=>{try{const obj=JSON.parse(fr.result);let n=0;
+      for(const id in obj){LS.setEdit(id,obj[id]);n++;}alert(`Imported ${n} statuses into this browser.`);render();}
+      catch(err){alert("Could not parse JSON: "+err);}};fr.readAsText(file);};
+  inp.click();
+}
+function download(name,text){const b=new Blob([text],{type:"application/json"});const u=URL.createObjectURL(b);
+  const a=el("a",{href:u,download:name});document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);}
+
+/* ===================================================================== */
+/*  DRAWER                                                              */
+/* ===================================================================== */
+let _drawerReturnFocus=null;
+function drawer(title,subtitle,bodyHtml){
+  const d=$("#drawer");
+  _drawerReturnFocus=document.activeElement;
+  d.innerHTML=`<div class="dhd"><div style="flex:1"><h2 id="drawerTitle">${esc(title)}</h2><div class="small" style="color:#c8d2e0">${subtitle||""}</div></div><button class="x" aria-label="Close" onclick="closeDrawer()">×</button></div><div class="dbd">${bodyHtml}</div>`;
+  d.classList.add("show");$("#drawerBg").classList.add("show");
+  d.focus();
+}
+function closeDrawer(){
+  $("#drawer").classList.remove("show");$("#drawerBg").classList.remove("show");
+  if(_drawerReturnFocus&&_drawerReturnFocus.focus){_drawerReturnFocus.focus();_drawerReturnFocus=null;}
+}
+window.closeDrawer=closeDrawer;
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closeDrawer();
+  // simple focus trap while the drawer is open
+  if(e.key==="Tab"){const d=$("#drawer");if(!d.classList.contains("show"))return;
+    const f=d.querySelectorAll('a[href],button,input,select,textarea,[tabindex]:not([tabindex="-1"])');
+    if(!f.length)return;const first=f[0],last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}
+});
+
+/* ===================================================================== */
+/*  BOOT                                                                */
+/* ===================================================================== */
+function buildMonthPickers(){
+  const f=$("#fromMonth"),t=$("#toMonth");
+  f.innerHTML=MONTHS.map((m,i)=>`<option value="${i}" ${i===state.from?"selected":""}>${mlabFull(m)}</option>`).join("");
+  t.innerHTML=MONTHS.map((m,i)=>`<option value="${i}" ${i===state.to?"selected":""}>${mlabFull(m)}</option>`).join("");
+  f.onchange=e=>{state.from=clampIdx(+e.target.value);if(state.from>state.to)state.to=state.from;buildMonthPickers();render();};
+  t.onchange=e=>{state.to=clampIdx(+e.target.value);if(state.to<state.from)state.from=state.to;buildMonthPickers();render();};
+}
+function boot(){
+  $("#prov").innerHTML=`Workbook: ${esc(D.meta.source_xlsx)}<br>Asana snapshot: ${esc(D.meta.asana_snapshot_date||"n/a")} · built ${esc((D.meta.generated_at||"").slice(0,10))}`;
+  $("#foot").innerHTML=`ODL Capacity &amp; Performance · data from the capacity workbook + Asana snapshot (${esc(D.meta.asana_snapshot_date||"")}) · 1 point = ${PH}h, ${FULL} points/month = full load · figures recomputed from the Projects tab.`;
+  $$("#unitSeg button").forEach(b=>b.onclick=()=>{state.unit=b.getAttribute("data-u");$$("#unitSeg button").forEach(x=>x.classList.toggle("active",x===b));render();});
+  $("#btnRefresh").onclick=()=>tryLive(true);
+  $("#btnSync").onclick=()=>syncAsana();
+  setLiveBadge();
+  buildMonthPickers();
+  const h=location.hash.slice(1);if(TABS.some(t=>t[0]===h))state.tab=h;
+  render();
+  // upgrade the baked snapshot to live numbers when a local server is present;
+  // silently keeps the snapshot when opened as a plain file (offline).
+  tryLive(false);
+}
+boot();
+</script>
+</body>
+</html>

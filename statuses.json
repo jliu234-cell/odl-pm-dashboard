@@ -1,0 +1,272 @@
+{
+ "person-under-annie": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "person-under-derrick": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "person-under-kuangchen": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "data-nocap-mariana": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "data-nocap-tessa": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "person-under-yi": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "unstaffed-media": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "hold-1207728646026750": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "report-1208878713359040": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "report-1208963580488220": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "report-1209213189516073": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "report-1211900373500710": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "report-1212638028070139": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "report-1212627165986472": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "hold-1207760971753709": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "impact-1207942229848224": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": false
+ },
+ "report-1209298164735103": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "impact-1209417474929053": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": false
+ },
+ "impact-1209679644127773": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": false
+ },
+ "hold-1209741238247552": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "report-1211134268245785": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "report-1211489930659695": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "impact-1212660352662527": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": false
+ },
+ "hold-1212660352662527": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "impact-1213393701257435": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": false
+ },
+ "report-1213393701257435": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "impact-1213551317973102": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": false
+ },
+ "impact-1214783923511446": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": false
+ },
+ "impact-1214795652576790": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": false
+ },
+ "calib-size": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "hygiene-drift": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "manual-cif-video-reshoot": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "manual-asana-enterprise": {
+  "status": "Not Started",
+  "first_seen": "2026-06-15",
+  "_active": true
+ },
+ "faculty-fb-ace-ascent-program": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-calc-1-summer-online": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-sprints-2024-conveying-data-visual-insights": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-sprint-2025-critical-thinking-ai-tutor": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-sprints-2024-parent-empowerment": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-pie-spiritual-reflection": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-ai-video-nathaniel-myers": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-xr-carbon-neutral-development": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-ugandan-immersion": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-writing-in-the-age-of-ai": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-ai-for-the-nd-community-course": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-sprint-2025-bringing-korean-to-life": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-sprint-2025-visualizing-success-lab-prep": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-ms-acms-faculty-videos": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-sprint-2025-statistics-flipped-classroom": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-study-abroad-101-intern-project": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": false
+ },
+ "faculty-fb-sprint-2025-integrating-ai-and-llms-for-fin-and-": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-ai-video-ardeo-russo": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-msan-ii": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-study-abroad-canvas-redesign": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ },
+ "faculty-fb-the-quran-the-bible": {
+  "status": "Not Started",
+  "first_seen": "2026-06-17",
+  "_active": true
+ }
+}

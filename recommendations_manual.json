@@ -1,0 +1,24 @@
+[
+ {
+  "id": "manual-cif-video-reshoot",
+  "title": "Reshoot CIF Video with a female professor",
+  "detail": "Ron wants to reshoot the CIF Video with a female professor instead of Nathaniel. Small effort, but needs scheduling and a producer.",
+  "severity": "low",
+  "category": "manual",
+  "scope_type": "project",
+  "scope": "CIF Video",
+  "suggested_action": "Confirm faculty availability, slot a half-day shoot, assign a media producer.",
+  "metric": "small effort"
+ },
+ {
+  "id": "manual-asana-enterprise",
+  "title": "Build out Asana Enterprise",
+  "detail": "Stand up the Asana Enterprise configuration (estimated 16h Michael, 8h Annie).",
+  "severity": "medium",
+  "category": "manual",
+  "scope_type": "global",
+  "scope": "Operations",
+  "suggested_action": "Schedule the 24h of PM time and define the rollout checklist.",
+  "metric": "24h PM"
+ }
+]

@@ -1,0 +1,66 @@
+{
+  "_readme": "Manual weekly inputs for the Director Brief tab. Edit this file (or via the pipeline) and re-run build.py. The brief's other sections (Top 5, Projects needing attention, Phase congestion, YTD stats, Estimate vs actual, Recommendations progress, derived wins/round-up candidates) are AUTO-DERIVED from the workbook + Asana snapshot and do NOT live here.",
+
+  "ops": {
+    "timesheet_compliance_pct": null,
+    "timesheet_as_of": "",
+    "_note": "Set timesheet_compliance_pct to the team's current timesheet-submission rate (0-100). We don't pull this automatically yet, so it's a manual number for now. Leave null to show 'not tracked yet'."
+  },
+
+  "intake": [
+    {
+      "name": "I CAN HELP Module – Faculty",
+      "requestor": "Jessica Reyes",
+      "description": "We would like to take the basic structure of the ICH module we just created with ODL for students and adjust it into a faculty module. We would also like to explore the best platform for hosting the content. We partner with University Counseling Center on this project and we would like to host the module in the same place they host the faculty toolkit (Kaneb Center site).",
+      "received": ""
+    },
+    {
+      "name": "Digital Learning Suite for Talk With Your Baby – Robinson Community Learning Center",
+      "requestor": "Carmen Macharaschwili",
+      "description": "I am tasked with the following grant project outcome: the creation of a suite of digital resources utilized by both parents and early care providers for further education and to support the acquisition of core capacities that promote brain and language development in babies and young children. Performance Indicators: through a well-trafficked website serving as a hub of information in Indiana, both parents and providers will be able to access user-friendly, high-quality learning tools, as evidenced by the creation of: 12 \"how-to\" videos modeling core capacities in action; a repository of research briefs and user-friendly fact sheets; a texting mechanism for pushing out research-based tips; and an open-access unit of study for institutions preparing future teachers and providers. I would like a consultation about how to get started in the creation of a website, and recommendations for software and organization of this project. Perhaps this becomes a partnership?",
+      "received": ""
+    }
+  ],
+
+  "running_notes": {
+    "_note": "Pasted from the weekly 'ODL Running Team Meeting Agenda' Google Doc (https://docs.google.com/document/d/1xsMLy6eGWC_4XliPNalx3GgKvQeQQCrBMFtV8eXZCt8). Take the latest meeting's Shoutouts + Project Updates. Refresh weekly. This feeds 'Wins & momentum' AND the 'Round-up draft' tab.",
+    "meeting_date": "2026-06-22",
+    "shoutouts": [
+      "Kuangchen for responding to Summer Online questions while he was out",
+      "Bri and Carlos on a great D&D session",
+      "Bri on crushing a last-minute request for a session in the ND Learning team meeting",
+      "Annie, Matthew, and Kuangchen on handing off two ASCEND projects last week",
+      "KC, Kevin, and Derrick for traveling to Jackson College to check out the digital lightboard",
+      "Sonia and Yi for responding to Summer Online questions"
+    ],
+    "project_updates": [
+      "Asana Enterprise is here and being configured",
+      "Everyone submitted their timesheets"
+    ],
+    "celebrations": [
+      "Yi's birthday (June 24)",
+      "Michael's 2-year ODL anniversary (June 24)",
+      "Kevin's 2-year ODL anniversary (July 1)",
+      "Colin's birthday (July 5)",
+      "Annie's birthday (July 15)"
+    ]
+  },
+
+  "wins": [
+    {
+      "_example": "Optional extra freeform wins beyond the shout-outs above (status-update highlights, etc.). Delete this example when adding real ones.",
+      "text": "",
+      "who": "",
+      "source": "",
+      "date": ""
+    }
+  ],
+
+  "roundup": [
+    {
+      "_example": "Optional: curated ND Learning round-up story drafts that should appear in addition to (or instead of) the auto-derived candidates. Delete this example when adding real ones.",
+      "project": "",
+      "blurb": ""
+    }
+  ]
+}

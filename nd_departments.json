@@ -1,0 +1,356 @@
+{
+ "_meta": {
+  "generated_by": "nd-department-enrich workflow (46 web-research agents, nd.edu sourced)",
+  "note": "department_context blurbs + project_dept inferences; every entry carries a source URL and confidence. Conservative: only confidence>=medium project depts kept."
+ },
+ "department_context": {
+  "ACE": {
+   "official_name": "Alliance for Catholic Education (ACE)",
+   "college": "Institute for Educational Initiatives",
+   "blurb": "A University of Notre Dame initiative that sustains and strengthens under-resourced Catholic K-12 schools by forming teachers and leaders.",
+   "source": "https://ace.nd.edu/about",
+   "confidence": "high"
+  },
+  "Architecture": {
+   "official_name": "University of Notre Dame School of Architecture",
+   "college": "",
+   "blurb": "A free-standing professional school at Notre Dame offering degrees in architecture with a focus on classical and traditional design and urbanism.",
+   "source": "https://architecture.nd.edu/about/",
+   "confidence": "high"
+  },
+  "Arts and Letters": {
+   "official_name": "College of Arts & Letters",
+   "college": "University of Notre Dame",
+   "blurb": "Notre Dame's oldest and largest college, offering humanities, arts, and social science programs across about 19 departments.",
+   "source": "https://al.nd.edu/about/",
+   "confidence": "high"
+  },
+  "CSE": {
+   "official_name": "Department of Computer Science and Engineering",
+   "college": "College of Engineering",
+   "blurb": "The University of Notre Dame's department offering degrees in computer science and computer engineering within the College of Engineering.",
+   "source": "https://cse.nd.edu/",
+   "confidence": "high"
+  },
+  "Data Science": {
+   "official_name": "Master of Science in Data Science",
+   "college": "College of Science",
+   "blurb": "Notre Dame's online M.S. in Data Science program, taught by faculty across multiple departments, completed in 21 months.",
+   "source": "https://datascience.nd.edu/",
+   "confidence": "high"
+  },
+  "Engineering": {
+   "official_name": "College of Engineering",
+   "college": "College of Engineering",
+   "blurb": "Notre Dame's engineering school, established in 1897, with five departments spanning aerospace/mechanical, chemical, civil, computer, and electrical engineering.",
+   "source": "https://catalog.nd.edu/undergraduate/engineering/",
+   "confidence": "high"
+  },
+  "Global Health": {
+   "official_name": "Eck Institute for Global Health",
+   "college": "Notre Dame Research (university-wide institute; M.S. degree administered via the College of Science)",
+   "blurb": "A university-wide Notre Dame institute, founded in 2010, that conducts research, education, and service addressing global health disparities.",
+   "source": "https://globalhealth.nd.edu/about/",
+   "confidence": "high"
+  },
+  "Institute for Educational Initiatives (IEI)": {
+   "official_name": "Institute for Educational Initiatives",
+   "college": "College of Arts and Letters",
+   "blurb": "A University of Notre Dame institute supporting K-12 education research, teaching, and service, with attention to Catholic schools.",
+   "source": "https://iei.nd.edu/",
+   "confidence": "high"
+  },
+  "Law School": {
+   "official_name": "Notre Dame Law School",
+   "college": "University of Notre Dame",
+   "blurb": "The University of Notre Dame's law school, established in 1869, granting Juris Doctor and other law degrees.",
+   "source": "https://law.nd.edu/",
+   "confidence": "high"
+  },
+  "Lucy": {
+   "official_name": "Lucy Family Institute for Data and Society",
+   "college": "",
+   "blurb": "A university-wide Notre Dame research institute advancing data science and AI convergence research, solutions, and education.",
+   "source": "https://lucyinstitute.nd.edu/about-the-lucy-institute/",
+   "confidence": "high"
+  },
+  "MSAN": {
+   "official_name": "Master of Science in Business Analytics (MSBA)",
+   "college": "Mendoza College of Business",
+   "blurb": "A one-year STEM-designated graduate degree at Mendoza teaching statistics, machine learning, and data analytics for business decisions.",
+   "source": "https://mendoza.nd.edu/graduate-programs/business-analytics-msba/",
+   "confidence": "medium"
+  },
+  "Math": {
+   "official_name": "Department of Mathematics",
+   "college": "College of Science",
+   "blurb": "The Department of Mathematics offers undergraduate and graduate degrees and conducts research in pure and applied mathematics.",
+   "source": "https://math.nd.edu/",
+   "confidence": "high"
+  },
+  "Math and Engineering": {
+   "official_name": "Mathematics and Engineering Science Program (Department of Mathematics)",
+   "college": "College of Science",
+   "blurb": "An undergraduate concentration in Notre Dame's Department of Mathematics for students interested in applied or industrial mathematics.",
+   "source": "https://math.nd.edu/undergraduate/degrees/",
+   "confidence": "high"
+  },
+  "Mendoza": {
+   "official_name": "Mendoza College of Business",
+   "college": "University of Notre Dame",
+   "blurb": "The University of Notre Dame's business school, offering undergraduate, MBA, specialized master's, and PhD programs.",
+   "source": "https://mendoza.nd.edu",
+   "confidence": "high"
+  },
+  "Music": {
+   "official_name": "Department of Music",
+   "college": "College of Arts & Letters",
+   "blurb": "The University of Notre Dame's academic department for the study, scholarship, and performance of music.",
+   "source": "https://music.nd.edu/about/",
+   "confidence": "high"
+  },
+  "ND Learning": {
+   "official_name": "Notre Dame Learning",
+   "college": "",
+   "blurb": "University unit advancing teaching and learning, housing the Kaneb Center for Teaching Excellence and the Office of Digital Learning.",
+   "source": "https://learning.nd.edu/about/",
+   "confidence": "high"
+  },
+  "NEON": {
+   "official_name": "National Education Opportunity Network (NEON)",
+   "college": "Notre Dame Learning / Office of Digital Learning (ODL)",
+   "blurb": "An external network Notre Dame's Office of Digital Learning partners with to deliver online credit-bearing courses to Title I high school students.",
+   "source": "https://learning.nd.edu/news/notre-dame-receives-aws-grant-to-enhance-ai-access-in-neon-partner-high-schools/",
+   "confidence": "high"
+  },
+  "Philosophy": {
+   "official_name": "Department of Philosophy",
+   "college": "College of Arts and Letters",
+   "blurb": "An academic department in Notre Dame's College of Arts and Letters offering undergraduate and graduate study in philosophy.",
+   "source": "https://philosophy.nd.edu/",
+   "confidence": "high"
+  },
+  "ResLife": {
+   "official_name": "Office of Residential Life",
+   "college": "Division of Student Affairs",
+   "blurb": "Notre Dame office that manages and supports the university's undergraduate residence hall communities and on-campus housing.",
+   "source": "https://residentiallife.nd.edu/",
+   "confidence": "high"
+  },
+  "Science": {
+   "official_name": "College of Science",
+   "college": "University of Notre Dame",
+   "blurb": "A college at the University of Notre Dame comprising departments in mathematics, statistics, chemistry, biology, physics, and preprofessional studies.",
+   "source": "https://science.nd.edu/about/",
+   "confidence": "high"
+  },
+  "Theology": {
+   "official_name": "Department of Theology",
+   "college": "College of Arts and Letters",
+   "blurb": "The academic department at Notre Dame offering theology degrees and teaching core-curriculum theology courses.",
+   "source": "https://theology.nd.edu/",
+   "confidence": "high"
+  },
+  "Writing Faculty": {
+   "official_name": "University Writing Program",
+   "college": "College of Arts and Letters",
+   "blurb": "Notre Dame program offering writing courses, tutoring, and a Writing Center to help students develop writing skills.",
+   "source": "https://writing.nd.edu/",
+   "confidence": "high"
+  }
+ },
+ "project_dept": {
+  "Digital Learning Sprints >> VR for Peace Building Pilot": {
+   "dept": "Keough",
+   "college": "Keough School of Global Affairs",
+   "faculty": "Prof. Lisa Schirch",
+   "source": "https://keough.nd.edu/about/faculty-staff-directory/lisa-schirch/",
+   "confidence": "high",
+   "reasoning": "nd.edu profile lists Schirch as Professor of the Practice of Peace Studies in the Keough School (Kroc Institute core faculty), matching the Peacebuilding class context."
+  },
+  "Equity XR Project": {
+   "dept": "ND Learning",
+   "college": "Notre Dame Learning",
+   "faculty": "Dr. Horane Diatta-Holgate",
+   "source": "https://learning.nd.edu/about/team-bios/horane-holgate/",
+   "confidence": "high",
+   "reasoning": "First-listed Brent Fragnoli is non-academic staff (Center for Student Support and Care); Diatta-Holgate is an assistant teaching professor in Notre Dame Learning's Kaneb Center for Teaching Excellence, matching the inclusive/immersive XR learning context."
+  },
+  "Force for Good Video Project": {
+   "dept": "Sociology",
+   "college": "Arts and Letters",
+   "faculty": "Prof. Erin McDonnell (Erin Metz McDonnell)",
+   "source": "https://sociology.nd.edu/people/erin-mcdonnell/",
+   "confidence": "high",
+   "reasoning": "nd.edu Sociology faculty page lists her as Kellogg Associate Professor of Sociology, College of Arts and Letters."
+  },
+  "Study Abroad Canvas Redesign": {
+   "dept": "Notre Dame Global",
+   "college": "Office of the Provost (administrative, not an academic college)",
+   "faculty": "Kayla Laureano, Senior Assistant Director, Study Abroad (Notre Dame Global)",
+   "source": "https://global.nd.edu/about/people/kayla-laureano/",
+   "confidence": "high",
+   "reasoning": "Listed person is administrative staff in Notre Dame Global (a university-wide admin office under the Provost), not academic faculty; no academic department applies."
+  },
+  "AMR Modules Project": {
+   "dept": "Engineering",
+   "college": "College of Engineering",
+   "faculty": "Prof. Kyle Bibby",
+   "source": "https://engineering.nd.edu/faculty/kyle-bibby/",
+   "confidence": "high",
+   "reasoning": "Kyle Bibby's nd.edu profile is under the College of Engineering, Dept. of Civil & Environmental Engineering & Earth Sciences."
+  },
+  "Art Song": {
+   "dept": "Music",
+   "college": "Arts and Letters",
+   "faculty": "Prof. Stephen Lancaster",
+   "source": "https://music.nd.edu/people/faculty/stephen-lancaster/",
+   "confidence": "high",
+   "reasoning": "His nd.edu profile lists him as Professor of the Practice, Voice in the Department of Music (College of Arts and Letters), matching the project's \"Department of Music\" context."
+  },
+  "Coding Fundamentals": {
+   "dept": "Mendoza",
+   "college": "Mendoza College of Business",
+   "faculty": "Dr. Frederick Nwanganga",
+   "source": "https://mendoza.nd.edu/research-and-faculty/directory/frederick-nwanganga/",
+   "confidence": "high",
+   "reasoning": "Mendoza directory confirms Nwanganga is Associate Teaching Professor in IT, Analytics & Operations; teaches Coding Fundamentals with Python."
+  },
+  "College BouND": {
+   "dept": "Philosophy",
+   "college": "Arts and Letters",
+   "faculty": "Course content created by Prof. Don Howard (Philosophy); the listed Paul Mueller is an administrator (Pre-College Programs/Enrollment Strategy), and Cheng/Chawla are Lucy Family Institute staff.",
+   "source": "https://philosophy.nd.edu/people/faculty/don-howard/",
+   "confidence": "medium",
+   "reasoning": "Listed people are admin/institute staff; the College BouND course (Technology and Innovation Ethics) being redesigned was created by ND Philosophy faculty Don Howard (Arts and Letters)."
+  },
+  "CST Explainer Video": {
+   "dept": "Institute for Social Concerns",
+   "college": "Provost / Academic Affairs (University-level institute)",
+   "faculty": "Center for Social Concerns at Notre Dame (now Institute for Social Concerns) — center/institute, no named individual",
+   "source": "https://news.nd.edu/news/renamed-institute-for-social-concerns-reflects-expanded-research-teaching-and-partnerships/",
+   "confidence": "medium",
+   "reasoning": "No individual listed; the Center (renamed Institute) for Social Concerns is a University-level interdisciplinary institute reporting via the Provost (VP/Assoc. Provost Maura Ryan), not housed in one college."
+  },
+  "Data for Development": {
+   "dept": "Keough",
+   "college": "Keough School of Global Affairs",
+   "faculty": "Pulte Institute for Global Development",
+   "source": "https://pulte.nd.edu/about/",
+   "confidence": "high",
+   "reasoning": "No individual professor listed; Pulte Institute is the ND entity, confirmed on nd.edu as part of the Keough School of Global Affairs (Chemonics/Everspring are external)."
+  },
+  "Eck Entomology Modules Project": {
+   "dept": "Biological Sciences",
+   "college": "College of Science",
+   "faculty": "Nicole Achee",
+   "source": "https://biology.nd.edu/people/nicole-achee/",
+   "confidence": "high",
+   "reasoning": "Nicole Achee's nd.edu biology profile lists her home dept as Biological Sciences (College of Science), with a joint Eck Institute appointment; fits the entomology training course."
+  },
+  "Gen Chem": {
+   "dept": "Chemistry",
+   "college": "College of Science",
+   "faculty": "Susan del Valle",
+   "source": "https://chemistry.nd.edu/people/susan-del-valle/",
+   "confidence": "high",
+   "reasoning": "nd.edu profile lists del Valle as Associate Teaching Professor in Chemistry & Biochemistry, researching general chemistry course materials."
+  },
+  "IEI": {
+   "dept": "Institute for Educational Initiatives (IEI)",
+   "college": "Institute for Educational Initiatives",
+   "faculty": "Nikhit D'Sa",
+   "source": "https://keough.nd.edu/about/faculty-staff-directory/nikhit-d-sa/",
+   "confidence": "high",
+   "reasoning": "nd.edu profile confirms D'Sa's primary home is the Institute for Educational Initiatives (matches \"IEI\"/Fostering Resilience Initiative context); concurrent appt in Keough School of Global Affairs."
+  },
+  "Just Wage": {
+   "dept": "Arts and Letters",
+   "college": "College of Arts and Letters",
+   "faculty": "Dan Graff (Daniel Graff), Professor of the Practice, Department of History; Director, Higgins Labor Program",
+   "source": "https://history.nd.edu/people/daniel-graff/",
+   "confidence": "high",
+   "reasoning": "Dan Graff's nd.edu History profile lists him as Professor of the Practice in the Dept. of History, College of Arts and Letters; he also directs the Higgins Labor Program."
+  },
+  "Madrasa Trailer": {
+   "dept": "Keough",
+   "college": "Keough School of Global Affairs",
+   "faculty": "Ebrahim Moosa (Prof. Ebrahim Moosa)",
+   "source": "https://keough.nd.edu/about/faculty-staff-directory/ebrahim-moosa/",
+   "confidence": "high",
+   "reasoning": "Moosa is Mirza Family Professor in the Keough School (Kroc Institute), which houses the Madrasa Discourses project; joint History appointment is secondary."
+  },
+  "NDIAS 23-24: Rhythms of Faith": {
+   "dept": "Theology",
+   "college": "Arts and Letters",
+   "faculty": "Prof. Kimberly Belcher",
+   "source": "https://theology.nd.edu/people/kimberly-belcher/",
+   "confidence": "high",
+   "reasoning": "Belcher's nd.edu profile lists her as Associate Professor in the Department of Theology (liturgical studies), matching the liturgy/XR project context."
+  },
+  "Spring Readiness '21: Macroeconomics": {
+   "dept": "Economics",
+   "college": "Arts and Letters",
+   "faculty": "Prof. Mary Flannery",
+   "source": "https://economics.nd.edu/people/mary-flannery/",
+   "confidence": "high",
+   "reasoning": "nd.edu profile confirms Mary Flannery is a Teaching Professor in the Department of Economics, College of Arts and Letters; matches Macroeconomics project context."
+  },
+  "Spring Readiness '21: Microeconomics": {
+   "dept": "Economics",
+   "college": "Arts and Letters",
+   "faculty": "Prof. Eva Dziadula",
+   "source": "https://economics.nd.edu/people/eva-dziadula/",
+   "confidence": "high",
+   "reasoning": "Her economics.nd.edu profile lists her as Teaching Professor in the Department of Economics, College of Arts and Letters; matches Microeconomics course."
+  },
+  "Sprints 2023: College BouND/ND TEC": {
+   "dept": "Tech Ethics (ND TEC)",
+   "college": "University-wide interdisciplinary center (Notre Dame Technology Ethics Center); affiliated with the Ethics Initiative / Institute for Ethics and the Common Good",
+   "faculty": "Prof. Erin Klawitter (Erin Flynn Klawitter)",
+   "source": "https://techethics.nd.edu/people/erin-flynn-klawitter/",
+   "confidence": "high",
+   "reasoning": "Klawitter was Associate Professor of the Practice / Managing Director in the Notre Dame Technology Ethics Center (ND TEC), matching the project's \"ND TEC\" + Technology Ethics courseware; ND TEC is a University-wide interdisciplinary center, not a single college."
+  },
+  "Sprints 2023: Gen Chem": {
+   "dept": "Chemistry",
+   "college": "College of Science",
+   "faculty": "Prof. Kelley Young (Kelley M. H. Young)",
+   "source": "https://chemistry.nd.edu/people/kelley-young/",
+   "confidence": "high",
+   "reasoning": "Kelley Young is an Associate Teaching Professor in Chemistry & Biochemistry (College of Science) teaching gen chem, confirmed on chemistry.nd.edu."
+  },
+  "Sprints 2024: Parent Empowerment": {
+   "dept": "Institute for Educational Initiatives (IEI)",
+   "college": "Institute for Educational Initiatives",
+   "faculty": "Prof. Neil Boothby",
+   "source": "https://iei.nd.edu/initiatives/global-center-for-the-development-of-the-whole-child/people/neil-boothby",
+   "confidence": "high",
+   "reasoning": "nd.edu IEI page confirms Boothby is Professor at the Institute for Educational Initiatives, directing the Global Center for the Development of the Whole Child."
+  },
+  "Teaching Everyone": {
+   "dept": "ND Learning",
+   "college": "Notre Dame Learning / Kaneb Center for Teaching Excellence (Office of the Provost)",
+   "faculty": "Horane Diatta-Holgate (listed as \"Prof. Horane Ditta-Holgate\")",
+   "source": "https://learning.nd.edu/about/team-bios/horane-holgate/",
+   "confidence": "high",
+   "reasoning": "Diatta-Holgate is Asst Teaching Prof & Program Director for Inclusive Pedagogy at Notre Dame Learning's Kaneb Center, matching this inclusive-teaching course-design project."
+  },
+  "Witnessing Climate Change Course Trailer": {
+   "dept": "Arts and Letters",
+   "college": "College of Arts and Letters",
+   "faculty": "Prof. Roy Scranton",
+   "source": "https://english.nd.edu/people/faculty/roy-scranton/",
+   "confidence": "high",
+   "reasoning": "Roy Scranton is Associate Professor in the Department of English, College of Arts and Letters, confirmed on his english.nd.edu faculty profile."
+  },
+  "XR Carbon Neutral Development": {
+   "dept": "Architecture",
+   "college": "School of Architecture",
+   "faculty": "Prof. Ming Hu",
+   "source": "https://architecture.nd.edu/faculty/ming-hu/",
+   "confidence": "high",
+   "reasoning": "Ming Hu's primary nd.edu profile lists her as Associate Professor in the School of Architecture (built-environment/decarbonization focus), with a joint Engineering appointment."
+  }
+ }
+}

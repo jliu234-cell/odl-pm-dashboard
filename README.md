@@ -114,6 +114,23 @@ cloud workflow or the local schedule so two jobs don't fight over the same commi
 > aren't tied to a personal account), and create the Google service account under a
 > team/ND Google project rather than a personal one.
 
+### View it as a live website (GitHub Pages)
+
+So the team opens a URL instead of downloading `index.html`, a second workflow
+(`.github/workflows/pages.yml`) publishes the dashboard to **GitHub Pages** and
+re-publishes it every time `index.html` changes — so the live page stays current
+with the daily refresh on its own. It serves **only** `index.html`, so nothing else
+(source, raw `data.json`) is exposed as a separate page.
+
+Turn it on once: repo → **Settings → Pages → Build and deployment → Source =
+"GitHub Actions"**. The site is then at `https://<owner>.github.io/odl-pm-dashboard/`.
+
+Visibility: free GitHub Pages serves only **public** repos. Since the dashboard
+holds internal data (names, capacity, satisfaction scores), to keep the repo
+**private** and have a **login-restricted** site, host it in a GitHub org / paid
+plan — e.g. ND's **github.nd.edu** restricted to members. This same workflow works
+there unchanged.
+
 ## Live mode (real-time from Asana)
 
 ```bash

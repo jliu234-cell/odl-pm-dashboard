@@ -1,0 +1,47 @@
+# Publish the dashboard as a live website on GitHub Pages.
+# It serves ONLY index.html (the self-contained dashboard), so the URL shows the
+# dashboard directly and nothing else (no source .py, no raw data.json) is exposed
+# as a separate page. It redeploys automatically whenever index.html changes -- so
+# the daily refresh job keeps the live site current with no download, ever.
+#
+# One-time: repo -> Settings -> Pages -> Build and deployment -> Source = "GitHub
+# Actions". Then the site is at https://<owner>.github.io/odl-pm-dashboard/
+#
+# NOTE on visibility: free GitHub Pages serves only PUBLIC repos. To keep this repo
+# private AND have a login-protected site, the repo must live in a GitHub org /
+# paid plan (e.g. ND's github.nd.edu, restricted to members) -- this same workflow
+# works there unchanged.
+name: deploy-pages
+
+on:
+  push:
+    branches: [main]
+    paths: [index.html]        # only redeploy when the page actually changes
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Stage index.html as the site root
+        run: |
+          mkdir -p _site
+          cp index.html _site/index.html
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4

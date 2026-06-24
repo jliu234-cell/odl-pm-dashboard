@@ -1268,23 +1268,22 @@ function renderPeople(){
       return {bg:s>4?"#cf3a3a":(s>0?`rgba(47,158,87,${op})`:"#f4f6f9"),fg:s>3?"#fff":"#13233a",txt:s>0?val(s):"",title:`${round(s,1)} pts`};
     }, legend, openPerson);
   c.appendChild(panel);
-  // capacity recommendations belong here too — they're about people's loads
-  (function(){
-    const capRecs=recs().filter(r=>/^capacity-/.test(r.category||"")||(r.category==="data-quality"&&r.scope_type==="person"));
-    if(!capRecs.length)return;
-    const SEV={high:0,medium:1,low:2};
-    capRecs.sort((a,b)=>(SEV[a.severity]-SEV[b.severity])||(""+(a.scope||"")).localeCompare(""+(b.scope||"")));
-    const rp=el("div",{class:"panel"});
-    rp.innerHTML=`<div class="hd"><h2>Capacity recommendations</h2><div class="spacer"></div><button class="btn ghost" onclick="state.tab='recs';render()">Track in Recommendations →</button></div>`;
-    const rbd=el("div",{class:"bd"});
-    capRecs.forEach(r=>{const row=el("div",{class:"bar-row"});row.style.cursor="pointer";
-      row.innerHTML=`<span class="pill sev-${r.severity}" style="width:58px;text-align:center">${esc(r.severity)}</span>`+
-        `<div style="flex:1"><b>${esc(r.title)}</b>${r.suggested_action?` <span class="muted small">— ${esc(r.suggested_action)}</span>`:""}</div>`+
-        (r.status&&r.status!=="Not Started"?`<span class="pill ${statusPill(r.status)}">${esc(STATUS_LABEL[r.status]||r.status)}</span>`:"");
-      row.onclick=()=>{state.tab="recs";render();};rbd.appendChild(row);});
-    rp.appendChild(rbd);c.appendChild(rp);
-  })();
   c.appendChild(el("div",{class:"note"},`Mirrors the workbook's “Remaining Capacity” view (the team's red/green over/under check) — recomputed live from the Projects tab. Click a name for their projects.`));
+  // the capacity recommendations live here now — full tracking (mark + note), not just a list
+  (function(){
+    const CAP=["capacity-person","capacity-team","capacity-unstaffed"];
+    const capRecs=recs().filter(r=>CAP.includes(r.category));
+    if(!capRecs.length)return;
+    c.appendChild(el("div",{class:"note",style:"border-color:#cdd9ea;background:#eef4fc;margin-top:16px"},
+      `<b>Capacity recommendations.</b> Who's over- or under-utilised, and where work isn't staffed yet. Mark progress and add notes right here — your marks save in this browser; use <b>Save our progress</b> on the Recommendations tab to share them with the team.`));
+    const SEV={high:0,medium:1,low:2}, groups={};
+    capRecs.forEach(r=>{(groups[r.category]=groups[r.category]||[]).push(r);});
+    CAP.filter(k=>groups[k]).forEach(cat=>{
+      const items=groups[cat].sort((a,b)=>(SEV[a.severity]-SEV[b.severity])||a.title.localeCompare(b.title));
+      c.appendChild(el("h3",{class:"rec-group"},`${CATICON[cat]||"•"} ${esc(CATLABEL[cat]||cat)} <span class="muted" style="font-weight:400;font-size:13px">· ${items.length}</span>`));
+      items.forEach(r=>c.appendChild(recCard(r)));
+    });
+  })();
 }
 function openPerson(name){
   const pp=D.capacity.person[name]; if(!pp)return;
@@ -1870,9 +1869,9 @@ function drawPlan(){
 /* ===================================================================== */
 function renderRecs(){
   const c=$("#tab-recs"); c.innerHTML="";
-  const all=recs();
+  const all=recs().filter(r=>!/^capacity-/.test(r.category));  // capacity recs now live on the People tab
   c.appendChild(el("div",{class:"note",style:"border-color:#cdd9ea;background:#eef4fc"},
-    `<b>Ways we can improve our workflow and process.</b> Pulled automatically from the capacity model (who's over- or under-utilised, work that isn't staffed yet) and from what faculty told us in their reflection reports. Click an item to read the detail — and when the team acts on it, mark it <b>In progress</b> or <b>Done</b> and jot a note. Your marks save in this browser; use <b>Save our progress</b> to share the file with the team. The reflection reports are listed at the bottom.`));
+    `<b>Ways we can improve our workflow and process.</b> Pulled from what faculty told us in their reflection reports and from how projects are tracked. (Capacity recommendations — who's over- or under-utilised — now live on the <b>People</b> tab.) Click an item to read the detail — and when the team acts on it, mark it <b>In progress</b> or <b>Done</b> and jot a note. Your marks save in this browser; use <b>Save our progress</b> to share the file with the team. The reflection reports are listed at the bottom.`));
   // progress + save (the only controls — keep it simple)
   const acted=all.filter(r=>r.status==="In Progress"||r.status==="Achieved").length;
   const done=all.filter(r=>r.status==="Achieved").length;

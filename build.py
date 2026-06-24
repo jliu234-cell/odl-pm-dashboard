@@ -45,6 +45,7 @@ REFLECTION_REL = "../Reflection/"                    # link path relative to ind
 WORKBOOK_URL = os.environ.get("ODL_WORKBOOK_URL") or "https://docs.google.com/spreadsheets/d/1fGHuQqu9iWC3TXjPr0hKBvCqz-8ZB9o73e2r0lbZFFE/edit"
 ASANA_PROJECT_BASE = "https://app.asana.com/0/"
 ASANA_HOME = "https://app.asana.com/"
+ASANA_IMPACT_BOARD = os.environ.get("ODL_IMPACT_BOARD_GID") or "1211592424221769"  # the Impact Tracker board, for per-task links
 POINT_HOURS = 32
 FULL_MONTHLY_POINTS = 4
 
@@ -399,7 +400,7 @@ def parse_impact_tracker():
         if not field:
             continue
         key = r["task_gid"]
-        rec = tasks.setdefault(key, {"name": (r.get("task_name") or "").strip()})
+        rec = tasks.setdefault(key, {"name": (r.get("task_name") or "").strip(), "gid": key})
         num = as_num(r.get("number_value"))
         raw = (r.get("display_value") or r.get("text_value") or "").strip()
         # date custom fields carry a clean ISO date in date_value (display_value
@@ -425,7 +426,7 @@ def parse_faculty_ratings(impact):
     for d in impact.values():
         if d.get("fsi") is None:
             continue  # only projects with a faculty rating
-        ratings.append({"project": d.get("name", ""),
+        ratings.append({"project": d.get("name", ""), "gid": d.get("gid"),
                         "fsi": d.get("fsi"), "nps": d.get("nps"),
                         "reach": d.get("reach"), "status": d.get("status"),
                         "dept": d.get("dept"), "type": d.get("type"),
@@ -470,7 +471,7 @@ def build_departments(impact, nd):
                 if dept:
                     source, conf, url = "nd.edu", pd.get("confidence"), pd.get("source")
         groups.setdefault(dept or "—", []).append({
-            "project": name, "faculty": d.get("faculty"), "type": d.get("type"),
+            "project": name, "gid": d.get("gid"), "faculty": d.get("faculty"), "type": d.get("type"),
             "fsi": d.get("fsi"), "status": d.get("status"),
             "reflink": d.get("reflink"), "summary": d.get("summary"),
             "dept_source": source, "dept_confidence": conf, "dept_url": url})
@@ -536,7 +537,7 @@ def build_faculty_years(impact, nd):
         sy, ey = yr(d.get("start")), yr(d.get("end"))
         hours_by_year = {y: d.get(f"h{y}") for y in (2024, 2025, 2026)
                          if isinstance(d.get(f"h{y}"), (int, float)) and d.get(f"h{y}")}
-        rec = {"project": name, "dept": dept or "—", "dept_source": dsrc,
+        rec = {"project": name, "gid": d.get("gid"), "dept": dept or "—", "dept_source": dsrc,
                "faculty": d.get("faculty"), "type": d.get("type"),
                "fsi": d.get("fsi"), "status": d.get("status"),
                "reflink": d.get("reflink"), "assets": d.get("assets"),
@@ -1167,7 +1168,7 @@ def compute_data(do_recs=True, write_status=True, verbose=False):
                  "point_hours": POINT_HOURS, "full_monthly_points": FULL_MONTHLY_POINTS,
                  "months": all_months, "asana_snapshot_date": asana_snap,
                  "source_xlsx": os.path.basename(XLSX),
-                 "sources": {"workbook": WORKBOOK_URL, "asana_project_base": ASANA_PROJECT_BASE, "asana_home": ASANA_HOME},
+                 "sources": {"workbook": WORKBOOK_URL, "asana_project_base": ASANA_PROJECT_BASE, "asana_home": ASANA_HOME, "impact_board": ASANA_IMPACT_BOARD},
                  "status_values": recommend.STATUS_VALUES},
         "teams": TEAM_ORDER, "people": people,
         "capacity": cap, "workbook_reference": wb_ref, "drift": drift,

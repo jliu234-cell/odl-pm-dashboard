@@ -289,6 +289,15 @@ const SRC=(D.meta&&D.meta.sources)||{};
 const WB_URL=SRC.workbook||"";
 function asanaUrl(gid){return gid?((SRC.asana_project_base||"https://app.asana.com/0/")+gid):"";}
 function srcTag(href,label){return href?` <a class="src" href="${esc(href)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Open the source: ${esc(label)}">${esc(label)} ↗</a>`:"";}
+// map a project NAME to its live Asana project gid (only real projects carry one),
+// so faculty / department / project rows can link to the actual project, not a home page.
+const GID_BY_NAME={};
+(D.projects||[]).forEach(p=>{const g=p.asana&&p.asana.gid;if(g){GID_BY_NAME[p.name]=g;if(p.asana.name)GID_BY_NAME[p.asana.name]=g;}});
+function asanaProjTag(name){const g=GID_BY_NAME[name];return g?srcTag(asanaUrl(g),"Asana"):"";}
+function asanaTaskUrl(gid){return gid?((SRC.asana_project_base||"https://app.asana.com/0/")+(SRC.impact_board||gid)+"/"+gid):"";}
+// faculty / department rows come from the Impact Tracker TASK (that's where the
+// FSI lives), so link straight to that task; fall back to a project-name match.
+function asanaRowTag(row){if(!row)return "";return row.gid?srcTag(asanaTaskUrl(row.gid),"Asana"):asanaProjTag(row.project);}
 function top5Link(x){const t=(x.t+" "+x.s).toLowerCase();
   if(/person is|people are|\bpeople\b/.test(t))return {tab:"people",label:"See People"};
   if(/recommendation/.test(t))return {tab:"recs",label:"See Recommendations"};
@@ -758,7 +767,7 @@ function subHead(t){return el("div",{html:`<b>${esc(t)}</b>`,style:"font-size:12
 function renderBrief(){
   const c=$("#tab-brief"); c.innerHTML="";
   const hd=el("div",{class:"brief-hd"});
-  hd.innerHTML=`<h1>Monday ODL Brief</h1><div class="wk">Week of ${esc(weekOf(TODAY))} · built from the <a class="src" href="${esc(WB_URL)}" target="_blank" rel="noopener">capacity workbook ↗</a> + <a class="src" href="${esc(SRC.asana_home||'https://app.asana.com/')}" target="_blank" rel="noopener">Asana snapshot ↗</a> (${esc(D.meta.asana_snapshot_date||TODAY)})</div>`;
+  hd.innerHTML=`<h1>Monday ODL Brief</h1><div class="wk">Week of ${esc(weekOf(TODAY))} · built from the <a class="src" href="${esc(WB_URL)}" target="_blank" rel="noopener">capacity workbook ↗</a> + Asana snapshot (${esc(D.meta.asana_snapshot_date||TODAY)})</div>`;
   c.appendChild(hd);
   const QS=[["attention","①","What needs attention this week?"],["portfolio","②","How is the portfolio moving?"],["improving","③","How are we improving?"],["roundup","✍","Round-up email draft"]];
   const nav=el("div",{class:"qnav"});
@@ -845,7 +854,7 @@ function briefPortfolioView(c){
   const ops=briefInputs().ops||{};
   P=briefPanel("Timesheet compliance","Time-tracking completeness — it's what turns estimates into better estimates and shows true capacity.");
   if(ops.timesheet_compliance_pct==null)
-    P.bd.innerHTML=`<div class="muted">Time gets logged in Asana, but a team-wide submission rate isn't part of this data snapshot yet.${srcTag(SRC.asana_home,"Asana time tracking")}</div>`;
+    P.bd.innerHTML=`<div class="muted">Time gets logged in Asana, but a team-wide submission rate isn't part of this data snapshot yet.</div>`;
   else{const v=Math.round(ops.timesheet_compliance_pct),col=v>=90?"var(--green)":v>=75?"var(--amber)":"var(--red)",
     badge=v>=90?"Strong":v>=75?"Watch":"Needs attention";
     const g3=el("div",{class:"grid cards"});
@@ -1259,6 +1268,22 @@ function renderPeople(){
       return {bg:s>4?"#cf3a3a":(s>0?`rgba(47,158,87,${op})`:"#f4f6f9"),fg:s>3?"#fff":"#13233a",txt:s>0?val(s):"",title:`${round(s,1)} pts`};
     }, legend, openPerson);
   c.appendChild(panel);
+  // capacity recommendations belong here too — they're about people's loads
+  (function(){
+    const capRecs=recs().filter(r=>/^capacity-/.test(r.category||"")||(r.category==="data-quality"&&r.scope_type==="person"));
+    if(!capRecs.length)return;
+    const SEV={high:0,medium:1,low:2};
+    capRecs.sort((a,b)=>(SEV[a.severity]-SEV[b.severity])||(""+(a.scope||"")).localeCompare(""+(b.scope||"")));
+    const rp=el("div",{class:"panel"});
+    rp.innerHTML=`<div class="hd"><h2>Capacity recommendations</h2><div class="spacer"></div><button class="btn ghost" onclick="state.tab='recs';render()">Track in Recommendations →</button></div>`;
+    const rbd=el("div",{class:"bd"});
+    capRecs.forEach(r=>{const row=el("div",{class:"bar-row"});row.style.cursor="pointer";
+      row.innerHTML=`<span class="pill sev-${r.severity}" style="width:58px;text-align:center">${esc(r.severity)}</span>`+
+        `<div style="flex:1"><b>${esc(r.title)}</b>${r.suggested_action?` <span class="muted small">— ${esc(r.suggested_action)}</span>`:""}</div>`+
+        (r.status&&r.status!=="Not Started"?`<span class="pill ${statusPill(r.status)}">${esc(STATUS_LABEL[r.status]||r.status)}</span>`:"");
+      row.onclick=()=>{state.tab="recs";render();};rbd.appendChild(row);});
+    rp.appendChild(rbd);c.appendChild(rp);
+  })();
   c.appendChild(el("div",{class:"note"},`Mirrors the workbook's “Remaining Capacity” view (the team's red/green over/under check) — recomputed live from the Projects tab. Click a name for their projects.`));
 }
 function openPerson(name){
@@ -1322,7 +1347,7 @@ function renderProjects(){
   dirBtn.onclick=()=>{state.projSort.dir*=-1;drawProjTable();};
   bar.appendChild(dirBtn);
   c.appendChild(bar);
-  const p=el("div",{class:"panel"});p.innerHTML=`<div class="hd"><h2>Projects</h2><div class="desc" id="projCount"></div><div class="desc">Status, phase, faculty and dates come from Asana; effort and staffing from the capacity workbook. Open any project for its Asana link.${srcTag(SRC.asana_home,"Asana")}${srcTag(WB_URL,"workbook")}</div></div><div class="bd" id="projTableBd"></div>`;
+  const p=el("div",{class:"panel"});p.innerHTML=`<div class="hd"><h2>Projects</h2><div class="desc" id="projCount"></div><div class="desc">Status, phase, faculty and dates come from Asana; effort and staffing from the capacity workbook. Open any project for its Asana link.${srcTag(WB_URL,"workbook")}</div></div><div class="bd" id="projTableBd"></div>`;
   c.appendChild(p);
   drawProjTable();
 }
@@ -1461,14 +1486,14 @@ function renderFaculty(){
 
     // per-project ratings table (links to the live reflection report when we have one)
     const tp=el("div",{class:"panel"});
-    tp.innerHTML=`<div class="hd"><h2>Satisfaction by project</h2><div class="desc">${f.ratings.length} rated projects, highest first. Scores come from the faculty Impact Tracker in Asana.${srcTag(SRC.asana_home,"Asana Impact Tracker")}</div></div>`;
+    tp.innerHTML=`<div class="hd"><h2>Satisfaction by project</h2><div class="desc">${f.ratings.length} rated projects, highest first. Scores come from the faculty Impact Tracker in Asana; open any row's project below.</div></div>`;
     const rows=f.ratings.map(r=>{
       const refs=reflectionsFor(r.project);
       const link=(r.reflink||refs.length)?`<a href="${esc(r.reflink||refs[0].doc_url||refs[0].drive_url||refs[0].rel)}" target="_blank" rel="noopener">📄 report</a>`:"";
       return `<tr><td><b>${esc(r.project)}</b></td>
        <td class="num"><span class="pill ${r.fsi>=4.5?'green':r.fsi>=4.0?'amber':'red'}">${r.fsi}</span></td>
        <td class="num">${r.nps!=null&&r.nps!==''?r.nps:'—'}</td>
-       <td>${esc(r.dept||'—')}</td><td>${esc(r.type||'—')}</td><td>${link}</td></tr>`;}).join("");
+       <td>${esc(r.dept||'—')}</td><td>${esc(r.type||'—')}</td><td>${link}${asanaRowTag(r)}</td></tr>`;}).join("");
     tp.appendChild(el("div",{class:"bd"},`<table class="wrap"><thead><tr><th class="nosort">Project</th><th class="num nosort">Faculty Satisfaction (/${f.scale})</th><th class="num nosort">NPS</th><th class="nosort">Department</th><th class="nosort">Type</th><th class="nosort">Reflection</th></tr></thead><tbody>${rows}</tbody></table>`));
     c.appendChild(tp);
   }
@@ -1478,7 +1503,7 @@ function renderDepartments(c){
   if(!DD.length)return;
   const p=el("div",{class:"panel"});
   const total=DD.reduce((a,d)=>a+d.n,0), unmapped=meta.unknown_count||0;
-  p.innerHTML=`<div class="hd"><h2>Departments ODL works with</h2><div class="desc">${DD.length} Notre Dame departments / units across ${total} Impact Tracker projects${unmapped?` · ${unmapped} project${unmapped>1?'s':''} not yet mapped to a department`:""}. Click a department to see its projects.${srcTag(SRC.asana_home,"Asana")}</div></div>`;
+  p.innerHTML=`<div class="hd"><h2>Departments ODL works with</h2><div class="desc">${DD.length} Notre Dame departments / units across ${total} Impact Tracker projects${unmapped?` · ${unmapped} project${unmapped>1?'s':''} not yet mapped to a department`:""}. Click a department to see its projects.</div></div>`;
   const bd=el("div",{class:"bd"});
   DD.forEach(d=>{
     const card=el("div",{class:"rec"});
@@ -1490,7 +1515,7 @@ function renderDepartments(c){
       const link=pr.reflink?`<a href="${esc(pr.reflink)}" target="_blank" rel="noopener">report ↗</a>`:"";
       const ndtag=pr.dept_source==='nd.edu'?` <span class="pill gray" title="Department inferred from the faculty member's nd.edu profile (${esc(pr.dept_confidence||'?')} confidence)${pr.dept_url?' — '+esc(pr.dept_url):''}">nd.edu${pr.dept_confidence&&pr.dept_confidence!=='high'?' · '+esc(pr.dept_confidence):''}</span>`:"";
       const fp=pr.fsi!=null?`<span class="pill ${pr.fsi>=4.5?'green':pr.fsi>=4?'amber':'red'}">${pr.fsi}</span>`:'<span class="muted">—</span>';
-      return `<tr><td><b>${esc(pr.project)}</b>${ndtag}</td><td class="muted">${esc(pr.faculty||'—')}</td><td>${esc(pr.type||'—')}</td><td class="num">${fp}</td><td><span class="pill gray">${esc(pr.status||'—')}</span></td><td>${link}</td></tr>`;
+      return `<tr><td><b>${esc(pr.project)}</b>${ndtag}</td><td class="muted">${esc(pr.faculty||'—')}</td><td>${esc(pr.type||'—')}</td><td class="num">${fp}</td><td><span class="pill gray">${esc(pr.status||'—')}</span></td><td>${link}${asanaRowTag(pr)}</td></tr>`;
     }).join("");
     card.innerHTML=`<div class="rhd"><span class="ico">🏛️</span>
        <div style="flex:1"><div class="rtitle">${esc(d.dept)}${official}</div>
@@ -1524,14 +1549,14 @@ function facProjRow(pr){
     <td class="muted">${esc(pr.faculty||'—')}</td><td>${esc(pr.type||'—')}</td>
     <td class="num">${fp}</td><td><span class="pill gray">${esc(pr.status||'—')}</span></td>
     <td class="muted small">${esc(spanLabel(pr))}</td>
-    <td class="num" title="cumulative hours logged on Asana (all years)">${th}</td><td>${link}</td></tr>`;
+    <td class="num" title="cumulative hours logged on Asana (all years)">${th}</td><td>${link}${asanaRowTag(pr)}</td></tr>`;
 }
 function renderFacultyYears(c){
   const meta=D.faculty_years||{}; const YY=meta.years||[];
   if(!YY.length){c.appendChild(el("div",{class:"note"},"No Start/End dates on the Impact Tracker projects yet, so they can't be grouped by year. Add dates in Asana (or switch to “By department”)."));return;}
   const p=el("div",{class:"panel"});
   const tot=YY.reduce((a,y)=>a+y.n,0), unk=(meta.unknown||[]).length;
-  p.innerHTML=`<div class="hd"><h2>Projects ODL worked on, by year</h2><div class="desc">${meta.min_year}–${meta.max_year}. A project counts in every calendar year it was active (its Start → End on the Asana Impact Tracker), with its department shown alongside${unk?` · ${unk} project${unk>1?'s':''} have no dates yet (listed at the bottom)`:""}. Click a year to expand.${srcTag(SRC.asana_home,"Asana Impact Tracker")}</div></div>`;
+  p.innerHTML=`<div class="hd"><h2>Projects ODL worked on, by year</h2><div class="desc">${meta.min_year}–${meta.max_year}. A project counts in every calendar year it was active (its Start → End on the Asana Impact Tracker), with its department shown alongside${unk?` · ${unk} project${unk>1?'s':''} have no dates yet (listed at the bottom)`:""}. Click a year to expand.</div></div>`;
   const bd=el("div",{class:"bd"});
   const FYHEAD=`<tr><th class="nosort">Project</th><th class="nosort">Department</th><th class="nosort">Faculty</th><th class="nosort">Type</th><th class="num nosort">FSI</th><th class="nosort">Status</th><th class="nosort">When</th><th class="num nosort">Hours</th><th class="nosort">Reflection</th></tr>`;
   YY.forEach((y,i)=>{
@@ -1614,13 +1639,10 @@ function renderPlan(){
 
   // ---- estimator: how many can we take ----
   const est=el("div",{class:"panel"});
-  est.innerHTML=`<div class="hd"><h2>How many projects can we take?</h2><div class="desc">Surplus capacity in a period (after current + staged work) ÷ the work one project needs, per team.</div></div>
+  est.innerHTML=`<div class="hd"><h2>How many projects can we take?</h2><div class="desc">Surplus capacity in a period (after current + staged work) vs the work the projects need, per team. Estimate a single size, or a <b>mix</b> of sizes.</div></div>
    <div class="bd">
-     <div class="editrow" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">
-       <div><label title="The per-team footprint of a project this size, computed from real recent projects (not the frozen workbook template).">Project size</label><select id="estSize">${sizes.map(s=>`<option>${s}</option>`).join("")}</select></div>
-       <div><label>From</label><select id="estFrom">${MONTHS.map(m=>`<option value="${m}">${mlabFull(m)}</option>`).join("")}</select></div>
-       <div><label>To</label><select id="estTo">${MONTHS.map(m=>`<option value="${m}">${mlabFull(m)}</option>`).join("")}</select></div>
-     </div>
+     <div class="seg" id="estModeSeg" style="margin-bottom:10px"><button data-mode="single">One size</button><button data-mode="mix">Mix of sizes</button></div>
+     <div id="estControls"></div>
      <div id="estPresets" style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="muted small">Quick periods:</span></div>
      <div id="estOut" style="margin-top:12px"></div>
    </div>`;
@@ -1660,13 +1682,21 @@ function renderPlan(){
   };
   $("#planClear").onclick=()=>{state.plan=[];drawPlan();};
 
-  // estimator wiring: preset period buttons + live recompute
+  // estimator wiring: mode toggle + preset period buttons + live recompute
+  state.estMode=state.estMode||"single";
+  state.estSize=state.estSize||sizes[0];
+  state.estMix=state.estMix||{};
   const presets=planPresets(), ep=$("#estPresets");
-  presets.forEach(pr=>{const b=el("button",{class:"btn ghost"},pr.label);
-    b.onclick=()=>{$("#estFrom").value=pr.from;$("#estTo").value=pr.to;drawEstimate();};ep.appendChild(b);});
   const def=presets[0]||{from:NOW,to:MONTHS[clampIdx(MONTHS.indexOf(NOW)+2)]};
-  $("#estFrom").value=def.from; $("#estTo").value=def.to;
-  ["estSize","estFrom","estTo"].forEach(id=>$("#"+id).onchange=drawEstimate);
+  state.estFrom=state.estFrom||def.from; state.estTo=state.estTo||def.to;
+  presets.forEach(pr=>{const b=el("button",{class:"btn ghost"},pr.label);
+    b.onclick=()=>{state.estFrom=pr.from;state.estTo=pr.to;if($("#estFrom"))$("#estFrom").value=pr.from;if($("#estTo"))$("#estTo").value=pr.to;drawEstimate();};ep.appendChild(b);});
+  $("#estModeSeg").querySelectorAll("button").forEach(b=>{
+    b.classList.toggle("active",b.getAttribute("data-mode")===state.estMode);
+    b.onclick=()=>{captureEst();state.estMode=b.getAttribute("data-mode");
+      $("#estModeSeg").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===b));
+      renderEstControls();drawEstimate();};});
+  renderEstControls();
   drawPlan(); drawEstimate();
 }
 function planPresets(){
@@ -1712,9 +1742,69 @@ function capacityEstimate(size,fromM,toM){
   });
   return {months,res,K:(K===Infinity?null:K),binding,teams};
 }
+function captureEst(){ // pull current control values into state
+  if($("#estFrom"))state.estFrom=$("#estFrom").value;
+  if($("#estTo"))state.estTo=$("#estTo").value;
+  if($("#estSize"))state.estSize=$("#estSize").value;
+  if(state.estMode==="mix"){const mix={};sizeList().forEach(s=>{const e=$("#mix-"+s);if(e)mix[s]=+e.value||0;});state.estMix=mix;}
+}
+function renderEstControls(){
+  const ec=$("#estControls"); if(!ec)return;
+  const sizes=sizeList();
+  const fromTo=`<div><label>From</label><select id="estFrom">${MONTHS.map(m=>`<option value="${m}" ${m===state.estFrom?"selected":""}>${mlabFull(m)}</option>`).join("")}</select></div>
+     <div><label>To</label><select id="estTo">${MONTHS.map(m=>`<option value="${m}" ${m===state.estTo?"selected":""}>${mlabFull(m)}</option>`).join("")}</select></div>`;
+  if(state.estMode==="mix"){
+    ec.innerHTML=`<div class="muted small" style="margin-bottom:6px">How many of each size? We check whether the whole mix fits the period, and how many full copies of it you could take.</div>
+      <div class="editrow" style="grid-template-columns:repeat(auto-fit,minmax(84px,1fr))">
+       ${sizes.map(s=>`<div><label>${esc(s)}</label><input type="number" min="0" step="1" id="mix-${esc(s)}" value="${(state.estMix&&state.estMix[s])||0}"></div>`).join("")}</div>
+      <div class="editrow" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin-top:8px">${fromTo}</div>`;
+  }else{
+    ec.innerHTML=`<div class="editrow" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">
+       <div><label title="The per-team footprint of a project this size, computed from real recent projects (not the frozen workbook template).">Project size</label><select id="estSize">${sizes.map(s=>`<option ${s===state.estSize?"selected":""}>${esc(s)}</option>`).join("")}</select></div>
+       ${fromTo}</div>`;
+  }
+  ec.querySelectorAll("select,input").forEach(x=>x.onchange=()=>{captureEst();drawEstimate();});
+}
+function mixEstimate(counts,fromM,toM){
+  const months=MONTHS.filter(m=>m>=fromM&&m<=toM);
+  const staged=planAddedLoad();
+  const demand={}; let totalProjects=0;
+  Object.keys(counts).forEach(sz=>{const n=+counts[sz]||0; if(n<=0)return; totalProjects+=n;
+    const prof=sizeProf(sz); if(!prof||!prof.profile)return;
+    PLAN_ORDER.forEach(t=>{const arr=prof.profile[t]||[];let d=0;for(let k=0;k<arr.length;k++)d+=arr[k]||0;if(d>1e-9)demand[t]=(demand[t]||0)+d*n;});});
+  const teams=PLAN_ORDER.filter(t=>(D.capacity.remaining[t]&&Object.keys(D.capacity.remaining[t]).length)||demand[t]>0);
+  const res={}; let fits=true, copies=Infinity, binding=null;
+  teams.forEach(t=>{const rem=D.capacity.remaining[t]||{};
+    let surplus=0;months.forEach(m=>{const v=rem[m];if(v!=null)surplus+=Math.max(0,v-((staged[t]||{})[m]||0));});
+    const dem=demand[t]||0;
+    res[t]={surplus:round(surplus,1),demand:round(dem,1),ok:dem<=surplus+1e-9};
+    if(dem>surplus+1e-9)fits=false;
+    if(dem>1e-9){const cp=Math.floor(surplus/dem);if(cp<copies){copies=cp;binding=t;}}});
+  return {months,res,teams,fits,copies:(copies===Infinity?null:copies),binding,totalProjects};
+}
+function drawMixEstimate(fromM,toM){
+  const counts=state.estMix||{};
+  const total=Object.keys(counts).reduce((a,s)=>a+(+counts[s]||0),0);
+  if(!total){$("#estOut").innerHTML=`<div class="muted">Enter how many projects of each size to test a mix.</div>`;return;}
+  const e=mixEstimate(counts,fromM,toM);
+  const rows=e.teams.map(t=>{const r=e.res[t];
+    return `<tr><td>${t}${t===e.binding?' <span class="pill amber">tightest</span>':''}</td><td class="num">${r.surplus}</td><td class="num">${r.demand||'—'}</td><td class="num">${r.demand?(r.ok?'<span style="color:#157a42">✓</span>':'<span style="color:#b02a2a">✗</span>'):'—'}</td></tr>`;}).join("");
+  const mixLabel=sizeList().filter(s=>(+counts[s]||0)>0).map(s=>`${+counts[s]}×${esc(s)}`).join(" + ");
+  $("#estOut").innerHTML=`
+    <div class="card" style="display:inline-block;margin:0 0 12px">
+      <div class="k">${e.totalProjects} project${e.totalProjects===1?'':'s'} (${mixLabel||'—'}) in ${mlabFull(fromM)} – ${mlabFull(toM)}</div>
+      <div class="v" style="color:${e.fits?'#157a42':'#b02a2a'}">${e.fits?'✓ This mix fits':'✗ Does not fit'}</div>
+      <div class="d">${e.fits?`room for ≈ ${e.copies==null?'—':e.copies} more full ${e.copies===1?'copy':'copies'} of this mix`:`short on the <b>${e.binding}</b> team`}${state.plan.length?` · after ${state.plan.length} staged`:''}</div>
+    </div>
+    <table><thead><tr><th class="nosort">Team</th><th class="num nosort">Surplus in period (pts)</th><th class="num nosort">This mix needs (pts)</th><th class="num nosort">Fits?</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="legend" style="margin-top:8px"><span>Each size's footprint is its full median effort (PM included), split across teams by ODL's typical mix. The mix “fits” when every team's demand is within the period's spare capacity; “copies” is how many whole mixes fit on the tightest team.</span></div>`;
+}
 function drawEstimate(){
   if(!$("#estOut"))return;
-  const size=$("#estSize").value, fromM=$("#estFrom").value, toM=$("#estTo").value;
+  captureEst();
+  const fromM=state.estFrom, toM=state.estTo, size=state.estSize||sizeList()[0];
+  if(!fromM||!toM)return;
+  if(state.estMode==="mix"){drawMixEstimate(fromM,toM);return;}
   if(fromM>toM){$("#estOut").innerHTML=`<div class="muted">Set “From” no later than “To”.</div>`;return;}
   const e=capacityEstimate(size,fromM,toM); if(!e){$("#estOut").innerHTML="";return;}
   const teams=e.teams;
@@ -1952,7 +2042,7 @@ function buildMonthPickers(){
   t.onchange=e=>{state.to=clampIdx(+e.target.value);if(state.to<state.from)state.from=state.to;buildMonthPickers();render();};
 }
 function boot(){
-  $("#prov").innerHTML=`Workbook: <a class="src" href="${esc(WB_URL)}" target="_blank" rel="noopener">${esc(D.meta.source_xlsx)} ↗</a><br>Asana snapshot: <a class="src" href="${esc(SRC.asana_home||'https://app.asana.com/')}" target="_blank" rel="noopener">${esc(D.meta.asana_snapshot_date||"n/a")} ↗</a> · built ${esc((D.meta.generated_at||"").slice(0,10))}`;
+  $("#prov").innerHTML=`Workbook: <a class="src" href="${esc(WB_URL)}" target="_blank" rel="noopener">${esc(D.meta.source_xlsx)} ↗</a><br>Asana snapshot: ${esc(D.meta.asana_snapshot_date||"n/a")} · built ${esc((D.meta.generated_at||"").slice(0,10))}`;
   $("#foot").innerHTML=`ODL Capacity &amp; Performance · data from the capacity workbook + Asana snapshot (${esc(D.meta.asana_snapshot_date||"")}) · 1 point = ${PH}h, ${FULL} points/month = full load · figures recomputed from the Projects tab.`;
   $$("#unitSeg button").forEach(b=>b.onclick=()=>{state.unit=b.getAttribute("data-u");$$("#unitSeg button").forEach(x=>x.classList.toggle("active",x===b));render();});
   $("#btnRefresh").onclick=()=>tryLive(true);

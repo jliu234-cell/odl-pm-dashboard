@@ -41,6 +41,10 @@ XLSX = os.environ.get("ODL_WORKBOOK") or os.path.join(ROOT, "ODL Project and Cap
 ASANA_DIR = os.environ.get("ODL_ASANA_DIR") or os.path.join(ROOT, "odl_estimator", "data_all")
 REFLECTION_DIR = os.environ.get("ODL_REFLECTION_DIR") or os.path.join(ROOT, "Reflection")   # downloaded reflection PDFs
 REFLECTION_REL = "../Reflection/"                    # link path relative to index.html
+# Live source URLs for the "source ↗" links in the UI (override via env if files move).
+WORKBOOK_URL = os.environ.get("ODL_WORKBOOK_URL") or "https://docs.google.com/spreadsheets/d/1fGHuQqu9iWC3TXjPr0hKBvCqz-8ZB9o73e2r0lbZFFE/edit"
+ASANA_PROJECT_BASE = "https://app.asana.com/0/"
+ASANA_HOME = "https://app.asana.com/"
 POINT_HOURS = 32
 FULL_MONTHLY_POINTS = 4
 
@@ -1163,6 +1167,7 @@ def compute_data(do_recs=True, write_status=True, verbose=False):
                  "point_hours": POINT_HOURS, "full_monthly_points": FULL_MONTHLY_POINTS,
                  "months": all_months, "asana_snapshot_date": asana_snap,
                  "source_xlsx": os.path.basename(XLSX),
+                 "sources": {"workbook": WORKBOOK_URL, "asana_project_base": ASANA_PROJECT_BASE, "asana_home": ASANA_HOME},
                  "status_values": recommend.STATUS_VALUES},
         "teams": TEAM_ORDER, "people": people,
         "capacity": cap, "workbook_reference": wb_ref, "drift": drift,

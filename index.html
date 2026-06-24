@@ -152,6 +152,8 @@
   .muted{color:var(--muted)}
   .small{font-size:12px}
   .note{font-size:12px;color:var(--muted);background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:10px 0}
+  .src{font-size:11px;color:#5b6b7e;text-decoration:none;border-bottom:1px dotted #9aa7b4;white-space:nowrap}
+  .src:hover{color:#0c2340;border-bottom-color:currentColor}
   .gantt{display:flex;height:24px;border-radius:5px;overflow:hidden;background:#eef1f4;min-width:280px}
   .gantt .seg{height:100%;overflow:hidden;border:0;border-radius:0;display:block}
   .gantt-legend{display:flex;flex-wrap:wrap;gap:7px 16px;margin-top:9px;font-size:12px}
@@ -271,8 +273,8 @@
 <script>
 window.DATA = {
  "meta": {
-  "generated_at": "2026-06-22T16:34:04",
-  "today": "2026-06-22",
+  "generated_at": "2026-06-24T09:40:35",
+  "today": "2026-06-24",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -305,8 +307,13 @@ window.DATA = {
    "2026-11",
    "2026-12"
   ],
-  "asana_snapshot_date": "2026-06-10",
+  "asana_snapshot_date": "2026-06-22",
   "source_xlsx": "ODL Project and Capacity Planning.xlsx",
+  "sources": {
+   "workbook": "https://docs.google.com/spreadsheets/d/1fGHuQqu9iWC3TXjPr0hKBvCqz-8ZB9o73e2r0lbZFFE/edit",
+   "asana_project_base": "https://app.asana.com/0/",
+   "asana_home": "https://app.asana.com/"
+  },
   "status_values": [
    "Not Started",
    "In Progress",
@@ -3989,13 +3996,13 @@ window.DATA = {
     "gid": "1211900372320318",
     "name": "C2D: Cybertraining for Chemical Data scientists",
     "archived": false,
-    "status": "In Progress",
+    "status": "Complete",
     "ndl_status": "Project Initiated - ODL",
     "current_phase": "Design",
     "project_type": "New Course Design",
     "est_size": "M",
     "actual_size": null,
-    "impact_tracker": "Up to date",
+    "impact_tracker": "Outdated",
     "post_status": null,
     "owner": "Michael Lerma",
     "point_person": null,
@@ -4006,8 +4013,8 @@ window.DATA = {
     "created_at": "2025-11-10",
     "last_completed": "2026-05-14T18:22:40.784000+00:00"
    },
-   "active": true,
-   "status_display": "In Progress",
+   "active": false,
+   "status_display": "Complete",
    "current_phase": "Design"
   },
   {
@@ -4100,7 +4107,7 @@ window.DATA = {
     "point_person": null,
     "faculty": null,
     "dept": "Arts and Letters",
-    "start_on": "2026-08-31",
+    "start_on": null,
     "due_on": "2026-08-31",
     "created_at": "2025-10-15",
     "last_completed": "2026-06-08T13:37:51.972000+00:00"
@@ -4622,13 +4629,13 @@ window.DATA = {
     "gid": "1207760971753716",
     "name": "FCTA - Physics I",
     "archived": false,
-    "status": "In Progress",
+    "status": "Complete",
     "ndl_status": null,
     "current_phase": "Design",
     "project_type": "Signature Project",
     "est_size": "XL",
     "actual_size": null,
-    "impact_tracker": "Up to date",
+    "impact_tracker": "Outdated",
     "post_status": null,
     "owner": "Michael Lerma",
     "point_person": "Brianna Stines",
@@ -4640,7 +4647,7 @@ window.DATA = {
     "last_completed": "2026-01-07T20:46:07.377000+00:00"
    },
    "active": true,
-   "status_display": "In Progress",
+   "status_display": "Complete",
    "current_phase": "Design"
   },
   {
@@ -5264,7 +5271,27 @@ window.DATA = {
    "last_month": "2026-06",
    "staffed_points": 0.35,
    "unstaffed_points": 0.0,
-   "asana": null,
+   "asana": {
+    "gid": "1215186457850752",
+    "name": "AI Academy Fall 2026",
+    "archived": false,
+    "status": null,
+    "ndl_status": null,
+    "current_phase": null,
+    "project_type": null,
+    "est_size": null,
+    "actual_size": null,
+    "impact_tracker": null,
+    "post_status": null,
+    "owner": "Michael Lerma",
+    "point_person": null,
+    "faculty": null,
+    "dept": null,
+    "start_on": null,
+    "due_on": null,
+    "created_at": "2026-05-27",
+    "last_completed": null
+   },
    "active": true,
    "status_display": "Active (plan)",
    "current_phase": null
@@ -5466,7 +5493,27 @@ window.DATA = {
    "last_month": "2026-06",
    "staffed_points": 0.25,
    "unstaffed_points": 0.0,
-   "asana": null,
+   "asana": {
+    "gid": "1215186457850674",
+    "name": "Proposals and Conferences Prep",
+    "archived": false,
+    "status": null,
+    "ndl_status": null,
+    "current_phase": null,
+    "project_type": null,
+    "est_size": null,
+    "actual_size": null,
+    "impact_tracker": null,
+    "post_status": null,
+    "owner": "Michael Lerma",
+    "point_person": null,
+    "faculty": null,
+    "dept": null,
+    "start_on": null,
+    "due_on": null,
+    "created_at": "2026-05-27",
+    "last_completed": null
+   },
    "active": true,
    "status_display": "Active (plan)",
    "current_phase": null
@@ -12572,13 +12619,13 @@ window.DATA = {
    "gid": "1209298164735103",
    "name": "AI for the Notre Dame Community",
    "archived": false,
-   "status": "Complete",
+   "status": "In Progress",
    "ndl_status": null,
    "current_phase": null,
    "project_type": "New Course Design",
    "est_size": "L",
    "actual_size": null,
-   "impact_tracker": null,
+   "impact_tracker": "Outdated",
    "post_status": null,
    "owner": "Lawrence Greenspun",
    "point_person": null,
@@ -12902,7 +12949,7 @@ window.DATA = {
    "start_on": null,
    "due_on": "2026-06-17",
    "created_at": "2025-12-08",
-   "last_completed": "2026-06-08T13:36:46.451000+00:00"
+   "last_completed": "2026-06-11T19:06:32.871000+00:00"
   },
   {
    "gid": "1212638028024693",
@@ -13010,6 +13057,27 @@ window.DATA = {
    "last_completed": null
   },
   {
+   "gid": "1214783923511436",
+   "name": "Sprint - Methods Applied: Proposal Scaffolded Support (MAPPS)",
+   "archived": false,
+   "status": "In Progress",
+   "ndl_status": null,
+   "current_phase": null,
+   "project_type": null,
+   "est_size": "M",
+   "actual_size": null,
+   "impact_tracker": null,
+   "post_status": null,
+   "owner": "Michael Lerma",
+   "point_person": null,
+   "faculty": null,
+   "dept": null,
+   "start_on": null,
+   "due_on": null,
+   "created_at": "2026-05-13",
+   "last_completed": null
+  },
+  {
    "gid": "1214783923511446",
    "name": "Sprint - Unlocking Inaccessible Korean Heritage",
    "archived": false,
@@ -13091,6 +13159,69 @@ window.DATA = {
    "start_on": null,
    "due_on": null,
    "created_at": "2026-05-27",
+   "last_completed": null
+  },
+  {
+   "gid": "1215342625311441",
+   "name": "Calc II Remodel",
+   "archived": false,
+   "status": null,
+   "ndl_status": null,
+   "current_phase": null,
+   "project_type": null,
+   "est_size": null,
+   "actual_size": null,
+   "impact_tracker": null,
+   "post_status": null,
+   "owner": "Michael Lerma",
+   "point_person": null,
+   "faculty": null,
+   "dept": null,
+   "start_on": null,
+   "due_on": null,
+   "created_at": "2026-06-02",
+   "last_completed": null
+  },
+  {
+   "gid": "1215646180453827",
+   "name": "Blackburn Videos",
+   "archived": false,
+   "status": null,
+   "ndl_status": null,
+   "current_phase": null,
+   "project_type": null,
+   "est_size": null,
+   "actual_size": null,
+   "impact_tracker": null,
+   "post_status": null,
+   "owner": "Michael Lerma",
+   "point_person": null,
+   "faculty": null,
+   "dept": null,
+   "start_on": null,
+   "due_on": null,
+   "created_at": "2026-06-11",
+   "last_completed": null
+  },
+  {
+   "gid": "1215664894792864",
+   "name": "Time Off",
+   "archived": false,
+   "status": null,
+   "ndl_status": null,
+   "current_phase": null,
+   "project_type": null,
+   "est_size": null,
+   "actual_size": null,
+   "impact_tracker": null,
+   "post_status": null,
+   "owner": "Michael Lerma",
+   "point_person": null,
+   "faculty": null,
+   "dept": null,
+   "start_on": null,
+   "due_on": null,
+   "created_at": "2026-06-12",
    "last_completed": null
   }
  ],
@@ -15124,7 +15255,7 @@ window.DATA = {
       "faculty": "Prof. Jenna Smith",
       "type": "New Course Design",
       "fsi": null,
-      "status": "In Progress",
+      "status": "Complete",
       "reflink": null,
       "summary": null,
       "dept_source": "asana",
@@ -15151,6 +15282,65 @@ window.DATA = {
       "status": "Complete",
       "reflink": null,
       "summary": "Design and development of flipped classroom experience for first 1/3 of Molecular Neuroscience course on Canvas.",
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     }
+    ]
+   },
+   {
+    "dept": "Writing Faculty",
+    "n": 4,
+    "avg_fsi": 5.0,
+    "official_name": "University Writing Program",
+    "college": "College of Arts and Letters",
+    "context": "Notre Dame program offering writing courses, tutoring, and a Writing Center to help students develop writing skills.",
+    "context_source": "https://writing.nd.edu/",
+    "projects": [
+     {
+      "project": "Writing in the Age of AI",
+      "faculty": "Prof. Nataniel Myers",
+      "type": "Consultation",
+      "fsi": 5.0,
+      "status": "Complete",
+      "reflink": "https://docs.google.com/document/d/1fIWRQAwQHwW0EgTGhHU3iOP63hcfAhJkg44mh_bZG5o/edit?tab=t.0#heading=h.gjdgxs",
+      "summary": null,
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "AI for the Notre Dame Community",
+      "faculty": null,
+      "type": "New Course Design",
+      "fsi": null,
+      "status": "In Progress",
+      "reflink": null,
+      "summary": null,
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "Multimedia Writing and Rhetoric",
+      "faculty": "Prof. Nathaniel Meyer",
+      "type": "Consultation",
+      "fsi": null,
+      "status": "Complete",
+      "reflink": null,
+      "summary": "Series of consultations on how Prof. Nathaniel could structure his course better",
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "Sprint 2025: Visual Accessibility Training Module",
+      "faculty": "Prof. Whitney Lew James",
+      "type": "Sprint",
+      "fsi": null,
+      "status": "Complete",
+      "reflink": null,
+      "summary": "Asynchronous module and homework assignment around visual accessibility in multimedia and rhetoric writing for Professor Whitney Lew James.",
       "dept_source": "asana",
       "dept_confidence": null,
       "dept_url": null
@@ -15295,53 +15485,6 @@ window.DATA = {
       "dept_source": "nd.edu",
       "dept_confidence": "high",
       "dept_url": "https://theology.nd.edu/people/kimberly-belcher/"
-     }
-    ]
-   },
-   {
-    "dept": "Writing Faculty",
-    "n": 3,
-    "avg_fsi": 5.0,
-    "official_name": "University Writing Program",
-    "college": "College of Arts and Letters",
-    "context": "Notre Dame program offering writing courses, tutoring, and a Writing Center to help students develop writing skills.",
-    "context_source": "https://writing.nd.edu/",
-    "projects": [
-     {
-      "project": "Writing in the Age of AI",
-      "faculty": "Prof. Nataniel Myers",
-      "type": "Consultation",
-      "fsi": 5.0,
-      "status": "Complete",
-      "reflink": "https://docs.google.com/document/d/1fIWRQAwQHwW0EgTGhHU3iOP63hcfAhJkg44mh_bZG5o/edit?tab=t.0#heading=h.gjdgxs",
-      "summary": null,
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     },
-     {
-      "project": "Multimedia Writing and Rhetoric",
-      "faculty": "Prof. Nathaniel Meyer",
-      "type": "Consultation",
-      "fsi": null,
-      "status": "Complete",
-      "reflink": null,
-      "summary": "Series of consultations on how Prof. Nathaniel could structure his course better",
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     },
-     {
-      "project": "Sprint 2025: Visual Accessibility Training Module",
-      "faculty": "Prof. Whitney Lew James",
-      "type": "Sprint",
-      "fsi": null,
-      "status": "Complete",
-      "reflink": null,
-      "summary": "Asynchronous module and homework assignment around visual accessibility in multimedia and rhetoric writing for Professor Whitney Lew James.",
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
      }
     ]
    },
@@ -15511,7 +15654,7 @@ window.DATA = {
       "faculty": "Prof. Xiangliang Zhang",
       "type": "New Course Design",
       "fsi": null,
-      "status": "In Progress",
+      "status": "Complete",
       "reflink": null,
       "summary": "Design and development of online learning experience on the topic of \"Cybertraining for Chemical Data Scientists\" to establish a scalable and sustainable training platform for workforce development in data chemistry.",
       "dept_source": "asana",
@@ -15879,7 +16022,7 @@ window.DATA = {
     ]
    }
   ],
-  "unknown_count": 52,
+  "unknown_count": 53,
   "unknown_projects": [
    "360 Video for Digital Peace Building",
    "Advanced R (Chapple)",
@@ -15923,6 +16066,7 @@ window.DATA = {
    "Spring Readiness '21: GGL",
    "Sprint - Free-Body Diagram Visualization and Mastery",
    "Sprint - Lost in Transliteration",
+   "Sprint - Methods Applied: Proposal Scaffolded Support (MAPPS)",
    "Sprints 2023: Crisis Comms",
    "Sprints 2024: Nydia Morales Sotto",
    "Sprints 2024: Tim Hubbard",
@@ -16599,7 +16743,7 @@ window.DATA = {
       "faculty": "Prof. Xiangliang Zhang",
       "type": "New Course Design",
       "fsi": null,
-      "status": "In Progress",
+      "status": "Complete",
       "reflink": null,
       "assets": 0.0,
       "hours_total": 20.0,
@@ -17913,6 +18057,21 @@ window.DATA = {
     "end": null
    },
    {
+    "project": "AI for the Notre Dame Community",
+    "dept": "Writing Faculty",
+    "dept_source": "asana",
+    "faculty": null,
+    "type": "New Course Design",
+    "fsi": null,
+    "status": "In Progress",
+    "reflink": null,
+    "assets": 0.0,
+    "hours_total": 0.0,
+    "hours_by_year": {},
+    "start": null,
+    "end": null
+   },
+   {
     "project": "AR Math Visualizer (Summer 2025 Pilot)",
     "dept": "Math",
     "dept_source": "asana",
@@ -18225,7 +18384,7 @@ window.DATA = {
     "faculty": "Prof. Jenna Smith",
     "type": "New Course Design",
     "fsi": null,
-    "status": "In Progress",
+    "status": "Complete",
     "reflink": null,
     "assets": 0.0,
     "hours_total": 127.0,
@@ -18689,6 +18848,21 @@ window.DATA = {
    },
    {
     "project": "Sprint - Lost in Transliteration",
+    "dept": "\u2014",
+    "dept_source": null,
+    "faculty": null,
+    "type": null,
+    "fsi": null,
+    "status": "In Progress",
+    "reflink": null,
+    "assets": 0.0,
+    "hours_total": 0.0,
+    "hours_by_year": {},
+    "start": null,
+    "end": null
+   },
+   {
+    "project": "Sprint - Methods Applied: Proposal Scaffolded Support (MAPPS)",
     "dept": "\u2014",
     "dept_source": null,
     "faculty": null,
@@ -19673,27 +19847,6 @@ window.DATA = {
    "first_seen": "2026-06-15"
   },
   {
-   "id": "report-1209298164735103",
-   "category": "post-project",
-   "severity": "low",
-   "scope_type": "project",
-   "scope": "AI for the Notre Dame Community",
-   "gid": "1209298164735103",
-   "title": "No post-project report: AI for the Notre Dame Community",
-   "detail": "Project is Complete (last activity Nov 2025) but has no post-project evaluation/report on record.",
-   "metric": "no report",
-   "suggested_action": "Send the reflection survey and produce the evaluation report.",
-   "source": "auto",
-   "status": "Not Started",
-   "owner": "",
-   "target_month": "",
-   "notes": "",
-   "evidence_url": "",
-   "updated_at": "",
-   "updated_by": "",
-   "first_seen": "2026-06-15"
-  },
-  {
    "id": "report-1209213189516073",
    "category": "post-project",
    "severity": "low",
@@ -19736,6 +19889,27 @@ window.DATA = {
    "first_seen": "2026-06-15"
   },
   {
+   "id": "report-1211900372320318",
+   "category": "post-project",
+   "severity": "low",
+   "scope_type": "project",
+   "scope": "C2D: Cybertraining for Chemical Data Scientists",
+   "gid": "1211900372320318",
+   "title": "No post-project report: C2D: Cybertraining for Chemical Data Scientists",
+   "detail": "Project is Complete (last activity May 2026) but has no post-project evaluation/report on record.",
+   "metric": "no report",
+   "suggested_action": "Send the reflection survey and produce the evaluation report.",
+   "source": "auto",
+   "status": "Not Started",
+   "owner": "",
+   "target_month": "",
+   "notes": "",
+   "evidence_url": "",
+   "updated_at": "",
+   "updated_by": "",
+   "first_seen": "2026-06-24"
+  },
+  {
    "id": "report-1212638028070139",
    "category": "post-project",
    "severity": "low",
@@ -19776,6 +19950,27 @@ window.DATA = {
    "updated_at": "",
    "updated_by": "",
    "first_seen": "2026-06-15"
+  },
+  {
+   "id": "report-1207760971753716",
+   "category": "post-project",
+   "severity": "low",
+   "scope_type": "project",
+   "scope": "FCTA - Physics I",
+   "gid": "1207760971753716",
+   "title": "No post-project report: FCTA - Physics I",
+   "detail": "Project is Complete (last activity Jan 2026) but has no post-project evaluation/report on record.",
+   "metric": "no report",
+   "suggested_action": "Send the reflection survey and produce the evaluation report.",
+   "source": "auto",
+   "status": "Not Started",
+   "owner": "",
+   "target_month": "",
+   "notes": "",
+   "evidence_url": "",
+   "updated_at": "",
+   "updated_by": "",
+   "first_seen": "2026-06-24"
   },
   {
    "id": "report-1211900373500710",
@@ -19895,6 +20090,17 @@ let MONTHS = D.meta.months;
 let PH = D.meta.point_hours, FULL = D.meta.full_monthly_points;
 let TODAY = D.meta.today, NOW = TODAY.slice(0,7);
 let SCOPES = D.capacity.scopes;
+// --- source links: every figure should point back to where it came from ---
+const SRC=(D.meta&&D.meta.sources)||{};
+const WB_URL=SRC.workbook||"";
+function asanaUrl(gid){return gid?((SRC.asana_project_base||"https://app.asana.com/0/")+gid):"";}
+function srcTag(href,label){return href?` <a class="src" href="${esc(href)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Open the source: ${esc(label)}">${esc(label)} ↗</a>`:"";}
+function top5Link(x){const t=(x.t+" "+x.s).toLowerCase();
+  if(/person is|people are|\bpeople\b/.test(t))return {tab:"people",label:"See People"};
+  if(/recommendation/.test(t))return {tab:"recs",label:"See Recommendations"};
+  if(/intake/.test(t))return null;
+  if(/capacity|headroom|full load/.test(t))return {tab:"capacity",label:"See Capacity"};
+  return {tab:"projects",label:"See Projects"};}
 let LIVE = false;
 const $ = (s,r=document)=>r.querySelector(s);
 const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
@@ -20358,7 +20564,7 @@ function subHead(t){return el("div",{html:`<b>${esc(t)}</b>`,style:"font-size:12
 function renderBrief(){
   const c=$("#tab-brief"); c.innerHTML="";
   const hd=el("div",{class:"brief-hd"});
-  hd.innerHTML=`<h1>Monday ODL Brief</h1><div class="wk">Week of ${esc(weekOf(TODAY))} · built from the capacity workbook + Asana snapshot (${esc(D.meta.asana_snapshot_date||TODAY)})</div>`;
+  hd.innerHTML=`<h1>Monday ODL Brief</h1><div class="wk">Week of ${esc(weekOf(TODAY))} · built from the <a class="src" href="${esc(WB_URL)}" target="_blank" rel="noopener">capacity workbook ↗</a> + <a class="src" href="${esc(SRC.asana_home||'https://app.asana.com/')}" target="_blank" rel="noopener">Asana snapshot ↗</a> (${esc(D.meta.asana_snapshot_date||TODAY)})</div>`;
   c.appendChild(hd);
   const QS=[["attention","①","What needs attention this week?"],["portfolio","②","How is the portfolio moving?"],["improving","③","How are we improving?"],["roundup","✍","Round-up email draft"]];
   const nav=el("div",{class:"qnav"});
@@ -20373,8 +20579,9 @@ function briefAttentionView(c){
   let P=briefPanel("Top 5 things to know","The signals worth a director's glance — each with a recommended action.");
   const top=briefTop5();
   if(!top.length)P.bd.innerHTML=`<div class="muted">Nothing notable this week — capacity, recommendations and projects all look steady. 🎉</div>`;
-  top.forEach((x,i)=>{const r=el("div",{class:"insight"});
-    r.innerHTML=`<div class="it">${i+1}. ${esc(x.t)}</div><div class="is">${esc(x.s)}</div><div class="ia"><b>→ ${esc(x.a)}</b></div>`;
+  top.forEach((x,i)=>{const r=el("div",{class:"insight"});const lk=top5Link(x);
+    const lkHtml=lk?` <a class="src" href="#${lk.tab}" onclick="state.tab='${lk.tab}';render();return false;">${esc(lk.label)} →</a>`:"";
+    r.innerHTML=`<div class="it">${i+1}. ${esc(x.t)}</div><div class="is">${esc(x.s)}</div><div class="ia"><b>→ ${esc(x.a)}</b>${lkHtml}</div>`;
     P.bd.appendChild(r);});
   c.appendChild(P.panel);
   // Projects needing attention (cap 5, expandable)
@@ -20444,7 +20651,7 @@ function briefPortfolioView(c){
   const ops=briefInputs().ops||{};
   P=briefPanel("Timesheet compliance","Time-tracking completeness — it's what turns estimates into better estimates and shows true capacity.");
   if(ops.timesheet_compliance_pct==null)
-    P.bd.innerHTML=`<div class="muted">Not tracked automatically yet. Set <code>timesheet_compliance_pct</code> in <code>brief_inputs.json</code> to show the team's submission rate here.</div>`;
+    P.bd.innerHTML=`<div class="muted">Time gets logged in Asana, but a team-wide submission rate isn't part of this data snapshot yet.${srcTag(SRC.asana_home,"Asana time tracking")}</div>`;
   else{const v=Math.round(ops.timesheet_compliance_pct),col=v>=90?"var(--green)":v>=75?"var(--amber)":"var(--red)",
     badge=v>=90?"Strong":v>=75?"Watch":"Needs attention";
     const g3=el("div",{class:"grid cards"});
@@ -20757,7 +20964,7 @@ function renderCapacityMaster(c,scope,months){
   const p=el("div",{class:"panel"});
   const liveTag=LIVE?`<span class="pill green" title="recomputed live from the workbook">live</span>`:`<span class="pill gray" title="baked snapshot">snapshot</span>`;
   p.innerHTML=`<div class="hd"><h2>Capacity plan — master view ${liveTag}</h2>
-    <div class="desc">The full plan behind the summary: every project's ${scope==="Total"?"":esc(scope)+" "}staffing, month by month, exactly as it stands now${LIVE?" (live from the workbook)":""}. Click a project to expand its roles &amp; people. ${unit()==="hrs"?"Hours":"Points"} (1 pt = ${PH}h).</div></div>`;
+    <div class="desc">The full plan behind the summary: every project's ${scope==="Total"?"":esc(scope)+" "}staffing, month by month, exactly as it stands now${LIVE?" (live from the workbook)":""}. Click a project to expand its roles &amp; people. ${unit()==="hrs"?"Hours":"Points"} (1 pt = ${PH}h).${srcTag(WB_URL,"capacity workbook")}</div></div>`;
   const bd=el("div",{class:"bd"});
   if(!rows.length){bd.innerHTML=`<div class="muted">No ${scope==="Total"?"":esc(scope)+" "}allocations in the selected window. Widen the window above.</div>`;p.appendChild(bd);c.appendChild(p);return;}
 
@@ -20921,7 +21128,7 @@ function renderProjects(){
   dirBtn.onclick=()=>{state.projSort.dir*=-1;drawProjTable();};
   bar.appendChild(dirBtn);
   c.appendChild(bar);
-  const p=el("div",{class:"panel"});p.innerHTML=`<div class="hd"><h2>Projects</h2><div class="desc" id="projCount"></div></div><div class="bd" id="projTableBd"></div>`;
+  const p=el("div",{class:"panel"});p.innerHTML=`<div class="hd"><h2>Projects</h2><div class="desc" id="projCount"></div><div class="desc">Status, phase, faculty and dates come from Asana; effort and staffing from the capacity workbook. Open any project for its Asana link.${srcTag(SRC.asana_home,"Asana")}${srcTag(WB_URL,"workbook")}</div></div><div class="bd" id="projTableBd"></div>`;
   c.appendChild(p);
   drawProjTable();
 }
@@ -20977,7 +21184,7 @@ function openProject(p){
     ${a.dept?`<div class="k">Department</div><div>${esc(a.dept)}</div>`:""}
     ${a.point_person?`<div class="k">Point person</div><div>${esc(a.point_person)}</div>`:""}
     ${a.impact_tracker?`<div class="k">Impact tracker</div><div><span class="pill ${a.impact_tracker==='Outdated'?'red':'green'}">${esc(a.impact_tracker)}</span></div>`:""}
-    ${p.asana?"":`<div class="k">Asana</div><div class="muted">not matched to a live Asana project</div>`}
+    <div class="k">Asana</div><div>${p.asana&&a.gid?`<a class="src" href="${esc(asanaUrl(a.gid))}" target="_blank" rel="noopener">Open in Asana ↗</a>`:`<span class="muted">not matched to a live Asana project</span>`}</div>
     ${(function(){const rf=reflectionsFor(p.name);return rf.length?`<div class="k">Reflection</div><div>${rf.map(r=>`<a href="${esc(r.doc_url||r.drive_url||r.rel)}" target="_blank" rel="noopener">📄 ${esc(r.type)}</a>`).join(" · ")}</div>`:"";})()}
   </div>`;
   // phase gantt
@@ -21060,7 +21267,7 @@ function renderFaculty(){
 
     // per-project ratings table (links to the live reflection report when we have one)
     const tp=el("div",{class:"panel"});
-    tp.innerHTML=`<div class="hd"><h2>Satisfaction by project</h2><div class="desc">${f.ratings.length} rated projects, highest first.</div></div>`;
+    tp.innerHTML=`<div class="hd"><h2>Satisfaction by project</h2><div class="desc">${f.ratings.length} rated projects, highest first. Scores come from the faculty Impact Tracker in Asana.${srcTag(SRC.asana_home,"Asana Impact Tracker")}</div></div>`;
     const rows=f.ratings.map(r=>{
       const refs=reflectionsFor(r.project);
       const link=(r.reflink||refs.length)?`<a href="${esc(r.reflink||refs[0].doc_url||refs[0].drive_url||refs[0].rel)}" target="_blank" rel="noopener">📄 report</a>`:"";
@@ -21077,7 +21284,7 @@ function renderDepartments(c){
   if(!DD.length)return;
   const p=el("div",{class:"panel"});
   const total=DD.reduce((a,d)=>a+d.n,0), unmapped=meta.unknown_count||0;
-  p.innerHTML=`<div class="hd"><h2>Departments ODL works with</h2><div class="desc">${DD.length} Notre Dame departments / units across ${total} Impact Tracker projects${unmapped?` · ${unmapped} project${unmapped>1?'s':''} not yet mapped to a department`:""}. Click a department to see its projects.</div></div>`;
+  p.innerHTML=`<div class="hd"><h2>Departments ODL works with</h2><div class="desc">${DD.length} Notre Dame departments / units across ${total} Impact Tracker projects${unmapped?` · ${unmapped} project${unmapped>1?'s':''} not yet mapped to a department`:""}. Click a department to see its projects.${srcTag(SRC.asana_home,"Asana")}</div></div>`;
   const bd=el("div",{class:"bd"});
   DD.forEach(d=>{
     const card=el("div",{class:"rec"});
@@ -21130,7 +21337,7 @@ function renderFacultyYears(c){
   if(!YY.length){c.appendChild(el("div",{class:"note"},"No Start/End dates on the Impact Tracker projects yet, so they can't be grouped by year. Add dates in Asana (or switch to “By department”)."));return;}
   const p=el("div",{class:"panel"});
   const tot=YY.reduce((a,y)=>a+y.n,0), unk=(meta.unknown||[]).length;
-  p.innerHTML=`<div class="hd"><h2>Projects ODL worked on, by year</h2><div class="desc">${meta.min_year}–${meta.max_year}. A project counts in every calendar year it was active (its Start → End on the Asana Impact Tracker), with its department shown alongside${unk?` · ${unk} project${unk>1?'s':''} have no dates yet (listed at the bottom)`:""}. Click a year to expand.</div></div>`;
+  p.innerHTML=`<div class="hd"><h2>Projects ODL worked on, by year</h2><div class="desc">${meta.min_year}–${meta.max_year}. A project counts in every calendar year it was active (its Start → End on the Asana Impact Tracker), with its department shown alongside${unk?` · ${unk} project${unk>1?'s':''} have no dates yet (listed at the bottom)`:""}. Click a year to expand.${srcTag(SRC.asana_home,"Asana Impact Tracker")}</div></div>`;
   const bd=el("div",{class:"bd"});
   const FYHEAD=`<tr><th class="nosort">Project</th><th class="nosort">Department</th><th class="nosort">Faculty</th><th class="nosort">Type</th><th class="num nosort">FSI</th><th class="nosort">Status</th><th class="nosort">When</th><th class="num nosort">Hours</th><th class="nosort">Reflection</th></tr>`;
   YY.forEach((y,i)=>{
@@ -21551,7 +21758,7 @@ function buildMonthPickers(){
   t.onchange=e=>{state.to=clampIdx(+e.target.value);if(state.to<state.from)state.from=state.to;buildMonthPickers();render();};
 }
 function boot(){
-  $("#prov").innerHTML=`Workbook: ${esc(D.meta.source_xlsx)}<br>Asana snapshot: ${esc(D.meta.asana_snapshot_date||"n/a")} · built ${esc((D.meta.generated_at||"").slice(0,10))}`;
+  $("#prov").innerHTML=`Workbook: <a class="src" href="${esc(WB_URL)}" target="_blank" rel="noopener">${esc(D.meta.source_xlsx)} ↗</a><br>Asana snapshot: <a class="src" href="${esc(SRC.asana_home||'https://app.asana.com/')}" target="_blank" rel="noopener">${esc(D.meta.asana_snapshot_date||"n/a")} ↗</a> · built ${esc((D.meta.generated_at||"").slice(0,10))}`;
   $("#foot").innerHTML=`ODL Capacity &amp; Performance · data from the capacity workbook + Asana snapshot (${esc(D.meta.asana_snapshot_date||"")}) · 1 point = ${PH}h, ${FULL} points/month = full load · figures recomputed from the Projects tab.`;
   $$("#unitSeg button").forEach(b=>b.onclick=()=>{state.unit=b.getAttribute("data-u");$$("#unitSeg button").forEach(x=>x.classList.toggle("active",x===b));render();});
   $("#btnRefresh").onclick=()=>tryLive(true);

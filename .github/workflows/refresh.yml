@@ -36,8 +36,7 @@ jobs:
       - name: Check out odl-estimator (for the fresh Asana snapshot)
         uses: actions/checkout@v4
         with:
-          repository: jliu234-cell/odl-estimator
-          token: ${{ secrets.ESTIMATOR_REPO_TOKEN }}
+          repository: jliu234-cell/odl-estimator   # public, so the default token can read it
           path: _estimator
           sparse-checkout: data_all
 

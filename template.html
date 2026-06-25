@@ -250,8 +250,8 @@
     <span class="spacer" style="flex:1"></span>
     <span class="livewrap">
       <span id="liveBadge" class="pill gray" title="data source">📦 snapshot</span>
-      <button class="btn ghost" id="btnRefresh" title="Re-read current numbers (needs the local server)">↻ Refresh</button>
-      <button class="btn ghost" id="btnSync" title="Pull the latest from Asana (needs the local server + ASANA_TOKEN)">⟳ Sync Asana</button>
+      <button class="btn ghost" id="btnRefresh" style="display:none" title="Re-read current numbers (needs the local server)">↻ Refresh</button>
+      <button class="btn ghost" id="btnSync" style="display:none" title="Pull the latest from Asana (needs the local server + ASANA_TOKEN)">⟳ Sync Asana</button>
     </span>
   </div>
 
@@ -421,6 +421,9 @@ function applyData(newData){
   buildMonthPickers(); buildTabs(); render();
 }
 function setLiveBadge(){
+  // the Refresh / Sync Asana buttons only work against serve.py -> show them only
+  // when we're actually served live; on the published site they stay hidden.
+  ["btnRefresh","btnSync"].forEach(id=>{const x=document.getElementById(id);if(x)x.style.display=LIVE?"":"none";});
   const b=$("#liveBadge"); if(!b)return;
   const snap=esc((D.meta.asana_snapshot_date||"").slice(0,10));
   if(LIVE){const t=(D.meta.served_at||"").slice(11,16);
@@ -1314,7 +1317,7 @@ function openPerson(name){
 }
 
 /* ---------- People tab: actual logged hours (Asana time-tracking) ---------- */
-const HCOLORS=["#2f6fb3","#e08a2b","#2f9e57","#b1542f","#7a5ea8","#3aa6a6","#c2456e","#8a9a2b","#5b6573"];
+const HCOLORS=["#4e79a7","#f28e2b","#59a14f","#e15759","#b07aa1","#76b7b2","#d37295","#8a9a2b","#9c755f","#5566c9","#1aa3a3","#c4623d","#7a5ea8","#e6a817"];
 // bucket key for a YYYY-MM-DD date at the chosen precision
 function hoursPeriodKey(d,prec){
   if(prec==="daily")return d;
@@ -1369,7 +1372,8 @@ function renderHoursLog(c){
   const NMAX={daily:30,weekly:26,biweekly:16,monthly:18}[prec]||20;
   const vis=allKeys.slice(-NMAX);
   // categories: top-K by total + "Other" (Team total is a single series)
-  const KMAX=8; let cats, folded=false;
+  // people are few -> show every individual (no "Other"); projects/phases stay capped for a readable chart
+  const KMAX=by==="person"?HL.people.length:10; let cats, folded=false;
   if(by==="total"){cats=[{ci:0,label:"All logged hours",color:HCOLORS[0]}];}
   else{
     const ranked=[...allTot.entries()].sort((a,b)=>b[1]-a[1]);

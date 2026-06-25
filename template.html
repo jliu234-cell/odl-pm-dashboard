@@ -323,6 +323,7 @@ function pct(x){return x==null?"—":Math.round(x*100)+"%";}
 /* ---------- state ---------- */
 const state = {tab:"brief", briefQ:"attention", from:clampIdx(nowIdx()-1), to:MONTHS.length-1,
   unit:"pts", capScope:"Total", capMode:"summary", peopleMetric:"remaining", peopleTeam:"all",
+  hoursPrec:"weekly", hoursBy:"person",
   facMode:"dept", masterExpand:{},
   projFilter:{active:true,team:"all",status:"all",q:""}, projSort:{k:"name",dir:1},
   recFilter:{status:"all",category:"all",severity:"all",q:""}, plan:[]};
@@ -1247,7 +1248,7 @@ function renderPeople(){
   // sort by team then name
   const torder={Design:0,Media:1,PM:2,Intern:3,Other:4};
   names.sort((a,b)=>(torder[cap.person[a].team]-torder[cap.person[b].team])||a.localeCompare(b));
-  if(!names.length){c.appendChild(el("div",{class:"note"},"No people have capacity or scheduled load in the selected window. Widen the window above."));return;}
+  if(!names.length){c.appendChild(el("div",{class:"note"},"No people have capacity or scheduled load in the selected window. Widen the window above."));renderHoursLog(c);return;}
 
   const metric=state.peopleMetric;
   const desc=metric==="remaining"?"Free capacity each month (estimated − scheduled). Red = over capacity.":
@@ -1269,6 +1270,7 @@ function renderPeople(){
     }, legend, openPerson);
   c.appendChild(panel);
   c.appendChild(el("div",{class:"note"},`Mirrors the workbook's “Remaining Capacity” view (the team's red/green over/under check) — recomputed live from the Projects tab. Click a name for their projects.`));
+  renderHoursLog(c);   // actual logged hours (Asana time-tracking) — daily/weekly/biweekly/monthly
   // the capacity recommendations live here now — full tracking (mark + note), not just a list
   (function(){
     const CAP=["capacity-person","capacity-team","capacity-unstaffed"];
@@ -1309,6 +1311,119 @@ function openPerson(name){
     <tr><td class="rowlab">Scheduled</td>${months.map(m=>{const s=pp.scheduled[m]||0;return `<td><div class="mcell" style="background:${s>0?'#e7f0fb':'#f4f6f9'}">${s>0?val(s):""}</div></td>`;}).join("")}</tr>
     <tr><td class="rowlab">Remaining</td>${months.map(m=>{const r=pp.remaining[m];const e=pp.estimated[m];return `<td><div class="mcell" style="background:${remColor(r,e==null?null:e)};color:${(e!=null&&r<-0.01)?'#fff':'#13233a'}">${(e==null&&(pp.scheduled[m]||0)===0)?"":val(r)}</div></td>`;}).join("")}</tr></table>`;
   drawer(name,`<span class="pill navy">${esc(pp.team)}</span>`,body);
+}
+
+/* ---------- People tab: actual logged hours (Asana time-tracking) ---------- */
+const HCOLORS=["#2f6fb3","#e08a2b","#2f9e57","#b1542f","#7a5ea8","#3aa6a6","#c2456e","#8a9a2b","#5b6573"];
+// bucket key for a YYYY-MM-DD date at the chosen precision
+function hoursPeriodKey(d,prec){
+  if(prec==="daily")return d;
+  if(prec==="monthly")return d.slice(0,7);                 // YYYY-MM
+  const dt=new Date(d+"T00:00:00Z");
+  dt.setUTCDate(dt.getUTCDate()-((dt.getUTCDay()+6)%7));    // back to Monday (0=Mon…6=Sun)
+  if(prec==="biweekly"){                                    // align to even week from Mon 2024-01-01
+    const wk=Math.round((dt.getTime()-Date.UTC(2024,0,1))/(7*864e5));
+    if(((wk%2)+2)%2===1)dt.setUTCDate(dt.getUTCDate()-7);
+  }
+  return dt.toISOString().slice(0,10);
+}
+function hoursPeriodLabel(k,prec){
+  if(prec==="monthly"){const[a,b]=k.split("-");return MON[+b]+" '"+a.slice(2);}
+  const p=k.split("-");return MON[+p[1]]+" "+(+p[2]);       // "Jun 2" (day or week-start)
+}
+function renderHoursLog(c){
+  const HL=D.hours_log;
+  if(!HL||!HL.entries||!HL.entries.length)return;
+  c.appendChild(el("h3",{style:"margin:22px 0 4px"},
+    `⏱ Logged hours <span class="muted" style="font-weight:400;font-size:13px">· actual time tracked in Asana</span>`));
+  c.appendChild(el("div",{class:"note",style:"border-color:#cdd9ea;background:#eef4fc"},
+    `<b>Actual hours logged in Asana time-tracking</b> — the real time spent, separate from the points/capacity plan above. ${esc(HL.date_min)} → ${esc(HL.date_max)}, ${round(HL.total_hours,0)} h total. Pick the time grain and how to group.`));
+  // ---- controls ----
+  const bar=el("div",{class:"toolbar"});
+  bar.appendChild(el("label",{},"Precision"));
+  const segP=el("span",{class:"seg"});
+  [["daily","Daily"],["weekly","Weekly"],["biweekly","Biweekly"],["monthly","Monthly"]].forEach(([k,l])=>{
+    const b=el("button",{},l);if(k===state.hoursPrec)b.classList.add("active");
+    b.onclick=()=>{state.hoursPrec=k;renderPeople();};segP.appendChild(b);});
+  bar.appendChild(segP);
+  bar.appendChild(el("label",{style:"margin-left:6px"},"Group by"));
+  const segB=el("span",{class:"seg"});
+  [["person","Person"],["project","Project"],["phase","Phase"],["total","Team total"]].forEach(([k,l])=>{
+    const b=el("button",{},l);if(k===state.hoursBy)b.classList.add("active");
+    b.onclick=()=>{state.hoursBy=k;renderPeople();};segB.appendChild(b);});
+  bar.appendChild(segB);
+  c.appendChild(bar);
+
+  const prec=state.hoursPrec, by=state.hoursBy;
+  const dim=by==="person"?HL.people:by==="project"?HL.projects:by==="phase"?HL.phases:null;
+  const ciOf=e=>by==="person"?e[1]:by==="project"?e[2]:by==="phase"?e[3]:0;
+  // period -> Map(catIdx -> hours); and overall per-cat totals (for ranking)
+  const periods=new Map(), allTot=new Map();
+  HL.entries.forEach(e=>{
+    const pk=hoursPeriodKey(e[0],prec), ci=ciOf(e), h=e[4];
+    if(!periods.has(pk))periods.set(pk,new Map());
+    const row=periods.get(pk);row.set(ci,(row.get(ci)||0)+h);
+    allTot.set(ci,(allTot.get(ci)||0)+h);
+  });
+  const allKeys=[...periods.keys()].sort();
+  const NMAX={daily:30,weekly:26,biweekly:16,monthly:18}[prec]||20;
+  const vis=allKeys.slice(-NMAX);
+  // categories: top-K by total + "Other" (Team total is a single series)
+  const KMAX=8; let cats, folded=false;
+  if(by==="total"){cats=[{ci:0,label:"All logged hours",color:HCOLORS[0]}];}
+  else{
+    const ranked=[...allTot.entries()].sort((a,b)=>b[1]-a[1]);
+    const top=ranked.slice(0,KMAX).map(([ci])=>ci), topSet=new Set(top);
+    cats=top.map((ci,i)=>({ci,label:dim[ci],color:HCOLORS[i%HCOLORS.length]}));
+    if(ranked.length>KMAX){
+      folded=true; cats.push({ci:"__other",label:"Other ("+(ranked.length-KMAX)+")",color:"#c4ccd6"});
+      periods.forEach(row=>{let o=0;[...row.keys()].forEach(ci=>{if(!topSet.has(ci)){o+=row.get(ci);row.delete(ci);}});if(o)row.set("__other",o);});
+    }
+  }
+  // visible-window totals per cat (for the table)
+  const winTot=new Map();
+  vis.forEach(pk=>periods.get(pk).forEach((v,ci)=>winTot.set(ci,(winTot.get(ci)||0)+v)));
+  const winSum=[...winTot.values()].reduce((a,b)=>a+b,0)||1;
+
+  // ---- stacked bar chart ----
+  const H=210,padL=36,padB=52,padT=12;
+  const n=Math.max(1,vis.length), plotW=Math.max(280,n*Math.min(46,Math.max(20,560/n)));
+  const W=plotW+padL+10, step=plotW/n, bw=Math.min(30,step*0.72), plotH=H-padT-padB;
+  const maxV=Math.max(1,...vis.map(pk=>{let s=0;periods.get(pk).forEach(v=>s+=v);return s;}));
+  const sc=v=>v/maxV*plotH;
+  let svg=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px"><g font-size="9" fill="#5b6573">`;
+  for(let t=0;t<=4;t++){const yv=maxV*t/4,y=padT+plotH-sc(yv);
+    svg+=`<line x1="${padL}" y1="${y}" x2="${W-6}" y2="${y}" stroke="#eef1f4"/><text x="${padL-5}" y="${y+3}" text-anchor="end">${Math.round(yv)}</text>`;}
+  const everyNth=Math.ceil(n/18);
+  vis.forEach((pk,i)=>{
+    const row=periods.get(pk),x=padL+step*i+(step-bw)/2;let yc=padT+plotH;
+    cats.forEach(cat=>{const v=row.get(cat.ci)||0;if(v<=0)return;const hh=sc(v);yc-=hh;
+      svg+=`<rect x="${round(x,1)}" y="${round(yc,1)}" width="${round(bw,1)}" height="${round(hh,1)}" fill="${cat.color}"><title>${esc(hoursPeriodLabel(pk,prec))} · ${esc(cat.label)}: ${round(v,1)} h</title></rect>`;});
+    if(i%everyNth===0)
+      svg+=`<text x="${round(x+bw/2,1)}" y="${H-padB+12}" text-anchor="middle" transform="rotate(35 ${round(x+bw/2,1)} ${H-padB+12})">${esc(hoursPeriodLabel(pk,prec))}</text>`;
+  });
+  svg+=`<text x="2" y="${padT+8}" font-size="9">hours</text></g></svg>`;
+  const card=el("div",{class:"card",style:"padding:12px"});card.innerHTML=svg;c.appendChild(card);
+
+  // ---- legend (skip for single-series total) ----
+  if(by!=="total"){
+    const lg=el("div",{style:"display:flex;flex-wrap:wrap;gap:10px;margin:8px 2px"});
+    cats.forEach(cat=>lg.appendChild(el("span",{class:"muted small",style:"display:inline-flex;align-items:center;gap:5px"},
+      `<span style="width:11px;height:11px;border-radius:2px;background:${cat.color};display:inline-block"></span>${esc(cat.label)}`)));
+    c.appendChild(lg);
+  }
+
+  // ---- table: per-category totals over the visible window ----
+  const order=cats.filter(cat=>(winTot.get(cat.ci)||0)>0).sort((a,b)=>(winTot.get(b.ci)||0)-(winTot.get(a.ci)||0));
+  const head={person:"Person",project:"Project",phase:"Phase",total:"Series"}[by];
+  let tb=`<table><thead><tr><th class="nosort">${esc(head)}</th><th class="num nosort">Hours (last ${vis.length})</th><th class="num nosort">Share</th></tr></thead><tbody>`;
+  order.forEach(cat=>{const v=winTot.get(cat.ci)||0;
+    tb+=`<tr><td><span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${cat.color};margin-right:6px"></span>${esc(cat.label)}</td><td class="num">${round(v,1)}</td><td class="num">${pct(v/winSum)}</td></tr>`;});
+  tb+=`<tr style="font-weight:700;border-top:2px solid var(--line)"><td>Total</td><td class="num">${round(winSum,1)}</td><td class="num">100%</td></tr></tbody></table>`;
+  const tcard=el("div",{style:"margin-top:10px"});tcard.innerHTML=tb;c.appendChild(tcard);
+  const grain={daily:"days",weekly:"weeks",biweekly:"two-week periods",monthly:"months"}[prec];
+  c.appendChild(el("div",{class:"muted small",style:"margin-top:4px"},
+    `Most recent ${vis.length} ${grain} with logged time${folded?`; ${by}s beyond the top ${KMAX} are folded into “Other”`:""}. Real Asana time entries, refreshed nightly.`));
 }
 
 /* ===================================================================== */

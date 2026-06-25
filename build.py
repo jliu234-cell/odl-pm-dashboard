@@ -417,6 +417,36 @@ def parse_impact_tracker():
     return tasks
 
 
+def parse_time_entries():
+    """Per-entry Asana time-tracking (``data_all/time_entries.csv``, rebuilt nightly
+    by the estimator's asana_pull) -> a compact, string-interned log the dashboard
+    buckets into daily/weekly/biweekly/monthly views, grouped by person, project,
+    or phase. Returns {} when the file isn't present (so the section just hides)."""
+    path = os.path.join(ASANA_DIR, "time_entries.csv")
+    if not os.path.exists(path):
+        return {}
+    people, projects, phases = {}, {}, {}        # value -> stable index
+    def idx(d, v):
+        v = (v or "").strip() or "—"
+        return d.setdefault(v, len(d))
+    entries = []
+    for r in csv.DictReader(open(path, encoding="utf-8")):
+        date = (r.get("entry_date") or "").strip()[:10]
+        hrs = as_num(r.get("hours"))
+        if len(date) != 10 or not hrs:           # need a real date + non-zero hours
+            continue
+        entries.append([date, idx(people, r.get("entry_author")),
+                        idx(projects, r.get("project_name")),
+                        idx(phases, r.get("canonical_phase")), round(hrs, 2)])
+    if not entries:
+        return {}
+    entries.sort(key=lambda e: e[0])
+    inv = lambda d: [k for k, _ in sorted(d.items(), key=lambda kv: kv[1])]
+    return {"people": inv(people), "projects": inv(projects), "phases": inv(phases),
+            "entries": entries, "date_min": entries[0][0], "date_max": entries[-1][0],
+            "total_hours": round(sum(e[4] for e in entries), 1)}
+
+
 def parse_faculty_ratings(impact):
     """Per-project faculty satisfaction from the Impact Tracker (tasks with an
     FSI). Fuller perspectives data lives in Qualtrics (access pending)."""
@@ -1174,6 +1204,9 @@ def compute_data(do_recs=True, write_status=True, verbose=False):
         "capacity": cap, "workbook_reference": wb_ref, "drift": drift,
         "projects": projects, "asana_only_projects": asana_only, "tshirt": tshirt,
         "size_profiles": size_profiles,
+        # actual hours logged in Asana time-tracking, for the People-tab logged-hours
+        # view (bucketed daily/weekly/biweekly/monthly in the browser).
+        "hours_log": parse_time_entries(),
         "faculty": faculty, "reflections": reflections, "departments": departments,
         "faculty_years": faculty_years,
         # manual weekly inputs for the Director Brief (intake queue, All-Hands

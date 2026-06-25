@@ -20,6 +20,7 @@ on:
 
 permissions:
   contents: write              # to commit the refreshed data.json / index.html
+  actions: write               # to kick off the deploy-pages workflow after pushing
 
 concurrency:
   group: dashboard-refresh
@@ -60,9 +61,24 @@ jobs:
         run: python3 build.py
 
       - name: Commit & push the refreshed dashboard
+        id: push
         run: |
           git config user.name  "odl-dashboard-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data.json index.html statuses.json
-          git diff --cached --quiet || git commit -m "dashboard refresh $(date -u +%F)"
-          git push
+          if git diff --cached --quiet; then
+            echo "Nothing changed -- skipping commit + publish."
+          else
+            git commit -m "dashboard refresh $(date -u +%F)"
+            git push
+            echo "published=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The push above is made with GITHUB_TOKEN, and GitHub will NOT auto-trigger
+      # deploy-pages from a GITHUB_TOKEN push (anti-recursion). So fire it explicitly
+      # -- workflow_dispatch IS allowed from GITHUB_TOKEN. Only when something changed.
+      - name: Publish the refreshed page to GitHub Pages
+        if: steps.push.outputs.published == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --ref main

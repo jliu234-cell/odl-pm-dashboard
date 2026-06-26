@@ -1,7 +1,7 @@
 {
  "meta": {
-  "generated_at": "2026-06-25T19:31:41",
-  "today": "2026-06-25",
+  "generated_at": "2026-06-26T19:22:29",
+  "today": "2026-06-26",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -34,7 +34,7 @@
    "2026-11",
    "2026-12"
   ],
-  "asana_snapshot_date": "2026-06-25",
+  "asana_snapshot_date": "2026-06-26",
   "source_xlsx": "ODL Project and Capacity Planning.xlsx",
   "sources": {
    "workbook": "https://docs.google.com/spreadsheets/d/1fGHuQqu9iWC3TXjPr0hKBvCqz-8ZB9o73e2r0lbZFFE/edit",
@@ -30255,6 +30255,13 @@
    [
     "2026-06-24",
     3,
+    10,
+    5,
+    3.0
+   ],
+   [
+    "2026-06-24",
+    3,
     27,
     16,
     2.0
@@ -30269,7 +30276,7 @@
   ],
   "date_min": "2024-08-19",
   "date_max": "2026-06-24",
-  "total_hours": 2155.8
+  "total_hours": 2158.8
  },
  "faculty": {
   "source": "Asana Impact Tracker",

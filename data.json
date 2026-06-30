@@ -1,7 +1,7 @@
 {
  "meta": {
-  "generated_at": "2026-06-29T19:25:26",
-  "today": "2026-06-29",
+  "generated_at": "2026-06-30T19:24:32",
+  "today": "2026-06-30",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -34,7 +34,7 @@
    "2026-11",
    "2026-12"
   ],
-  "asana_snapshot_date": "2026-06-29",
+  "asana_snapshot_date": "2026-06-30",
   "source_xlsx": "ODL Project and Capacity Planning.xlsx",
   "sources": {
    "workbook": "https://docs.google.com/spreadsheets/d/1fGHuQqu9iWC3TXjPr0hKBvCqz-8ZB9o73e2r0lbZFFE/edit",

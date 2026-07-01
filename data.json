@@ -1,7 +1,7 @@
 {
  "meta": {
-  "generated_at": "2026-06-30T19:24:32",
-  "today": "2026-06-30",
+  "generated_at": "2026-07-01T19:23:36",
+  "today": "2026-07-01",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -34,7 +34,7 @@
    "2026-11",
    "2026-12"
   ],
-  "asana_snapshot_date": "2026-06-30",
+  "asana_snapshot_date": "2026-07-01",
   "source_xlsx": "ODL Project and Capacity Planning.xlsx",
   "sources": {
    "workbook": "https://docs.google.com/spreadsheets/d/1fGHuQqu9iWC3TXjPr0hKBvCqz-8ZB9o73e2r0lbZFFE/edit",
@@ -3466,8 +3466,8 @@
    "staffed_points": 10.1,
    "unstaffed_points": 0.06,
    "asana": null,
-   "active": true,
-   "status_display": "Active (plan)",
+   "active": false,
+   "status_display": "Past",
    "current_phase": "12 lecture videos, 5 testimonials"
   },
   {
@@ -3548,8 +3548,8 @@
    "staffed_points": 7.65,
    "unstaffed_points": 0.0,
    "asana": null,
-   "active": true,
-   "status_display": "Active (plan)",
+   "active": false,
+   "status_display": "Past",
    "current_phase": "Refined Estimate (original based on 5 modules, 8 lecture videos, 5 screencasts"
   },
   {
@@ -4374,7 +4374,7 @@
     "created_at": "2024-07-11",
     "last_completed": "2026-01-07T20:46:07.377000+00:00"
    },
-   "active": true,
+   "active": false,
    "status_display": "Complete",
    "current_phase": "Design"
   },
@@ -4770,7 +4770,7 @@
    "asana": null,
    "active": false,
    "status_display": "Past",
-   "current_phase": null
+   "current_phase": "Launch"
   },
   {
    "name": "ODL Podcast",
@@ -5020,8 +5020,8 @@
     "created_at": "2026-05-27",
     "last_completed": null
    },
-   "active": true,
-   "status_display": "Active (plan)",
+   "active": false,
+   "status_display": "Past",
    "current_phase": null
   },
   {
@@ -5242,8 +5242,8 @@
     "created_at": "2026-05-27",
     "last_completed": null
    },
-   "active": true,
-   "status_display": "Active (plan)",
+   "active": false,
+   "status_display": "Past",
    "current_phase": null
   },
   {
@@ -5648,8 +5648,8 @@
    "staffed_points": 0.85,
    "unstaffed_points": 0.0,
    "asana": null,
-   "active": true,
-   "status_display": "Active (plan)",
+   "active": false,
+   "status_display": "Past",
    "current_phase": null
   },
   {
@@ -9399,8 +9399,8 @@
    "staffed_points": 13.175,
    "unstaffed_points": 0.0,
    "asana": null,
-   "active": true,
-   "status_display": "Active (plan)",
+   "active": false,
+   "status_display": "Past",
    "current_phase": "Launch"
   },
   {
@@ -11403,8 +11403,8 @@
    "staffed_points": 2.8,
    "unstaffed_points": 0.0,
    "asana": null,
-   "active": true,
-   "status_display": "Active (plan)",
+   "active": false,
+   "status_display": "Past",
    "current_phase": null
   },
   {
@@ -11570,7 +11570,7 @@
     "created_at": "2026-01-05",
     "last_completed": "2026-04-29T14:28:58.064000+00:00"
    },
-   "active": true,
+   "active": false,
    "status_display": "Complete",
    "current_phase": "Design"
   },
@@ -35534,8 +35534,8 @@
    "scope_type": "team",
    "scope": "Media",
    "title": "Unstaffed Media work committed",
-   "detail": "3.0 pts of Media work in Jun 2026\u2013Aug 2026 is committed but not assigned to a named person.",
-   "metric": "3.0 pts",
+   "detail": "2.0 pts of Media work in Jul 2026\u2013Aug 2026 is committed but not assigned to a named person.",
+   "metric": "2.0 pts",
    "suggested_action": "Assign an owner or confirm the work is real before it slips.",
    "source": "auto",
    "gid": null,
@@ -35596,8 +35596,8 @@
    "scope_type": "person",
    "scope": "Annie",
    "title": "Annie under-utilized soon",
-   "detail": "Annie (PM) has \u22651.5 pts (\u224848h+) free in Jul 2026\u2013Sep 2026.",
-   "metric": "2.4 pts free",
+   "detail": "Annie (PM) has \u22651.5 pts (\u224848h+) free in Aug 2026\u2013Oct 2026.",
+   "metric": "2.5 pts free",
    "suggested_action": "Assign upcoming work or pull a project forward.",
    "source": "auto",
    "gid": null,
@@ -35611,13 +35611,34 @@
    "first_seen": "2026-06-15"
   },
   {
+   "id": "person-under-bri",
+   "category": "capacity-person",
+   "severity": "low",
+   "scope_type": "person",
+   "scope": "Bri",
+   "title": "Bri under-utilized soon",
+   "detail": "Bri (Design) has \u22651.5 pts (\u224848h+) free in Sep 2026\u2013Oct 2026.",
+   "metric": "2.4 pts free",
+   "suggested_action": "Assign upcoming work or pull a project forward.",
+   "source": "auto",
+   "gid": null,
+   "status": "Not Started",
+   "owner": "",
+   "target_month": "",
+   "notes": "",
+   "evidence_url": "",
+   "updated_at": "",
+   "updated_by": "",
+   "first_seen": "2026-07-01"
+  },
+  {
    "id": "person-under-derrick",
    "category": "capacity-person",
    "severity": "low",
    "scope_type": "person",
    "scope": "Derrick",
    "title": "Derrick under-utilized soon",
-   "detail": "Derrick (Media) has \u22651.5 pts (\u224848h+) free in Jul 2026\u2013Sep 2026.",
+   "detail": "Derrick (Media) has \u22651.5 pts (\u224848h+) free in Aug 2026\u2013Oct 2026.",
    "metric": "2.8 pts free",
    "suggested_action": "Assign upcoming work or pull a project forward.",
    "source": "auto",
@@ -35638,7 +35659,7 @@
    "scope_type": "person",
    "scope": "Kuangchen",
    "title": "Kuangchen under-utilized soon",
-   "detail": "Kuangchen (Design) has \u22651.5 pts (\u224848h+) free in Jul 2026\u2013Sep 2026.",
+   "detail": "Kuangchen (Design) has \u22651.5 pts (\u224848h+) free in Aug 2026\u2013Oct 2026.",
    "metric": "2.3 pts free",
    "suggested_action": "Assign upcoming work or pull a project forward.",
    "source": "auto",
@@ -35651,6 +35672,27 @@
    "updated_at": "",
    "updated_by": "",
    "first_seen": "2026-06-15"
+  },
+  {
+   "id": "person-under-michael",
+   "category": "capacity-person",
+   "severity": "low",
+   "scope_type": "person",
+   "scope": "Michael",
+   "title": "Michael under-utilized soon",
+   "detail": "Michael (PM) has \u22651.5 pts (\u224848h+) free in Sep 2026\u2013Oct 2026.",
+   "metric": "2.0 pts free",
+   "suggested_action": "Assign upcoming work or pull a project forward.",
+   "source": "auto",
+   "gid": null,
+   "status": "Not Started",
+   "owner": "",
+   "target_month": "",
+   "notes": "",
+   "evidence_url": "",
+   "updated_at": "",
+   "updated_by": "",
+   "first_seen": "2026-07-01"
   },
   {
    "id": "report-1208878713359040",
@@ -35890,7 +35932,7 @@
    "scope_type": "person",
    "scope": "Yi",
    "title": "Yi under-utilized soon",
-   "detail": "Yi (Design) has \u22651.5 pts (\u224848h+) free in Jul 2026\u2013Sep 2026.",
+   "detail": "Yi (Design) has \u22651.5 pts (\u224848h+) free in Aug 2026\u2013Oct 2026.",
    "metric": "3.8 pts free",
    "suggested_action": "Assign upcoming work or pull a project forward.",
    "source": "auto",

@@ -417,33 +417,91 @@ def parse_impact_tracker():
     return tasks
 
 
-def parse_time_entries():
-    """Per-entry Asana time-tracking (``data_all/time_entries.csv``, rebuilt nightly
-    by the estimator's asana_pull) -> a compact, string-interned log the dashboard
-    buckets into daily/weekly/biweekly/monthly views, grouped by person, project,
-    or phase. Returns {} when the file isn't present (so the section just hides)."""
-    path = os.path.join(ASANA_DIR, "time_entries.csv")
-    if not os.path.exists(path):
-        return {}
+def parse_manual_time_log(rows):
+    """Hand-entered rows from the workbook's "Time Log" tab — the backup
+    timesheet added when Asana's time-entry feature lapsed (June 2026; kit and
+    sync tooling live in ``timesheet_backup/``). Only rows whose Source column
+    is blank or "Manual" count: rows marked "Asana" are mirror copies of the
+    CSV entries and would double-count. Returns [] when the tab isn't there,
+    so workbooks without it build exactly as before."""
+    if not rows:
+        return []
+    col, src_col, start = None, None, 0
+    for i, r in enumerate(rows[:5]):             # find the header row
+        cells = [str(c or "").strip().lower() for c in r]
+        if "date" in cells and "hours" in cells:
+            col = {n: cells.index(n) for n in ("date", "person", "project", "phase")
+                   if n in cells}
+            col["hours"] = cells.index("hours")
+            src_col = cells.index("source") if "source" in cells else None
+            start = i + 1
+            break
+    if col is None:
+        return []
+    out = []
+    for r in rows[start:]:
+        def cell(name):
+            i = col.get(name)
+            return r[i] if i is not None and i < len(r) else None
+        src = str(r[src_col] or "").strip().lower() if src_col is not None and src_col < len(r) else ""
+        if src not in ("", "manual"):
+            continue
+        d = cell("date")
+        date = d.isoformat()[:10] if isinstance(d, (datetime.date, datetime.datetime)) \
+            else str(d or "").strip()[:10]
+        hrs = as_num(cell("hours"))
+        if len(date) != 10 or not hrs:
+            continue
+        out.append({"date": date, "person": str(cell("person") or "").strip(),
+                    "project": str(cell("project") or "").strip(),
+                    "phase": str(cell("phase") or "").strip(), "hours": round(hrs, 2)})
+    return out
+
+
+def parse_time_entries(sheets=None):
+    """Per-entry time log -> a compact, string-interned log the dashboard
+    buckets into daily/weekly/biweekly/monthly views, grouped by person,
+    project, or phase. Two sources, merged: Asana time-tracking
+    (``data_all/time_entries.csv``, rebuilt nightly by the estimator's
+    asana_pull) plus Manual rows from the workbook's "Time Log" tab (the
+    backup while Asana's entry UI is unavailable). A manual row that matches
+    an Asana entry on (date, person, project, hours) is skipped — that's the
+    same entry seen twice. Returns {} when neither source has entries."""
     people, projects, phases = {}, {}, {}        # value -> stable index
     def idx(d, v):
         v = (v or "").strip() or "—"
         return d.setdefault(v, len(d))
-    entries = []
-    for r in csv.DictReader(open(path, encoding="utf-8")):
-        date = (r.get("entry_date") or "").strip()[:10]
-        hrs = as_num(r.get("hours"))
-        if len(date) != 10 or not hrs:           # need a real date + non-zero hours
+    entries, asana_seen = [], {}
+    path = os.path.join(ASANA_DIR, "time_entries.csv")
+    if os.path.exists(path):
+        for r in csv.DictReader(open(path, encoding="utf-8")):
+            date = (r.get("entry_date") or "").strip()[:10]
+            hrs = as_num(r.get("hours"))
+            if len(date) != 10 or not hrs:       # need a real date + non-zero hours
+                continue
+            hrs = round(hrs, 2)
+            entries.append([date, idx(people, r.get("entry_author")),
+                            idx(projects, r.get("project_name")),
+                            idx(phases, r.get("canonical_phase")), hrs])
+            k = (date, (r.get("entry_author") or "").strip().lower(),
+                 (r.get("project_name") or "").strip().lower(), hrs)
+            asana_seen[k] = asana_seen.get(k, 0) + 1
+    manual_count = 0
+    for m in parse_manual_time_log((sheets or {}).get("Time Log")):
+        k = (m["date"], m["person"].lower(), m["project"].lower(), m["hours"])
+        if asana_seen.get(k, 0) > 0:
+            asana_seen[k] -= 1
             continue
-        entries.append([date, idx(people, r.get("entry_author")),
-                        idx(projects, r.get("project_name")),
-                        idx(phases, r.get("canonical_phase")), round(hrs, 2)])
+        entries.append([m["date"], idx(people, m["person"]), idx(projects, m["project"]),
+                        idx(phases, m["phase"]), m["hours"]])
+        manual_count += 1
     if not entries:
         return {}
     entries.sort(key=lambda e: e[0])
     inv = lambda d: [k for k, _ in sorted(d.items(), key=lambda kv: kv[1])]
     return {"people": inv(people), "projects": inv(projects), "phases": inv(phases),
             "entries": entries, "date_min": entries[0][0], "date_max": entries[-1][0],
+            "manual_count": manual_count,
             "total_hours": round(sum(e[4] for e in entries), 1)}
 
 
@@ -1204,9 +1262,10 @@ def compute_data(do_recs=True, write_status=True, verbose=False):
         "capacity": cap, "workbook_reference": wb_ref, "drift": drift,
         "projects": projects, "asana_only_projects": asana_only, "tshirt": tshirt,
         "size_profiles": size_profiles,
-        # actual hours logged in Asana time-tracking, for the People-tab logged-hours
-        # view (bucketed daily/weekly/biweekly/monthly in the browser).
-        "hours_log": parse_time_entries(),
+        # actual hours logged (Asana time-tracking + the workbook's "Time Log"
+        # backup tab), for the People-tab logged-hours view (bucketed
+        # daily/weekly/biweekly/monthly in the browser).
+        "hours_log": parse_time_entries(sheets),
         "faculty": faculty, "reflections": reflections, "departments": departments,
         "faculty_years": faculty_years,
         # manual weekly inputs for the Director Brief (intake queue, All-Hands

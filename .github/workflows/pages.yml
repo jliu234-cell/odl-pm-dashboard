@@ -30,6 +30,8 @@ concurrency:
 
 jobs:
   deploy:
+    # ND-Learning/PMdashboard deploys via publish-pages.yml instead.
+    if: github.repository == 'jliu234-cell/odl-pm-dashboard'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

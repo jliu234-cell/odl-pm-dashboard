@@ -10,16 +10,16 @@ import os, json
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
-def render():
+def render(data_path="data.json", out_name="index.html"):
     with open(os.path.join(HERE, "template.html"), encoding="utf-8") as f:
         tpl = f.read()
-    with open(os.path.join(HERE, "data.json"), encoding="utf-8") as f:
+    with open(os.path.join(HERE, data_path), encoding="utf-8") as f:
         data = f.read()
     # embed safely: close-script sequences can't appear inside a JSON string,
     # but guard anyway by escaping the only sequence that could end the tag.
     data = data.replace("</", "<\\/")
     html = tpl_replace(tpl, data)
-    out = os.path.join(HERE, "index.html")
+    out = os.path.join(HERE, out_name)
     with open(out, "w", encoding="utf-8") as f:
         f.write(html)
     return out, len(html)

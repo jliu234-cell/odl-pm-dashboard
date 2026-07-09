@@ -2,32 +2,32 @@
  "person-under-annie": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "person-under-derrick": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "person-under-kuangchen": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "data-nocap-mariana": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "data-nocap-tessa": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "person-under-yi": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "unstaffed-media": {
   "status": "Not Started",
@@ -42,22 +42,22 @@
  "report-1208878713359040": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "report-1208963580488220": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "report-1209213189516073": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "report-1211900373500710": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "report-1212638028070139": {
   "status": "Not Started",
@@ -102,12 +102,12 @@
  "report-1211134268245785": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "report-1211489930659695": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "impact-1212660352662527": {
   "status": "Not Started",
@@ -147,12 +147,12 @@
  "calib-size": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "hygiene-drift": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "manual-cif-video-reshoot": {
   "status": "Not Started",
@@ -277,16 +277,101 @@
  "report-1207760971753716": {
   "status": "Not Started",
   "first_seen": "2026-06-24",
-  "_active": true
+  "_active": false
  },
  "person-under-bri": {
   "status": "Not Started",
   "first_seen": "2026-07-01",
-  "_active": true
+  "_active": false
  },
  "person-under-michael": {
   "status": "Not Started",
   "first_seen": "2026-07-01",
+  "_active": false
+ },
+ "cap-room-design": {
+  "status": "Not Started",
+  "first_seen": "2026-07-08",
+  "_active": true
+ },
+ "cap-room-media": {
+  "status": "Not Started",
+  "first_seen": "2026-07-08",
+  "_active": true
+ },
+ "cap-room-pm": {
+  "status": "Not Started",
+  "first_seen": "2026-07-08",
+  "_active": true
+ },
+ "person-over-matthew-simmons": {
+  "status": "Not Started",
+  "first_seen": "2026-07-08",
+  "_active": true
+ },
+ "unstaffed-design": {
+  "status": "Not Started",
+  "first_seen": "2026-07-08",
+  "_active": true
+ },
+ "unstaffed-pm": {
+  "status": "Not Started",
+  "first_seen": "2026-07-08",
+  "_active": true
+ },
+ "calib-hours-coverage": {
+  "status": "Not Started",
+  "first_seen": "2026-07-08",
+  "_active": false
+ },
+ "calib-over-budget": {
+  "status": "Not Started",
+  "first_seen": "2026-07-09",
+  "_active": true
+ },
+ "risk-1209298164735103": {
+  "status": "Not Started",
+  "first_seen": "2026-07-09",
+  "_active": true
+ },
+ "risk-1208255134985033": {
+  "status": "Not Started",
+  "first_seen": "2026-07-09",
+  "_active": true
+ },
+ "risk-1212343204566399": {
+  "status": "Not Started",
+  "first_seen": "2026-07-09",
+  "_active": true
+ },
+ "risk-1209679644127773": {
+  "status": "Not Started",
+  "first_seen": "2026-07-09",
+  "_active": true
+ },
+ "risk-1208335647365619": {
+  "status": "Not Started",
+  "first_seen": "2026-07-09",
+  "_active": true
+ },
+ "risk-1207760971753716": {
+  "status": "Not Started",
+  "first_seen": "2026-07-09",
+  "_active": true
+ },
+ "risk-1213885038281263": {
+  "status": "Not Started",
+  "first_seen": "2026-07-09",
+  "_active": true
+ },
+ "risk-1212660351308233": {
+  "status": "Not Started",
+  "first_seen": "2026-07-09",
+  "_active": true
+ },
+ "risk-1212660352662527": {
+  "status": "Not Started",
+  "first_seen": "2026-07-09",
   "_active": true
  }
 }

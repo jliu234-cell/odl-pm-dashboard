@@ -1,6 +1,6 @@
 # Dependencies for the cloud refresh (GitHub Actions). Everything else build.py
-# needs is in the Python standard library.
-openpyxl                 # read the capacity workbook (.xlsx)
+# needs is in the Python standard library. (The Excel workbook was dropped, so
+# openpyxl is no longer needed.)
 pymupdf                  # extract reflection-report text (build.py imports fitz)
-google-api-python-client # fetch the workbook + reflections from Google Drive
+google-api-python-client # fetch the capacity sheet + reflections from Google Drive
 google-auth              # service-account auth for the Drive fetch

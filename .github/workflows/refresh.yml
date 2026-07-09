@@ -1,11 +1,12 @@
 # Daily cloud refresh of the ODL PM dashboard -- no laptop required.
-# Rebuilds data.json + index.html from the live capacity workbook (Google Drive,
-# via a service account) and the Asana snapshot (read from the odl-estimator repo,
-# which self-refreshes nightly), then commits the result back to this repo.
+# Rebuilds data.json + index.html from the live Capacity Allocations Sheet (Google
+# Drive, via a service account) and the Asana snapshot (read from the odl-estimator
+# repo, which self-refreshes nightly), then commits the result back to this repo.
 #
 # One-time setup -- Repo -> Settings -> Secrets and variables -> Actions:
 #   GDRIVE_SA_KEY        the service-account JSON key (must be shared Viewer on the
-#                        workbook Sheet AND the Reflection folder). See fetch_drive.py.
+#                        Capacity Allocations Sheet AND the Reflection folder). See
+#                        fetch_drive.py.
 #   ESTIMATOR_REPO_TOKEN a GitHub PAT (fine-grained, read access to jliu234-cell/
 #                        odl-estimator) so this job can check out its data_all.
 #                        (Not needed if odl-estimator is public -- then drop the
@@ -28,6 +29,10 @@ concurrency:
 
 jobs:
   refresh:
+    # Only the live builder repo has the GDRIVE_SA_KEY secret; the
+    # ND-Learning/PMdashboard mirror hosts the public Pages site
+    # (see publish-pages.yml) and must not attempt the nightly rebuild.
+    if: github.repository == 'jliu234-cell/odl-pm-dashboard'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -35,6 +40,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Check out odl-estimator (for the fresh Asana snapshot)
+        # data_all includes status_updates.csv (weekly Asana status updates that
+        # power the "projects at risk" panel), same as the other Asana CSVs.
         uses: actions/checkout@v4
         with:
           repository: jliu234-cell/odl-estimator   # public, so the default token can read it
@@ -48,14 +55,13 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-ci.txt
 
-      - name: Fetch the workbook + reflections from Google Drive
+      - name: Fetch the capacity sheet + reflections from Google Drive
         env:
           GDRIVE_SA_KEY: ${{ secrets.GDRIVE_SA_KEY }}
         run: python3 fetch_drive.py _sources
 
       - name: Rebuild the dashboard
         env:
-          ODL_WORKBOOK: ${{ github.workspace }}/_sources/ODL Project and Capacity Planning.xlsx
           ODL_ASANA_DIR: ${{ github.workspace }}/_estimator/data_all
           ODL_REFLECTION_DIR: ${{ github.workspace }}/_sources/Reflection
         run: python3 build.py

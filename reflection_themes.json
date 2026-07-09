@@ -1,0 +1,50 @@
+{
+ "_meta": "Curated synthesis of the recurring KEY TAKEAWAYS across the reflection reports (understood + grouped by theme, not just pulled verbatim). Each theme lists the reports (project names, matched to reflection_key_considerations.json) that raise it; build.py joins dates/links and computes whether it's still recurring. Re-curate when new reports land.",
+ "themes": [
+  {
+   "theme": "Start earlier, protect the timeline, lock scope",
+   "what_it_means": "The most common lesson by far: projects felt rushed, needed more up-front planning, and scope crept late. Begin sooner, lock scope early, stage/stagger the work so timelines match the real effort, and cap how many big projects run at once.",
+   "reports": ["Calc I Summer Online", "ACE ASCENT Phase IV", "AI for the ND Community", "Higher Powered Learning", "Statistics Flipped Classroom", "Study Abroad", "Lab Preparation: Visualizing Success", "Responsible & Ethical AI"]
+  },
+  {
+   "theme": "Set faculty expectations up front — charter, time commitment, phases",
+   "what_it_means": "Make the faculty partner's time commitment, the project phases, budget, and deliverables explicit in a charter BEFORE formally accepting a project, and track how much faculty time it actually takes so future estimates get sharper.",
+   "reports": ["Calc I Summer Online", "Carbon Neutral", "Conveying Visual Data", "Ugandan Immersion", "Qur’an and the Bible", "Study Abroad", "Higher Powered Learning"]
+  },
+  {
+   "theme": "Onboard faculty & make the process concrete",
+   "what_it_means": "Faculty engage best when the process is tangible: show examples of similar finished work, give them a sandbox to try the tech, share recording/technical guidelines early, and streamline the intake/design steps where we prepare them for their active role.",
+   "reports": ["Qur’an and the Bible", "Ugandan Immersion", "Conveying Visual Data", "Statistics Flipped Classroom", "Writing in the Age of AI", "MS ACMS", "AI Video: Nathaniel Myers"]
+  },
+  {
+   "theme": "Protect the team when faculty can't deliver",
+   "what_it_means": "Several projects stalled on the faculty side. Build safeguards — a charter clause that lets ODL pause or stop, a financial guarantee for at-risk courses, and PM authority to keep scope and meetings on track — so the team isn't left exposed.",
+   "reports": ["Conveying Visual Data", "Calc I Summer Online", "Force for Good Video Project", "Higher Powered Learning"]
+  },
+  {
+   "theme": "Decide ODL's AI role; collaborate across teams",
+   "what_it_means": "For AI-heavy work, decide whether ODL is the builder or the convener/facilitator (we currently lack in-house AI credibility), split AI vs non-AI sprint tracks, and pull partners in early — TLT, the AI Lab, external vendors — instead of owning everything.",
+   "reports": ["AI Critical Thinking Tutor Summer Sprint", "Transforming FIN/MSBR Summer Sprint", "Responsible & Ethical AI", "MSAN II", "Lab Preparation: Visualizing Success"]
+  },
+  {
+   "theme": "Build evaluation & impact data in from the start",
+   "what_it_means": "Make outcome evaluation a required, up-front part of each project (especially Sprints) so we surface student/coach insights and can demonstrate impact — rather than bolting it on at the end.",
+   "reports": ["Transforming FIN/MSBR Summer Sprint", "Responsible & Ethical AI", "ASCEND Engineering", "AI Critical Thinking Tutor Summer Sprint"]
+  },
+  {
+   "theme": "Tighten QA & production handoffs",
+   "what_it_means": "Protect QA time, review deliverables in smaller batches, keep consistent ODL oversight of filming/interviews, and rehearse with faculty to reduce editing load and smooth transitions.",
+   "reports": ["MSAN II", "Statistics Flipped Classroom", "Lab Preparation: Visualizing Success", "MS ACMS"]
+  },
+  {
+   "theme": "PM ownership, escalation & meeting facilitation",
+   "what_it_means": "Empower PMs to run tight meetings (clear purpose, time markers, cutting off unproductive tangents) and to escalate red flags to ODL leadership early — 'preempt smoke from turning into a fire' — rather than smoothing them over in the moment.",
+   "reports": ["3D Environments", "Force for Good Video Project", "Higher Powered Learning"]
+  },
+  {
+   "theme": "Documentation & intern support",
+   "what_it_means": "Leave proper documentation and support for future interns, and give interns structured leadership opportunities that balance autonomy with support.",
+   "reports": ["Bringing Korean to Life", "Global Health VR", "Study Abroad"]
+  }
+ ]
+}

@@ -1,0 +1,70 @@
+# Public dashboard website on GitHub Pages:
+#   https://nd-learning.github.io/PMdashboard/
+#
+# Runs ONLY on the ND-Learning/PMdashboard repo (the public face). Each day —
+# after the live builder repo (jliu234-cell/odl-pm-dashboard, which holds the
+# GDRIVE_SA_KEY secret) finishes its 13:00 UTC rebuild — this job fast-forwards
+# this repo to match the builder, then deploys index.html to GitHub Pages.
+# The sync commit also keeps the repo active so GitHub doesn't suspend the
+# schedule. Pushing to main (touching index.html) deploys immediately.
+#
+# One-time setup (already done via API): repo Settings -> Pages -> Source =
+# "GitHub Actions".
+name: publish-pages
+
+on:
+  schedule:
+    - cron: "45 13 * * *"   # 13:45 UTC, after the builder's 13:00 UTC refresh
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["index.html", ".github/workflows/publish-pages.yml"]
+
+permissions:
+  contents: write            # to fast-forward this mirror to the builder repo
+  pages: write
+  id-token: write
+
+concurrency:
+  group: publish-pages
+  cancel-in-progress: false
+
+jobs:
+  sync-and-deploy:
+    if: github.repository == 'ND-Learning/PMdashboard'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out this repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fast-forward to the builder repo (jliu234-cell/odl-pm-dashboard)
+        if: github.event_name != 'push'
+        run: |
+          git remote add live https://github.com/jliu234-cell/odl-pm-dashboard.git
+          git fetch live main
+          if git merge --ff-only live/main; then
+            git push origin main
+          else
+            echo "::warning::Not fast-forwardable — this mirror has diverged from the builder repo; deploying current contents."
+          fi
+
+      - name: Stage the site (index.html only)
+        run: |
+          mkdir _site
+          cp index.html _site/index.html
+          touch _site/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

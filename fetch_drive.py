@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-"""Download the dashboard's external Google-Drive sources -- the capacity workbook
-and the reflection PDFs -- with a service-account key, so the GitHub Actions
-refresh can run in the cloud with no laptop.
+"""Download the dashboard's external Google-Drive sources -- the Capacity
+Allocations Sheet and the reflection PDFs -- with a service-account key, so the
+GitHub Actions refresh can run in the cloud with no laptop.
 
 One-time setup (so it keeps working after anyone leaves):
   1. Create a Google service account (Google Cloud Console > IAM > Service
      Accounts), enable the Drive API, and download a JSON key.
-  2. Share the workbook Sheet AND the Reflection folder with the service
-     account's email address (Viewer is enough).
+  2. Share the Capacity Allocations Sheet AND the Reflection folder with the
+     service account's email address (Viewer is enough).
   3. Put the JSON key in the repo as the GitHub secret GDRIVE_SA_KEY.
 
 Usage:  python3 fetch_drive.py <out_dir>      (default out_dir: _sources)
-Writes: <out>/ODL Project and Capacity Planning.xlsx   (Sheet exported to xlsx)
-        <out>/Reflection/<file>                          (all files in the folder)
-Then build.py is pointed at them via ODL_WORKBOOK / ODL_REFLECTION_DIR.
+Writes: <out>/capacity_allocations.csv   (Capacity Allocations Sheet -> csv; the capacity source)
+        <out>/Reflection/<file>           (all files in the folder)
+Then build.py is pointed at them via ODL_CAPACITY_CSV / ODL_REFLECTION_DIR.
 
 The file ids default to the current ODL files; override with env vars if they move.
 """
@@ -22,12 +22,12 @@ import os, sys, io, json
 # Both sources live in the "NDL ODL" Google **shared drive** (org-owned, so they
 # outlast any one account). Easiest access: add the service account as a Viewer
 # MEMBER of that shared drive -- then it can read both without per-file shares.
-#   workbook  = the live capacity Google Sheet
+#   capacity    = the live "Capacity Allocations" Google Sheet
 #   reflections = Shared drives/NDL ODL/ODL/ODL PM Folder/Project Reflection Reports 2025
-SHEET_ID = os.environ.get("ODL_WORKBOOK_FILE_ID", "1fGHuQqu9iWC3TXjPr0hKBvCqz-8ZB9o73e2r0lbZFFE")
 REFLECTION_FOLDER_ID = os.environ.get("ODL_REFLECTION_FOLDER_ID", "1R7A1ALplVfXd2XgUH_ojQPOGCHI1soTH")
-XLSX_MIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-WORKBOOK_NAME = "ODL Project and Capacity Planning.xlsx"
+# the live "Capacity Allocations" sheet — now the source of capacity numbers
+CAPACITY_SHEET_ID = os.environ.get("ODL_CAPACITY_SHEET_ID", "1YD9b8vLnglbA5pmFO6HsE-bvMq7wluHv1P1wY4FCujw")
+CAPACITY_NAME = "capacity_allocations.csv"
 
 
 def drive():
@@ -41,13 +41,17 @@ def drive():
     return gbuild("drive", "v3", credentials=creds)
 
 
-def fetch_workbook(svc, out_dir):
-    out = os.path.join(out_dir, WORKBOOK_NAME)
-    # native Google Sheet -> export to .xlsx (build.py reads it with data_only=True)
-    data = svc.files().export(fileId=SHEET_ID, mimeType=XLSX_MIME).execute()
+def fetch_capacity(svc, out_dir):
+    out = os.path.join(out_dir, CAPACITY_NAME)
+    # native Google Sheet -> export the first tab to CSV (build.py reads it via
+    # ODL_CAPACITY_CSV).
+    # NOTE: exports the sheet's first/default tab; the Capacity Allocations data
+    # must be the first tab (gid 1025292964). If a second tab is ever added
+    # before it, switch to the gviz export URL with &gid=1025292964.
+    data = svc.files().export(fileId=CAPACITY_SHEET_ID, mimeType="text/csv").execute()
     with open(out, "wb") as f:
         f.write(data)
-    print(f"  workbook -> {out} ({len(data)} bytes)")
+    print(f"  capacity -> {out} ({len(data)} bytes)")
     return out
 
 
@@ -83,7 +87,10 @@ def main():
     out_dir = sys.argv[1] if len(sys.argv) > 1 else "_sources"
     os.makedirs(out_dir, exist_ok=True)
     svc = drive()
-    fetch_workbook(svc, out_dir)
+    try:
+        fetch_capacity(svc, out_dir)
+    except Exception as e:   # capacity CSV is committed; a fetch failure isn't fatal
+        print(f"  WARNING: capacity fetch failed ({e}); using the committed CSV.")
     try:
         fetch_reflections(svc, out_dir)
     except Exception as e:   # reflections are nice-to-have; never block the refresh

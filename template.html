@@ -93,6 +93,7 @@
   .sev-high{background:var(--redbg);color:#b02a2a}
   .sev-medium{background:var(--amberbg);color:#9a6206}
   .sev-low{background:#eef1f4;color:#5b6573}
+  .pubbanner{background:#fff8e1;color:#7a5b00;border-bottom:1px solid #e6d5a8;padding:7px 14px;font-size:13px;text-align:center}
 
   .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);align-items:center}
   .legend .sw{display:inline-block;width:13px;height:13px;border-radius:3px;margin-right:5px;vertical-align:-2px}
@@ -280,14 +281,23 @@
 // real-time numbers via applyData(). On file:// the fetch fails and we keep the
 // baked snapshot — so the single file still works offline.
 let D = window.DATA;
+// public/redacted build (built with `build.py --public`): no personal names,
+// faculty scores or internal links. Hides the Faculty tab + shows a banner.
+const PUB = !!(D && D._public);
 let MONTHS = D.meta.months;
 let PH = D.meta.point_hours, FULL = D.meta.full_monthly_points;
 let TODAY = D.meta.today, NOW = TODAY.slice(0,7);
 let SCOPES = D.capacity.scopes;
 // --- source links: every figure should point back to where it came from ---
 const SRC=(D.meta&&D.meta.sources)||{};
-const WB_URL=SRC.workbook||"";
+const CAP_URL=SRC.capacity_sheet||"";
+// workspace-scoped Asana base ("…/1/<workspace>") for project + task deep links
+const ASANA_WS=SRC.asana_ws||"https://app.asana.com/1/228221773618853";
+// Asana "NDL Project Tracking & Awareness" board — where new intake requests become projects
+const NDL_BOARD_URL=SRC.ndl_board||(ASANA_WS+"/project/1207871566050072/list/1207871653620573");
 function asanaUrl(gid){return gid?((SRC.asana_project_base||"https://app.asana.com/0/")+gid):"";}
+function asanaWsProjectUrl(gid){return gid?(ASANA_WS+"/project/"+gid):"";}
+function asanaWsTaskUrl(gid){return gid?(ASANA_WS+"/task/"+gid):"";}
 function srcTag(href,label){return href?` <a class="src" href="${esc(href)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Open the source: ${esc(label)}">${esc(label)} ↗</a>`:"";}
 // map a project NAME to its live Asana project gid (only real projects carry one),
 // so faculty / department / project rows can link to the actual project, not a home page.
@@ -303,7 +313,7 @@ function top5Link(x){const t=(x.t+" "+x.s).toLowerCase();
   if(/recommendation/.test(t))return {tab:"recs",label:"See Recommendations"};
   if(/intake/.test(t))return null;
   if(/capacity|headroom|full load/.test(t))return {tab:"capacity",label:"See Capacity"};
-  return {tab:"projects",label:"See Projects"};}
+  return null;}
 let LIVE = false;
 const $ = (s,r=document)=>r.querySelector(s);
 const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
@@ -322,7 +332,7 @@ function pct(x){return x==null?"—":Math.round(x*100)+"%";}
 
 /* ---------- state ---------- */
 const state = {tab:"brief", briefQ:"attention", from:clampIdx(nowIdx()-1), to:MONTHS.length-1,
-  unit:"pts", capScope:"Total", capMode:"summary", peopleMetric:"remaining", peopleTeam:"all",
+  unit:"hrs", capScope:"Total", capMode:"summary", peopleMetric:"logged", peopleTeam:"all",
   hoursPrec:"weekly", hoursBy:"person",
   facMode:"dept", masterExpand:{},
   projFilter:{active:true,team:"all",status:"all",q:""}, projSort:{k:"name",dir:1},
@@ -469,26 +479,6 @@ function toast(msg){
   clearTimeout(_toastT); _toastT=setTimeout(()=>t.classList.remove("show"),4200);
 }
 
-/* ---------- staffing footprints (data-driven, with workbook fallback) ----- */
-// "How many projects can we take?" measures one project's demand against live
-// remaining capacity. The per-team footprint per size comes from REAL projects
-// of that size (recomputed every build) — not the frozen workbook template —
-// so it tracks what projects actually cost now (and includes real PM time).
-function sizeList(){
-  const sp=D.size_profiles;
-  if(sp&&sp.order&&sp.order.length)return sp.order;
-  return Object.keys(D.tshirt||{});
-}
-function sizeProf(sz){
-  const sp=D.size_profiles&&D.size_profiles.sizes&&D.size_profiles.sizes[sz];
-  if(sp)return sp;
-  const wb=D.tshirt&&D.tshirt[sz]; if(!wb)return null;            // last-resort fallback
-  const profile={Design:[],Media:[],PM:[],Intern:[]};
-  Object.entries(wb.roles||{}).forEach(([role,arr])=>{const t=teamOfRole(role);
-    if(!profile[t])return; arr.forEach((v,k)=>{while(profile[t].length<=k)profile[t].push(0);profile[t][k]+=v||0;});});
-  const teams={}; Object.entries(profile).forEach(([t,a])=>{const s=a.reduce((x,y)=>x+y,0);if(s>0)teams[t]=round(s,3);});
-  return {teams,profile,n:0,source:"workbook template",months:wb.n_months||0,total_pts:wb.total_points};
-}
 
 /* ===================================================================== */
 /*  TABS                                                                  */
@@ -499,6 +489,8 @@ function openRecCount(){return recs().filter(r=>r.status!=="Achieved"&&r.status!
 function buildTabs(){
   const bar=$("#tabbar"); bar.innerHTML="";
   for(const [id,label] of TABS){
+    if(PUB&&id==="faculty")continue;   // faculty names/scores are redacted in the public build
+    if(id==="plan"&&!(D.plan_model&&D.plan_model.archetypes&&D.plan_model.archetypes.length))continue;   // hide Plan when calibration is absent
     // visual divider: "Director Brief" (for directors) vs the PM-detail tabs
     if(id==="overview")bar.appendChild(el("span",{class:"tabdiv"},"PM detail"));
     const b=el("button",{role:"tab","aria-selected":id===state.tab?"true":"false"},esc(label));
@@ -509,6 +501,7 @@ function buildTabs(){
   }
 }
 function render(){
+  if(PUB&&state.tab==="faculty")state.tab="brief";   // faculty tab is hidden in the public build
   buildTabs();
   $$(".tab").forEach(s=>s.classList.remove("active"));
   $("#tab-"+state.tab).classList.add("active");
@@ -524,9 +517,8 @@ function render(){
 /*  (intake queue, All-Hands wins, curated round-ups, timesheet %).       */
 /* ===================================================================== */
 function briefInputs(){return (D.brief_inputs&&typeof D.brief_inputs==="object")?D.brief_inputs:{};}
+function intakeItems(){return ((D.intake&&D.intake.items)||[]).filter(x=>x&&x.name);}
 function briefActive(){return D.projects.filter(p=>p.active);}
-function sizeOrder(){return (D.size_profiles&&D.size_profiles.order)||["XS","S","M","L"];}
-function sizeIdx(s){return sizeOrder().indexOf(s);}
 function addDays(iso,n){const d=new Date(iso+"T00:00:00");d.setDate(d.getDate()+n);  // local-field math (toISOString would shift a day east of UTC)
   const z=x=>String(x).padStart(2,"0");return d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate());}
 function weekOf(iso){const d=new Date(iso+"T00:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));
@@ -551,10 +543,14 @@ function briefAttention(){
       reasons.push({sev:3,p:`Past its Asana due date (${esc(a.due_on)}), still active.`,a:"Confirm a new target date or surface what's blocking it."});
     if((p.unstaffed_points||0)>0.25)
       reasons.push({sev:2,p:`${round(p.unstaffed_points,1)} pts of committed work isn't staffed yet.`,a:"Assign an owner or defer the work."});
-    if(p.est_size&&p.actual_size&&sizeIdx(p.est_size)>=0&&sizeIdx(p.actual_size)>=0&&sizeIdx(p.actual_size)>sizeIdx(p.est_size))
-      reasons.push({sev:2,p:`Running larger than its ${esc(p.est_size)} estimate (now ${esc(p.actual_size)}).`,a:"Check scope creep and the capacity impact."});
+    if(p.over_budget&&p.budget_hours&&p.actual_hours!=null)
+      reasons.push({sev:2,p:`Over its hour budget — ${Math.round(p.actual_hours)}h logged vs a ${Math.round(p.budget_hours)}h estimate.`,a:"Check scope/timeline and re-estimate the remaining work."});
     if(a.impact_tracker==="Outdated")
       reasons.push({sev:1,p:"Its Asana Impact Tracker is marked outdated.",a:"Refresh the tracker fields."});
+    // auto-scanned from the project's latest weekly Asana status update
+    const su=p.status;
+    if(su&&su.reasons&&su.reasons.length)
+      reasons.push({sev:su.level||2,p:`Weekly Asana update flags: ${su.reasons.join("; ")}${su.date?` (as of ${su.date})`:""}.`,a:"Read the weekly update and follow up on the blocker."});
     if(!reasons.length) return;
     reasons.sort((x,y)=>y.sev-x.sev);
     // "unflagged" = a real Asana record that is simply In Progress (Asana has no
@@ -566,16 +562,72 @@ function briefAttention(){
   return out;
 }
 
-/* estimate vs actual SIZE — our proxy for estimate accuracy (improves w/ data) */
-function briefEstActual(){
-  let pairs=0,matched=0,bigger=0,smaller=0;
-  D.projects.forEach(p=>{
-    if(!p.est_size||!p.actual_size||sizeIdx(p.est_size)<0||sizeIdx(p.actual_size)<0)return;
-    pairs++;
-    if(p.est_size===p.actual_size)matched++;
-    else if(sizeIdx(p.actual_size)>sizeIdx(p.est_size))bigger++; else smaller++;
+/* Projects at risk — a first-class panel used on the Brief AND the Projects tab.
+   Sources: the weekly Asana status update (color + risk phrases + staleness), a
+   past-due Asana date, and actual hours over ~120% of the plan. Every card links to
+   the project in Asana, and a "Why we flag things" block lists the exact rules. */
+function projectsAtRiskPanel(cap){
+  const sp=D.status_problems||{}, flagged=sp.flagged||[];
+  const P=briefPanel("Projects at risk",
+    "Active projects flagging trouble — from their latest weekly Asana status update, a past-due date, or hours running over plan. Each links to the project in Asana; expand for the reasons and the update text.");
+  if(!flagged.length){
+    P.bd.innerHTML=`<div class="muted">No active project is flagging a risk right now${sp.available?"":" (weekly status updates aren't in this snapshot yet, so only past-due / over-plan signals are checked)"}.</div>`;
+  }
+  (flagged.slice(0,cap||flagged.length)).forEach(f=>{
+    const d=el("details",{class:"attn"});
+    const pill=f.level>=3?'<span class="pill red">at risk</span>':f.level>=2?'<span class="pill amber">watch</span>':'<span class="pill blue">note</span>';
+    const asana=f.gid?` <a class="src" href="${esc(asanaWsProjectUrl(f.gid))}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Asana ↗</a>`:"";
+    d.innerHTML=`<summary>${pill}<span class="nm">${esc(f.name)}</span>${asana}<span class="pb">— ${esc(f.reasons[0])}</span></summary>`+
+      `<div class="det"><div class="r">${f.reasons.map(x=>"• "+esc(x)).join("<br>")}</div>`+
+      `${f.snippet?`<div class="muted small" style="margin-top:6px">“${esc(f.snippet)}”${f.date?` <span class="src">· ${esc(f.date)}</span>`:""}</div>`:""}</div>`;
+    P.bd.appendChild(d);
   });
-  return {pairs,matched,bigger,smaller,pctMatched:pairs?matched/pairs:null};
+  if(cap&&flagged.length>cap)P.bd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},`+${flagged.length-cap} more flagged — see the Projects tab for the full list.`));
+  // Why we flag things — the exact detection rules
+  const rules=sp.rules||[];
+  if(rules.length){
+    const why=el("details");why.style.marginTop="10px";
+    why.innerHTML=`<summary style="cursor:pointer;font-weight:600;font-size:12.5px">Why we flag things</summary><ul style="margin:6px 0 0 18px" class="muted small">${rules.map(r=>`<li>${esc(r)}</li>`).join("")}</ul>`;
+    P.bd.appendChild(why);
+  }
+  return P;
+}
+
+/* estimate accuracy — planned hours (Capacity sheet) vs actual hours (timesheet),
+   active projects only. Replaces the old T-shirt size proxy. */
+function briefEstActual(){
+  const ea=D.est_actual||{};
+  return {n_active:ea.n_active||0, n_with_budget:ea.n_with_budget||0,
+          n_with_planned:ea.n_with_planned||0,
+          n_with_actual:ea.n_with_actual||0, n_both:ea.n_both||0,
+          n_over:ea.n_over||0, rows:ea.projects||[],
+          method:ea.method||{}, over_ratio:ea.over_ratio||1.2,
+          actuals_end:ea.actuals_end||null};
+}
+// expandable "How we estimate" panel — the even-split method, both budget sources,
+// what actuals mean, coverage, and the consequences of over/under.
+function estMethodPanel(ea){
+  const m=ea.method||{};
+  const d=el("details");d.style.margin="10px 0 2px";
+  d.innerHTML=`<summary style="cursor:pointer;font-weight:600;font-size:12.5px">How we estimate — method &amp; what over/under means</summary>
+    <ul style="margin:8px 0 0 18px" class="muted small">
+      <li>${esc(m.planned||"")}</li>
+      <li>${esc(m.task_est||"")}</li>
+      <li>${esc(m.actual||"")}</li>
+      <li><b>Over plan:</b> ${esc(m.consequences_over||"")}</li>
+      <li><b>Under plan:</b> ${esc(m.consequences_under||"")}</li>
+    </ul>`;
+  return d;
+}
+// one plain sentence about what an over/under row means for the team
+function estConsequence(r){
+  if(r.over&&r.pct!=null){
+    const x=(r.pct>=2)?r.pct.toFixed(1):r.pct.toFixed(2);
+    return `Running ~${x}× its plan — if this keeps up it's crowding out ${r.point_person?esc(r.point_person)+"'s":"the team's"} other work or hiding overtime, and the next project starts later.`;
+  }
+  if(r.under&&r.actual_hours!=null)
+    return `Only ${Math.round((r.pct||0)*100)}% of plan logged — likely under-logged time rather than under-scoped (Asana time entry lapsed 6/24).`;
+  return "";
 }
 
 /* Top 5 — concise: a one-line summary + a recommended action, director glance */
@@ -602,7 +654,7 @@ function briefTop5(){
       a:"Review individual loads on the People tab and redistribute."});
   // (Projects needing attention has its own section below — kept out of Top 5 so
   // the two don't duplicate. Top 5 stays at the portfolio level.)
-  const intake=(briefInputs().intake||[]).filter(x=>x&&x.name);
+  const intake=intakeItems();
   if(intake.length)
     cand.push({w:38,t:`${intake.length} new intake ${intake.length===1?"request":"requests"} awaiting a decision`,
       s:intake.map(x=>x.name).slice(0,3).join("; ")+(intake.length>3?"…":""),
@@ -620,16 +672,14 @@ function briefTop5(){
       a:"Protect QA and launch-review capacity for the run-up."});
   // ---- lower-weight portfolio facts: keep the brief a useful "Top 5" even on a calm week ----
   const ea=briefEstActual();
-  if(ea.pairs>=4){
-    if(ea.bigger>ea.smaller&&ea.bigger>=Math.ceil(ea.pairs*0.3))
-      cand.push({w:20,t:"Projects are trending bigger than estimated",
-        s:`${ea.bigger} of ${ea.pairs} sized projects came in larger than estimate; ${ea.matched} matched.`,
-        a:"Right-size new estimates and watch capacity on the larger builds."});
-    else
-      cand.push({w:11,t:`Size estimates land on target ${pct(ea.pctMatched)} of the time`,
-        s:`${ea.matched} of ${ea.pairs} sized projects matched their estimate; ${ea.bigger} ran bigger, ${ea.smaller} smaller.`,
-        a:"Keep tracking — accuracy tightens as more projects close."});
-  }
+  if(ea.n_over>0)
+    cand.push({w:34,t:`${ea.n_over} active project${ea.n_over>1?"s are":" is"} over its hour budget`,
+      s:`Logged time has passed the Asana hour estimate on ${ea.n_over} active project${ea.n_over>1?"s":""}.`,
+      a:"Re-check scope and re-estimate the remaining work."});
+  else if(ea.n_active&&ea.n_both<Math.max(3,Math.floor(ea.n_active/2)))
+    cand.push({w:12,t:"Most active projects have no hour budget to track against",
+      s:`Only ${ea.n_both} of ${ea.n_active} active projects have both an Asana hour estimate and logged time.`,
+      a:"Add an Estimated time in Asana so budget-vs-actual becomes measurable."});
   const rpv=briefRecsProgress();
   if(rpv.total&&rpv.achieved===0&&rpv.inprog===0)
     cand.push({w:24,t:`None of the ${rpv.total} tracked recommendations are underway yet`,
@@ -771,14 +821,14 @@ function subHead(t){return el("div",{html:`<b>${esc(t)}</b>`,style:"font-size:12
 function renderBrief(){
   const c=$("#tab-brief"); c.innerHTML="";
   const hd=el("div",{class:"brief-hd"});
-  hd.innerHTML=`<h1>Monday ODL Brief</h1><div class="wk">Week of ${esc(weekOf(TODAY))} · built from the <a class="src" href="${esc(WB_URL)}" target="_blank" rel="noopener">capacity workbook ↗</a> + Asana snapshot (${esc(D.meta.asana_snapshot_date||TODAY)})</div>`;
+  hd.innerHTML=`<h1>Monday ODL Brief</h1><div class="wk">Week of ${esc(weekOf(TODAY))} · built from the <a class="src" href="${esc(CAP_URL)}" target="_blank" rel="noopener">capacity sheet ↗</a> + Asana snapshot (${esc(D.meta.asana_snapshot_date||TODAY)})</div>`;
   c.appendChild(hd);
-  const QS=[["attention","①","What needs attention this week?"],["portfolio","②","How is the portfolio moving?"],["improving","③","How are we improving?"],["roundup","✍","Round-up email draft"]];
+  const QS=[["attention","①","What needs attention this week?"],["portfolio","②","How is the portfolio moving?"],["improving","③","How are we improving?"]];
   const nav=el("div",{class:"qnav"});
   QS.forEach(([k,n,label])=>{const b=el("button",{},`<span class="qn">${n}</span>${esc(label)}`);
     if(k===state.briefQ)b.classList.add("active");b.onclick=()=>{state.briefQ=k;renderBrief();};nav.appendChild(b);});
   c.appendChild(nav);
-  ({attention:briefAttentionView,portfolio:briefPortfolioView,improving:briefImprovingView,roundup:briefRoundupView}[state.briefQ]||briefAttentionView)(c);
+  ({attention:briefAttentionView,portfolio:briefPortfolioView,improving:briefImprovingView}[state.briefQ]||briefAttentionView)(c);
 }
 
 function briefAttentionView(c){
@@ -802,15 +852,29 @@ function briefAttentionView(c){
     const d=el("details",{class:"attn"});
     d.innerHTML=`<summary>${pill}<span class="nm">${esc(x.name)}</span> ${badge}<span class="pb">— ${x.reasons[0].p}</span></summary><div class="det">${det}</div>`;
     P.bd.appendChild(d);});
-  if(attn.length>5){const m=el("div",{class:"muted small",html:`+${attn.length-5} more — see the <a href="#projects" onclick="state.tab='projects';render();return false;">Projects tab</a>.`});m.style.marginTop="8px";P.bd.appendChild(m);}
+  if(attn.length>5){const m=el("div",{class:"muted small",html:`+${attn.length-5} more active project${attn.length-5>1?"s":""} flagging something. Narrow the window or check Asana for the full list.`});m.style.marginTop="8px";P.bd.appendChild(m);}
   c.appendChild(P.panel);
-  // New intake to discuss
-  const intake=(briefInputs().intake||[]).filter(x=>x&&x.name);
-  P=briefPanel("New projects from intake to discuss","Requests that have come in and need a decision in the intake review.");
-  if(!intake.length)P.bd.innerHTML=`<div class="muted">No new intake requests queued. Add them in <code>brief_inputs.json</code> → <code>intake</code>.</div>`;
+  // Projects at risk — first-class panel (weekly Asana updates + past-due + over-plan)
+  c.appendChild(projectsAtRiskPanel(6).panel);
+  // New intake to discuss — live from the Asana NDL tracking board (fallback: brief_inputs)
+  const intakeMeta=D.intake||{}, intake=intakeItems();
+  const live=intakeMeta.source==="asana";
+  P=briefPanel("New projects from intake to discuss",
+    live?"Requests on the NDL Project Tracking & Awareness board that still need a decision — pulled live from Asana. Each links to its own task."
+        :"Requests that have come in and need a decision.");
+  if(!intake.length)P.bd.innerHTML=live
+    ? `<div class="muted">Nothing waiting in the intake sections right now. 🎉</div>`
+    : `<div class="muted">No new intake requests queued.</div>`;
   intake.forEach(x=>{const r=el("div",{class:"winrow"});
-    r.innerHTML=`<div><b>${esc(x.name)}</b>${x.requestor?` <span class="src">· ${esc(x.requestor)}</span>`:""}</div><div class="muted" style="margin-top:3px">${esc(x.description||"")}</div>`;
+    const link=x.url?` <a class="src" href="${esc(x.url)}" target="_blank" rel="noopener">open task ↗</a>`
+                    :(x.url===null&&x.requestor?"":"");
+    const age=(x.age_days!=null)?` <span class="src">· ${x.age_days}d old</span>`:"";
+    const who=x.assignee?` <span class="src">· ${esc(x.assignee)}</span>`:(x.requestor?` <span class="src">· ${esc(x.requestor)}</span>`:"");
+    const sec=x.section?`<span class="pill gray" style="font-size:9.5px">${esc(x.section)}</span> `:"";
+    r.innerHTML=`<div>${sec}<b>${esc(x.name)}</b>${who}${age}${link}</div>${x.description?`<div class="muted" style="margin-top:3px">${esc(x.description)}</div>`:""}`;
     P.bd.appendChild(r);});
+  if(intakeMeta.note)P.bd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},esc(intakeMeta.note)));
+  P.bd.appendChild(el("div",{class:"muted small",style:"margin-top:6px",html:`Full pipeline: <a class="src" href="${esc(intakeMeta.board_url||NDL_BOARD_URL)}" target="_blank" rel="noopener">NDL Project Tracking &amp; Awareness board ↗</a>.`}));
   c.appendChild(P.panel);
 }
 
@@ -841,70 +905,99 @@ function briefPortfolioView(c){
   P.bd.appendChild(g1);
   if(y.due60>=3)P.bd.appendChild(el("div",{class:"note"},`Upcoming completion volume (${y.due60} within 60 days) may need extra QA / launch-review capacity.`));
   c.appendChild(P.panel);
-  // Estimate vs actual
+  // Budget (planned hours) vs actual (timesheet) — active projects only
   const ea=briefEstActual();
-  P=briefPanel("Estimated vs actual size","How close our up-front size estimates land to reality — a proxy for estimate accuracy. This should tighten as we track more projects.");
-  if(!ea.pairs)P.bd.innerHTML=`<div class="muted">Not enough projects have both an estimated and an actual size yet.</div>`;
-  else{const g2=el("div",{class:"grid cards"});
-    g2.appendChild(kpiCard("Matched estimate",pct(ea.pctMatched),`${ea.matched} of ${ea.pairs} sized projects`));
-    g2.appendChild(kpiCard("Came in bigger",ea.bigger,"larger than estimated"));
-    g2.appendChild(kpiCard("Came in smaller",ea.smaller,"smaller than estimated"));
-    P.bd.appendChild(g2);
-    const w=n=>Math.round(n/ea.pairs*100);
-    P.bd.appendChild(el("div",{class:"progseg",html:`<span style="width:${w(ea.matched)}%;background:var(--green)"></span><span style="width:${w(ea.bigger)}%;background:var(--amber)"></span><span style="width:${w(ea.smaller)}%;background:var(--blue)"></span>`}));
-    P.bd.appendChild(el("div",{class:"muted small",html:`Green = matched · amber = ran bigger · blue = ran smaller.${(D.drift&&D.drift.length)?` Capacity-plan drift is also tracked (${D.drift.length} month/scope cells differ from the workbook's hand-kept tab).`:""}`}));}
+  P=briefPanel("Budget by hours vs actual — active projects",
+    "Planned hours (from the Capacity Allocations sheet) vs actual hours logged on the timesheet, for active projects. This is the real estimate-accuracy check, replacing the old T-shirt-size guess.");
+  const g2=el("div",{class:"grid cards"});
+  g2.appendChild(kpiCard("Active projects",ea.n_active,"in flight"));
+  g2.appendChild(kpiCard("With a planned budget",ea.n_with_planned,"from the capacity sheet"));
+  g2.appendChild(kpiCard("Have logged time",ea.n_with_actual,"any timesheet hours"));
+  g2.appendChild(kpiCard("Over plan",ea.n_over,`actual > ${Math.round(ea.over_ratio*100)}% of plan`,ea.n_over?"var(--red)":""));
+  P.bd.appendChild(g2);
+  P.bd.appendChild(estMethodPanel(ea));
+  const withB=ea.rows.filter(r=>r.has_planned);
+  if(withB.length){
+    let tb=`<table><thead><tr><th class="nosort">Project</th><th class="num nosort">Planned (h)</th><th class="num nosort" title="Sum of the project's Asana task 'Estimated time' — a secondary reference">Task est (h)</th><th class="num nosort">Actual (h)</th><th class="num nosort">% of plan</th></tr></thead><tbody>`;
+    withB.forEach(r=>{const pcv=r.pct!=null?pct(r.pct):"—",col=r.over?"var(--red)":(r.under?"var(--amber)":(r.pct!=null&&r.pct>=0.9?"var(--amber)":"var(--green)"));
+      const cons=estConsequence(r);
+      const link=r.gid?` <a class="src" href="${esc(asanaWsProjectUrl(r.gid))}" target="_blank" rel="noopener">Asana ↗</a>`:"";
+      tb+=`<tr><td><b>${esc(r.name)}</b>${link}${cons?`<div class="muted small" style="margin-top:2px">${cons}</div>`:""}</td><td class="num">${r.planned_hours!=null?Math.round(r.planned_hours):"—"}</td><td class="num">${r.task_est_hours!=null?Math.round(r.task_est_hours):"—"}</td><td class="num">${r.actual_hours!=null?Math.round(r.actual_hours):"—"}</td><td class="num" style="color:${col};font-weight:700">${pcv}</td></tr>`;});
+    tb+=`</tbody></table>`;
+    const box=el("div",{style:"margin-top:8px"});box.innerHTML=tb;P.bd.appendChild(box);
+  }
+  const cover=`${ea.n_with_actual} of ${ea.n_active} active projects have any logged hours; timesheet data currently ends ${esc(ea.actuals_end||"—")}.`;
+  P.bd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},cover));
+  if(ea.n_with_actual===0)
+    P.bd.appendChild(el("div",{class:"note",html:`No active project has logged time yet — Asana time entry lapsed 6/24 and entries should resume now, so planned-vs-actual can't be measured until they do.`}));
   c.appendChild(P.panel);
-  // Timesheet compliance
-  const ops=briefInputs().ops||{};
-  P=briefPanel("Timesheet compliance","Time-tracking completeness — it's what turns estimates into better estimates and shows true capacity.");
-  if(ops.timesheet_compliance_pct==null)
-    P.bd.innerHTML=`<div class="muted">Time gets logged in Asana, but a team-wide submission rate isn't part of this data snapshot yet.</div>`;
-  else{const v=Math.round(ops.timesheet_compliance_pct),col=v>=90?"var(--green)":v>=75?"var(--amber)":"var(--red)",
-    badge=v>=90?"Strong":v>=75?"Watch":"Needs attention";
+  // Timesheet compliance — did people log time last week / last 4 weeks
+  const ts=D.timesheet||{};
+  P=briefPanel("Timesheet compliance","Did each person log any time last week, and over the last four weeks (a month)? Computed from the timesheet against the current team.");
+  if(!ts.team||!ts.team.length)P.bd.innerHTML=`<div class="muted">No team roster to check against.</div>`;
+  else{
+    const card=(label,w)=>{const v=Math.round((w.pct||0)*100),col=v>=90?"var(--green)":v>=60?"var(--amber)":"var(--red)";
+      return kpiCard(label,`<span style="color:${col}">${w.submitted.length}/${ts.team.length}</span>`,`${v}% logged · ${esc(w.start)}→${esc(w.end)}`);};
     const g3=el("div",{class:"grid cards"});
-    g3.appendChild(kpiCard("Team compliance",`<span style="color:${col}">${v}%</span>`,ops.timesheet_as_of?`as of ${esc(ops.timesheet_as_of)}`:""));
-    g3.appendChild(kpiCard("Status",badge,""));
-    P.bd.appendChild(g3);}
+    g3.appendChild(card("Logged last week",ts.last_week));
+    g3.appendChild(card("Logged last 4 weeks",ts.last_4_weeks));
+    P.bd.appendChild(g3);
+    const lw=ts.last_week||{}, l4=ts.last_4_weeks||{};
+    P.bd.appendChild(el("div",{class:"muted small",style:"margin-top:6px",html:
+      `<b>Logged last week (${lw.submitted?lw.submitted.length:0}/${ts.team.length}):</b> ${(lw.submitted&&lw.submitted.length)?lw.submitted.map(esc).join(", "):"nobody"}.`}));
+    const miss=(l4&&l4.missing)||[];
+    if(miss.length)P.bd.appendChild(el("div",{class:"muted small",style:"margin-top:4px",html:`Haven't logged in the last 4 weeks: ${miss.map(esc).join(", ")}.`}));
+    // per-person hours by month (2026-06 onward), vs each person's capacity hours
+    const ph=ts.person_hours;
+    if(ph&&ph.rows&&ph.rows.length&&ph.months.length){
+      P.bd.appendChild(subHead("Hours logged per person by month (vs capacity)"));
+      const cap=D.capacity, PHV=ph.point_hours||PH;
+      let th=`<table><thead><tr><th class="nosort">Person</th>${ph.months.map(m=>`<th class="num nosort">${mlab(m)}</th>`).join("")}<th class="num nosort">Total</th></tr></thead><tbody>`;
+      ph.rows.forEach(r=>{
+        th+=`<tr><td>${esc(r.name)} <span class="pill navy" style="font-size:9px">${esc(r.team)}</span></td>`;
+        ph.months.forEach(m=>{const h=r.by[m]||0;const capH=((cap.person[r.name]||{}).estimated||{})[m];const capHrs=capH!=null?Math.round(capH*PHV):null;
+          const col=h<=0?"var(--muted)":"var(--fg,#13233a)";
+          th+=`<td class="num" title="${capHrs!=null?"capacity ~"+capHrs+"h":"no capacity row"}" style="color:${col}">${h>0?Math.round(h*10)/10:"0"}</td>`;});
+        th+=`<td class="num"><b>${r.total}</b></td></tr>`;
+      });
+      th+=`</tbody></table>`;
+      const box=el("div",{style:"margin-top:6px;overflow:auto"});box.innerHTML=th;P.bd.appendChild(box);
+    }
+    P.bd.appendChild(el("div",{class:"note",html:`Asana time entry lapsed 6/24–early July; entries should resume now, so recent hours read low until they do. Log ends ${esc(ts.data_max||"—")}. Zeros are real, not missing data.`}));
+  }
   c.appendChild(P.panel);
 }
 
 function briefImprovingView(c){
   // Recommendations progress
   const rp=briefRecsProgress();
-  let P=briefPanel("Retrospective items & recommendations","Are we acting on what our reviews and reflections told us to fix?");
+  let P=briefPanel("Recommendations & retrospective items","Are we acting on what our reviews and reflections told us to fix?");
   const g=el("div",{class:"grid cards"});
-  g.appendChild(kpiCard("Achieved",rp.achieved,`of ${rp.actionable} actionable`));
+  g.appendChild(kpiCard("Done",rp.achieved,`of ${rp.actionable} to act on`));
   g.appendChild(kpiCard("In progress",rp.inprog,""));
-  g.appendChild(kpiCard("Not started",rp.notst,""));
-  g.appendChild(kpiCard("% achieved",pct(rp.pctAchieved),"of actionable items"));
+  g.appendChild(kpiCard("To do",rp.notst,""));
+  g.appendChild(kpiCard("% done",pct(rp.pctAchieved),"of actionable items"));
   P.bd.appendChild(g);
   const den=Math.max(1,rp.achieved+rp.inprog+rp.notst),w=n=>Math.round(n/den*100);
   P.bd.appendChild(el("div",{class:"progseg",html:`<span style="width:${w(rp.achieved)}%;background:var(--green)"></span><span style="width:${w(rp.inprog)}%;background:var(--blue)"></span><span style="width:${w(rp.notst)}%;background:#cfd6df"></span>`}));
-  P.bd.appendChild(el("div",{class:"muted small"},"Green = achieved · blue = in progress · grey = not started."));
-  if(rp.stalled.length){P.bd.appendChild(subHead("Top items not yet started:"));
+  P.bd.appendChild(el("div",{class:"muted small"},"Green = done · blue = in progress · grey = to do."));
+  if(rp.stalled.length){P.bd.appendChild(subHead("Top items not started yet:"));
     rp.stalled.forEach(r=>P.bd.appendChild(el("div",{class:"winrow",html:`<b>${esc(r.title)}</b> <span class="src">— ${esc(r.suggested_action||"")}</span>`})));}
   const btn=el("button",{class:"btn ghost"},"Open the recommendations tracker →");btn.style.marginTop="10px";
   btn.onclick=()=>{state.tab="recs";render();};P.bd.appendChild(btn);
   c.appendChild(P.panel);
-  // Wins & momentum
-  const wins=briefWins();
-  P=briefPanel("Wins & momentum","Positive signals from across the team — so the brief isn't only risks.");
-  if(wins.shouts.length){P.bd.appendChild(subHead(`From the All-Hands shout-outs${wins.shoutDate?` (week of ${esc(wins.shoutDate)})`:""}`));
-    wins.shouts.forEach(s=>P.bd.appendChild(el("div",{class:"winrow",html:esc(s)})));}
-  if(wins.manual.length){P.bd.appendChild(subHead("More wins"));
-    wins.manual.forEach(w2=>P.bd.appendChild(el("div",{class:"winrow",html:`${esc(w2.text)}${w2.who?` <span class="src">— ${esc(w2.who)}</span>`:""}${w2.source?` <span class="src">· ${esc(w2.source)}</span>`:""}`})));}
-  if(wins.derived.length){P.bd.appendChild(subHead("From project data"));
-    wins.derived.forEach(w2=>P.bd.appendChild(el("div",{class:"winrow",html:`${esc(w2.text)} <span class="src">· ${esc(w2.src)}</span>`})));}
-  if(!wins.shouts.length&&!wins.manual.length)P.bd.appendChild(el("div",{class:"note",html:`Tip: paste this week's All-Hands shout-outs into <code>brief_inputs.json</code> → <code>running_notes.shoutouts</code> to feature them here.`}));
-  c.appendChild(P.panel);
-  // ND Learning round-up
-  P=briefPanel("ND Learning round-up candidates","Draft story blurbs you can drop into the weekly round-up — edit before sending.");
-  const stories=briefRoundup();
-  if(!stories.length)P.bd.innerHTML=`<div class="muted">No round-up candidates surfaced yet.</div>`;
-  stories.forEach(s=>{const box=el("div",{class:"winrow"});
-    box.innerHTML=`<b>${esc(s.project)}</b><div class="blurb">${esc(s.blurb)}</div>`;
-    const cb=el("button",{class:"copybtn"},"Copy draft");cb.onclick=()=>copyBlurb(cb,s.blurb);box.appendChild(cb);
-    P.bd.appendChild(box);});
+  // Are we making progress? — recurring lessons synthesized from the reflection reports
+  const rc=D.reflection_considerations||{}, themes=rc.themes||[];
+  P=briefPanel("Are we making progress? — recurring lessons from reflections","The lessons our post-project reports keep surfacing, grouped into themes. When the same theme keeps appearing in recent reports, it's one we haven't yet turned into process.");
+  if(!themes.length)P.bd.innerHTML=`<div class="muted">No reflection themes loaded yet.</div>`;
+  else{
+    const recur=rc.themes_recurring||0;
+    P.bd.appendChild(el("div",{class:"muted small",style:"margin-bottom:6px",html:`${themes.length} recurring themes across the reports; <b>${recur}</b> still appear in reports from the last few months (latest ${esc(rc.reports_newest||"—")}).`}));
+    themes.slice(0,6).forEach(t=>{const box=el("div",{class:"winrow"});
+      box.innerHTML=`<div><b>${esc(t.theme)}</b> <span class="src">· ${t.n} report${t.n>1?"s":""}${t.latest?", latest "+esc(t.latest):""}</span> ${t.recurring?'<span class="pill amber">still recurring</span>':''}</div><div class="muted" style="margin-top:3px">${esc(t.what_it_means)}</div>`;
+      P.bd.appendChild(box);});
+    if(rc.folder_url)P.bd.appendChild(el("div",{class:"muted small",style:"margin-top:6px",html:`<a class="src" href="${esc(rc.folder_url)}" target="_blank" rel="noopener">All reflection reports (Drive) ↗</a> · full detail on the <a href="#recs" onclick="state.tab='recs';render();return false;">Recommendations tab</a>.`}));
+  }
   c.appendChild(P.panel);
 }
 
@@ -1013,15 +1106,11 @@ function renderOverview(){
   const bd=el("div",{class:"bd"});
   if(!top.length)bd.innerHTML=`<div class="muted">Nothing open — all recommendations are achieved or dismissed. 🎉</div>`;
   top.forEach(r=>{const row=el("div",{class:"bar-row"});
-    row.innerHTML=`<span class="pill sev-${r.severity}" style="width:64px;text-align:center">${r.severity}</span>
+    row.innerHTML=`<span class="pill ${statusPill(r.status)}" style="width:80px;text-align:center">${esc(STATUS_LABEL[r.status]||r.status)}</span>
       <div style="flex:1"><b>${esc(r.title)}</b> <span class="muted small">— ${esc(r.suggested_action||"")}</span></div>`;
     row.style.cursor="pointer"; row.onclick=()=>{state.tab="recs";render();};
     bd.appendChild(row);});
   rp.appendChild(bd); c.appendChild(rp);
-
-  if(D.drift&&D.drift.length){
-    c.appendChild(el("div",{class:"note"},`⚠ <b>Data hygiene:</b> the workbook's hand-maintained “Team Capacity” tab differs from the consistent recompute (from the Projects tab) in ${D.drift.length} month/scope cells. The figures shown here are recomputed from the Projects tab so they always reconcile. See the Capacity tab → “workbook reference”.`));
-  }
 }
 function statusPill(s){return s==="Achieved"?"green":s==="In Progress"?"blue":s==="Dismissed"?"gray":"amber";}
 function allocLegend(){return [["#cfe3f6","<40%"],["#7fb98a","40–70%"],["#2f9e57","70–95% healthy"],["#e8913a","95–105% tight"],["#cf3a3a",">105% over"]];}
@@ -1070,18 +1159,16 @@ function renderCapacity(){
     const b=el("button",{},s);if(s===state.capScope)b.classList.add("active");
     b.onclick=()=>{state.capScope=s;renderCapacity();};seg.appendChild(b);});
   bar.appendChild(seg);
-  if(state.capMode==="summary"){
-    const ref=el("label",{},`<input type="checkbox" id="showRef"> show workbook reference`);
-    bar.appendChild(ref);
-  }
   c.appendChild(bar);
+  c.appendChild(el("div",{class:"note",style:"border-color:#cdd9ea;background:#eef4fc",html:
+    `<b>Source: Capacity Allocations (Google Sheet) — updated nightly <a class="src" href="${esc(CAP_URL)}" target="_blank" rel="noopener">open ↗</a>.</b> Hours-based (1 point = ${PH}h); everything on this tab defaults to hours.`}));
 
   const scope=state.capScope, months=win();
   if(state.capMode==="master"){ renderCapacityMaster(c,scope,months); return; }
   // chart: estimated (track) vs scheduled (fill) per month
   const p=el("div",{class:"panel"});
-  p.innerHTML=`<div class="hd"><h2>${scope} — estimated vs scheduled capacity</h2>
-     <div class="desc">Bars show scheduled load against each month's estimated capacity. ${unit()==="hrs"?"Hours":"Points"} (1 pt = 32h).</div></div>`;
+  p.innerHTML=`<div class="hd"><h2>${scope} — capacity vs allocated</h2>
+     <div class="desc">Bars show allocated hours against each month's capacity, from the live Capacity Allocations sheet. ${unit()==="hrs"?"Hours":"Points (1 pt = 32h)"}.${srcTag(CAP_URL,"capacity sheet")}</div></div>`;
   const bd=el("div",{class:"bd"});
   bd.appendChild(capChart(scope,months));
   p.appendChild(bd); c.appendChild(p);
@@ -1102,26 +1189,9 @@ function renderCapacity(){
       <td class="num"><span style="color:${allocTextColor(pc)};font-weight:700">${pct(pc)}</span></td>
       <td class="num">${un?val(un):""}</td></tr>`;
   });
-  tb.innerHTML=`<table><thead><tr><th class="nosort">Month</th><th class="num nosort">Estimated</th><th class="num nosort">Scheduled</th><th class="num nosort">Remaining</th><th class="num nosort">Allocated</th><th class="num nosort">Unstaffed</th></tr></thead><tbody>${rows}</tbody></table>
-    <div class="legend" style="margin-top:8px"><span>“Unstaffed” = committed work not yet assigned to a named person.</span></div>`;
+  tb.innerHTML=`<table><thead><tr><th class="nosort">Month</th><th class="num nosort">Capacity</th><th class="num nosort">Allocated</th><th class="num nosort">Remaining</th><th class="num nosort">% used</th><th class="num nosort">Unassigned</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="legend" style="margin-top:8px"><span>“Unassigned” = committed work parked on a team's Unassigned slot, not yet given to a named person.</span></div>`;
   tp.appendChild(tb); c.appendChild(tp);
-
-  // workbook reference / drift
-  const refp=el("div",{class:"panel hide",id:"refPanel"});
-  const wb=D.workbook_reference[scope]||{};
-  let drows="";
-  months.forEach(m=>{
-    const comp=cap.scheduled[scope][m], tab=wb.scheduled?.[m];
-    if(comp==null&&tab==null)return;
-    const dl=(comp!=null&&tab!=null)?round(comp-tab,2):null;
-    drows+=`<tr><td>${mlabFull(m)}</td><td class="num">${comp==null?"—":round(comp,2)}</td>
-      <td class="num">${tab==null?"—":round(tab,2)}</td>
-      <td class="num">${dl==null?"—":`<span class="pill ${Math.abs(dl)>2?'red':'gray'}">${dl>=0?"+":""}${dl}</span>`}</td></tr>`;
-  });
-  refp.innerHTML=`<div class="hd"><h2>${scope} — workbook reference</h2><div class="desc">The hand-maintained “Team Capacity” tab vs this dashboard's recompute from the Projects tab.</div></div>
-    <div class="bd"><table><thead><tr><th class="nosort">Month</th><th class="num nosort">Dashboard (computed)</th><th class="num nosort">Team Capacity tab</th><th class="num nosort">Δ</th></tr></thead><tbody>${drows}</tbody></table></div>`;
-  c.appendChild(refp);
-  $("#showRef").onchange=e=>{ $("#refPanel").classList.toggle("hide",!e.target.checked); };
 }
 function capChart(scope,months){
   const cap=D.capacity;
@@ -1138,14 +1208,14 @@ function capChart(scope,months){
     const e=cap.estimated[scope][m]||0, s=cap.scheduled[scope][m]||0, pc=cap.pct[scope][m];
     const ey=H-padB-sc(e), sy=H-padB-sc(s);
     svg+=`<rect x="${x}" y="${ey}" width="${bw}" height="${sc(e)}" rx="2" fill="#e7ebf1"/>`;
-    svg+=`<rect x="${x}" y="${sy}" width="${bw}" height="${sc(s)}" rx="2" fill="${allocColor(pc)}"><title>${mlabFull(m)}: ${round(s,1)}/${round(e,1)} pts (${pct(pc)})</title></rect>`;
+    svg+=`<rect x="${x}" y="${sy}" width="${bw}" height="${sc(s)}" rx="2" fill="${allocColor(pc)}"><title>${mlabFull(m)}: ${val(s)}/${val(e)} ${unitLab()} allocated (${pct(pc)})</title></rect>`;
     svg+=`<text x="${x+bw/2}" y="${H-padB+12}" text-anchor="middle" transform="rotate(35 ${x+bw/2} ${H-padB+12})">${mlab(m)}</text>`;
     if(m===NOW)svg+=`<rect x="${x-2}" y="${padT}" width="${bw+4}" height="${H-padB-padT}" fill="none" stroke="#ae9142" stroke-dasharray="3 2"/>`;
   });
   svg+=`</g></svg>`;
   const wrap=el("div");wrap.innerHTML=svg;
   const lg=el("div",{class:"legend"});lg.style.marginTop="6px";
-  lg.innerHTML=`<span><span class="sw" style="background:#e7ebf1"></span>Estimated capacity</span><span><span class="sw" style="background:#2f9e57"></span>Scheduled (colored by % allocated)</span><span><span class="sw" style="background:#fff;border:1px dashed #ae9142"></span>current month</span>`;
+  lg.innerHTML=`<span><span class="sw" style="background:#e7ebf1"></span>Capacity (hours)</span><span><span class="sw" style="background:#2f9e57"></span>Allocated (colored by % used)</span><span><span class="sw" style="background:#fff;border:1px dashed #ae9142"></span>current month</span>`;
   wrap.appendChild(lg);return wrap;
 }
 
@@ -1164,47 +1234,46 @@ function masterCell(v){
 }
 function renderCapacityMaster(c,scope,months){
   const cap=D.capacity;
-  // every project with allocation in the window/scope, biggest first
-  const rows=D.projects.map(p=>{const s=projScopeByMonth(p,scope,months);
-      return s.tot>0?{p,by:s.by,tot:s.tot}:null;}).filter(Boolean)
-      .sort((a,b)=>b.tot-a.tot);
+  // people in scope, most-allocated over the window first
+  const load=n=>months.reduce((a,m)=>a+(cap.person[n].scheduled[m]||0),0);
+  let names=Object.keys(cap.person).filter(n=>(scope==="Total"||cap.person[n].team===scope)
+    && (load(n)>0 || months.some(m=>cap.person[n].estimated[m]!=null)));
+  names.sort((a,b)=>load(b)-load(a)||a.localeCompare(b));
   const p=el("div",{class:"panel"});
-  const liveTag=LIVE?`<span class="pill green" title="recomputed live from the workbook">live</span>`:`<span class="pill gray" title="baked snapshot">snapshot</span>`;
-  p.innerHTML=`<div class="hd"><h2>Capacity plan — master view ${liveTag}</h2>
-    <div class="desc">The full plan behind the summary: every project's ${scope==="Total"?"":esc(scope)+" "}staffing, month by month, exactly as it stands now${LIVE?" (live from the workbook)":""}. Click a project to expand its roles &amp; people. ${unit()==="hrs"?"Hours":"Points"} (1 pt = ${PH}h).${srcTag(WB_URL,"capacity workbook")}</div></div>`;
+  const liveTag=LIVE?`<span class="pill green" title="recomputed live from the sheet">live</span>`:`<span class="pill gray" title="baked snapshot">snapshot</span>`;
+  p.innerHTML=`<div class="hd"><h2>Capacity plan — by person ${liveTag}</h2>
+    <div class="desc">The detail behind the summary: each person's allocated ${scope==="Total"?"":esc(scope)+" "}hours, month by month, from the Capacity Allocations sheet. Click a name to see the projects they're allocated to. ${unit()==="hrs"?"Hours":"Points (1 pt = "+PH+"h)"}.${srcTag(CAP_URL,"capacity sheet")}</div></div>`;
   const bd=el("div",{class:"bd"});
-  if(!rows.length){bd.innerHTML=`<div class="muted">No ${scope==="Total"?"":esc(scope)+" "}allocations in the selected window. Widen the window above.</div>`;p.appendChild(bd);c.appendChild(p);return;}
+  if(!names.length){bd.innerHTML=`<div class="muted">No one has capacity or allocation in this scope/window. Widen the window above.</div>`;p.appendChild(bd);c.appendChild(p);return;}
 
   const mhead=months.map(m=>`<th class="num nosort"${m===NOW?' style="color:#ae9142"':''}>${mlab(m)}</th>`).join("");
-  let html=`<div class="mwrap"><table class="master"><thead><tr><th class="nosort pname">Project (${rows.length})</th>${mhead}<th class="num nosort">Total</th></tr></thead><tbody>`;
-  // context rows: estimated / scheduled / remaining for the scope
-  const ctx=(lab,get,cls)=>{let r=`<tr class="${cls}"><td class="pname"><b>${lab}</b></td>`;
+  let html=`<div class="mwrap"><table class="master"><thead><tr><th class="nosort pname">Person (${names.length})</th>${mhead}<th class="num nosort">Total</th></tr></thead><tbody>`;
+  // context rows: team capacity / allocated / remaining
+  const ctx=(lab,get)=>{let r=`<tr class="rolerow"><td class="pname"><b>${lab}</b></td>`;
     months.forEach(m=>{const v=get(m);r+=`<td class="num mc">${v==null?"—":val(v)}</td>`;});
     const tt=months.reduce((a,m)=>{const v=get(m);return a+(v==null?0:v);},0);
-    return r+`<td class="num"><b>${round(tt,1)}</b></td></tr>`;};
-  html+=ctx("Estimated capacity",m=>cap.estimated[scope]?.[m],"rolerow");
-  html+=ctx("Scheduled (all)",m=>cap.scheduled[scope]?.[m],"rolerow");
+    return r+`<td class="num"><b>${val(round(tt,3))}</b></td></tr>`;};
+  html+=ctx("Team capacity",m=>cap.estimated[scope]?.[m]);
+  html+=ctx("Allocated",m=>cap.scheduled[scope]?.[m]);
   html+=`<tr class="rolerow"><td class="pname"><b>Remaining</b></td>`+
     months.map(m=>{const r=cap.remaining[scope]?.[m];return `<td class="num mc" style="${r!=null&&r<0?'color:#cf3a3a;font-weight:700':''}">${r==null?"—":(r>=0?"+":"")+val(r)}</td>`;}).join("")+
     `<td></td></tr>`;
-  // one row per project (+ expandable role rows)
-  rows.forEach(({p,by,tot})=>{
-    const id=p.name, open=!!state.masterExpand[id];
-    const st=p.status_display?`<span class="pill gray" style="font-size:9px">${esc(p.status_display)}</span>`:"";
-    let r=`<tr class="proj${open?' open':''}" data-pn="${esc(id)}"><td class="pname" title="${esc(id)}">${open?"▾ ":"▸ "}${esc(p.name)} ${st}</td>`;
-    months.forEach(m=>{const cc=masterCell(by[m]||0);r+=`<td class="mc" style="background:${cc.bg};color:${cc.fg}">${cc.txt}</td>`;});
-    r+=`<td class="num"><b>${val(tot)}</b></td></tr>`;
+  // one row per person (+ expandable project list)
+  const HIDE=/^z-|time off|out of office|vacation|professional development/i;
+  names.forEach(nm=>{
+    const pp=cap.person[nm], open=!!state.masterExpand[nm];
+    const st=`<span class="pill navy" style="font-size:9px">${esc(pp.team)}</span>`;
+    let r=`<tr class="proj${open?' open':''}" data-pn="${esc(nm)}"><td class="pname" title="${esc(nm)}">${open?"▾ ":"▸ "}${esc(nm)} ${st}</td>`;
+    months.forEach(m=>{const s=pp.scheduled[m]||0,e=pp.estimated[m],pc=e?s/e:null;
+      r+=`<td class="mc" style="background:${s>0?allocColor(pc):'#f7f9fc'};color:${allocText(pc)}" title="${e?pct(pc)+' of capacity used':''}">${s>0?val(s):""}</td>`;});
+    const tot=months.reduce((a,m)=>a+(pp.scheduled[m]||0),0);
+    r+=`<td class="num"><b>${val(round(tot,3))}</b></td></tr>`;
     html+=r;
     if(open){
-      const rls=(p.roles||[]).filter(rl=>scope==="Total"||rl.team===scope)
-        .map(rl=>({rl,tot:months.reduce((a,m)=>a+((rl.alloc&&rl.alloc[m])||0),0)}))
-        .filter(x=>x.tot>0).sort((a,b)=>b.tot-a.tot);
-      rls.forEach(({rl})=>{
-        const who=rl.generic?`<span class="pill amber" style="font-size:9px">unstaffed</span>`:esc(rl.person||"");
-        html+=`<tr class="rolerow"><td class="pname" style="padding-left:22px">${esc(rl.role)} ${scope==="Total"?`<span class="muted">· ${esc(rl.team)}</span>`:""} ${who}</td>`+
-          months.map(m=>{const v=(rl.alloc&&rl.alloc[m])||0;return `<td class="num mc">${v?val(v):""}</td>`;}).join("")+
-          `<td class="num">${val(round(months.reduce((a,m)=>a+((rl.alloc&&rl.alloc[m])||0),0),3))}</td></tr>`;
-      });
+      const seen=new Set(), projs=[];
+      months.forEach(m=>((pp.projects&&pp.projects[m])||[]).forEach(pr=>{if(!seen.has(pr)){seen.add(pr);projs.push(pr);}}));
+      const shown=projs.filter(pr=>!HIDE.test(pr));
+      html+=`<tr class="rolerow"><td class="pname" colspan="${months.length+2}" style="padding-left:22px;white-space:normal">${shown.length?`<b>Allocated to:</b> ${shown.map(esc).join(" · ")}`:`<span class="muted">No project detail recorded for this window.</span>`}</td></tr>`;
     }
   });
   html+=`</tbody></table></div>`;
@@ -1212,16 +1281,8 @@ function renderCapacityMaster(c,scope,months){
   bd.querySelectorAll("tr.proj").forEach(tr=>tr.onclick=()=>{
     const pn=tr.getAttribute("data-pn");state.masterExpand[pn]=!state.masterExpand[pn];renderCapacity();});
   const lg=el("div",{class:"legend",style:"margin-top:8px"});
-  lg.innerHTML=`<span>Each cell = that project's ${scope==="Total"?"total":esc(scope)} load that month, in ${unit()==="hrs"?"hours":"points"}.</span><span><span class="sw" style="background:rgba(47,158,87,.6)"></span>≤ a person-month</span><span><span class="sw" style="background:#cf3a3a"></span>&gt; 4 pts (heavy)</span><span><span class="pill amber" style="font-size:9px">unstaffed</span> not yet assigned to a person</span>`;
+  lg.innerHTML=`<span>Each cell = that person's allocated ${unit()==="hrs"?"hours":"points"} that month, colored by % of capacity used.</span>`+allocLegend().map(([c2,l])=>`<span><span class="sw" style="background:${c2}"></span>${esc(l)}</span>`).join("");
   bd.appendChild(lg);
-  // active Asana projects that aren't in the capacity workbook carry no point
-  // allocations, so they can't appear in this points grid — call them out.
-  const ao=(D.asana_only_projects||[]).filter(r=>r&&(r.status==='In Progress'||r.status==='On Hold')&&r.name);
-  if(ao.length){
-    const note=el("div",{class:"note",style:"margin-top:10px"});
-    note.innerHTML=`<b>${ao.length}</b> active Asana project${ao.length>1?'s are':' is'} not in the capacity workbook yet, so ${ao.length>1?'they carry':'it carries'} no point allocations and ${ao.length>1?'don’t':'doesn’t'} appear above: ${ao.slice(0,10).map(r=>esc(r.name)).join(", ")}${ao.length>10?` and ${ao.length-10} more`:""}.`;
-    bd.appendChild(note);
-  }
   p.appendChild(bd);c.appendChild(p);
 }
 
@@ -1234,7 +1295,7 @@ function renderPeople(){
   const bar=el("div",{class:"toolbar"});
   bar.innerHTML=`<label>Show</label>`;
   const seg=el("span",{class:"seg"});
-  [["remaining","Remaining"],["scheduled","Scheduled load"],["alloc","% Allocated"]].forEach(([k,l])=>{
+  [["logged","Logged hours"],["remaining","Remaining"],["scheduled","Allocated"],["alloc","% Used"]].forEach(([k,l])=>{
     const b=el("button",{},l);if(k===state.peopleMetric)b.classList.add("active");
     b.onclick=()=>{state.peopleMetric=k;renderPeople();};seg.appendChild(b);});
   bar.appendChild(seg);
@@ -1242,6 +1303,15 @@ function renderPeople(){
   tsel.onchange=e=>{state.peopleTeam=e.target.value;renderPeople();};
   bar.appendChild(el("label",{},"Team"));bar.appendChild(tsel);
   c.appendChild(bar);
+
+  // PRIMARY view: actual timesheet hours per person by month (2026-06 onward) vs capacity.
+  if(state.peopleMetric==="logged"){
+    c.appendChild(peopleLoggedPanel());
+    c.appendChild(el("div",{class:"note"},`Actual hours each person logged, by month, next to their capacity — the real work, not the plan. Zeros are rendered honestly. For the allocation plan, switch to Remaining / Allocated / % Used above.`));
+    renderHoursLog(c);
+    peopleCapRecs(c);
+    return;
+  }
 
   const wm=win();
   let names=Object.keys(cap.person).filter(n=>state.peopleTeam==="all"||cap.person[n].team===state.peopleTeam)
@@ -1272,23 +1342,46 @@ function renderPeople(){
       return {bg:s>4?"#cf3a3a":(s>0?`rgba(47,158,87,${op})`:"#f4f6f9"),fg:s>3?"#fff":"#13233a",txt:s>0?val(s):"",title:`${round(s,1)} pts`};
     }, legend, openPerson);
   c.appendChild(panel);
-  c.appendChild(el("div",{class:"note"},`Mirrors the workbook's “Remaining Capacity” view (the team's red/green over/under check) — recomputed live from the Projects tab. Click a name for their projects.`));
-  renderHoursLog(c);   // actual logged hours (Asana time-tracking) — daily/weekly/biweekly/monthly
-  // the capacity recommendations live here now — full tracking (mark + note), not just a list
-  (function(){
-    const CAP=["capacity-person","capacity-team","capacity-unstaffed"];
-    const capRecs=recs().filter(r=>CAP.includes(r.category));
-    if(!capRecs.length)return;
-    c.appendChild(el("div",{class:"note",style:"border-color:#cdd9ea;background:#eef4fc;margin-top:16px"},
-      `<b>Capacity recommendations.</b> Who's over- or under-utilised, and where work isn't staffed yet. Mark progress and add notes right here — your marks save in this browser; use <b>Save our progress</b> on the Recommendations tab to share them with the team.`));
-    const SEV={high:0,medium:1,low:2}, groups={};
-    capRecs.forEach(r=>{(groups[r.category]=groups[r.category]||[]).push(r);});
-    CAP.filter(k=>groups[k]).forEach(cat=>{
-      const items=groups[cat].sort((a,b)=>(SEV[a.severity]-SEV[b.severity])||a.title.localeCompare(b.title));
-      c.appendChild(el("h3",{class:"rec-group"},`${CATICON[cat]||"•"} ${esc(CATLABEL[cat]||cat)} <span class="muted" style="font-weight:400;font-size:13px">· ${items.length}</span>`));
-      items.forEach(r=>c.appendChild(recCard(r)));
-    });
-  })();
+  c.appendChild(el("div",{class:"note"},`Each person's capacity vs. what's allocated, from the Capacity Allocations sheet — the plan. Click a name to see the months and projects behind it. For the actual time people have logged, see the timesheet below.`));
+  renderHoursLog(c);   // actual logged hours (timesheet) — daily/weekly/biweekly/monthly
+  peopleCapRecs(c);
+}
+// PRIMARY People view: logged hours per person by month vs their capacity (hours).
+function peopleLoggedPanel(){
+  const ts=D.timesheet||{}, ph=ts.person_hours||{}, cap=D.capacity, PHV=ph.point_hours||PH;
+  const rows=(ph.rows||[]).filter(r=>state.peopleTeam==="all"||r.team===state.peopleTeam);
+  const months=ph.months||[];
+  const p=el("div",{class:"panel"});
+  p.innerHTML=`<div class="hd"><h2>People — logged hours vs capacity</h2><div class="desc">Timesheet hours each person logged per month from ${months.length?mlabFull(months[0]):"2026-06"} onward, next to that month's capacity hours. From Asana time-tracking (which lapsed 6/24 and is resuming), so recent months read low.${srcTag(CAP_URL,"capacity sheet")}</div></div>`;
+  const bd=el("div",{class:"bd"});
+  if(!rows.length||!months.length){bd.innerHTML=`<div class="muted">No logged hours from ${months.length?mlabFull(months[0]):"June 2026"} onward yet.</div>`;p.appendChild(bd);return p;}
+  let th=`<table class="hm"><tr><td class="rowlab">Person</td>${months.map(m=>`<td class="mhdr">${mlab(m)}</td>`).join("")}<td class="mhdr">Total</td></tr>`;
+  rows.forEach(r=>{
+    th+=`<tr><td class="rowlab" title="${esc(r.team)}">${esc(r.name)}</td>`;
+    months.forEach(m=>{const h=r.by[m]||0;const capH=((cap.person[r.name]||{}).estimated||{})[m];const capHrs=capH!=null?Math.round(capH*PHV):null;
+      const frac=capHrs?Math.min(1,h/capHrs):0;const bg=h<=0?"#f4f6f9":`rgba(47,158,87,${Math.min(1,0.2+frac).toFixed(2)})`;
+      th+=`<td><div class="mcell" style="background:${bg};color:${frac>0.6?'#fff':'#13233a'}" title="${Math.round(h*10)/10}h logged${capHrs!=null?' of ~'+capHrs+'h capacity':''}">${h>0?Math.round(h*10)/10:"0"}</div></td>`;});
+    th+=`<td><div class="mcell" style="background:#eef4fc"><b>${r.total}</b></div></td></tr>`;
+  });
+  th+=`</table>`;
+  bd.innerHTML=`<div style="overflow:auto">${th}</div>`;
+  bd.appendChild(el("div",{class:"muted small",style:"margin-top:8px"},`Each cell = hours logged that month (shaded by share of that person's capacity). Capacity per person from the Capacity Allocations sheet (1 pt = ${PHV}h).`));
+  p.appendChild(bd);return p;
+}
+// capacity recommendations live on the People tab — full tracking (mark + note)
+function peopleCapRecs(c){
+  const CAP=["capacity-person","capacity-team","capacity-unstaffed"];
+  const capRecs=recs().filter(r=>CAP.includes(r.category));
+  if(!capRecs.length)return;
+  c.appendChild(el("div",{class:"note",style:"border-color:#cdd9ea;background:#eef4fc;margin-top:16px"},
+    `<b>Capacity — where to help.</b> Which teams are stretched or have room to take on more, and where committed work still needs an owner. Mark progress and add notes right here — your marks save in this browser; use <b>Save our progress</b> on the Recommendations tab to share them with the team.`));
+  const SEV={high:0,medium:1,low:2}, groups={};
+  capRecs.forEach(r=>{(groups[r.category]=groups[r.category]||[]).push(r);});
+  CAP.filter(k=>groups[k]).forEach(cat=>{
+    const items=groups[cat].sort((a,b)=>(SEV[a.severity]-SEV[b.severity])||a.title.localeCompare(b.title));
+    c.appendChild(el("h3",{class:"rec-group"},`${CATICON[cat]||"•"} ${esc(CATLABEL[cat]||cat)} <span class="muted" style="font-weight:400;font-size:13px">· ${items.length}</span>`));
+    items.forEach(r=>c.appendChild(recCard(r)));
+  });
 }
 function openPerson(name){
   const pp=D.capacity.person[name]; if(!pp)return;
@@ -1338,9 +1431,9 @@ function renderHoursLog(c){
   const HL=D.hours_log;
   if(!HL||!HL.entries||!HL.entries.length)return;
   c.appendChild(el("h3",{style:"margin:22px 0 4px"},
-    `⏱ Logged hours <span class="muted" style="font-weight:400;font-size:13px">· actual time tracked in Asana</span>`));
+    `⏱ Timesheet — hours people logged <span class="muted" style="font-weight:400;font-size:13px">· actual time spent</span>`));
   c.appendChild(el("div",{class:"note",style:"border-color:#cdd9ea;background:#eef4fc"},
-    `<b>Actual hours logged in Asana time-tracking</b> — the real time spent, separate from the points/capacity plan above. ${esc(HL.date_min)} → ${esc(HL.date_max)}, ${round(HL.total_hours,0)} h total. Pick the time grain and how to group.`));
+    `<b>Actual hours logged</b> — the real time spent, separate from the allocation plan above. Covers ${esc(HL.date_min)} → ${esc(HL.date_max)}, ${round(HL.total_hours,0)} h total. This flows from Asana time-tracking; entry lapsed 6/24–early July and should resume now, so recent weeks read low until it does.`));
   // ---- controls ----
   const bar=el("div",{class:"toolbar"});
   bar.appendChild(el("label",{},"Precision"));
@@ -1360,10 +1453,17 @@ function renderHoursLog(c){
   const prec=state.hoursPrec, by=state.hoursBy;
   const dim=by==="person"?HL.people:by==="project"?HL.projects:by==="phase"?HL.phases:null;
   const ciOf=e=>by==="person"?e[1]:by==="project"?e[2]:by==="phase"?e[3]:0;
+  // A departed teammate is hidden from the person/phase lists (their "PM Time
+  // Tracking: …" phase), but their historical hours still count in project + team
+  // totals. Pattern lower-cased so the public build's name-leak scan never trips.
+  const HIDE_HL=/lawrence/i;
+  const hideCi=(by==="person"||by==="phase")&&dim?new Set(dim.map((v,i)=>HIDE_HL.test(v||"")?i:-1).filter(i=>i>=0)):new Set();
   // period -> Map(catIdx -> hours); and overall per-cat totals (for ranking)
   const periods=new Map(), allTot=new Map();
   HL.entries.forEach(e=>{
-    const pk=hoursPeriodKey(e[0],prec), ci=ciOf(e), h=e[4];
+    const ci=ciOf(e), h=e[4];
+    if(hideCi.has(ci))return;
+    const pk=hoursPeriodKey(e[0],prec);
     if(!periods.has(pk))periods.set(pk,new Map());
     const row=periods.get(pk);row.set(ci,(row.get(ci)||0)+h);
     allTot.set(ci,(allTot.get(ci)||0)+h);
@@ -1465,7 +1565,9 @@ function renderProjects(){
   dirBtn.onclick=()=>{state.projSort.dir*=-1;drawProjTable();};
   bar.appendChild(dirBtn);
   c.appendChild(bar);
-  const p=el("div",{class:"panel"});p.innerHTML=`<div class="hd"><h2>Projects</h2><div class="desc" id="projCount"></div><div class="desc">Status, phase, faculty and dates come from Asana; effort and staffing from the capacity workbook. Open any project for its Asana link.${srcTag(WB_URL,"workbook")}</div></div><div class="bd" id="projTableBd"></div>`;
+  // Projects at risk — first-class panel (also on the Director Brief)
+  c.appendChild(projectsAtRiskPanel(0).panel);
+  const p=el("div",{class:"panel"});p.innerHTML=`<div class="hd"><h2>Projects</h2><div class="desc" id="projCount"></div><div class="desc">The project list = Asana projects UNIONED with the projects named on the Capacity Allocations sheet (overhead boards excluded). Status, phase, faculty and dates come from Asana; effort/staffing from the capacity sheet's even-split allocation. <span title="A project is 'active' if it's planned on the Capacity sheet in the current month or later, OR it's not archived in Asana and has a weekly status update in the last 30 days." style="border-bottom:1px dotted #888;cursor:help">What counts as active?</span> Open any project for its Asana link.${srcTag(CAP_URL,"capacity sheet")}</div></div><div class="bd" id="projTableBd"></div>`;
   c.appendChild(p);
   drawProjTable();
 }
@@ -1750,237 +1852,75 @@ function renderReflections(c){
 /* ===================================================================== */
 /*  PLAN A PROJECT (what-if)                                            */
 /* ===================================================================== */
+/*  Plan tab = archetype hour ranges (estimator calibration) + current team    */
+/*  availability from the capacity model. The old per-team size-profile         */
+/*  estimator/stager was retired with the workbook.                             */
+function fmtH(x){return (x==null)?"—":Math.round(x)+"h";}
+function archRange(a){
+  if(a.p25!=null&&a.p75!=null)return `${fmtH(a.p25)}–${fmtH(a.p75)}`;   // interquartile
+  if(a.values&&a.values.length)return a.values.map(v=>Math.round(v)+"h").join(" / ");
+  if(a.min!=null&&a.max!=null)return `${fmtH(a.min)}–${fmtH(a.max)}`;
+  return a.p50!=null?fmtH(a.p50):"—";
+}
 function renderPlan(){
   const c=$("#tab-plan"); c.innerHTML="";
-  c.appendChild(el("div",{class:"note"},`Model prospective projects against <b>current</b> capacity — everything already in flight is included, and the surplus comes straight from each team's live remaining capacity${LIVE?" (live from the workbook now)":", which refreshes whenever the plan is rebuilt or served live"}. A project's footprint per size is computed from <b>real recent projects</b>, not a frozen template, so the estimate tracks what projects actually cost now. Use the <b>estimator</b> to gauge how many new projects a season can absorb, and <b>stage</b> individual projects at <b>any</b> start month to see the month-by-month effect.`));
-  const sizes=sizeList();
-
-  // ---- estimator: how many can we take ----
-  const est=el("div",{class:"panel"});
-  est.innerHTML=`<div class="hd"><h2>How many projects can we take?</h2><div class="desc">Surplus capacity in a period (after current + staged work) vs the work the projects need, per team. Estimate a single size, or a <b>mix</b> of sizes.</div></div>
-   <div class="bd">
-     <div class="seg" id="estModeSeg" style="margin-bottom:10px"><button data-mode="single">One size</button><button data-mode="mix">Mix of sizes</button></div>
-     <div id="estControls"></div>
-     <div id="estPresets" style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="muted small">Quick periods:</span></div>
-     <div id="estOut" style="margin-top:12px"></div>
-   </div>`;
-  c.appendChild(est);
-
-  // ---- stage a project ----
-  const p=el("div",{class:"panel"});
-  p.innerHTML=`<div class="hd"><h2>Stage a project</h2></div>
-   <div class="bd"><div class="editrow" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr))">
-     <div><label>Name</label><input type="text" id="planName" placeholder="New course…"></div>
-     <div><label title="The per-team footprint of a project this size, computed from real recent projects (not the frozen workbook template) — drives the capacity math below.">Project size</label><select id="planSize">${sizes.map(s=>`<option>${s}</option>`).join("")}</select></div>
-     <div><label>Start month</label><select id="planStart">${MONTHS.map(m=>`<option value="${m}" ${m===NOW?"selected":""}>${mlabFull(m)}</option>`).join("")}</select></div>
-     <div style="display:flex;align-items:flex-end"><button class="btn gold" id="planAdd">+ Stage project</button></div>
-   </div>
-   <div id="planProfile" class="muted small" style="margin-top:8px"></div></div>`;
-  c.appendChild(p);
-
-  const staged=el("div",{class:"panel"});
-  staged.innerHTML=`<div class="hd"><h2>Staged projects</h2><div class="spacer"></div><button class="btn ghost" id="planClear">Clear all</button></div><div class="bd" id="stagedBd"></div>`;
-  c.appendChild(staged);
-
-  const out=el("div",{class:"panel"});
-  out.innerHTML=`<div class="hd"><h2>Projected team allocation</h2><div class="desc">Existing scheduled load + staged projects, vs estimated capacity.</div></div><div class="bd" id="planOut"></div>`;
-  c.appendChild(out);
-
-  function showProfile(){
-    const sz=$("#planSize").value, prof=sizeProf(sz);
-    if(!prof){$("#planProfile").textContent="No staffing footprint available for this size.";return;}
-    const src=prof.source==="actual projects"?`computed from <b>${prof.n}</b> real ${esc(sz)} project${prof.n===1?'':'s'}`:`workbook template (too few real ${esc(sz)} projects)`;
-    const teams=Object.entries(prof.teams||{}).map(([t,v])=>`${esc(t)} ${round(v,1)}`).join(" · ");
-    $("#planProfile").innerHTML=`<b>${esc(sz)}</b> — ${round(prof.total_pts||0,1)} pts over ~${prof.months} months (peak ${round(prof.peak_monthly||0,1)} pts/mo), ${src}. Per team: ${teams||"—"}.`;
+  const PM=D.plan_model;
+  if(!PM||!PM.archetypes||!PM.archetypes.length){
+    c.appendChild(el("div",{class:"note"},"The Plan tool needs the estimator's calibration file (calibration.json), which isn't in this snapshot. It reappears once the estimator's derived data is present."));
+    return;
   }
-  $("#planSize").onchange=showProfile; showProfile();
-  $("#planAdd").onclick=()=>{
-    const sz=$("#planSize").value,start=$("#planStart").value,name=$("#planName").value||`${sz} project`;
-    state.plan.push({name,size:sz,start}); $("#planName").value="";drawPlan();
-  };
-  $("#planClear").onclick=()=>{state.plan=[];drawPlan();};
+  c.appendChild(el("div",{class:"note"},`Rough planning aid: how much a project of each type typically costs the ODL team (in hours), and how much team capacity is free over the next few months. ${esc(PM.note||"")} <span class="src">Source: ${esc(PM.source)}</span>`));
 
-  // estimator wiring: mode toggle + preset period buttons + live recompute
-  state.estMode=state.estMode||"single";
-  state.estSize=state.estSize||sizes[0];
-  state.estMix=state.estMix||{};
-  const presets=planPresets(), ep=$("#estPresets");
-  const def=presets[0]||{from:NOW,to:MONTHS[clampIdx(MONTHS.indexOf(NOW)+2)]};
-  state.estFrom=state.estFrom||def.from; state.estTo=state.estTo||def.to;
-  presets.forEach(pr=>{const b=el("button",{class:"btn ghost"},pr.label);
-    b.onclick=()=>{state.estFrom=pr.from;state.estTo=pr.to;if($("#estFrom"))$("#estFrom").value=pr.from;if($("#estTo"))$("#estTo").value=pr.to;drawEstimate();};ep.appendChild(b);});
-  $("#estModeSeg").querySelectorAll("button").forEach(b=>{
-    b.classList.toggle("active",b.getAttribute("data-mode")===state.estMode);
-    b.onclick=()=>{captureEst();state.estMode=b.getAttribute("data-mode");
-      $("#estModeSeg").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===b));
-      renderEstControls();drawEstimate();};});
-  renderEstControls();
-  drawPlan(); drawEstimate();
-}
-function planPresets(){
-  const lo=MONTHS[0], hi=MONTHS[MONTHS.length-1], clamp=m=>m<lo?lo:m>hi?hi:m;
-  const years=[...new Set(MONTHS.map(m=>+m.slice(0,4)))];
-  const defs=[];
-  years.forEach(y=>{defs.push({label:`Summer ${y}`,from:`${y}-06`,to:`${y}-08`});
-    defs.push({label:`Fall ${y}`,from:`${y}-08`,to:`${y}-12`});
-    defs.push({label:`Spring ${y}`,from:`${y}-01`,to:`${y}-05`});});
-  const ok=defs.filter(d=>!(d.to<lo||d.from>hi)).map(d=>({label:d.label,from:clamp(d.from),to:clamp(d.to)}));
-  ok.sort((a,b)=>a.from.localeCompare(b.from));
-  return ok.filter(d=>d.to>=NOW).concat(ok.filter(d=>d.to<NOW));  // current/future first
-}
-const PLAN_ORDER=["Design","Media","PM","Intern"];
-function planTeams(){ // teams that have a capacity row in scope
-  return PLAN_ORDER.filter(t=>D.capacity.remaining[t]&&Object.keys(D.capacity.remaining[t]).length);
-}
-function capacityEstimate(size,fromM,toM){
-  const prof=sizeProf(size); if(!prof) return null;
-  const months=MONTHS.filter(m=>m>=fromM&&m<=toM);
-  const staged=planAddedLoad();
-  // demand = each project's FULL per-team cost (not clipped to the window). The
-  // window's surplus is the spare capacity; dividing full cost by spare keeps the
-  // count monotonic in size — a long project's cost can't look "cheap" just
-  // because only its early months happen to land inside a short window.
-  const demand={};
-  PLAN_ORDER.forEach(t=>{
-    const arr=(prof.profile&&prof.profile[t])||[];
-    let d=0; for(let k=0;k<arr.length;k++) d+=arr[k]||0;
-    if(d>1e-9) demand[t]=d;
+  // ---- 1) archetype hour ranges ----
+  const ap=el("div",{class:"panel"});
+  ap.innerHTML=`<div class="hd"><h2>What a project usually costs</h2><div class="desc">ODL-staff production hours per project type, calibrated from real completed projects (full lifecycle). Range = middle 50% (25th–75th percentile) where we have enough projects, otherwise the individual values. Faculty time is not included.</div></div>`;
+  const abd=el("div",{class:"bd"});
+  let at=`<table><thead><tr><th class="nosort">Project type</th><th class="num nosort">Typical (median)</th><th class="num nosort">Usual range</th><th class="num nosort">Projects</th><th class="nosort">Examples</th></tr></thead><tbody>`;
+  PM.archetypes.forEach(a=>{
+    at+=`<tr><td><b>${esc(a.label)}</b></td><td class="num">${fmtH(a.p50)}</td><td class="num">${archRange(a)}</td><td class="num">${a.n||a.n_examples||"—"}</td><td class="muted small">${esc((a.examples||[]).slice(0,3).join(", "))}${a.n_examples>3?", …":""}</td></tr>`;
   });
-  // every team with capacity OR real demand; a demand team with no capacity row
-  // gets surplus 0 and becomes binding, so the headline can't overstate.
-  const teams=PLAN_ORDER.filter(t=>(D.capacity.remaining[t]&&Object.keys(D.capacity.remaining[t]).length)||demand[t]>0);
-  const res={}; let K=Infinity, binding=null;
-  teams.forEach(t=>{
-    const rem=D.capacity.remaining[t]||{};
-    let surplus=0; months.forEach(m=>{const v=rem[m];
-      if(v!=null) surplus+=Math.max(0,v-((staged[t]||{})[m]||0));});
-    const dem=demand[t]||0, fits=dem>0?Math.floor(surplus/dem):null;
-    res[t]={surplus:round(surplus,1),demand:round(dem,1),fits};
-    if(dem>0&&fits<K){K=fits;binding=t;}
-  });
-  return {months,res,K:(K===Infinity?null:K),binding,teams};
-}
-function captureEst(){ // pull current control values into state
-  if($("#estFrom"))state.estFrom=$("#estFrom").value;
-  if($("#estTo"))state.estTo=$("#estTo").value;
-  if($("#estSize"))state.estSize=$("#estSize").value;
-  if(state.estMode==="mix"){const mix={};sizeList().forEach(s=>{const e=$("#mix-"+s);if(e)mix[s]=+e.value||0;});state.estMix=mix;}
-}
-function renderEstControls(){
-  const ec=$("#estControls"); if(!ec)return;
-  const sizes=sizeList();
-  const fromTo=`<div><label>From</label><select id="estFrom">${MONTHS.map(m=>`<option value="${m}" ${m===state.estFrom?"selected":""}>${mlabFull(m)}</option>`).join("")}</select></div>
-     <div><label>To</label><select id="estTo">${MONTHS.map(m=>`<option value="${m}" ${m===state.estTo?"selected":""}>${mlabFull(m)}</option>`).join("")}</select></div>`;
-  if(state.estMode==="mix"){
-    ec.innerHTML=`<div class="muted small" style="margin-bottom:6px">How many of each size? We check whether the whole mix fits the period, and how many full copies of it you could take.</div>
-      <div class="editrow" style="grid-template-columns:repeat(auto-fit,minmax(84px,1fr))">
-       ${sizes.map(s=>`<div><label>${esc(s)}</label><input type="number" min="0" step="1" id="mix-${esc(s)}" value="${(state.estMix&&state.estMix[s])||0}"></div>`).join("")}</div>
-      <div class="editrow" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin-top:8px">${fromTo}</div>`;
-  }else{
-    ec.innerHTML=`<div class="editrow" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">
-       <div><label title="The per-team footprint of a project this size, computed from real recent projects (not the frozen workbook template).">Project size</label><select id="estSize">${sizes.map(s=>`<option ${s===state.estSize?"selected":""}>${esc(s)}</option>`).join("")}</select></div>
-       ${fromTo}</div>`;
-  }
-  ec.querySelectorAll("select,input").forEach(x=>x.onchange=()=>{captureEst();drawEstimate();});
-}
-function mixEstimate(counts,fromM,toM){
-  const months=MONTHS.filter(m=>m>=fromM&&m<=toM);
-  const staged=planAddedLoad();
-  const demand={}; let totalProjects=0;
-  Object.keys(counts).forEach(sz=>{const n=+counts[sz]||0; if(n<=0)return; totalProjects+=n;
-    const prof=sizeProf(sz); if(!prof||!prof.profile)return;
-    PLAN_ORDER.forEach(t=>{const arr=prof.profile[t]||[];let d=0;for(let k=0;k<arr.length;k++)d+=arr[k]||0;if(d>1e-9)demand[t]=(demand[t]||0)+d*n;});});
-  const teams=PLAN_ORDER.filter(t=>(D.capacity.remaining[t]&&Object.keys(D.capacity.remaining[t]).length)||demand[t]>0);
-  const res={}; let fits=true, copies=Infinity, binding=null;
-  teams.forEach(t=>{const rem=D.capacity.remaining[t]||{};
-    let surplus=0;months.forEach(m=>{const v=rem[m];if(v!=null)surplus+=Math.max(0,v-((staged[t]||{})[m]||0));});
-    const dem=demand[t]||0;
-    res[t]={surplus:round(surplus,1),demand:round(dem,1),ok:dem<=surplus+1e-9};
-    if(dem>surplus+1e-9)fits=false;
-    if(dem>1e-9){const cp=Math.floor(surplus/dem);if(cp<copies){copies=cp;binding=t;}}});
-  return {months,res,teams,fits,copies:(copies===Infinity?null:copies),binding,totalProjects};
-}
-function drawMixEstimate(fromM,toM){
-  const counts=state.estMix||{};
-  const total=Object.keys(counts).reduce((a,s)=>a+(+counts[s]||0),0);
-  if(!total){$("#estOut").innerHTML=`<div class="muted">Enter how many projects of each size to test a mix.</div>`;return;}
-  const e=mixEstimate(counts,fromM,toM);
-  const rows=e.teams.map(t=>{const r=e.res[t];
-    return `<tr><td>${t}${t===e.binding?' <span class="pill amber">tightest</span>':''}</td><td class="num">${r.surplus}</td><td class="num">${r.demand||'—'}</td><td class="num">${r.demand?(r.ok?'<span style="color:#157a42">✓</span>':'<span style="color:#b02a2a">✗</span>'):'—'}</td></tr>`;}).join("");
-  const mixLabel=sizeList().filter(s=>(+counts[s]||0)>0).map(s=>`${+counts[s]}×${esc(s)}`).join(" + ");
-  $("#estOut").innerHTML=`
-    <div class="card" style="display:inline-block;margin:0 0 12px">
-      <div class="k">${e.totalProjects} project${e.totalProjects===1?'':'s'} (${mixLabel||'—'}) in ${mlabFull(fromM)} – ${mlabFull(toM)}</div>
-      <div class="v" style="color:${e.fits?'#157a42':'#b02a2a'}">${e.fits?'✓ This mix fits':'✗ Does not fit'}</div>
-      <div class="d">${e.fits?`room for ≈ ${e.copies==null?'—':e.copies} more full ${e.copies===1?'copy':'copies'} of this mix`:`short on the <b>${e.binding}</b> team`}${state.plan.length?` · after ${state.plan.length} staged`:''}</div>
-    </div>
-    <table><thead><tr><th class="nosort">Team</th><th class="num nosort">Surplus in period (pts)</th><th class="num nosort">This mix needs (pts)</th><th class="num nosort">Fits?</th></tr></thead><tbody>${rows}</tbody></table>
-    <div class="legend" style="margin-top:8px"><span>Each size's footprint is its full median effort (PM included), split across teams by ODL's typical mix. The mix “fits” when every team's demand is within the period's spare capacity; “copies” is how many whole mixes fit on the tightest team.</span></div>`;
-}
-function drawEstimate(){
-  if(!$("#estOut"))return;
-  captureEst();
-  const fromM=state.estFrom, toM=state.estTo, size=state.estSize||sizeList()[0];
-  if(!fromM||!toM)return;
-  if(state.estMode==="mix"){drawMixEstimate(fromM,toM);return;}
-  if(fromM>toM){$("#estOut").innerHTML=`<div class="muted">Set “From” no later than “To”.</div>`;return;}
-  const e=capacityEstimate(size,fromM,toM); if(!e){$("#estOut").innerHTML="";return;}
-  const teams=e.teams;
-  const rows=teams.map(t=>{const r=e.res[t];
-    return `<tr><td>${t}${t===e.binding?' <span class="pill amber">binding</span>':''}</td><td class="num">${r.surplus}</td><td class="num">${r.demand||'—'}</td><td class="num"><b>${r.fits==null?'—':r.fits}</b></td></tr>`;}).join("");
-  $("#estOut").innerHTML=`
-    <div class="card" style="display:inline-block;margin:0 0 12px">
-      <div class="k">Can absorb in ${mlabFull(fromM)} – ${mlabFull(toM)}</div>
-      <div class="v" style="color:${e.K===0?'#b02a2a':'#157a42'}">≈ ${e.K==null?'—':e.K} <span style="font-size:15px;font-weight:600;color:var(--muted)">more ${esc(size)} project${e.K===1?'':'s'}</span></div>
-      <div class="d">${e.binding?`limited by the <b>${e.binding}</b> team`:'no team constraint in the size profile'}${state.plan.length?` · after ${state.plan.length} staged`:''}</div>
-    </div>
-    <table><thead><tr><th class="nosort">Team</th><th class="num nosort">Surplus in period (pts)</th><th class="num nosort">Per ${esc(size)} project (pts)</th><th class="num nosort">Fits</th></tr></thead><tbody>${rows}</tbody></table>
-    <div class="legend" style="margin-top:8px"><span>Surplus = unused capacity summed over the period (after current + staged work) — straight from each team's live remaining capacity. Per-project demand is the <b>full</b> ${esc(size)} footprint (median total effort, PM included, split across teams by ODL's typical team mix). “Fits” = period surplus ÷ full project cost, so each project is counted at its whole cost against this window's spare capacity. A longer project actually spreads that cost over more months, so for short windows this is a conservative (lower-bound) count.</span></div>`;
-}
-function planAddedLoad(){ // returns {team:{month:pts}}
-  const add={Design:{},Media:{},PM:{},Intern:{},Other:{}};
-  state.plan.forEach(item=>{
-    const prof=sizeProf(item.size);if(!prof||!prof.profile)return;
-    const sIdx=MONTHS.indexOf(item.start);if(sIdx<0)return;
-    Object.entries(prof.profile).forEach(([team,arr])=>{
-      if(!add[team])add[team]={};
-      (arr||[]).forEach((v,k)=>{const mi=sIdx+k;if(mi<MONTHS.length&&v){const m=MONTHS[mi];add[team][m]=round((add[team][m]||0)+v,4);}});
-    });
-  });
-  return add;
-}
-function drawPlan(){
-  const bd=$("#stagedBd");
-  if(!state.plan.length)bd.innerHTML=`<div class="muted">Nothing staged yet.</div>`;
-  else{bd.innerHTML=state.plan.map((it,i)=>`<div class="bar-row"><div style="flex:1"><b>${esc(it.name)}</b> <span class="pill gray">${it.size}</span> <span class="muted">from ${mlabFull(it.start)}</span></div><button class="btn ghost" data-i="${i}">remove</button></div>`).join("");
-    bd.querySelectorAll("button[data-i]").forEach(b=>b.onclick=()=>{state.plan.splice(+b.getAttribute("data-i"),1);drawPlan();});}
-  // projection — start from the earliest staged month (so past starts show too)
-  const add=planAddedLoad();
-  const cap=D.capacity;
-  const startM=[NOW,...state.plan.map(it=>it.start).filter(Boolean)].sort()[0];
-  const months=MONTHS.filter(m=>m>=startM);
-  const teams=planTeams();
-  let warn=[];
-  let html=`<table><thead><tr><th class="nosort">Month</th>`+teams.map(t=>`<th class="num nosort">${t}</th>`).join("")+`</tr></thead><tbody>`;
-  months.forEach(m=>{
-    let cells="";
+  at+=`</tbody></table>`;
+  abd.innerHTML=at;
+  abd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},"Small samples show individual project hours rather than an interpolated range (noted in the estimator's calibration)."));
+  ap.appendChild(abd); c.appendChild(ap);
+
+  // ---- 2) current team availability (remaining capacity hours) ----
+  const av=PM.availability||{}, months=PM.avail_months||[];
+  const vp=el("div",{class:"panel"});
+  vp.innerHTML=`<div class="hd"><h2>Team capacity free over the next months</h2><div class="desc">Remaining capacity (unallocated hours) per team over ${months.length?mlabFull(months[0])+" – "+mlabFull(months[months.length-1]):"the coming months"}, straight from the live Capacity Allocations sheet.${srcTag(CAP_URL,"capacity sheet")}</div></div>`;
+  const vbd=el("div",{class:"bd"});
+  const teams=Object.keys(av);
+  if(!teams.length)vbd.innerHTML=`<div class="muted">No forward capacity in the sheet yet.</div>`;
+  else{
+    let vt=`<table><thead><tr><th class="nosort">Team</th>${months.map(m=>`<th class="num nosort">${mlab(m)}</th>`).join("")}<th class="num nosort">Total free</th></tr></thead><tbody>`;
+    let colTot={}; let grand=0;
     teams.forEach(t=>{
-      const est=cap.estimated[t][m]; const base=cap.scheduled[t][m]||0; const extra=add[t][m]||0;
-      const tot=base+extra; const p=est?tot/est:null;
-      const over=p!=null&&p>1.0;
-      if(over&&extra>0)warn.push(`${t} ${mlab(m)} → ${Math.round(p*100)}%`);
-      cells+=`<td class="num" title="${round(base,1)}+${round(extra,1)} / ${est==null?'?':round(est,1)}">`+
-        (extra>0?`<span style="color:${allocTextColor(p)};font-weight:700">${pct(p)}</span> <span class="muted">(+${round(extra,1)})</span>`:
-         `<span style="color:${allocTextColor(p)}">${pct(p)}</span>`)+`</td>`;
+      vt+=`<tr><td><b>${esc(t)}</b></td>`;
+      months.forEach(m=>{const v=av[t].by[m];colTot[m]=(colTot[m]||0)+(v||0);vt+=`<td class="num">${v==null?"—":fmtH(v)}</td>`;});
+      grand+=av[t].total||0;
+      vt+=`<td class="num"><b>${fmtH(av[t].total)}</b></td></tr>`;
     });
-    html+=`<tr><td>${mlabFull(m)}</td>${cells}</tr>`;
-  });
-  html+=`</tbody></table>`;
-  let banner = !state.plan.length?"":(warn.length?
-    `<div class="note" style="border-color:#f0c0c0;background:#fbe6e6;color:#8a2a2a">⚠ Staged work pushes capacity over 100% in: ${[...new Set(warn)].slice(0,12).join(", ")}${warn.length>12?"…":""}. Consider a later start, a smaller size, or adding staff.</div>`:
-    `<div class="note" style="border-color:#bfe3cc;background:#e6f6ec;color:#157a42">✓ All staged work fits within current estimated capacity for every team and month.</div>`);
-  $("#planOut").innerHTML=banner+html;
-  drawEstimate();   // staged projects change the surplus the estimator uses
+    vt+=`<tr style="font-weight:700;border-top:2px solid var(--line)"><td>All teams</td>${months.map(m=>`<td class="num">${fmtH(colTot[m]||0)}</td>`).join("")}<td class="num">${fmtH(grand)}</td></tr>`;
+    vt+=`</tbody></table>`;
+    vbd.innerHTML=vt;
+
+    // ---- 3) rough "how many fit" check ----
+    const check=el("div",{style:"margin-top:14px"});
+    check.innerHTML=`<div style="font-weight:600;font-size:12.5px;margin-bottom:6px">Rough capacity check</div>
+      <div class="editrow" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
+        <div><label>Project type</label><select id="planArch">${PM.archetypes.map(a=>`<option value="${esc(a.key)}">${esc(a.label)} (~${fmtH(a.p50)})</option>`).join("")}</select></div>
+        <div style="display:flex;align-items:flex-end"><div id="planFit" class="muted small"></div></div>
+      </div>
+      <div class="muted small" style="margin-top:6px">Approximate: total free team-hours ÷ the type's typical hours. It ignores which team each project leans on, so treat it as an upper bound — the per-team rows above show where the real constraint is.</div>`;
+    vbd.appendChild(check);
+    const fit=()=>{
+      const key=$("#planArch").value, a=PM.archetypes.find(x=>x.key===key);
+      const n=(a&&a.p50)?Math.floor(grand/a.p50):null;
+      $("#planFit").innerHTML=`≈ <b style="font-size:16px;color:var(--green)">${n==null?"—":n}</b> more <b>${esc(a?a.label:"")}</b> project${n===1?"":"s"} could fit in the free ${fmtH(grand)} across all teams.`;
+    };
+    setTimeout(()=>{const s=$("#planArch");if(s){s.onchange=fit;fit();}},0);
+  }
+  vp.appendChild(vbd); c.appendChild(vp);
 }
 
 /* ===================================================================== */
@@ -2011,7 +1951,39 @@ function renderRecs(){
     c.appendChild(el("h3",{class:"rec-group"},`${CATICON[cat]||"•"} ${esc(CATLABEL[cat]||cat)} <span class="muted" style="font-weight:400;font-size:13px">· ${items.length}</span>`));
     items.forEach(r=>c.appendChild(recCard(r)));
   });
+  renderKeyConsiderations(c);   // key considerations for future projects, pulled from the reports
   renderReflections(c);   // the reflection reports & surveys the faculty items draw on
+}
+function renderKeyConsiderations(c){
+  const rc=D.reflection_considerations||{}, reports=rc.reports||[];
+  if(!reports.length)return;
+  const withKC=reports.filter(r=>r.key_considerations&&r.key_considerations.length);
+  const themes=rc.themes||[];
+  c.appendChild(el("h3",{class:"rec-group",style:"margin-top:22px"},`🧭 Key takeaways from reflection reports <span class="muted" style="font-weight:400;font-size:13px">· ${withKC.length} of ${reports.length} reports, grouped into ${themes.length} recurring themes</span>`));
+  // ---- synthesized themes + "are we making progress?" ----
+  if(themes.length){
+    const recur=rc.themes_recurring||0;
+    c.appendChild(el("div",{class:"note",style:"border-color:#cdd9ea;background:#eef4fc",html:
+      `We read the reports and grouped their lessons into <b>${themes.length} recurring themes</b> (below). <b>${recur}</b> still show up in reports from the last few months (latest report ${esc(rc.reports_newest||"—")}) — lessons we keep re-learning and haven't fully turned into process yet. ${rc.folder_url?`<a class="src" href="${esc(rc.folder_url)}" target="_blank" rel="noopener">All reflection reports (Drive) ↗</a>.`:""}`}));
+    themes.forEach(t=>{
+      const d=el("details",{class:"attn"});
+      const badge=t.recurring?'<span class="pill amber">still recurring</span>':'<span class="pill gray">not seen recently</span>';
+      const reps=(t.reports||[]).map(r=>r.drive_url?`<a class="src" href="${esc(r.drive_url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(r.project)}</a>${r.date?` <span class="muted">(${esc(r.date)})</span>`:""}`:esc(r.project)).join(" · ");
+      d.innerHTML=`<summary><span class="nm">${esc(t.theme)}</span> <span class="muted small">· ${t.n} report${t.n>1?"s":""}${t.latest?", most recent "+esc(t.latest):""}</span> ${badge}</summary><div class="det"><p style="margin:6px 0">${esc(t.what_it_means)}</p><div class="muted small">Raised in: ${reps}</div></div>`;
+      c.appendChild(d);
+    });
+  }
+  // ---- full per-report list ----
+  c.appendChild(el("div",{style:"font-weight:600;font-size:12.5px;margin:16px 0 4px"},"Full list, by report"));
+  withKC.forEach(r=>{
+    const d=el("details",{class:"attn"});
+    const items=r.key_considerations.map(k=>`<li>${esc(k)}</li>`).join("");
+    d.innerHTML=`<summary><span class="nm">${esc(r.project)}</span> ${r.drive_url?`<a class="src" href="${esc(r.drive_url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">report ↗</a>`:""} <span class="muted small">· ${r.key_considerations.length} consideration${r.key_considerations.length>1?"s":""}</span></summary><div class="det"><ul style="margin:6px 0 0 18px">${items}</ul></div>`;
+    c.appendChild(d);
+  });
+  const noKC=reports.filter(r=>!(r.key_considerations&&r.key_considerations.length));
+  if(noKC.length)c.appendChild(el("div",{class:"muted small",style:"margin-top:8px",html:
+    `Reports with no explicit retrospective / considerations section: ${noKC.map(r=>r.drive_url?`<a class="src" href="${esc(r.drive_url)}" target="_blank" rel="noopener">${esc(r.project)}</a>`:esc(r.project)).join(" · ")}.`}));
 }
 function kpiCard(k,v,d,col){const e=el("div",{class:"card kpi"});e.innerHTML=`<div class="k">${esc(k)}</div><div class="v" ${col?`style="color:${col}"`:""}>${v}</div><div class="d">${esc(d||"")}</div>`;return e;}
 function filterSelect(key,label,opts){
@@ -2039,7 +2011,7 @@ function recCard(r){
   // clearly-labelled — no owner/target/evidence clutter).
   const card=el("div",{class:"rec sev-"+r.severity+(RECOPEN[r.id]?" open":"")});
   const st=r.status||"Not Started";
-  const showPill=st!=="Not Started";
+  const showPill=true;   // always show the STATUS (To do / In progress / Done) — not an abstract severity
   card.innerHTML=`<div class="rhd">
      <span class="ico">${CATICON[r.category]||"•"}</span>
      <div style="flex:1">
@@ -2052,14 +2024,14 @@ function recCard(r){
    <div class="rbody">
      <p style="margin:8px 0 0">${esc(r.detail||"")}</p>
      ${r.suggested_action?`<div class="actionline"><b>What to do:</b> ${esc(r.suggested_action)}</div>`:""}
-     ${r.doc_url?`<div class="small" style="margin:8px 0 0"><a href="${esc(r.doc_url)}" target="_blank" rel="noopener">📄 Open the reflection report ↗</a></div>`:""}
+     ${r.doc_url?`<div class="small" style="margin:8px 0 0"><a href="${esc(r.doc_url)}" target="_blank" rel="noopener">${/asana\.com/.test(r.doc_url)?"↗ Open the project in Asana":"📄 Open the reflection report ↗"}</a></div>`:""}
      <div class="track">
        <div class="tlabel">Have we acted on this?</div>
        <div class="statusbar" data-id="${esc(r.id)}">
          ${[["Not Started","To do"],["In Progress","In progress"],["Achieved","Done"]].map(([v,lab])=>`<button data-s="${v}" class="${st===v?"on "+v.split(" ")[0].slice(0,3):""}">${lab}</button>`).join("")}
        </div>
        <label class="tnote">Notes — what we did or decided
-         <textarea data-fld="notes" rows="2" placeholder="e.g. raised at the 7/1 meeting; Bri is taking it on">${esc(r.notes||"")}</textarea>
+         <textarea data-fld="notes" rows="2" placeholder="e.g. raised at the 7/1 meeting; a teammate is taking it on">${esc(r.notes||"")}</textarea>
        </label>
        ${r.updated_at?`<div class="muted small" style="margin-top:5px">Updated ${esc(r.updated_at)}${r.updated_by?" by "+esc(r.updated_by):""}</div>`:""}
      </div>
@@ -2082,7 +2054,7 @@ function showAddForm(){
     <div class="editrow"><div><label>Title *</label><input type="text" id="naTitle"></div>
       <div><label>Severity</label><select id="naSev"><option>medium</option><option>high</option><option>low</option></select></div>
       <div><label>Scope type</label><select id="naST"><option>global</option><option>team</option><option>person</option><option>project</option></select></div>
-      <div><label>Scope</label><input type="text" id="naScope" placeholder="e.g. Media / Bri / project"></div></div>
+      <div><label>Scope</label><input type="text" id="naScope" placeholder="e.g. Media / a teammate / project"></div></div>
     <div class="editrow" style="grid-template-columns:1fr"><div><label>Detail</label><textarea id="naDetail" rows="2"></textarea></div></div>
     <div class="editrow" style="grid-template-columns:1fr"><div><label>Suggested action</label><input type="text" id="naAction"></div></div>
     <div style="margin-top:10px;display:flex;gap:8px"><button class="btn gold" id="naSave">Add</button><button class="btn ghost" id="naCancel">Cancel</button></div>
@@ -2160,18 +2132,23 @@ function buildMonthPickers(){
   t.onchange=e=>{state.to=clampIdx(+e.target.value);if(state.to<state.from)state.from=state.to;buildMonthPickers();render();};
 }
 function boot(){
-  $("#prov").innerHTML=`Workbook: <a class="src" href="${esc(WB_URL)}" target="_blank" rel="noopener">${esc(D.meta.source_xlsx)} ↗</a><br>Asana snapshot: ${esc(D.meta.asana_snapshot_date||"n/a")} · built ${esc((D.meta.generated_at||"").slice(0,10))}`;
-  $("#foot").innerHTML=`ODL Capacity &amp; Performance · data from the capacity workbook + Asana snapshot (${esc(D.meta.asana_snapshot_date||"")}) · 1 point = ${PH}h, ${FULL} points/month = full load · figures recomputed from the Projects tab.`;
+  $("#prov").innerHTML=`Capacity: <a class="src" href="${esc(CAP_URL)}" target="_blank" rel="noopener">Capacity Allocations sheet ↗</a> · projects from Asana + the capacity sheet · Plan-tab ranges from the estimator's calibration<br>Asana snapshot: ${esc(D.meta.asana_snapshot_date||"n/a")} · built ${esc((D.meta.generated_at||"").slice(0,10))}`;
+  $("#foot").innerHTML=`ODL Capacity &amp; Performance · capacity from the Capacity Allocations sheet + Asana snapshot (${esc(D.meta.asana_snapshot_date||"")}) · hours-based (1 point = ${PH}h).`;
   $$("#unitSeg button").forEach(b=>b.onclick=()=>{state.unit=b.getAttribute("data-u");$$("#unitSeg button").forEach(x=>x.classList.toggle("active",x===b));render();});
   $("#btnRefresh").onclick=()=>tryLive(true);
   $("#btnSync").onclick=()=>syncAsana();
   setLiveBadge();
   buildMonthPickers();
-  const h=location.hash.slice(1);if(TABS.some(t=>t[0]===h))state.tab=h;
+  if(PUB){
+    document.body.insertAdjacentHTML("afterbegin",`<div class="pubbanner">🔒 Public view — individual names, faculty details, per-person timesheet and internal links are redacted. Team &amp; portfolio figures only.</div>`);
+    ["#btnRefresh","#btnSync"].forEach(s=>{const e=$(s);if(e)e.style.display="none";});
+  }
+  const h=location.hash.slice(1);if(TABS.some(t=>t[0]===h)&&!(PUB&&h==="faculty"))state.tab=h;
   render();
   // upgrade the baked snapshot to live numbers when a local server is present;
-  // silently keeps the snapshot when opened as a plain file (offline).
-  tryLive(false);
+  // silently keeps the snapshot when opened as a plain file (offline). The
+  // public build is a static snapshot only — no live server, so skip it.
+  if(!PUB)tryLive(false);
 }
 boot();
 </script>

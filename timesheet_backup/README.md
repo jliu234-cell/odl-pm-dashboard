@@ -26,6 +26,7 @@ to be *lower* friction than Asana's timer, not just equivalent.
 | `ODL Time Log (import into planning sheet).xlsx` | The kit: 4 tabs ready to import into the live Sheet. **Time Log** (the ledger — Date / Person / Project / Phase / Task / Hours / Source, all dropdowns, pre-seeded with 2026's 177 real Asana entries shown in grey), **Read Me** (team instructions), **Time Summary** (live totals by person × month, by project, "most recent entry" per person), **Lists** (the dropdown vocabularies, pulled from the latest Asana snapshot). |
 | `make_time_log_kit.py` | Regenerates the kit from `odl_estimator/data_all/` (refreshes dropdowns + seed). |
 | `timesheet_bridge.py` | `sync-from-asana`: mirrors new Asana entries into the Time Log tab (incremental, idempotent, keeps legit duplicates). `export-merged`: Asana CSV + Manual rows → `time_entries_merged.csv` in the canonical schema, deduped — for feeding the estimator's calibration. Both have `--dry-run`. |
+| `push_time_to_asana.py` | The **into-Asana** direction (the reverse of the bridge): posts the tab's Manual rows back to Asana as real `time_tracking_entries`, one per row, so Asana holds one canonical history once the paid feature returns. One "Manual time log — <project>" task per project; the worker, phase, and note ride in each entry's **description** (Asana forces `created_by` to the token owner, so the entry author is *you*, not the worker — `probe` prints this). **Dry-run by default**, idempotent via two local ledgers. Run `probe` first to confirm writes are live; run `push` once when time tracking returns. |
 
 Plus one change in the parent folder: **`../build.py`** now parses a "Time Log"
 tab when the workbook has one (`parse_manual_time_log` + `parse_time_entries(sheets)`).
@@ -72,13 +73,47 @@ already lives in this repo.
 ## When Asana time tracking comes back
 
 Switch back to logging in Asana — nothing to migrate. Dedup on both paths
-(build.py and the bridge) means overlap doesn't double-count. If you want the
-outage-period manual rows pushed *into* Asana for one canonical history:
-`POST /tasks/<gid>/time_tracking_entries` per entry, modeled on
-`asana_push.py`'s idempotency-map pattern (`asana_task_map.json`). Needs the
-paid feature back and a target task per project (a "Manual time log" task per
-project is the clean shape). Deliberately not built yet — decide when the tier
-returns.
+(build.py and the bridge) means overlap doesn't double-count.
+
+To push the outage-period manual rows *into* Asana for one canonical history,
+use **`push_time_to_asana.py`** (this is the piece that was a to-do; it's built
+now):
+
+```
+# 1. Confirm the paid feature is actually back (self-cleaning: creates one
+#    time entry, reads it, deletes it — leaves no trace). Needs a task gid to
+#    test on, or a project gid to make+delete a throwaway task in:
+python3 push_time_to_asana.py probe --task <ANY_TASK_GID>
+
+# 2. Dry-run against a fresh export of the live Sheet — prints exactly what it
+#    would create, writes nothing:
+python3 push_time_to_asana.py push --xlsx "<fresh Time Log export>.xlsx"
+
+# 3. Push for real (start cautious with --limit, then run the rest):
+python3 push_time_to_asana.py push --xlsx "<...>.xlsx" --push --limit 5
+python3 push_time_to_asana.py push --xlsx "<...>.xlsx" --push
+```
+
+Two things to know going in:
+
+- **Attribution.** Asana attributes every API-created time entry to the token
+  owner (`created_by` is read-only), so all pushed entries show *you* as author.
+  The real worker + phase + note are preserved in each entry's **description**
+  (which shows in Asana's timesheet UI). `probe` prints the author it sees so
+  there's no surprise. If per-person authorship in Asana matters more than a
+  canonical total, the alternative is to leave history in the Time Log tab (the
+  dashboard already reads it) and only *start fresh* in Asana — no push.
+- **Feature gating.** The endpoint needs time tracking on the domain's plan, so
+  while the feature is down every write returns `402` and the script stops
+  cleanly, changing nothing. The `description` field may additionally want the
+  "Timesheets & Budgets" add-on; if so the script auto-falls-back to posting
+  entries without it. That's why step 1 exists — don't skip it.
+
+Idempotent by design: two local ledgers next to the script
+(`asana_timelog_task_map.json`, `asana_timelog_pushed.json`) mean re-runs never
+double-post. It de-dupes against its own prior runs, **not** against entries a
+person re-logs natively in Asana — so for any given stretch, push the sheet *or*
+re-log in Asana, not both.
 
 ## Design notes
 

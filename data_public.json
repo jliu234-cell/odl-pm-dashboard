@@ -1,7 +1,7 @@
 {
  "meta": {
-  "generated_at": "2026-07-09T23:55:40",
-  "today": "2026-07-09",
+  "generated_at": "2026-07-10T14:25:59",
+  "today": "2026-07-10",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -2298,7 +2298,7 @@
     "level": 2,
     "reasons": [
      "Update mentions: waiting on someone",
-     "No status update in 31 days (weekly cadence expected)"
+     "No status update in 32 days (weekly cadence expected)"
     ]
    }
   },
@@ -2454,7 +2454,7 @@
     "type": "complete",
     "level": 1,
     "reasons": [
-     "No status update in 24 days (weekly cadence expected)"
+     "No status update in 25 days (weekly cadence expected)"
     ]
    }
   },
@@ -3547,7 +3547,7 @@
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 57 days (weekly cadence expected)"
+     "No status update in 58 days (weekly cadence expected)"
     ]
    }
   },
@@ -5704,7 +5704,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 59 days (weekly cadence expected)"
+     "No status update in 60 days (weekly cadence expected)"
     ]
    }
   },
@@ -7924,6 +7924,7 @@
    {
     "key": "full_course",
     "label": "Full course (build)",
+    "tier": "Large",
     "n": 14,
     "p25": 28.8,
     "p50": 47.2,
@@ -7932,6 +7933,13 @@
     "max": 286.5,
     "values": null,
     "note": "",
+    "weeks": {
+     "n": 23,
+     "p50": 31.4,
+     "p75": 41.9,
+     "min": 4.8,
+     "max": 63.6
+    },
     "examples": [
      "AI for the Notre Dame Community",
      "ASCEND Engineering",
@@ -7945,6 +7953,7 @@
    {
     "key": "video_series",
     "label": "Video series",
+    "tier": "Medium",
     "n": 2,
     "p25": null,
     "p50": 42.0,
@@ -7956,6 +7965,13 @@
      54.8
     ],
     "note": "n<4 -- raw values shown; interpolated quartiles withheld",
+    "weeks": {
+     "n": 4,
+     "p50": 12.1,
+     "p75": 14.3,
+     "min": 5.4,
+     "max": 17.4
+    },
     "examples": [
      "Radio Systems MVP",
      "Videos for Eva"
@@ -7965,6 +7981,7 @@
    {
     "key": "course_redesign",
     "label": "Course redesign / update",
+    "tier": "Medium",
     "n": 2,
     "p25": null,
     "p50": 32.8,
@@ -7976,6 +7993,13 @@
      33.4
     ],
     "note": "n<4 -- raw values shown; interpolated quartiles withheld",
+    "weeks": {
+     "n": 3,
+     "p50": 10.3,
+     "p75": 23.3,
+     "min": null,
+     "max": null
+    },
     "examples": [
      "ACE Assessment Course Redesign",
      "ND Elevate Updates"
@@ -7985,6 +8009,7 @@
    {
     "key": "single_video",
     "label": "Single video",
+    "tier": "Small",
     "n": 3,
     "p25": null,
     "p50": 15.5,
@@ -7997,12 +8022,41 @@
      23.2
     ],
     "note": "n<4 -- raw values shown; interpolated quartiles withheld",
+    "weeks": {
+     "n": 4,
+     "p50": 3.9,
+     "p75": 7.2,
+     "min": 2.0,
+     "max": 13.0
+    },
     "examples": [
      "Borgo Laudato Si' videos",
      "Program for Inclusive Education (PIE) Video #2",
      "Ultrasound Communication Video"
     ],
     "n_examples": 3
+   },
+   {
+    "key": "xr_interactive",
+    "label": "XR / immersive",
+    "tier": "Varies",
+    "n": null,
+    "p25": null,
+    "p50": null,
+    "p75": null,
+    "min": null,
+    "max": null,
+    "values": null,
+    "note": "staff hours not yet calibrated",
+    "weeks": {
+     "n": 4,
+     "p50": 16.0,
+     "p75": 22.0,
+     "min": 10.0,
+     "max": 25.3
+    },
+    "examples": [],
+    "n_examples": 0
    }
   ],
   "availability": {
@@ -8049,6 +8103,299 @@
    "2026-12"
   ],
   "point_hours": 32,
+  "concurrency": {
+   "course_redesign": {
+    "typical": 0,
+    "peak": 1,
+    "now": 0,
+    "open": 0
+   },
+   "single_video": {
+    "typical": 1,
+    "peak": 3,
+    "now": 1,
+    "open": 0
+   },
+   "video_series": {
+    "typical": 1,
+    "peak": 2,
+    "now": 1,
+    "open": 0
+   },
+   "xr_interactive": {
+    "typical": 0,
+    "peak": 2,
+    "now": 0,
+    "open": 0
+   },
+   "full_course": {
+    "typical": 12,
+    "peak": 15,
+    "now": 11,
+    "open": 1
+   }
+  },
+  "concurrency_months": [
+   "2025-07",
+   "2025-08",
+   "2025-09",
+   "2025-10",
+   "2025-11",
+   "2025-12",
+   "2026-01",
+   "2026-02",
+   "2026-03",
+   "2026-04",
+   "2026-05",
+   "2026-06"
+  ],
+  "unclassified_active": {
+   "n": 15,
+   "names": [
+    "AI Academy Fall 2026",
+    "AR Math Visualizer (Summer 2025 Pilot)",
+    "Blackburn Videos",
+    "COIL",
+    "Calc II Remodel",
+    "Flipped Classroom #1",
+    "Flipped Classroom #2",
+    "Flipped Classroom #3"
+   ]
+  },
+  "lead_times": {
+   "targets": [
+    {
+     "key": "fall26",
+     "label": "Fall 2026 (Aug 24)",
+     "date": "2026-08-24"
+    },
+    {
+     "key": "spring27",
+     "label": "Spring 2027 (Jan 11)",
+     "date": "2027-01-11"
+    },
+    {
+     "key": "fall27",
+     "label": "Fall 2027 (\u2248Aug 23)",
+     "date": "2027-08-23"
+    }
+   ],
+   "rows": [
+    {
+     "key": "full_course",
+     "label": "Full course (build)",
+     "tier": "Large",
+     "weeks_p50": 31.4,
+     "weeks_p75": 41.9,
+     "by": {
+      "fall26": {
+       "start_by": "2026-01-17",
+       "safe_by": "2025-11-04",
+       "verdict": "late"
+      },
+      "spring27": {
+       "start_by": "2026-06-06",
+       "safe_by": "2026-03-24",
+       "verdict": "late"
+      },
+      "fall27": {
+       "start_by": "2027-01-16",
+       "safe_by": "2026-11-03",
+       "verdict": "open"
+      }
+     }
+    },
+    {
+     "key": "video_series",
+     "label": "Video series",
+     "tier": "Medium",
+     "weeks_p50": 12.1,
+     "weeks_p75": 14.3,
+     "by": {
+      "fall26": {
+       "start_by": "2026-06-01",
+       "safe_by": "2026-05-16",
+       "verdict": "late"
+      },
+      "spring27": {
+       "start_by": "2026-10-19",
+       "safe_by": "2026-10-03",
+       "verdict": "open"
+      },
+      "fall27": {
+       "start_by": "2027-05-31",
+       "safe_by": "2027-05-15",
+       "verdict": "open"
+      }
+     }
+    },
+    {
+     "key": "course_redesign",
+     "label": "Course redesign / update",
+     "tier": "Medium",
+     "weeks_p50": 10.3,
+     "weeks_p75": 23.3,
+     "by": {
+      "fall26": {
+       "start_by": "2026-06-13",
+       "safe_by": "2026-03-14",
+       "verdict": "late"
+      },
+      "spring27": {
+       "start_by": "2026-10-31",
+       "safe_by": "2026-08-01",
+       "verdict": "open"
+      },
+      "fall27": {
+       "start_by": "2027-06-12",
+       "safe_by": "2027-03-13",
+       "verdict": "open"
+      }
+     }
+    },
+    {
+     "key": "single_video",
+     "label": "Single video",
+     "tier": "Small",
+     "weeks_p50": 3.9,
+     "weeks_p75": 7.2,
+     "by": {
+      "fall26": {
+       "start_by": "2026-07-28",
+       "safe_by": "2026-07-05",
+       "verdict": "tight"
+      },
+      "spring27": {
+       "start_by": "2026-12-15",
+       "safe_by": "2026-11-22",
+       "verdict": "open"
+      },
+      "fall27": {
+       "start_by": "2027-07-27",
+       "safe_by": "2027-07-04",
+       "verdict": "open"
+      }
+     }
+    },
+    {
+     "key": "xr_interactive",
+     "label": "XR / immersive",
+     "tier": "Varies",
+     "weeks_p50": 16.0,
+     "weeks_p75": 22.0,
+     "by": {
+      "fall26": {
+       "start_by": "2026-05-04",
+       "safe_by": "2026-03-23",
+       "verdict": "late"
+      },
+      "spring27": {
+       "start_by": "2026-09-21",
+       "safe_by": "2026-08-10",
+       "verdict": "open"
+      },
+      "fall27": {
+       "start_by": "2027-05-03",
+       "safe_by": "2027-03-22",
+       "verdict": "open"
+      }
+     }
+    }
+   ]
+  },
+  "windows": [
+   {
+    "key": "runway",
+    "label": "Now \u2192 Fall start",
+    "start": "2026-07-10",
+    "end": "2026-08-23",
+    "weeks": 6.4,
+    "notes": [
+     "Fall-semester asks land now \u2014 triage before classes start Aug 24",
+     "2026 sprint-cohort builds wrap up over the summer"
+    ],
+    "free": {
+     "Design": 168.0,
+     "Media": 208.4,
+     "PM": 98.9
+    },
+    "free_total": 475.3
+   },
+   {
+    "key": "fall26",
+    "label": "Fall 2026 semester",
+    "start": "2026-08-24",
+    "end": "2026-12-18",
+    "weeks": 16.7,
+    "notes": [
+     "Classes Aug 24 \u2013 Dec 9 \u00b7 finals Dec 11\u201317",
+     "First ~2 weeks: faculty-support surge \u2014 keep quick-turnaround room",
+     "Best filming: Sep \u2013 early Nov (midterm break Oct 17\u201325, Thanksgiving Nov 25\u201329)"
+    ],
+    "free": {
+     "Design": 913.6,
+     "Media": 898.0,
+     "PM": 502.3
+    },
+    "free_total": 2313.9
+   },
+   {
+    "key": "winter",
+    "label": "Winter break",
+    "start": "2026-12-19",
+    "end": "2027-01-10",
+    "weeks": 3.3,
+    "notes": [
+     "Faculty mostly away \u2014 filming and reviews pause",
+     "Good window for editing, course build and QA backlog"
+    ],
+    "free": {
+     "Design": 173.2,
+     "Media": 180.7,
+     "PM": 106.1
+    },
+    "free_total": 460.0
+   },
+   {
+    "key": "spring27",
+    "label": "Spring 2027 semester",
+    "start": "2027-01-11",
+    "end": "2027-05-07",
+    "weeks": 16.7,
+    "notes": [
+     "Classes Jan 11 \u2013 Apr 28 \u00b7 finals May 3\u20137",
+     "Sprint applications due early April (2026 cycle: Apr 6)",
+     "Midterm break Mar 6\u201314 \u00b7 Easter Mar 26\u201329"
+    ],
+    "free": {
+     "Design": 537.4,
+     "Media": 90.4,
+     "PM": 505.4
+    },
+    "free_total": 1133.2
+   },
+   {
+    "key": "summer27",
+    "label": "Summer 2027 \u2014 sprint season",
+    "start": "2027-05-08",
+    "end": "2027-07-31",
+    "weeks": 12.1,
+    "notes": [
+     "Sprint accelerator \u2248May 1; awarded faculty build May\u2013Aug ($3,000 stipends)",
+     "Commencement May 14\u201316",
+     "Prime window to start Fall-2027 course builds"
+    ],
+    "free": {
+     "Design": 385.7
+    },
+    "free_total": 385.7
+   }
+  ],
+  "sprints": {
+   "url": "https://learning.nd.edu/projects-partnerships/funding-opportunities/#sprints",
+   "blurb": "Digital Learning Sprints fund faculty \u2014 a $3,000 stipend plus ODL/TLT team support \u2014 for 1\u20133-month explorations (AI, flipped classrooms, COIL, async modules, VR). Annual cycle: applications due early April (2026: Apr 6), one-day accelerator \u2248May 1, builds run over the summer \u2014 the cohort pre-books part of ODL's summer capacity every year."
+  },
+  "guide_url": "https://nd-learning.github.io/FacultyOnboardingGuide/",
   "note": "Archetype hour ranges are the estimator's calibrated ODL-staff production hours per project type (full lifecycle). Faculty time is not included \u2014 the estimator has zero faculty hours logged."
  },
  "hours_log": {
@@ -25493,7 +25840,7 @@
   "point_hours": 32
  },
  "timesheet": {
-  "as_of": "2026-07-09",
+  "as_of": "2026-07-10",
   "team": [
    "PM A",
    "Design A",
@@ -25508,8 +25855,8 @@
   ],
   "data_max": "2026-06-24",
   "last_week": {
-   "start": "2026-07-02",
-   "end": "2026-07-09",
+   "start": "2026-07-03",
+   "end": "2026-07-10",
    "days": 7,
    "submitted": [],
    "missing": [
@@ -25527,8 +25874,8 @@
    "pct": 0.0
   },
   "last_4_weeks": {
-   "start": "2026-06-11",
-   "end": "2026-07-09",
+   "start": "2026-06-12",
+   "end": "2026-07-10",
    "days": 28,
    "submitted": [
     "Design B",
@@ -25684,7 +26031,7 @@
     "date": "2026-06-08",
     "reasons": [
      "Update mentions: waiting on someone",
-     "No status update in 31 days (weekly cadence expected)"
+     "No status update in 32 days (weekly cadence expected)"
     ]
    },
    {
@@ -25693,7 +26040,7 @@
     "level": 2,
     "date": "2026-06-15",
     "reasons": [
-     "No status update in 24 days (weekly cadence expected)",
+     "No status update in 25 days (weekly cadence expected)",
      "Over its planned hours \u2014 40h logged vs a 32h plan"
     ]
    },
@@ -25705,7 +26052,7 @@
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 57 days (weekly cadence expected)"
+     "No status update in 58 days (weekly cadence expected)"
     ]
    },
    {
@@ -25723,7 +26070,7 @@
     "level": 1,
     "date": "2026-05-11",
     "reasons": [
-     "No status update in 59 days (weekly cadence expected)"
+     "No status update in 60 days (weekly cadence expected)"
     ]
    }
   ],
@@ -25737,6 +26084,12 @@
    "Past its Asana due date and not marked Complete.",
    "Actual logged hours exceed ~120% of the planned (Capacity-sheet) hours."
   ]
+ },
+ "update_signals": {
+  "available": false,
+  "crossdept": [],
+  "always_green": [],
+  "hygiene": []
  },
  "intake": {
   "source": null,
@@ -26063,7 +26416,7 @@
    "scope": "Designing to Communicate: Strengthening Communication in Engineering Through Real-World Sustainability Contexts",
    "gid": "1212660351308233",
    "title": "Project at risk: Designing to Communicate: Strengthening Communication in Engineering Through Real-World Sustainability Contexts",
-   "detail": "Update mentions: waiting on someone \u00b7 No status update in 31 days (weekly cadence expected) (as of 2026-06-08)",
+   "detail": "Update mentions: waiting on someone \u00b7 No status update in 32 days (weekly cadence expected) (as of 2026-06-08)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": null,
@@ -26085,7 +26438,7 @@
    "scope": "FCTA - Physics I",
    "gid": "1207760971753716",
    "title": "Project at risk: FCTA - Physics I",
-   "detail": "No status update in 24 days (weekly cadence expected) \u00b7 Over its planned hours \u2014 40h logged vs a 32h plan (as of 2026-06-15)",
+   "detail": "No status update in 25 days (weekly cadence expected) \u00b7 Over its planned hours \u2014 40h logged vs a 32h plan (as of 2026-06-15)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": null,
@@ -26107,7 +26460,7 @@
    "scope": "Media Studio Sessions",
    "gid": "1213478777903328",
    "title": "Project at risk: Media Studio Sessions",
-   "detail": "No status update in 59 days (weekly cadence expected) (as of 2026-05-11)",
+   "detail": "No status update in 60 days (weekly cadence expected) (as of 2026-05-11)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": null,
@@ -26129,7 +26482,7 @@
    "scope": "Romance Languages video/podcast initiative",
    "gid": "1212660352662527",
    "title": "Project at risk: Romance Languages video/podcast initiative",
-   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 57 days (weekly cadence expected) (as of 2026-05-13)",
+   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 58 days (weekly cadence expected) (as of 2026-05-13)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": null,

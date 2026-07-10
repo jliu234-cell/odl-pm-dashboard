@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ODL Capacity &amp; Performance</title>
+<!-- Notre Dame golden dome on ND navy -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%230C2340'/%3E%3Crect x='15' y='39' width='34' height='15' rx='2' fill='%23C99700'/%3E%3Cpath d='M18 40a14 14 0 0 1 28 0z' fill='%23C99700'/%3E%3Crect x='30.7' y='15' width='2.6' height='7' fill='%23C99700'/%3E%3Ccircle cx='32' cy='12' r='3.2' fill='%23C99700'/%3E%3C/svg%3E">
 <style>
   :root{
     --navy:#0c2340; --navy2:#13315c; --gold:#ae9142; --gold2:#c9b079;
@@ -315,6 +317,9 @@ function top5Link(x){
   if(x&&x.kind==="intake"){const u=(D.intake&&D.intake.board_url)||NDL_BOARD_URL;return u?{href:u,label:"Open intake board"}:null;}
   if(x&&x.kind==="timesheet")return {tab:"people",label:"See People"};
   if(x&&(x.kind==="overbudget"||x.kind==="phase"))return {tab:"projects",label:"See Projects"};
+  if(x&&(x.kind==="crossdept"||x.kind==="green"||x.kind==="hygiene")){
+    const u=x.links&&x.links[0]&&x.links[0].url;
+    return u?{href:u,label:"Open in Asana"}:{tab:"projects",label:"See Projects"};}
   const t=(x.t+" "+(x.s||"")).toLowerCase();
   if(/person is|people are|\bpeople\b/.test(t))return {tab:"people",label:"See People"};
   if(/recommendation/.test(t))return {tab:"recs",label:"See Recommendations"};
@@ -690,12 +695,45 @@ function briefTop5(){
       links:intake.filter(x=>x.url).map(x=>({label:x.name,url:x.url})),
       a:`Triage in this week's intake review${oldest?` — oldest has waited ${oldest}d`:""}.`});
   }
-  const openRecs=recs().filter(r=>r.status!=="Achieved"&&r.status!=="Dismissed");
-  const highRecs=openRecs.filter(r=>r.severity==="high").length;
-  if(highRecs)
-    cand.push({w:26,t:`${highRecs} high-priority ${highRecs===1?"recommendation is":"recommendations are"} still open`,
-      s:`${openRecs.length} recommendations open in total.`,
-      a:"Assign owners and target dates on the Recommendations tab."});
+  // (Recommendations deliberately stay OUT of the Top 5 — directors asked for
+  // signals about the portfolio, not our own to-do list; recs live on their tab.)
+  // ---- what the weekly updates reveal between the lines ----
+  const US=D.update_signals||{};
+  const xd=US.crossdept||[];
+  if(xd.length){
+    const top=xd.slice(0,3);
+    const nm1=x=>`${x.name} — ${(x.externals||[]).map(e=>e.name).slice(0,3).join(", ")}`;
+    const nmH=x=>{const nm=x.gid?`<a href="${esc(asanaWsProjectUrl(x.gid))}" target="_blank" rel="noopener">${esc(x.name)} ↗</a>`:esc(x.name);
+      return `${nm} — ${(x.externals||[]).map(e=>esc(e.name)).slice(0,3).join(", ")}`;};
+    const up=top.flatMap(x=>(x.upcoming||[]).map(u=>({p:x.name,date:u.date}))).slice(0,2);
+    const upTxt=up.length?` Dates promised in those updates: ${up.map(u=>`${dShort(u.date)} (${u.p})`).join("; ")}.`:"";
+    cand.push({kind:"crossdept",w:32,
+      t:`${xd.length} project${xd.length===1?" leans":"s lean"} on people outside the ODL roster`,
+      s:top.map(nm1).join("; ")+(xd.length>3?` …+${xd.length-3} more`:"")+upTxt,
+      sHtml:top.map(nmH).join("; ")+(xd.length>3?` …+${xd.length-3} more`:"")+esc(upTxt),
+      links:top.filter(x=>x.gid).map(x=>({label:x.name,url:asanaWsProjectUrl(x.gid)})),
+      a:"Cross-team hand-offs don't show in ODL capacity — confirm owners and dates with those units before they slip."});
+  }
+  const ag=US.always_green||[];
+  if(ag.length){
+    const g0=ag[0];
+    const mo=g0.since?Math.max(1,Math.round(daysBetween(g0.since,TODAY)/30)):null;
+    const gLink=g0.gid?`<a href="${esc(asanaWsProjectUrl(g0.gid))}" target="_blank" rel="noopener">${esc(g0.name)} ↗</a>`:esc(g0.name);
+    const tail=`${g0.streak} straight “On track” updates${g0.since?` since ${dShort(g0.since)}`:""}${mo?` (~${mo} months)`:""}${g0.gap_note?` — and its ${g0.gap_note}`:""}. A status that never changes stops carrying information.`;
+    cand.push({kind:"green",w:28,
+      t:`${ag.length} project${ag.length===1?" has":"s have"} been green every single week for months`,
+      s:`${g0.name}: ${tail}`,sHtml:`${gLink}: ${esc(tail)}`,
+      links:ag.slice(0,3).filter(g=>g.gid).map(g=>({label:g.name,url:asanaWsProjectUrl(g.gid)})),
+      a:"Give evergreen work a measurable goal (episodes shipped, modules delivered) and spot-check the always-green ones."});
+  }
+  const hyg=US.hygiene||[];
+  if(hyg.length){
+    const h0=hyg[0];
+    cand.push({kind:"hygiene",w:20,t:`${hyg.length} project${hyg.length===1?"'s":"s'"} weekly updates have hygiene gaps`,
+      s:hyg.slice(0,2).map(h=>`${h.name}: ${h.issues[0]}`).join("; "),
+      links:hyg.slice(0,3).filter(h=>h.gid).map(h=>({label:h.name,url:asanaWsProjectUrl(h.gid)})),
+      a:"Tidy owners and cadence in Asana so the weekly status stream stays trustworthy."});
+  }
   const soon=briefDueWithin(60);
   if(soon>=3)
     cand.push({w:22,t:`${soon} projects are due to complete within 60 days`,
@@ -733,15 +771,6 @@ function briefTop5(){
     cand.push({kind:"timesheet",w:40,t:`No hours logged since ${HL.date_max} — Asana time entry lapsed`,
       s:`It's been ${lag} days since the last logged hour, so recent capacity-vs-actual reads low because the data is missing, not because work stopped.`,
       a:"Resume Asana time entry; the dashboard switches back to the Timesheet report automatically once logging restarts."});
-  const rpv=briefRecsProgress();
-  if(rpv.total&&rpv.achieved===0&&rpv.inprog===0)
-    cand.push({w:24,t:`None of the ${rpv.total} tracked recommendations are underway yet`,
-      s:"Every recommendation is still marked “Not Started.”",
-      a:"Pick the top few, assign owners and target dates."});
-  else if(rpv.total)
-    cand.push({w:12,t:`${rpv.achieved} of ${rpv.total-rpv.dism} recommendations achieved (${pct(rpv.pctAchieved)})`,
-      s:`${rpv.inprog} in progress, ${rpv.notst} not started.`,
-      a:"Review the tracker and push the stalled items."});
   const yv=briefYTD();
   cand.push({w:10,t:`${yv.completed} completed and ${yv.started} started so far in ${yv.yr}`,
     s:`${yv.active} projects are active right now${yv.onHold?`, ${yv.onHold} on hold`:""}.`,
@@ -1964,6 +1993,8 @@ function archRange(a){
   if(a.min!=null&&a.max!=null)return `${fmtH(a.min)}–${fmtH(a.max)}`;
   return a.p50!=null?fmtH(a.p50):"—";
 }
+function fmtWk(x){return x==null?"—":(Math.round(x*10)/10)+" wk";}
+function dShort(iso){if(!iso)return "—";const[y,m,d]=iso.split("-");return MON[+m]+" "+(+d)+", "+y;}
 function renderPlan(){
   const c=$("#tab-plan"); c.innerHTML="";
   const PM=D.plan_model;
@@ -1971,30 +2002,79 @@ function renderPlan(){
     c.appendChild(el("div",{class:"note"},"The Plan tool needs the estimator's calibration file (calibration.json), which isn't in this snapshot. It reappears once the estimator's derived data is present."));
     return;
   }
-  c.appendChild(el("div",{class:"note"},`Rough planning aid: how much a project of each type typically costs the ODL team (in hours), and how much team capacity is free over the next few months. ${esc(PM.note||"")} <span class="src">Source: ${esc(PM.source)}</span>`));
+  c.appendChild(el("div",{class:"note"},`ODL runs as a studio serving faculty: what limits intake is rarely raw hours — it's how many builds the team can hold <b>in flight at once</b>, and whether the calendar leaves enough <b>runway before a launch target</b>. This tab answers both from real completed projects. <span class="src">Source: ${esc(PM.source)}</span>`));
 
-  // ---- 1) archetype hour ranges ----
-  const ap=el("div",{class:"panel"});
-  ap.innerHTML=`<div class="hd"><h2>What a project usually costs</h2><div class="desc">ODL-staff production hours per project type, calibrated from real completed projects (full lifecycle). Range = middle 50% (25th–75th percentile) where we have enough projects, otherwise the individual values. Faculty time is not included.</div></div>`;
-  const abd=el("div",{class:"bd"});
-  let at=`<table><thead><tr><th class="nosort">Project type</th><th class="num nosort">Typical (median)</th><th class="num nosort">Usual range</th><th class="num nosort">Projects</th><th class="nosort">Examples</th></tr></thead><tbody>`;
+  // ---- 1) slot room: how many more of each size, right now ----
+  const conc=PM.concurrency||{};
+  const sp=el("div",{class:"panel"});
+  sp.innerHTML=`<div class="hd"><h2>Room to take on more — by project size</h2><div class="desc">"In flight" = projects of a type that showed work in a month (logged hours or a weekly status update), measured over the last 12 months. Room right now = the team's typical sustained load minus what's running today. This replaces the old free-hours ÷ median arithmetic, which implied absurd counts (hours aren't what runs out — attention is).</div></div>`;
+  const sbd=el("div",{class:"bd"});
+  let st=`<table><thead><tr><th class="nosort">Size</th><th class="nosort">Project type</th><th class="num nosort">Running now</th><th class="num nosort">Typical in flight</th><th class="num nosort">Peak sustained</th><th class="nosort">Room right now</th></tr></thead><tbody>`;
   PM.archetypes.forEach(a=>{
-    at+=`<tr><td><b>${esc(a.label)}</b></td><td class="num">${fmtH(a.p50)}</td><td class="num">${archRange(a)}</td><td class="num">${a.n||a.n_examples||"—"}</td><td class="muted small">${esc((a.examples||[]).slice(0,3).join(", "))}${a.n_examples>3?", …":""}</td></tr>`;
+    const k=conc[a.key]; if(!k||(k.typical==null&&!k.now)) return;
+    let room;
+    if(k.open==null) room=`<span class="muted">—</span>`;
+    else if(k.open>0) room=`<b style="color:var(--green)">≈ ${k.open} more</b>`;
+    else if(k.peak!=null&&k.now>=k.peak) room=`<b style="color:var(--red)">at the historic peak</b>`;
+    else room=`<b style="color:var(--amber)">at typical load — room opens when one closes</b>`;
+    st+=`<tr><td>${esc(a.tier||"")}</td><td><b>${esc(a.label)}</b></td><td class="num">${k.now}</td><td class="num">${k.typical==null?"—":k.typical}</td><td class="num">${k.peak==null?"—":k.peak}</td><td>${room}</td></tr>`;
   });
-  at+=`</tbody></table>`;
-  abd.innerHTML=at;
-  abd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},"Small samples show individual project hours rather than an interpolated range (noted in the estimator's calibration)."));
-  ap.appendChild(abd); c.appendChild(ap);
+  st+=`</tbody></table>`;
+  sbd.innerHTML=st;
+  const un=PM.unclassified_active||{};
+  if(un.n)sbd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},`Plus ${un.n} active project${un.n>1?"s":""} too new to be type-classified yet (${esc((un.names||[]).slice(0,4).join(", "))}${un.n>4?", …":""}) — they occupy the same team attention, so read "room" as the optimistic end.`));
+  sp.appendChild(sbd); c.appendChild(sp);
 
-  // ---- 2) current team availability (remaining capacity hours) ----
+  // ---- 2) book-by dates against real semester launch targets ----
+  const lt=PM.lead_times||{}, tg=lt.targets||[], lrows=lt.rows||[];
+  if(lrows.length){
+    const bp=el("div",{class:"panel"});
+    bp.innerHTML=`<div class="hd"><h2>Book-by dates — is there still runway?</h2><div class="desc">Start-by = the launch target minus the type's typical (median) start-to-launch span from completed projects; "safe" uses the slower 75th percentile. When a request arrives after its start-by date, the honest answers are a scope cut or the next semester.</div></div>`;
+    const bbd=el("div",{class:"bd"});
+    let bt=`<table><thead><tr><th class="nosort">Project type</th><th class="num nosort">Typical span</th>${tg.map(t=>`<th class="nosort">${esc(t.label)}</th>`).join("")}</tr></thead><tbody>`;
+    lrows.forEach(r=>{
+      bt+=`<tr><td><b>${esc(r.label)}</b></td><td class="num">${fmtWk(r.weeks_p50)}</td>`;
+      tg.forEach(t=>{
+        const b=(r.by||{})[t.key];
+        if(!b){bt+=`<td class="muted">—</td>`;return;}
+        const col=b.verdict==="late"?"var(--red)":b.verdict==="tight"?"var(--amber)":"var(--green)";
+        const lab=b.verdict==="late"?"already late":b.verdict==="tight"?"start now":"start by "+dShort(b.start_by);
+        bt+=`<td><b style="color:${col}">${lab}</b><div class="muted small">safe: ${dShort(b.safe_by)}</div></td>`;
+      });
+      bt+=`</tr>`;
+    });
+    bt+=`</tbody></table>`;
+    bbd.innerHTML=bt;
+    bbd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},"“Already late” doesn't mean no — it means fewer modules, reused footage, or the next launch target. Use it to reset expectations in the first conversation, not the last one."));
+    bp.appendChild(bbd); c.appendChild(bp);
+  }
+
+  // ---- 3) capacity runway across the academic year ----
+  const wins=PM.windows||[];
   const av=PM.availability||{}, months=PM.avail_months||[];
   const vp=el("div",{class:"panel"});
-  vp.innerHTML=`<div class="hd"><h2>Team capacity free over the next months</h2><div class="desc">Remaining capacity (unallocated hours) per team over ${months.length?mlabFull(months[0])+" – "+mlabFull(months[months.length-1]):"the coming months"}, straight from the live Capacity Allocations sheet.${srcTag(CAP_URL,"capacity sheet")}</div></div>`;
+  vp.innerHTML=`<div class="hd"><h2>Capacity runway across the academic year</h2><div class="desc">Free (unallocated) hours from the live Capacity Allocations sheet, cut into the windows that actually shape ODL's year — semesters, breaks, and the sprint cohort — with what each window is good for.${srcTag(CAP_URL,"capacity sheet")}</div></div>`;
   const vbd=el("div",{class:"bd"});
+  if(wins.length){
+    const wrap=el("div",{style:"display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin-bottom:14px"});
+    wins.forEach(w=>{
+      const teams=Object.entries(w.free||{}).filter(([t])=>t!=="Intern");
+      const card=el("div",{style:"border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--bg)"});
+      card.innerHTML=`<div style="font-weight:700">${esc(w.label)}</div>
+        <div class="muted small">${dShort(w.start)} – ${dShort(w.end)} · ${w.weeks} wk</div>
+        <div style="font-size:16px;font-weight:700;margin:6px 0 2px">${fmtH(w.free_total)} free</div>
+        <div class="muted small">${teams.map(([t,v])=>`${esc(t)} ${fmtH(v)}`).join(" · ")||"—"}</div>
+        <ul class="small" style="margin:8px 0 0;padding-left:16px;color:var(--muted)">${(w.notes||[]).map(n=>`<li>${esc(n)}</li>`).join("")}</ul>`;
+      wrap.appendChild(card);
+    });
+    vbd.appendChild(wrap);
+  }
   const teams=Object.keys(av);
-  if(!teams.length)vbd.innerHTML=`<div class="muted">No forward capacity in the sheet yet.</div>`;
+  if(!teams.length)vbd.appendChild(el("div",{class:"muted"},"No forward capacity in the sheet yet."));
   else{
-    let vt=`<table><thead><tr><th class="nosort">Team</th>${months.map(m=>`<th class="num nosort">${mlab(m)}</th>`).join("")}<th class="num nosort">Total free</th></tr></thead><tbody>`;
+    const det=el("details");
+    det.innerHTML=`<summary class="muted small" style="cursor:pointer">Month-by-month free hours per team (next ${months.length} months)</summary>`;
+    let vt=`<table style="margin-top:8px"><thead><tr><th class="nosort">Team</th>${months.map(m=>`<th class="num nosort">${mlab(m)}</th>`).join("")}<th class="num nosort">Total free</th></tr></thead><tbody>`;
     let colTot={}; let grand=0;
     teams.forEach(t=>{
       vt+=`<tr><td><b>${esc(t)}</b></td>`;
@@ -2004,25 +2084,33 @@ function renderPlan(){
     });
     vt+=`<tr style="font-weight:700;border-top:2px solid var(--line)"><td>All teams</td>${months.map(m=>`<td class="num">${fmtH(colTot[m]||0)}</td>`).join("")}<td class="num">${fmtH(grand)}</td></tr>`;
     vt+=`</tbody></table>`;
-    vbd.innerHTML=vt;
-
-    // ---- 3) rough "how many fit" check ----
-    const check=el("div",{style:"margin-top:14px"});
-    check.innerHTML=`<div style="font-weight:600;font-size:12.5px;margin-bottom:6px">Rough capacity check</div>
-      <div class="editrow" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
-        <div><label>Project type</label><select id="planArch">${PM.archetypes.map(a=>`<option value="${esc(a.key)}">${esc(a.label)} (~${fmtH(a.p50)})</option>`).join("")}</select></div>
-        <div style="display:flex;align-items:flex-end"><div id="planFit" class="muted small"></div></div>
-      </div>
-      <div class="muted small" style="margin-top:6px">Approximate: total free team-hours ÷ the type's typical hours. It ignores which team each project leans on, so treat it as an upper bound — the per-team rows above show where the real constraint is.</div>`;
-    vbd.appendChild(check);
-    const fit=()=>{
-      const key=$("#planArch").value, a=PM.archetypes.find(x=>x.key===key);
-      const n=(a&&a.p50)?Math.floor(grand/a.p50):null;
-      $("#planFit").innerHTML=`≈ <b style="font-size:16px;color:var(--green)">${n==null?"—":n}</b> more <b>${esc(a?a.label:"")}</b> project${n===1?"":"s"} could fit in the free ${fmtH(grand)} across all teams.`;
-    };
-    setTimeout(()=>{const s=$("#planArch");if(s){s.onchange=fit;fit();}},0);
+    const tb=el("div",{html:vt}); det.appendChild(tb); vbd.appendChild(det);
+    vbd.appendChild(el("div",{class:"muted small",style:"margin-top:8px"},"Free hours are before reactive work — semester-start support, quick fixes, consults — so don't plan them to zero."));
   }
   vp.appendChild(vbd); c.appendChild(vp);
+
+  // ---- 4) cost & timeline reference per project type ----
+  const ap=el("div",{class:"panel"});
+  ap.innerHTML=`<div class="hd"><h2>What a project usually costs</h2><div class="desc">ODL-staff production hours and start-to-launch calendar spans per project type, calibrated from real completed projects (full lifecycle). Range = middle 50% (25th–75th percentile) where we have enough projects, otherwise the individual values. ${esc(PM.note||"")}</div></div>`;
+  const abd=el("div",{class:"bd"});
+  let at=`<table><thead><tr><th class="nosort">Size</th><th class="nosort">Project type</th><th class="num nosort">Typical hours</th><th class="num nosort">Usual range</th><th class="num nosort">Typical timeline</th><th class="num nosort">Projects</th><th class="nosort">Examples</th></tr></thead><tbody>`;
+  PM.archetypes.forEach(a=>{
+    const wk=a.weeks||{};
+    at+=`<tr><td>${esc(a.tier||"")}</td><td><b>${esc(a.label)}</b></td><td class="num">${fmtH(a.p50)}</td><td class="num">${archRange(a)}</td><td class="num">${fmtWk(wk.p50)}</td><td class="num">${a.n||a.n_examples||"—"}</td><td class="muted small">${esc((a.examples||[]).slice(0,3).join(", "))}${a.n_examples>3?", …":""}</td></tr>`;
+  });
+  at+=`</tbody></table>`;
+  abd.innerHTML=at;
+  abd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},"Small samples show individual project hours rather than an interpolated range (noted in the estimator's calibration). Faculty time is not included."));
+  ap.appendChild(abd); c.appendChild(ap);
+
+  // ---- 5) routing: sprints + the public faculty guide ----
+  const s=PM.sprints||{};
+  const fp=el("div",{class:"panel"});
+  fp.innerHTML=`<div class="hd"><h2>Where to route what — sprints &amp; the faculty guide</h2><div class="desc">Not every ask should enter the project pipeline; these two paths keep the pipeline for the right work.</div></div>`;
+  const fbd=el("div",{class:"bd"});
+  fbd.innerHTML=`<div class="insight"><div class="it">Sprint-sized idea? (1–3 months, exploratory)</div><div class="is">${esc(s.blurb||"")}</div><div class="ia"><b>→</b> <a class="src" href="${esc(s.url||"#")}" target="_blank" rel="noopener">ND Learning funding opportunities ↗</a></div></div>
+    <div class="insight"><div class="it">Faculty scoping their own project?</div><div class="is">The public Faculty Guide walks them through the same calibrated numbers this tab uses — phases, effort, timeline, and what's expected of them — before they ever submit an intake form. Sending it early makes the first consult a scoping conversation instead of an expectations reset.</div><div class="ia"><b>→</b> <a class="src" href="${esc(PM.guide_url||"#")}" target="_blank" rel="noopener">Open the Faculty Guide ↗</a></div></div>`;
+  fp.appendChild(fbd); c.appendChild(fp);
 }
 
 /* ===================================================================== */

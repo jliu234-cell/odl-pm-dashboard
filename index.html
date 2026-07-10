@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ODL Capacity &amp; Performance</title>
+<!-- Notre Dame golden dome on ND navy -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%230C2340'/%3E%3Crect x='15' y='39' width='34' height='15' rx='2' fill='%23C99700'/%3E%3Cpath d='M18 40a14 14 0 0 1 28 0z' fill='%23C99700'/%3E%3Crect x='30.7' y='15' width='2.6' height='7' fill='%23C99700'/%3E%3Ccircle cx='32' cy='12' r='3.2' fill='%23C99700'/%3E%3C/svg%3E">
 <style>
   :root{
     --navy:#0c2340; --navy2:#13315c; --gold:#ae9142; --gold2:#c9b079;
@@ -274,7 +276,7 @@
 <script>
 window.DATA = {
  "meta": {
-  "generated_at": "2026-07-10T15:35:53",
+  "generated_at": "2026-07-10T14:25:59",
   "today": "2026-07-10",
   "point_hours": 32,
   "full_monthly_points": 4,
@@ -297,7 +299,7 @@ window.DATA = {
    "2027-06",
    "2027-07"
   ],
-  "asana_snapshot_date": "2026-07-10",
+  "asana_snapshot_date": "2026-07-09",
   "sources": {
    "capacity_sheet": "https://docs.google.com/spreadsheets/d/1YD9b8vLnglbA5pmFO6HsE-bvMq7wluHv1P1wY4FCujw/edit?gid=1025292964",
    "asana_project_base": "https://app.asana.com/0/",
@@ -8226,6 +8228,7 @@ window.DATA = {
    {
     "key": "full_course",
     "label": "Full course (build)",
+    "tier": "Large",
     "n": 14,
     "p25": 28.8,
     "p50": 47.2,
@@ -8234,6 +8237,13 @@ window.DATA = {
     "max": 286.5,
     "values": null,
     "note": "",
+    "weeks": {
+     "n": 23,
+     "p50": 31.4,
+     "p75": 41.9,
+     "min": 4.8,
+     "max": 63.6
+    },
     "examples": [
      "AI for the Notre Dame Community",
      "ASCEND Engineering",
@@ -8247,6 +8257,7 @@ window.DATA = {
    {
     "key": "video_series",
     "label": "Video series",
+    "tier": "Medium",
     "n": 2,
     "p25": null,
     "p50": 42.0,
@@ -8258,6 +8269,13 @@ window.DATA = {
      54.8
     ],
     "note": "n<4 -- raw values shown; interpolated quartiles withheld",
+    "weeks": {
+     "n": 4,
+     "p50": 12.1,
+     "p75": 14.3,
+     "min": 5.4,
+     "max": 17.4
+    },
     "examples": [
      "Radio Systems MVP",
      "Videos for Eva"
@@ -8267,6 +8285,7 @@ window.DATA = {
    {
     "key": "course_redesign",
     "label": "Course redesign / update",
+    "tier": "Medium",
     "n": 2,
     "p25": null,
     "p50": 32.8,
@@ -8278,6 +8297,13 @@ window.DATA = {
      33.4
     ],
     "note": "n<4 -- raw values shown; interpolated quartiles withheld",
+    "weeks": {
+     "n": 3,
+     "p50": 10.3,
+     "p75": 23.3,
+     "min": null,
+     "max": null
+    },
     "examples": [
      "ACE Assessment Course Redesign",
      "ND Elevate Updates"
@@ -8287,6 +8313,7 @@ window.DATA = {
    {
     "key": "single_video",
     "label": "Single video",
+    "tier": "Small",
     "n": 3,
     "p25": null,
     "p50": 15.5,
@@ -8299,12 +8326,41 @@ window.DATA = {
      23.2
     ],
     "note": "n<4 -- raw values shown; interpolated quartiles withheld",
+    "weeks": {
+     "n": 4,
+     "p50": 3.9,
+     "p75": 7.2,
+     "min": 2.0,
+     "max": 13.0
+    },
     "examples": [
      "Borgo Laudato Si' videos",
      "Program for Inclusive Education (PIE) Video #2",
      "Ultrasound Communication Video"
     ],
     "n_examples": 3
+   },
+   {
+    "key": "xr_interactive",
+    "label": "XR / immersive",
+    "tier": "Varies",
+    "n": null,
+    "p25": null,
+    "p50": null,
+    "p75": null,
+    "min": null,
+    "max": null,
+    "values": null,
+    "note": "staff hours not yet calibrated",
+    "weeks": {
+     "n": 4,
+     "p50": 16.0,
+     "p75": 22.0,
+     "min": 10.0,
+     "max": 25.3
+    },
+    "examples": [],
+    "n_examples": 0
    }
   ],
   "availability": {
@@ -8351,6 +8407,299 @@ window.DATA = {
    "2026-12"
   ],
   "point_hours": 32,
+  "concurrency": {
+   "course_redesign": {
+    "typical": 0,
+    "peak": 1,
+    "now": 0,
+    "open": 0
+   },
+   "single_video": {
+    "typical": 1,
+    "peak": 3,
+    "now": 1,
+    "open": 0
+   },
+   "video_series": {
+    "typical": 1,
+    "peak": 2,
+    "now": 1,
+    "open": 0
+   },
+   "xr_interactive": {
+    "typical": 0,
+    "peak": 2,
+    "now": 0,
+    "open": 0
+   },
+   "full_course": {
+    "typical": 12,
+    "peak": 15,
+    "now": 11,
+    "open": 1
+   }
+  },
+  "concurrency_months": [
+   "2025-07",
+   "2025-08",
+   "2025-09",
+   "2025-10",
+   "2025-11",
+   "2025-12",
+   "2026-01",
+   "2026-02",
+   "2026-03",
+   "2026-04",
+   "2026-05",
+   "2026-06"
+  ],
+  "unclassified_active": {
+   "n": 15,
+   "names": [
+    "AI Academy Fall 2026",
+    "AR Math Visualizer (Summer 2025 Pilot)",
+    "Blackburn Videos",
+    "COIL",
+    "Calc II Remodel",
+    "Flipped Classroom #1",
+    "Flipped Classroom #2",
+    "Flipped Classroom #3"
+   ]
+  },
+  "lead_times": {
+   "targets": [
+    {
+     "key": "fall26",
+     "label": "Fall 2026 (Aug 24)",
+     "date": "2026-08-24"
+    },
+    {
+     "key": "spring27",
+     "label": "Spring 2027 (Jan 11)",
+     "date": "2027-01-11"
+    },
+    {
+     "key": "fall27",
+     "label": "Fall 2027 (\u2248Aug 23)",
+     "date": "2027-08-23"
+    }
+   ],
+   "rows": [
+    {
+     "key": "full_course",
+     "label": "Full course (build)",
+     "tier": "Large",
+     "weeks_p50": 31.4,
+     "weeks_p75": 41.9,
+     "by": {
+      "fall26": {
+       "start_by": "2026-01-17",
+       "safe_by": "2025-11-04",
+       "verdict": "late"
+      },
+      "spring27": {
+       "start_by": "2026-06-06",
+       "safe_by": "2026-03-24",
+       "verdict": "late"
+      },
+      "fall27": {
+       "start_by": "2027-01-16",
+       "safe_by": "2026-11-03",
+       "verdict": "open"
+      }
+     }
+    },
+    {
+     "key": "video_series",
+     "label": "Video series",
+     "tier": "Medium",
+     "weeks_p50": 12.1,
+     "weeks_p75": 14.3,
+     "by": {
+      "fall26": {
+       "start_by": "2026-06-01",
+       "safe_by": "2026-05-16",
+       "verdict": "late"
+      },
+      "spring27": {
+       "start_by": "2026-10-19",
+       "safe_by": "2026-10-03",
+       "verdict": "open"
+      },
+      "fall27": {
+       "start_by": "2027-05-31",
+       "safe_by": "2027-05-15",
+       "verdict": "open"
+      }
+     }
+    },
+    {
+     "key": "course_redesign",
+     "label": "Course redesign / update",
+     "tier": "Medium",
+     "weeks_p50": 10.3,
+     "weeks_p75": 23.3,
+     "by": {
+      "fall26": {
+       "start_by": "2026-06-13",
+       "safe_by": "2026-03-14",
+       "verdict": "late"
+      },
+      "spring27": {
+       "start_by": "2026-10-31",
+       "safe_by": "2026-08-01",
+       "verdict": "open"
+      },
+      "fall27": {
+       "start_by": "2027-06-12",
+       "safe_by": "2027-03-13",
+       "verdict": "open"
+      }
+     }
+    },
+    {
+     "key": "single_video",
+     "label": "Single video",
+     "tier": "Small",
+     "weeks_p50": 3.9,
+     "weeks_p75": 7.2,
+     "by": {
+      "fall26": {
+       "start_by": "2026-07-28",
+       "safe_by": "2026-07-05",
+       "verdict": "tight"
+      },
+      "spring27": {
+       "start_by": "2026-12-15",
+       "safe_by": "2026-11-22",
+       "verdict": "open"
+      },
+      "fall27": {
+       "start_by": "2027-07-27",
+       "safe_by": "2027-07-04",
+       "verdict": "open"
+      }
+     }
+    },
+    {
+     "key": "xr_interactive",
+     "label": "XR / immersive",
+     "tier": "Varies",
+     "weeks_p50": 16.0,
+     "weeks_p75": 22.0,
+     "by": {
+      "fall26": {
+       "start_by": "2026-05-04",
+       "safe_by": "2026-03-23",
+       "verdict": "late"
+      },
+      "spring27": {
+       "start_by": "2026-09-21",
+       "safe_by": "2026-08-10",
+       "verdict": "open"
+      },
+      "fall27": {
+       "start_by": "2027-05-03",
+       "safe_by": "2027-03-22",
+       "verdict": "open"
+      }
+     }
+    }
+   ]
+  },
+  "windows": [
+   {
+    "key": "runway",
+    "label": "Now \u2192 Fall start",
+    "start": "2026-07-10",
+    "end": "2026-08-23",
+    "weeks": 6.4,
+    "notes": [
+     "Fall-semester asks land now \u2014 triage before classes start Aug 24",
+     "2026 sprint-cohort builds wrap up over the summer"
+    ],
+    "free": {
+     "Design": 168.0,
+     "Media": 208.4,
+     "PM": 98.9
+    },
+    "free_total": 475.3
+   },
+   {
+    "key": "fall26",
+    "label": "Fall 2026 semester",
+    "start": "2026-08-24",
+    "end": "2026-12-18",
+    "weeks": 16.7,
+    "notes": [
+     "Classes Aug 24 \u2013 Dec 9 \u00b7 finals Dec 11\u201317",
+     "First ~2 weeks: faculty-support surge \u2014 keep quick-turnaround room",
+     "Best filming: Sep \u2013 early Nov (midterm break Oct 17\u201325, Thanksgiving Nov 25\u201329)"
+    ],
+    "free": {
+     "Design": 913.6,
+     "Media": 898.0,
+     "PM": 502.3
+    },
+    "free_total": 2313.9
+   },
+   {
+    "key": "winter",
+    "label": "Winter break",
+    "start": "2026-12-19",
+    "end": "2027-01-10",
+    "weeks": 3.3,
+    "notes": [
+     "Faculty mostly away \u2014 filming and reviews pause",
+     "Good window for editing, course build and QA backlog"
+    ],
+    "free": {
+     "Design": 173.2,
+     "Media": 180.7,
+     "PM": 106.1
+    },
+    "free_total": 460.0
+   },
+   {
+    "key": "spring27",
+    "label": "Spring 2027 semester",
+    "start": "2027-01-11",
+    "end": "2027-05-07",
+    "weeks": 16.7,
+    "notes": [
+     "Classes Jan 11 \u2013 Apr 28 \u00b7 finals May 3\u20137",
+     "Sprint applications due early April (2026 cycle: Apr 6)",
+     "Midterm break Mar 6\u201314 \u00b7 Easter Mar 26\u201329"
+    ],
+    "free": {
+     "Design": 537.4,
+     "Media": 90.4,
+     "PM": 505.4
+    },
+    "free_total": 1133.2
+   },
+   {
+    "key": "summer27",
+    "label": "Summer 2027 \u2014 sprint season",
+    "start": "2027-05-08",
+    "end": "2027-07-31",
+    "weeks": 12.1,
+    "notes": [
+     "Sprint accelerator \u2248May 1; awarded faculty build May\u2013Aug ($3,000 stipends)",
+     "Commencement May 14\u201316",
+     "Prime window to start Fall-2027 course builds"
+    ],
+    "free": {
+     "Design": 385.7
+    },
+    "free_total": 385.7
+   }
+  ],
+  "sprints": {
+   "url": "https://learning.nd.edu/projects-partnerships/funding-opportunities/#sprints",
+   "blurb": "Digital Learning Sprints fund faculty \u2014 a $3,000 stipend plus ODL/TLT team support \u2014 for 1\u20133-month explorations (AI, flipped classrooms, COIL, async modules, VR). Annual cycle: applications due early April (2026: Apr 6), one-day accelerator \u2248May 1, builds run over the summer \u2014 the cohort pre-books part of ODL's summer capacity every year."
+  },
+  "guide_url": "https://nd-learning.github.io/FacultyOnboardingGuide/",
   "note": "Archetype hour ranges are the estimator's calibrated ODL-staff production hours per project type (full lifecycle). Faculty time is not included \u2014 the estimator has zero faculty hours logged."
  },
  "hours_log": {
@@ -26049,6 +26398,299 @@ window.DATA = {
    "Actual logged hours exceed ~120% of the planned (Capacity-sheet) hours."
   ]
  },
+ "update_signals": {
+  "available": true,
+  "as_of": "2026-07-10",
+  "window_days": 90,
+  "crossdept": [
+   {
+    "gid": "1207942229848229",
+    "name": "COIL",
+    "externals": [
+     {
+      "name": "Carrie Anne",
+      "n": 5
+     },
+     {
+      "name": "Ball State",
+      "n": 4
+     },
+     {
+      "name": "Carlos",
+      "n": 2
+     },
+     {
+      "name": "Kelly Rubey",
+      "n": 2
+     }
+    ],
+    "upcoming": [],
+    "total": 25
+   },
+   {
+    "gid": "1208255134985064",
+    "name": "ODL Podcast",
+    "externals": [
+     {
+      "name": "Rebecca Goldstein",
+      "n": 6
+     },
+     {
+      "name": "Annette Vee",
+      "n": 2
+     },
+     {
+      "name": "Ted",
+      "n": 2
+     },
+     {
+      "name": "Derek Bruff",
+      "n": 1
+     }
+    ],
+    "upcoming": [
+     {
+      "date": "2026-07-15",
+      "frag": "------------- Next Steps: Next Production: Wednesday, July 15th at 10am with Annette Vee (whose book \"The Norton Guide to A"
+     }
+    ],
+    "total": 12
+   },
+   {
+    "gid": "1209679644127773",
+    "name": "Radio Systems Course",
+    "externals": [
+     {
+      "name": "Lawrence",
+      "n": 3
+     },
+     {
+      "name": "Coursera",
+      "n": 2
+     },
+     {
+      "name": "Donut Dollars",
+      "n": 2
+     },
+     {
+      "name": "David Reed",
+      "n": 1
+     }
+    ],
+    "upcoming": [],
+    "total": 11
+   },
+   {
+    "gid": "1208335647365619",
+    "name": "Virtual Borders",
+    "externals": [
+     {
+      "name": "Eva",
+      "n": 3
+     },
+     {
+      "name": "Carlos",
+      "n": 2
+     },
+     {
+      "name": "Jolie",
+      "n": 2
+     }
+    ],
+    "upcoming": [],
+    "total": 7
+   },
+   {
+    "gid": "1211653962736510",
+    "name": "Business for Humans | Sheedy Family Program",
+    "externals": [
+     {
+      "name": "Brett",
+      "n": 5
+     }
+    ],
+    "upcoming": [],
+    "total": 5
+   },
+   {
+    "gid": "1214783923511446",
+    "name": "Sprint - Unlocking Inaccessible Korean Heritage",
+    "externals": [
+     {
+      "name": "Hana",
+      "n": 3
+     },
+     {
+      "name": "Chaoli",
+      "n": 2
+     }
+    ],
+    "upcoming": [],
+    "total": 5
+   },
+   {
+    "gid": "1212660351308233",
+    "name": "Designing to Communicate: Strengthening Communication in Engineering Through Real-World Sustainability Contexts",
+    "externals": [
+     {
+      "name": "Ming",
+      "n": 4
+     }
+    ],
+    "upcoming": [],
+    "total": 4
+   },
+   {
+    "gid": "1214795652576790",
+    "name": "Maximizing Mendoza",
+    "externals": [
+     {
+      "name": "Andy",
+      "n": 3
+     },
+     {
+      "name": "Allison Levy",
+      "n": 1
+     }
+    ],
+    "upcoming": [],
+    "total": 4
+   }
+  ],
+  "always_green": [
+   {
+    "gid": "1208031566113859",
+    "name": "FCTA - Calculus I",
+    "streak": 83,
+    "since": "2024-08-16",
+    "n": 83,
+    "gap_note": "~weekly cadence, but a 22-day silent gap (2026-03-05 \u2192 2026-03-27)"
+   },
+   {
+    "gid": "1207942229848224",
+    "name": "National Education Opportunities Network (NEON)",
+    "streak": 71,
+    "since": "2024-12-06",
+    "n": 71,
+    "gap_note": "~weekly cadence, but a 21-day silent gap (2026-05-15 \u2192 2026-06-05)"
+   },
+   {
+    "gid": "1208255134985064",
+    "name": "ODL Podcast",
+    "streak": 58,
+    "since": "2024-09-20",
+    "n": 58,
+    "gap_note": "~weekly cadence, but a 31-day silent gap (2026-05-01 \u2192 2026-06-01)"
+   },
+   {
+    "gid": "1207942229848229",
+    "name": "COIL",
+    "streak": 40,
+    "since": "2025-08-25",
+    "n": 42,
+    "gap_note": ""
+   },
+   {
+    "gid": "1208335647365619",
+    "name": "Virtual Borders",
+    "streak": 37,
+    "since": "2025-09-29",
+    "n": 70,
+    "gap_note": ""
+   }
+  ],
+  "hygiene": [
+   {
+    "gid": "1207760971753716",
+    "name": "FCTA - Physics I",
+    "issues": [
+     "~weekly cadence, but a 21-day silent gap (2026-05-11 \u2192 2026-06-01)",
+     "updates written by Brianna Stines while the Asana owner is Michael Lerma"
+    ]
+   },
+   {
+    "gid": "1213077276586762",
+    "name": "FCTA - Physics II",
+    "issues": [
+     "~weekly cadence, but a 21-day silent gap (2026-05-11 \u2192 2026-06-01)",
+     "updates written by Brianna Stines while the Asana owner is Michael Lerma"
+    ]
+   },
+   {
+    "gid": "1211654114707733",
+    "name": "ND-IBM Tech Ethics Lab Video Content Development",
+    "issues": [
+     "~weekly cadence, but a 42-day silent gap (2026-03-23 \u2192 2026-05-04)",
+     "updates written by Derrick Patrick while the Asana owner is Michael Lerma"
+    ]
+   },
+   {
+    "gid": "1208255134985064",
+    "name": "ODL Podcast",
+    "issues": [
+     "~weekly cadence, but a 31-day silent gap (2026-05-01 \u2192 2026-06-01)",
+     "updates written by Matthew Simmons while the Asana owner is Michael Lerma"
+    ]
+   },
+   {
+    "gid": "1213478777903328",
+    "name": "Media Studio Sessions",
+    "issues": [
+     "~weekly cadence, but a 21-day silent gap (2026-04-13 \u2192 2026-05-04)",
+     "updates written by Derrick Patrick while the Asana owner is Michael Lerma"
+    ]
+   },
+   {
+    "gid": "1214795652576790",
+    "name": "Maximizing Mendoza",
+    "issues": [
+     "updates written by Brianna Stines while the Asana owner is Annie Conaghan"
+    ]
+   },
+   {
+    "gid": "1214783923511442",
+    "name": "Sprint - Free-Body Diagram Visualization and Mastery",
+    "issues": [
+     "updates written by Annie Conaghan while the Asana owner is Michael Lerma"
+    ]
+   },
+   {
+    "gid": "1215176396318246",
+    "name": "Sprint - Lost in Transliteration",
+    "issues": [
+     "updates written by Yi Lu while the Asana owner is Michael Lerma"
+    ]
+   },
+   {
+    "gid": "1214783923511436",
+    "name": "Sprint - Methods Applied: Proposal Scaffolded Support (MAPPS)",
+    "issues": [
+     "updates written by Yi Lu while the Asana owner is Michael Lerma"
+    ]
+   },
+   {
+    "gid": "1211360177216098",
+    "name": "Summer Online 2026",
+    "issues": [
+     "updates written by Brianna Stines while the Asana owner is Michael Lerma"
+    ]
+   },
+   {
+    "gid": "1209298164735103",
+    "name": "AI for the Notre Dame Community",
+    "issues": [
+     "~weekly cadence, but a 251-day silent gap (2025-10-07 \u2192 2026-06-15)"
+    ]
+   },
+   {
+    "gid": "1208255134985033",
+    "name": "AR Math Visualizer (Summer 2025 Pilot)",
+    "issues": [
+     "~weekly cadence, but a 35-day silent gap (2026-02-16 \u2192 2026-03-23)"
+    ]
+   }
+  ]
+ },
  "intake": {
   "source": "asana",
   "sections": [
@@ -26427,7 +27069,741 @@ window.DATA = {
    }
   ]
  },
- "reflections": [],
+ "reflections": [
+  {
+   "file": "ACE Ascent Phase IV Evaluation Report - Google Docs.pdf",
+   "rel": "../Reflection/ACE%20Ascent%20Phase%20IV%20Evaluation%20Report%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1AGylria-ObAmfkFiAiZOTyvs1rdDVLfB/view",
+   "doc_url": null,
+   "type": "report",
+   "label": "ACE Ascent Phase IV Evaluation Report",
+   "project": "ACE Ascent Phase IV",
+   "summary": [
+    "Overall, Prof Cotumaccio was very pleased, giving the highest marks possible to almost every aspect of the project process.",
+    "The ODL team especially enjoyed the engagement and work with the faculty and ACE partners. The work was meaningful.",
+    "The project's primary complication involved travel difficulties for the ODL team coming home from Kansas.",
+    "Project Improvements:; The beginning stages of the project felt somewhat rushed for the ODL team. The issue, again, seems to be related to travel with pre-set travel dates causing a sense of urgency.; Different or refined SOPs for travel that reflect the particular circumstances of the project. The same travel SOPs don't make sense for a trip to Africa and a trip to Kansas.; When hiring/engaging s",
+    "Four videos; Three lecture videos; One lightboard",
+    "Two master Canvas shells"
+   ],
+   "takeaways": [
+    "ODL Team Rating",
+    "Learning Designer - 5 (Extremely Good Support)",
+    "Media Producer - 5 (Extremely Good Support)",
+    "Project Manager - 5 (Extremely Good Support) Process Rating",
+    "The respondent gave the highest scores possible to all questions about the ODL process: The clarity of the project purposes and expectations, as well as the structure and meaningful contribution of all project phases. Retrospective Insights"
+   ],
+   "key_considerations": [],
+   "completion_rate": "50% (1 out of 2)"
+  },
+  {
+   "file": "Andrea Russo Survey Response.pdf",
+   "rel": "../Reflection/Andrea%20Russo%20Survey%20Response.pdf",
+   "drive_url": "https://drive.google.com/file/d/1ADxIQILjwcHXpAqHkt52wPFzzYsnWkca/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Andrea Russo Survey Response",
+   "project": null
+  },
+  {
+   "file": "Brooke Parker Survey Response.pdf",
+   "rel": "../Reflection/Brooke%20Parker%20Survey%20Response.pdf",
+   "drive_url": "https://drive.google.com/file/d/17J2JNqzLgq1a10axobZubdYmr6PsmBZF/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Brooke Parker Survey Response",
+   "project": null
+  },
+  {
+   "file": "Calc I Reflection Report Survey.pdf",
+   "rel": "../Reflection/Calc%20I%20Reflection%20Report%20Survey.pdf",
+   "drive_url": "https://drive.google.com/file/d/1hTRo5nyDusRmJ9hj3P4buCLRrf6iYdmX/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Calc I Reflection Report Survey",
+   "project": "Calc I Summer Online"
+  },
+  {
+   "file": "Calc I Summer Online Reflection Report with Link - Google Docs.pdf",
+   "rel": "../Reflection/Calc%20I%20Summer%20Online%20Reflection%20Report%20with%20Link%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1LRHA_tseZ4XVgHs0WUXDHU0iRjizczGa/view",
+   "doc_url": null,
+   "type": "report",
+   "label": "Calc I Summer Online Reflection Report with Link",
+   "project": "Calc I Summer Online",
+   "summary": [
+    "Highlights/Most Valuable; \"Some one to manage the workflow\"; The opportunity to incorporate asynchronous material into an old-school course; High-quality videos",
+    "Recommendations; Start the process/project sooner to avoid rush; Need a financial guarantee for partners whose course might get cancelled",
+    "Highlights / Most Valuable; Working with an ODL veteran and someone experienced and invested in learning design made things easier and more professionally rewarding.; Opportunities for innovation (Zoom Whiteboard and Variant : Limits); however, time constraints prevented us from being able to follow through.",
+    "What Could Have Gone Better / Lessons Learned",
+    "Lack of Focus: Brian got distracted by opportunities for innovation (Zoom Whiteboard and Variant : Limits). He spent time on them, but then fell behind on the required work, which led to both the innovations being abandoned and the required work being rushed.",
+    "Management of Student Worker: It took time to learn how to better manage a student production worker, especially one struggling to follow through."
+   ],
+   "takeaways": [],
+   "key_considerations": [],
+   "completion_rate": null
+  },
+  {
+   "file": "Conveying Data Visual Insights Qualtrics Report.pdf",
+   "rel": "../Reflection/Conveying%20Data%20Visual%20Insights%20Qualtrics%20Report.pdf",
+   "drive_url": "https://drive.google.com/file/d/1h1qlF3N68cIvIV-Sww8wAW7UWyYlw6TV/view",
+   "doc_url": "https://docs.google.com/document/d/1O1AQNJvOsvahOQv7nHC3tvNbadWfKa8jqMlT1kj3veo/edit?tab=t.0#heading=h.6lwgmz10rsim",
+   "type": "report",
+   "label": "Conveying Data Visual Insights Qualtrics Report",
+   "project": "Sprints 2024: Conveying Data Visual Insights",
+   "summary": [
+    "5.00 5.00 5.00 0.00 0.00 1 5.00 ODL wrap-up meetings 4.00 4.00 4.00 0.00 0.00 1 4.00 Q10 - Were there any other ODL activities and support you found effective? Please specify. No data found - your filters may be too exclusive! 4 Q11 - On a scale of 0-10, how likely are you to recommend the Office of Digital Learning to a colleague? 100.00",
+    "100 100 0 Q12 - Please provide any additional feedback you have on your experience working with the ODL. Please provide any additional feedback you have on your experience working with the ODL. I am sorry again for not being able to fully complete this project. Everyone was very accommodating, skilled, professional and helpful."
+   ],
+   "takeaways": [],
+   "key_considerations": [],
+   "completion_rate": null
+  },
+  {
+   "file": "Cotumaccio Survey Responses.pdf",
+   "rel": "../Reflection/Cotumaccio%20Survey%20Responses.pdf",
+   "drive_url": "https://drive.google.com/file/d/1q7wFnj91gvv9biFV55Fl0368zUbg8JWU/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Cotumaccio Survey Responses",
+   "project": null
+  },
+  {
+   "file": "Critical Thinking AI Tutor Summer Sprint Reflection Report with Link - Google Docs.pdf",
+   "rel": "../Reflection/Critical%20Thinking%20AI%20Tutor%20Summer%20Sprint%20Reflection%20Report%20with%20Link%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1FKUXrIEEaT7_EX-CVZLPuq5S-gflnwNa/view",
+   "doc_url": "https://docs.google.com/document/d/16IzTFQRHAYX0lcGPkCoZv_ZOO-rqjeiMOm3oPVumz00/edit?tab=t.0",
+   "type": "report",
+   "label": "Critical Thinking AI Tutor Summer Sprint Reflection Report with Link",
+   "project": "Sprint 2025: Critical Thinking AI Tutor",
+   "summary": [
+    "Highlights/Most Valuable; The chance to connect with campus colleagues working on similar projects and the other awardees; The one-on-one afternoon sessions/consultations with ODL team members and AI specialists (Steve and Roberto); Working with a learning designer and project manager",
+    "What Could Have Gone Better; Paul found the first part of the daylong workshop \"a bit general.\" He felt that having a better sense of the Sprint process coming in would have helped.",
+    "Memorable Quote(s); No particularly memorable quotes provided.",
+    "Highlights / Most Valuable; Paul took the learning design advice seriously and did the work to revise and align the homework assignments, survey, and syllabus/learning goals.; Paul was a very interesting person focused on gathering evidence-based data to demonstrate impact.",
+    "What Could Have Gone Better / Lessons Learned; Paul needed to be connected to AI specialists and the timing of having them in the room with him was a little off.",
+    "Recommendations; The Sprints should be split into AI and non-AI groups. Maybe all of the awardees could be together for one early activity and then get the two groups in separate spaces with the resources (e.g. AI specialists) they need.; Without an in-house AI specialist, we should rethink our role for AI-based Sprints as a convener and facilitator rather than as the owner of the project.; We sho"
+   ],
+   "takeaways": [],
+   "key_considerations": [],
+   "completion_rate": null
+  },
+  {
+   "file": "Evaluation Report - Sprint_ Parent Empowerment - Google Docs.pdf",
+   "rel": "../Reflection/Evaluation%20Report%20-%20Sprint_%20Parent%20Empowerment%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1MxiHabylKGSGuOGRxlnGtM_SdsNHnE0-/view",
+   "doc_url": "https://docs.google.com/document/d/1em1ZU77FepiNwXyF_HK7eFhiIihLOwdHOP8fCWaSPxs/edit?tab=t.0#heading=h.gjdgxs",
+   "type": "report",
+   "label": "Evaluation Report - Sprint_ Parent Empowerment",
+   "project": "Sprints 2024: Parent Empowerment",
+   "summary": [
+    "Prof. Parker's survey responses rated all aspects of the project and ODL team at the highest possible level. Prof. Doucet-Larozar did not complete a survey",
+    "(No retrospective or survey comments, so not possible to indicate any roadblocks or",
+    "(No retrospective or survey comments, so not possible to indicate any project",
+    "Faculty Satisfaction Index: 4.75/5.0 Net Promoter Score: 100 (10/10likelihood to recommend ODL)"
+   ],
+   "takeaways": [
+    "Project Details Project Timeframe May 2024 to Oct 2024 Project Description Prof. Neil Boothby, Tamara Doucet-Larozar, and Brooke Parker will collaborate with the Office of Digital Learning (ODL) to develop up to 22 animations to support parent empowerment training in Haiti, as evidenced by research demonstrating that 80% of children's development is supported within first 1000 days of life. Animat",
+    "Roughly two dozen videos",
+    "The final deliverables are outlined inthis handoffdocument Faculty/Stakeholders Survey Results Completion Rate: 50% (1 out of 2) A link to the full response from Prof. Parker can be foundhere. Faculty Involvement",
+    "(I don't have any data points Key Findings",
+    "The project required less than five hours per week.",
+    "Actual time commitment was as expected"
+   ],
+   "key_considerations": [],
+   "completion_rate": "50% (1 out of 2)"
+  },
+  {
+   "file": "Evaluation Report Conveying Visual Data - Google Docs.pdf",
+   "rel": "../Reflection/Evaluation%20Report%20Conveying%20Visual%20Data%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1fokxKw5sKXUTyTtAcMWVLRmAFHKzD49R/view",
+   "doc_url": "https://docs.google.com/document/d/1O1AQNJvOsvahOQv7nHC3tvNbadWfKa8jqMlT1kj3veo/edit?tab=t.0#heading=h.6lwgmz10rsim",
+   "type": "report",
+   "label": "Evaluation Report Conveying Visual Data",
+   "project": "Sprints 2024: Conveying Data Visual Insights",
+   "summary": [
+    "Overall, Prof Erlacher was very satisfied with the team - giving high marks to all phases of the project.",
+    "The project ran into roadblocks as a change in Prof Erlacher's responsibilities both significantly lengthened the project and reduced the number of deliverables that could be produced",
+    "Project Improvements:; Line in the project charter going forward to allow ODL to pause or stop the project at our discretion; Provide 1st-time faculty members guidance with any filming to enable them to be comfortable with the process; Track the amount of time faculty take to better set expectations at discovery phase Project Details Project Timeframe May 2024 to Dec 2024 Project Description Prof.",
+    "11 screencasts",
+    "Canvas shell",
+    "The final deliverables are outlined inthis handoffdocument Faculty/Stakeholders Survey Results Completion Rate: 100% (1 out of 1) A link to the full response from Prof. Erlacher can be foundhere. Faculty Involvement"
+   ],
+   "takeaways": [],
+   "key_considerations": [],
+   "completion_rate": "100% (1 out of 1)"
+  },
+  {
+   "file": "Evaluation Report PIE Spiritual Reflection Erika Bramley - Google Docs.pdf",
+   "rel": "../Reflection/Evaluation%20Report%20PIE%20Spiritual%20Reflection%20Erika%20Bramley%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/18Cc0jmWooQ1ZY57jMWkE9WXKd8Ozmda7/view",
+   "doc_url": "https://docs.google.com/document/d/1bN2GL-ATfj7CR4tG4tbFuaaKQqglrUTmka-HlH_sjGg/edit?tab=t.0#heading=h.gjdgxs",
+   "type": "report",
+   "label": "Evaluation Report PIE Spiritual Reflection Erika Bramley",
+   "project": "PIE Spiritual Reflection",
+   "summary": [
+    "Prof. Bramley indicated that she could contact the ODL team anytime \"I needed support.\" The ODL team was \"professional and courteous [and] eager to help.\" She \"appreciated the check in meetings\" and how the team \"explained the process in terms that I could understand.\"",
+    "Prof. Bramley gave the highest scores possible to all aspects of the ODL experience, including Net Promoter Score, but excluding the prompt about the degree to whichODL activities supported her contribution to the process, where all scored items were rated as \"effective\" rather than \"very effective.\"",
+    "A link to the full response from Prof. Bramley can be found here. Survey Completion Rate Completion Rate: 100% (1 out of 1) Erika Bramley",
+    "Faculty Satisfaction Index: 4.82/5.00 Net Promoter Score: 100 (10/10likelihood to recommend ODL)"
+   ],
+   "takeaways": [
+    "On the one hand, Prof. Bramley indicated that the weekly cadence of meetings and check ins were a big help in keeping on track. However, she also indicated that the various meetings and sessions were \"effective' and not \"very effective.\" Perhaps, the primary takeaway is that Prof. Bramley appreciated the ODL team's professionalism and accessibility."
+   ],
+   "key_considerations": [],
+   "completion_rate": "100% (1 out of 1)"
+  },
+  {
+   "file": "Evaluation Report_ AI Video Andrea Russo - Google Docs.pdf",
+   "rel": "../Reflection/Evaluation%20Report_%20AI%20Video%20Andrea%20Russo%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1_5E9lvcmikx5FN3gyS0vtSWXns59_ief/view",
+   "doc_url": "https://docs.google.com/document/d/1wpOHSMS2IPstYWBuHig_Zbvw0V3oft_1u_dxnPLd-do/edit?tab=t.0#heading=h.gjdgxs",
+   "type": "report",
+   "label": "Evaluation Report_ AI Video Andrea Russo",
+   "project": "AI Video -- Ardeo Russo",
+   "summary": [
+    "Prof. Russo left no open-answer feedback, but she gave the highest scores possible in every category.",
+    "Prof. Russo also indicated that the project time commitment was as expected (5-10 hours/week) and the workload was very easy to manage.",
+    "A link to the full response from Prof. Russor can be found here. Survey Completion Rate Completion Rate: 100% (1 out of 1)",
+    "Ardea Russo",
+    "Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10likelihood to recommend ODL)"
+   ],
+   "takeaways": [
+    "Given that there was no written feedback, it's probably safest to say that Prof. Russo seemed very satisfied with both the ODL team and process."
+   ],
+   "key_considerations": [],
+   "completion_rate": "100% (1 out of 1)"
+  },
+  {
+   "file": "Evaluation Report_ AI Video Nathaniel Myers - Google Docs.pdf",
+   "rel": "../Reflection/Evaluation%20Report_%20AI%20Video%20Nathaniel%20Myers%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1wuay14G1biCtkhvrUf-R2WSeiEcW0e1n/view",
+   "doc_url": "https://docs.google.com/document/d/1RRChEllSk18ffee-1evUW2_q4-nU0yolSZY5bv5Vdeg/edit?tab=t.0#heading=h.gjdgxs",
+   "type": "report",
+   "label": "Evaluation Report_ AI Video Nathaniel Myers",
+   "project": "AI Video -- Nathaniel Myers",
+   "summary": [
+    "Prof. Myers gave overall positive feedback and scores, writing that it is \"always wonderful working with the ODL\u2013a genuine pleasure.\"",
+    "While Prof. Myers both scored and described the review and feedback process highly (\"I thought the most effective part was the review process, which I was grateful for, and which resulted in some valuable changes.\"), there were several prompts to which he responded \"Most of the time\" and \"Satisfied\" rather than the highest-rated response.",
+    "Prof Myers felt that the purposes and expectations of the intake and discovery phase, the pre-production phase, and the delivery phase were not always clear. And he was satisfied with the design phase and pre-production phase but not very satisfied.",
+    "Prof. Myers indicated that the time commitment (5-10 hours week) was slightly more time than expected but was still manageable.",
+    "A link to the full response from Prof. Myers can befound here. Survey Completion Rate Completion Rate: 100% (1 out of 1)",
+    "Nathaniel Myers: Survey completed"
+   ],
+   "takeaways": [
+    "In general, Prof. Myers seemed most engaged by and satisfied with the phases of the process that are more action and reflection/review focused\u2013that is, he prefers the give and take and the learning involved from engagement more so than the set up and explaining parts of the process. This is not an uncommon theme in the feedback provided by faculty partners. Perhaps there are ways for ODL to stream"
+   ],
+   "key_considerations": [],
+   "completion_rate": "100% (1 out of 1)"
+  },
+  {
+   "file": "Evaluation Report_ Carbon Neutral - Google Docs.pdf",
+   "rel": "../Reflection/Evaluation%20Report_%20Carbon%20Neutral%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1lWzBn_TbBPL6WdV3p6w4VBrTbLUyOtdB/view",
+   "doc_url": "https://docs.google.com/document/d/1zFXhJTPO5BZpL3-UX2tLT5RBYa9fyaaroKCugapU1uI/edit?usp=drive_web&ouid=101409601338956093990",
+   "type": "report",
+   "label": "Evaluation Report_ Carbon Neutral",
+   "project": "XR Carbon Neutral Development",
+   "summary": [
+    "Prof. Hu indicated that it was \"an extraordinary experience\" working with ODL and that the team's work has \"significantly enhanced student learning.\"",
+    "Although Prof. Hu was very satisfied with how the project phases enabled their meaningful contribution to the project and thought that the ODL activities were very effective in contributing to the project's success, they expressed concerns about expectation setting.; Prof. Hu indicated that the actual time commitment was \"much more than expected,\" although they also indicated that they found the w",
+    "A link to the full response from Prof. Hu can be foundhere. Survey Completion Rate Completion Rate: 100% (1 out of 1)",
+    "Faculty Satisfaction Index: 4.87/5.0 Net Promoter Score: 100 (10/10likelihood to recommend ODL)"
+   ],
+   "takeaways": [
+    "The ODL people and the product that resulted from the engagement were significantly appreciated and valued.",
+    "It is important for ODL to have a relatively clear understanding of the time commitment required of a faculty member prior to the project's formal acceptance and to make that time commitment clear to the partnering faculty member. It might be helpful to have some type of milestones/timeline image to mark the progress of a project and the remaining time constraints and requirements.",
+    "It is important for ODL to make the phases of the project clear and distinct to the partnering faculty member. Again, a timeline image with milestones that also delineates the phases might be helpful."
+   ],
+   "key_considerations": [],
+   "completion_rate": "100% (1 out of 1)"
+  },
+  {
+   "file": "Evaluation Report_ Ugandan Immersion - Google Docs.pdf",
+   "rel": "../Reflection/Evaluation%20Report_%20Ugandan%20Immersion%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1bYNjf_0Bvtv9VvsdRDzwD4pKEcxoW8v2/view",
+   "doc_url": "https://docs.google.com/document/d/14AnFoPSQ20ftVEFRLgdr-VOfzj6QwCFlqhHm98zrvII/edit?tab=t.0#heading=h.gjdgxs",
+   "type": "report",
+   "label": "Evaluation Report_ Ugandan Immersion",
+   "project": "Ugandan Immersion",
+   "summary": [
+    "Prof. Gallager indicated that Alyssa put together \"a really amazing experience\" and that they and KC \"are amazing.\"",
+    "Prof. Gallagher indicated that it \"was so helpful (and made the end result so much better) to have professionals doing the work\" and that ODL made a big difference in terms of \"the very limited capacity and skills we have.\"",
+    "Prof. Gallagher was grateful for ODL flexibility on meeting times and locations.",
+    "Prof. Gallagher felt that it was \"a struggle\" for the ODL team and partner team to work effectively as possible during the design phase because the project was still \"abstract\" and it was \"tough merging our different strengths.\"",
+    "Prof. Gallagher felt that there had been a lack of clarity upfront about their team having to cover ODL travel expenses.",
+    "Prof. Gallagher felt that the small-sized text box in Qualtrics made it hard to edit their open-ended response."
+   ],
+   "takeaways": [
+    "Don't know if Prof. Gallagher's team was shown any examples of the types of work ODL could produce, but from the survey response, it seems as if that might have helped the project and what ODL was capable of doing to be less \"abstract.\" A best practice might be to show partners final products of similar projects.",
+    "It does not appear as if there was a charter for this project where any questions about budgeting and expenses could have been made clear. There should probably be a charter with clear budget and expense statements for any project beyond a simple, one-off consultation.",
+    "ODL partners generally seem incredibly impressed with our team as people and professionals, as well as the work we produce. We need to learn how to showcase all of that in advance\u2013both to attract work and to instill confidence in partners for whom the design process might be a bit abstract."
+   ],
+   "key_considerations": [],
+   "completion_rate": "50% (1 out of 2)"
+  },
+  {
+   "file": "Evaluation Report_ Writing in the Age of AI - Google Docs.pdf",
+   "rel": "../Reflection/Evaluation%20Report_%20Writing%20in%20the%20Age%20of%20AI%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1tJA1sLZLBI8aFkQlq7dwvJ4yCkKkvGaw/view",
+   "doc_url": "https://docs.google.com/document/d/1fIWRQAwQHwW0EgTGhHU3iOP63hcfAhJkg44mh_bZG5o/edit?tab=t.0#heading=h.gjdgxs",
+   "type": "report",
+   "label": "Evaluation Report_ Writing in the Age of AI",
+   "project": "Writing in the Age of AI",
+   "summary": [
+    "Prof. Myers felt that the materials provided and conversations with the ODL team \"were really helpful\" in \"thinking through the course both globally and at a granular level.\"",
+    "Prof. Myers wrote, \"There was more that I wanted to get out of the experience,\" but that it was time constraints on his end and not anything from the ODL side that prevented him from achieving his goals. He described the report he received as \"terrific.\"",
+    "Prof. Myers gave the highest scores possible in every category and question for which he had a response.",
+    "Prof. Myers indicated that the time commitment (5-10 hours week) was as expected but that it was \"somewhat difficult to manage,\" again, because of time constraints on his end.",
+    "A link to the full response from Prof. Myers can befound here. Survey Completion Rate Completion Rate: 100% (1 out of 1)",
+    "Nathaniel Myers: Survey completed"
+   ],
+   "takeaways": [
+    "Although Prof. Myers did not get all of the desired deliverables (due to time constraints on his end), he still found the conversations and learning design process (listing objectives, the class-by-class listing of assets in the course map) valuable. This might imply that the ODL could provide benefit at scale through a workshop(s) in which participants would learn the basics of developing a cours"
+   ],
+   "key_considerations": [],
+   "completion_rate": "100% (1 out of 1)"
+  },
+  {
+   "file": "Jason Reed Survey.pdf",
+   "rel": "../Reflection/Jason%20Reed%20Survey.pdf",
+   "drive_url": "https://drive.google.com/file/d/1nYlsUFCG9VqEJX55sP-RRJlJ0jKzpVKY/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Jason Reed Survey",
+   "project": null
+  },
+  {
+   "file": "Nathaniel Myers Survey Response 2.pdf",
+   "rel": "../Reflection/Nathaniel%20Myers%20Survey%20Response%202.pdf",
+   "drive_url": "https://drive.google.com/file/d/1G5A9o1qIG9EjXVYH5ojM7r4o2K-f944K/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Nathaniel Myers Survey Response 2",
+   "project": "AI Video -- Nathaniel Myers"
+  },
+  {
+   "file": "Nathaniel Myers Survey Response.pdf",
+   "rel": "../Reflection/Nathaniel%20Myers%20Survey%20Response.pdf",
+   "drive_url": "https://drive.google.com/file/d/1hb44gGzOp4Yxa1Kru0Uhow_QbhIodwm9/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Nathaniel Myers Survey Response",
+   "project": "AI Video -- Nathaniel Myers"
+  },
+  {
+   "file": "Nathaniel's Survey.pdf",
+   "rel": "../Reflection/Nathaniel%27s%20Survey.pdf",
+   "drive_url": "https://drive.google.com/file/d/1B82qE1zJhhXzAn0f63RH95xezIyXnmLR/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Nathaniel's Survey",
+   "project": null
+  },
+  {
+   "file": "PIE Spiritual Reflection Survey Results Erika Bramley.pdf",
+   "rel": "../Reflection/PIE%20Spiritual%20Reflection%20Survey%20Results%20Erika%20Bramley.pdf",
+   "drive_url": "https://drive.google.com/file/d/1QOFt7vrzUfZHXFiroDvyRXRjNYyfhYT6/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "PIE Spiritual Reflection Survey Results Erika Bramley",
+   "project": "PIE Spiritual Reflection"
+  },
+  {
+   "file": "Paul Blaschko Survey.pdf",
+   "rel": "../Reflection/Paul%20Blaschko%20Survey.pdf",
+   "drive_url": "https://drive.google.com/file/d/1xdyOuHTTFLh_HQaI7igFXDcsqnegfQGh/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Paul Blaschko Survey",
+   "project": null
+  },
+  {
+   "file": "Project Reflection Survey.pdf",
+   "rel": "../Reflection/Project%20Reflection%20Survey.pdf",
+   "drive_url": "https://drive.google.com/file/d/1tsA3QWTjtbJtn6Oy3aW1QTSlrqS1XBAo/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Project Reflection Survey",
+   "project": null
+  },
+  {
+   "file": "Retrospective Reflection Report_ AI for the ND Community with Survey - Google Docs.pdf",
+   "rel": "../Reflection/Retrospective%20Reflection%20Report_%20AI%20for%20the%20ND%20Community%20with%20Survey%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1IefBq61lsJIDmB79t982R5gOaghVAkrk/view",
+   "doc_url": null,
+   "type": "report",
+   "label": "Retrospective Reflection Report_ AI for the ND Community with Survey",
+   "project": "AI for the Notre Dame Community",
+   "summary": [
+    "Project: AI for the ND Community (Roberto Casarezand Nathaniel Myers) Date of retrospective: 10/1/25 Participants: Colin, Kevin, Lawrence, Yi",
+    "This project more than others involved everyone from the media team with each person (including a freelancer) being able to use and integrate their particular strengths, and the quality of the video is elevated because of that.",
+    "Production day itself was a highlight because the whole team was involved.",
+    "Seeing so many different aspects of our team's work come together in one large project, as well as seeing how my piece integrated with the others.",
+    "The quality of the acting was so high.",
+    "The whole course is aesthetically aligned, including the videos."
+   ],
+   "takeaways": [
+    "There were issues with Fusion and a variety of tech \"curveballs,\" including it being a Cloud project. It seemed as if we were \"pushing our technology to its limits.\"",
+    "We had a good timeline in the beginning but did not follow it (for reasons that were both within and not within our control). Exemplary project check",
+    "High quality video: overall production, narrative style, acting, satisfying SME without SME having to oversee details.",
+    "Canvas site and overall aesthetic design and integration.",
+    "Entire ODL team using its strengths on one project Key considerations for future projects",
+    "(AI Transparency Statement) We need to prevent situations in which SMEs use AI in inappropriate ways (such as not checking information) or without our knowledge."
+   ],
+   "key_considerations": [
+    "There were issues with Fusion and a variety of tech \"curveballs,\" including it being a Cloud project. It seemed as if we were \"pushing our technology to its limits.\"",
+    "We had a good timeline in the beginning but did not follow it (for reasons that were both within and not within our control). Exemplary project check",
+    "High quality video: overall production, narrative style, acting, satisfying SME without SME having to oversee details.",
+    "Canvas site and overall aesthetic design and integration.",
+    "Entire ODL team using its strengths on one project",
+    "(AI Transparency Statement) We need to prevent situations in which SMEs use AI in inappropriate ways (such as not checking information) or without our knowledge.",
+    "Having too many big projects at once creates risks, including work that is rushed and pressure on the team.",
+    "Hold ourselves accountable to the timelines just as we would SME/partners ______________________________________________________________________________ Faculty feedback scorecard Faculty Satisfaction Index: 4.9/5.0 Net Promoter Score: 95 Survey feedback:Roberto;Nathaniel Key Quotes/Testimonials: ODL Impact - Quotes, Testimonials"
+   ],
+   "completion_rate": null
+  },
+  {
+   "file": "Retrospective Reflection Report_ Bringing Korean to Life.docx - Google Docs.pdf",
+   "rel": "../Reflection/Retrospective%20Reflection%20Report_%20Bringing%20Korean%20to%20Life.docx%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1q9IjSg383v0JcaUjRioAtFSAlK3DW6SB/view",
+   "doc_url": "https://docs.google.com/document/d/1h469cFvJJbiCGDmNdDHT18P_gN0m_IeR/edit?rtpof=true&tab=t.0",
+   "type": "report",
+   "label": "Retrospective Reflection Report_ Bringing Korean to Life",
+   "project": "Sprint 2025: Bringing Korean to Life",
+   "summary": [
+    "Project: Bringing Korean to Life XR (Digital LearningSprint) - Professor Yeonhee Yoon Date of Retrospective: 18 Sep 2025 Participants: Janyl (her opinions + Min's opinions), Yi, Michael (plus survey feedback from Yeonhee)",
+    "The Bringing Korean to Life XR sprint produced a VR experience that Professor Yoon highly regarded. Despite Professor Yoon being remote for almost the entire sprint, the team delivered a solid XR experience and Canvas module that explored Korean Thanksgiving, Chuseok, and a conversational AI avatar. The canvas module that was created alongside the XR experience also received high praise for thorou",
+    "Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10likelihood to recommend ODL)"
+   ],
+   "takeaways": [
+    "While the project went smoothly, opportunities for enhancement were identified:",
+    "More support needed for interns -The question ofwhether we set our Min up for success was an ongoing theme. o More definition around documentation and process is needed o More time with other experienced team members would have helped o Need to look at what we ask of the interns during the summer - scope ask may be too big for a sprint",
+    "Learning Designers need to be familiar with new tools.From a learning perspective, designers should test out new tools and be proactive in collaborating with the media team in learning how the tools can be used in the classroom",
+    "Faculty members / Primary PI's need to be in person for any sprint project- ODL needs to be empowered to push back against any projects where the faculty member can't commit to the project needs Exemplary project check This would be a good candidate for an exemplary project. Key considerations for future projects",
+    "Proper documentation and support for future interns",
+    "Continue pairing Canvas modules/courses with XR experiences for accessibility and educational enrichment ______________________________________________________________________________"
+   ],
+   "key_considerations": [
+    "While the project went smoothly, opportunities for enhancement were identified:",
+    "More support needed for interns -The question ofwhether we set our Min up for success was an ongoing theme. o More definition around documentation and process is needed o More time with other experienced team members would have helped o Need to look at what we ask of the interns during the summer - scope ask may be too big for a sprint",
+    "Learning Designers need to be familiar with new tools.From a learning perspective, designers should test out new tools and be proactive in collaborating with the media team in learning how the tools can be used in the classroom",
+    "Faculty members / Primary PI's need to be in person for any sprint project- ODL needs to be empowered to push back against any projects where the faculty member can't commit to the project needs Exemplary project check This would be a good candidate for an exemplary project.",
+    "Proper documentation and support for future interns",
+    "Continue pairing Canvas modules/courses with XR experiences for accessibility and educational enrichment ______________________________________________________________________________ Faculty feedback scorecard Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10likelihood to recommend ODL)"
+   ],
+   "completion_rate": null
+  },
+  {
+   "file": "Retrospective Summary Report_Lab Prep_with link.docx - Google Docs.pdf",
+   "rel": "../Reflection/Retrospective%20Summary%20Report_Lab%20Prep_with%20link.docx%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1P2KFowiSXct339ZbeW7JixTiIbgvj3WA/view",
+   "doc_url": "https://docs.google.com/document/d/1O_LXMqKSr_HGV4CYZ6oMkZnxKEXh6YqW/edit?rtpof=true",
+   "type": "report",
+   "label": "Retrospective Summary Report_Lab Prep_with link",
+   "project": "Sprint 2025: Visualizing Success Lab Prep",
+   "summary": [
+    "Project: Lab Preparation: Visualizing Success (ProfessorDana Horgen) Date of Retrospective: 28 Aug 2025 Participants: Brianna Stines, Matthew Simmons, Derrick Patrick, Janyl Ismailova (plus Dana's",
+    "The project benefited from clear scoping and strong alignment with the faculty partner. The production sprint was efficient and focused, producing concise videos with clear expectations and a manageable number of deliverables. Materials were prepared in advance, filming days ran smoothly, and workflows across roles blended effectively. A key structural decision was to have LabFlow manage content o",
+    "Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10 likelihood to recommendODL)"
+   ],
+   "takeaways": [
+    "While the project went smoothly, opportunities for enhancement were identified:",
+    "More demo-facing editscould have enriched the videoseries in terms of creativity.",
+    "Additional preparation(rehearsal) would have supportedsmoother script delivery.",
+    "Expandingearly pre-production planningcould providemore flexibility and refinement.",
+    "Building on the Innovation Academy kickoff, anadditionalshort in-person session with the faculty a few weeks in could improve early coordination. Exemplary project check The Canvas site itself was not a significant outcome, but the video series was identified as a potential exemplar. Its concise, well-structured format and smooth production process provide a strong model for future lab-focused pro",
+    "Prioritize rehearsal time for facultyto strengthendelivery and reduce editing complexity."
+   ],
+   "key_considerations": [
+    "While the project went smoothly, opportunities for enhancement were identified:",
+    "More demo-facing editscould have enriched the videoseries in terms of creativity.",
+    "Additional preparation(rehearsal) would have supportedsmoother script delivery.",
+    "Expandingearly pre-production planningcould providemore flexibility and refinement.",
+    "Building on the Innovation Academy kickoff, anadditionalshort in-person session with the faculty a few weeks in could improve early coordination. Exemplary project check The Canvas site itself was not a significant outcome, but the video series was identified as a potential exemplar. Its concise, well-structured format and smooth production process provide a strong model for future lab-focused pro",
+    "Prioritize rehearsal time for facultyto strengthendelivery and reduce editing complexity.",
+    "Introduce amid-point alignment session earlyin thesprint to confirm scope and expectations.",
+    "Balancefaculty creativity with project scope - keepvideos concise but allow space for innovative filming approaches."
+   ],
+   "completion_rate": null
+  },
+  {
+   "file": "Retrospective Summary Report_MS ACMS.pdf",
+   "rel": "../Reflection/Retrospective%20Summary%20Report_MS%20ACMS.pdf",
+   "drive_url": "https://drive.google.com/file/d/1Y1NLnhOY0emc2c6WQwyqnsS0oe9KJZVi/view",
+   "doc_url": "https://drive.google.com/file/d/1RpNQxURFnZShb8bP4lwJXtlKN7eUdA5n/view?usp=sharing",
+   "type": "report",
+   "label": "Retrospective Summary Report_MS ACMS",
+   "project": "MS-ACMS Faculty Videos",
+   "summary": [
+    "Project: Master of Science in Applied and Computational Mathematics and Statistics (MS-ACMS) Faculty Videos Restructuring (Samantha Adamczewski) Date of Retrospective: 10 Dec 2025 Participants: Matthew Simmons and Janyl Ismailova (+ Sam's survey feedback)",
+    "The MS-ACMS Faculty Videos project progressed smoothly from planning through final handoff, with timely feedback and strong collaboration throughout. Communication with the program team was efficient, and approvals were received quickly, allowing production and post-production to move forward without delays or rework. Although the project was scoped as a low-stakes, informal media effort, the fina",
+    "Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10 likelihood to recommend ODL)"
+   ],
+   "takeaways": [
+    "The primary area for improvement identified was the use of Zoom interviews for remote faculty. While editing improved the overall presentation, the visual and audio quality of Zoom recordings differed noticeably from on-campus footage, leading to some inconsistency across the final video set. In addition, earlier and more proactive sharing of ODL's Zoom recording guidelines could have helped mitig",
+    "Share Zoom recording guidelines and technical expectations earlier in the process.",
+    "Recommend or provide basic recording equipment for remote faculty when feasible.",
+    "Ensure consistent ODL oversight for all interviews to maintain visual and audio standards.",
+    "Continue leveraging informal, low-script production models for promotional or awareness- focused projects, where appropriate. _____________________________________________________________________________________"
+   ],
+   "key_considerations": [
+    "The primary area for improvement identified was the use of Zoom interviews for remote faculty. While editing improved the overall presentation, the visual and audio quality of Zoom recordings differed noticeably from on-campus footage, leading to some inconsistency across the final video set. In addition, earlier and more proactive sharing of ODL's Zoom recording guidelines could have helped mitig",
+    "For future faculty video projects, especially those involving remote participants, the following considerations may improve outcomes:",
+    "Share Zoom recording guidelines and technical expectations earlier in the process.",
+    "Recommend or provide basic recording equipment for remote faculty when feasible.",
+    "Ensure consistent ODL oversight for all interviews to maintain visual and audio standards.",
+    "Continue leveraging informal, low-script production models for promotional or awareness- focused projects, where appropriate. _____________________________________________________________________________________ Faculty feedback scorecard Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10 likelihood to recommend ODL)"
+   ],
+   "completion_rate": null
+  },
+  {
+   "file": "Retrospective Summary Report_MSAN II with links.docx - Google Docs.pdf",
+   "rel": "../Reflection/Retrospective%20Summary%20Report_MSAN%20II%20with%20links.docx%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1QBJMrnOtroOVZBjqOAdoeVL_b1YXQc_1/view",
+   "doc_url": "https://docs.google.com/document/d/1CMhSN1RiaSZEON5hk71bDH_9jsYaG9h-/edit",
+   "type": "report",
+   "label": "Retrospective Summary Report_MSAN II with links",
+   "project": "MSAN II",
+   "summary": [
+    "Project: MSAN II (Professor Jessica McManus Warnelland Professor Kristen Collett-Schmidt) Date of Retrospective: 17 Sep 2025 Participants: Colin, Kuangchen, Kevin, Michael (plus survey feedback from Jessica and Kristen)",
+    "The second MSAN course that ODL produced went very well and benefited from strong relationships with Jessica and Kristen throughout the design, production and canvas build process. The team used the same template as the first MSAN course to ensure consistency and alleviate known issues that came up during the process. One thing to particularly note here that went well was the QA process. During th",
+    "Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10 likelihood to recommendODL) Survey - Jessica McManus Warnell Survey - Kristen Collett-Schmitt"
+   ],
+   "takeaways": [
+    "While the project went smoothly, opportunities for enhancement were identified:",
+    "Best practices for synchronous sessions -In the future,the team should consider following ND policies or Coursera policies in terms of contact minutes and content per module. Potentially, there was too much content to consume and much of it came from the NDDCEL program",
+    "More direct contact with interviewees -While mostinterviews went well there was one instance where the team and Jessica was surprised that the interviewee switched topics. Clearer communication with interviewees and being able to review scripts and questions would help make the process more smooth",
+    "Using freelancers requires more finesse -Ideallyif we can get freelancers at the beginning of the project, it would help with consistency in video edits. To note here as well - the producer role didn't go away when using a freelancer - it still required a few hours a week of effort Exemplary project check This would be a good candidate for an exemplary project. This is outward-facing and was a sig",
+    "Ensure proper time is in place for QAto ensure smoothtransition",
+    "Engage with TLT for badgesand other technology earlierin the process ______________________________________________________________________________"
+   ],
+   "key_considerations": [
+    "While the project went smoothly, opportunities for enhancement were identified:",
+    "Best practices for synchronous sessions -In the future,the team should consider following ND policies or Coursera policies in terms of contact minutes and content per module. Potentially, there was too much content to consume and much of it came from the NDDCEL program",
+    "More direct contact with interviewees -While mostinterviews went well there was one instance where the team and Jessica was surprised that the interviewee switched topics. Clearer communication with interviewees and being able to review scripts and questions would help make the process more smooth",
+    "Using freelancers requires more finesse -Ideallyif we can get freelancers at the beginning of the project, it would help with consistency in video edits. To note here as well - the producer role didn't go away when using a freelancer - it still required a few hours a week of effort Exemplary project check This would be a good candidate for an exemplary project. This is outward-facing and was a sig",
+    "Ensure proper time is in place for QAto ensure smoothtransition",
+    "Engage with TLT for badgesand other technology earlierin the process ______________________________________________________________________________ Faculty feedback scorecard Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10 likelihood to recommendODL) Survey - Jessica McManus Warnell Survey - Kristen Collett-Schmitt"
+   ],
+   "completion_rate": null
+  },
+  {
+   "file": "Retrospective Summary Report_Stat Flipped Classroom_with link.docx - Google Docs.pdf",
+   "rel": "../Reflection/Retrospective%20Summary%20Report_Stat%20Flipped%20Classroom_with%20link.docx%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1lO-m-V18H5MRN2sptvuMpQncqdHb22IE/view",
+   "doc_url": "https://docs.google.com/document/d/1pMjcSY8MDdvS2L9EJsJuaPBRFrlyvZft/edit",
+   "type": "report",
+   "label": "Retrospective Summary Report_Stat Flipped Classroom_with link",
+   "project": "Sprint 2025: Statistics Flipped Classroom",
+   "summary": [
+    "Project: Statistics Flipped Classroom (Professor JosephineAkosa) Date of Retrospective: 27 Aug 2025 Participants: Yi Lu, Matthew Simmons, Janyl Ismailova(plus Josephine's survey feedback)",
+    "The project was ambitious in scope, producing a large set of flipped-classroom videos alongside a redesigned Canvas site. Despite the heavy workload, the final results were strong: the Canvas site became clear and student-friendly, and the video library provided comprehensive coverage of course topics. Collaboration with the faculty partner was positive throughout. Josie remained open to suggestio",
+    "Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10 likelihood to recommendODL)"
+   ],
+   "takeaways": [
+    "The scale and timing of the project created significant challenges:",
+    "A large number of videosneeded to be filmed and editedundertight deadlines.",
+    "Sprintscheduling overlappedwith another major AI-relatedproject, straining media team capacity.",
+    "New minor requestsfor videos and interactive videoquestions occasionally cameafter deadlines, complicating planning.",
+    "Workload distribution- running multiple sprint projectssimultaneously led to concentrated pressure on both learning design and media teams.",
+    "Videos were delivered in large batches,overwhelmingthefaculty's review process. Exemplary project check The final Canvas redesign and video library could serve as an exemplar, showcasing what a large-scale flipped-classroom initiative can look like. However, the underlying workflow revealed pain points that should not be replicated. The project is best used as an example of what ODL can deliver un"
+   ],
+   "key_considerations": [
+    "The scale and timing of the project created significant challenges:",
+    "A large number of videosneeded to be filmed and editedundertight deadlines.",
+    "Sprintscheduling overlappedwith another major AI-relatedproject, straining media team capacity.",
+    "New minor requestsfor videos and interactive videoquestions occasionally cameafter deadlines, complicating planning.",
+    "Workload distribution- running multiple sprint projectssimultaneously led to concentrated pressure on both learning design and media teams.",
+    "Videos were delivered in large batches,overwhelmingthefaculty's review process. Exemplary project check The final Canvas redesign and video library could serve as an exemplar, showcasing what a large-scale flipped-classroom initiative can look like. However, the underlying workflow revealed pain points that should not be replicated. The project is best used as an example of what ODL can deliver un",
+    "Extend timelines for large flipped-classroom projectsto match the scope.",
+    "Stagger project sprints across ODL toavoid overlappingmedia and design workloads."
+   ],
+   "completion_rate": null
+  },
+  {
+   "file": "Retrospective Summary Report_Study Abroad_with link.docx - 2.pdf",
+   "rel": "../Reflection/Retrospective%20Summary%20Report_Study%20Abroad_with%20link.docx%20-%202.pdf",
+   "drive_url": "https://drive.google.com/file/d/1ShxzEuLBBc2WPzv4JHD3J-fgxdbed3pg/view",
+   "doc_url": "https://docs.google.com/document/d/1tn5QUA_IEnRBB8xuWnsSSkiWpFbFJh9X/edit?usp=drive_web&ouid=101409601338956093990&rtpof=true",
+   "type": "report",
+   "label": "Retrospective Summary Report_Study Abroad_with link",
+   "project": "Study Abroad Canvas Redesign",
+   "summary": [
+    "Project: Study Abroad Canvas Restructuring (KaylaLaureano) Date of Retrospective: 28 Aug 2025 Participants: Brianna Stines, Matthew Simmons (on behalf of Madeline Rowlett), Janyl",
+    "The project provided an opportunity for creative restructuring ofan existing course site. The Canvas redesign applied Cidi Labs tools to create a student-centered, visually clear, and easy-to-navigate structure. Much of the work was intern-led,which encouraged independent problem-solving and innovation, while still benefiting from timely feedback and support from the ODL team. The project partner ",
+    "Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10 likelihood to recommendODL)"
+   ],
+   "takeaways": [
+    "While the final site was functional and polished, some challenges arose:",
+    "The number and type of videosneeded werenotconsistentlyclearfromthebeginning, creating confusion at times.",
+    "Bringing teammembersinto the projectmidstreammeantcontextwas sometimes missing.",
+    "In communication-focused projects, there is ariskof prioritizing aestheticsover student usability. Exemplary project check The Canvas site itself is exemplary, reflecting a strong balance of structure, accessibility, and design. However, the videos included with the site were not ODL-produced and therefore do not represent ODL's media standards. If showcased, the project should be framed as an exa",
+    "Clarify the scope earlyregarding media expectationsand deliverables.",
+    "Stagger onboardingso contributors join with fullcontext."
+   ],
+   "key_considerations": [
+    "While the final site was functional and polished, some challenges arose:",
+    "The number and type of videosneeded werenotconsistentlyclearfromthebeginning, creating confusion at times.",
+    "Bringing teammembersinto the projectmidstreammeantcontextwas sometimes missing.",
+    "In communication-focused projects, there is ariskof prioritizing aestheticsover student usability. Exemplary project check The Canvas site itself is exemplary, reflecting a strong balance of structure, accessibility, and design. However, the videos included with the site were not ODL-produced and therefore do not represent ODL's media standards. If showcased, the project should be framed as an exa",
+    "Clarify the scope earlyregarding media expectationsand deliverables.",
+    "Stagger onboardingso contributors join with fullcontext.",
+    "Keep usability centralwhen working on communication/resource-styleprojects.",
+    "Maintain visible progress updates(weekly check-insproved valuable here)."
+   ],
+   "completion_rate": null
+  },
+  {
+   "file": "Retrospective Summary Report_Study Abroad_with link.docx - Google Docs.pdf",
+   "rel": "../Reflection/Retrospective%20Summary%20Report_Study%20Abroad_with%20link.docx%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1hxYH3v7qabDesHESh2UY236loFakTnF4/view",
+   "doc_url": "https://docs.google.com/document/d/1tn5QUA_IEnRBB8xuWnsSSkiWpFbFJh9X/edit?usp=drive_web&ouid=101409601338956093990&rtpof=true",
+   "type": "report",
+   "label": "Retrospective Summary Report_Study Abroad_with link",
+   "project": "Study Abroad Canvas Redesign",
+   "summary": [
+    "Project: Study Abroad Canvas Restructuring (KaylaLaureano) Date of Retrospective: 28 Aug 2025 Participants: Brianna Stines, Matthew Simmons (on behalf of Madeline Rowlett), Janyl",
+    "The project provided an opportunity for creative restructuring ofan existing course site. The Canvas redesign applied Cidi Labs tools to create a student-centered, visually clear, and easy-to-navigate structure. Much of the work was intern-led,which encouraged independent problem-solving and innovation, while still benefiting from timely feedback and support from the ODL team. The project partner ",
+    "Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10 likelihood to recommendODL)"
+   ],
+   "takeaways": [
+    "While the final site was functional and polished, some challenges arose:",
+    "The number and type of videosneeded werenotconsistentlyclearfromthebeginning, creating confusion at times.",
+    "Bringing teammembersinto the projectmidstreammeantcontextwas sometimes missing.",
+    "In communication-focused projects, there is ariskof prioritizing aestheticsover student usability. Exemplary project check The Canvas site itself is exemplary, reflecting a strong balance of structure, accessibility, and design. However, the videos included with the site were not ODL-produced and therefore do not represent ODL's media standards. If showcased, the project should be framed as an exa",
+    "Clarify the scope earlyregarding media expectationsand deliverables.",
+    "Stagger onboardingso contributors join with fullcontext."
+   ],
+   "key_considerations": [
+    "While the final site was functional and polished, some challenges arose:",
+    "The number and type of videosneeded werenotconsistentlyclearfromthebeginning, creating confusion at times.",
+    "Bringing teammembersinto the projectmidstreammeantcontextwas sometimes missing.",
+    "In communication-focused projects, there is ariskof prioritizing aestheticsover student usability. Exemplary project check The Canvas site itself is exemplary, reflecting a strong balance of structure, accessibility, and design. However, the videos included with the site were not ODL-produced and therefore do not represent ODL's media standards. If showcased, the project should be framed as an exa",
+    "Clarify the scope earlyregarding media expectationsand deliverables.",
+    "Stagger onboardingso contributors join with fullcontext.",
+    "Keep usability centralwhen working on communication/resource-styleprojects.",
+    "Maintain visible progress updates(weekly check-insproved valuable here)."
+   ],
+   "completion_rate": null
+  },
+  {
+   "file": "Roberto's Survey.pdf",
+   "rel": "../Reflection/Roberto%27s%20Survey.pdf",
+   "drive_url": "https://drive.google.com/file/d/1XsU4gLnr8Av_IeS7CrKxQwtQMSqRQhZu/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Roberto's Survey",
+   "project": null
+  },
+  {
+   "file": "Survey - Jessica McManus Warnell.pdf",
+   "rel": "../Reflection/Survey%20-%20Jessica%20McManus%20Warnell.pdf",
+   "drive_url": "https://drive.google.com/file/d/1McWYC1cz00ufpBHt5Z_klwjcAR1iYsYO/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Survey - Jessica McManus Warnell",
+   "project": "MSAN II"
+  },
+  {
+   "file": "Survey - Kristen Collett Schmitt.pdf",
+   "rel": "../Reflection/Survey%20-%20Kristen%20Collett%20Schmitt.pdf",
+   "drive_url": "https://drive.google.com/file/d/1FRVnkjw73IWLcElAIW8b-inJzNMS9DwS/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Survey - Kristen Collett Schmitt",
+   "project": "ND Elevate Updates"
+  },
+  {
+   "file": "Survey Feedback_Dana Horgen.pdf",
+   "rel": "../Reflection/Survey%20Feedback_Dana%20Horgen.pdf",
+   "drive_url": "https://drive.google.com/file/d/1x4ICCfRbbcuJT2fUc7qNWKp6wOrHAueJ/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Survey Feedback_Dana Horgen",
+   "project": "Sprint 2025: Lab Prep: Visualizing Success"
+  },
+  {
+   "file": "Survey Feedback_Josie Akosa.pdf",
+   "rel": "../Reflection/Survey%20Feedback_Josie%20Akosa.pdf",
+   "drive_url": "https://drive.google.com/file/d/1wwoLAJV9uPb8BPoonnjQp6TqeaBoIMR6/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Survey Feedback_Josie Akosa",
+   "project": null
+  },
+  {
+   "file": "Survey Feedback_Kayla Laureano (1).pdf",
+   "rel": "../Reflection/Survey%20Feedback_Kayla%20Laureano%20%281%29.pdf",
+   "drive_url": "https://drive.google.com/file/d/1gFP0r3BSOy4xyuM6pCm6KJAsCGbGty3G/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Survey Feedback_Kayla Laureano (1)",
+   "project": null
+  },
+  {
+   "file": "Survey Feedback_Kayla Laureano.pdf",
+   "rel": "../Reflection/Survey%20Feedback_Kayla%20Laureano.pdf",
+   "drive_url": "https://drive.google.com/file/d/1AxneiQ2tvEtUQimzFQc92D8KckdG1if1/view",
+   "doc_url": null,
+   "type": "survey",
+   "label": "Survey Feedback_Kayla Laureano",
+   "project": null
+  },
+  {
+   "file": "The Qur\u2019an and the Bible Reflection Report with Survey Link - Google Docs.pdf",
+   "rel": "../Reflection/The%20Qur%E2%80%99an%20and%20the%20Bible%20Reflection%20Report%20with%20Survey%20Link%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1MxLWSo6Ha1NlF1cc1trh2CXG_Egij0UF/view",
+   "doc_url": "https://docs.google.com/document/d/1EHFKgFOeBqb_ROXvOaJYOM7UFeMyncO4n2fJgh0OsBQ/edit?tab=t.0",
+   "type": "report",
+   "label": "The Qur\u2019an and the Bible Reflection Report with Survey Link",
+   "project": "The Quran & the Bible",
+   "summary": [
+    "Highlights / Most Valuable; Regular meetings; Insights on new developments in digital pedagogy (including AI); Partnership with ODL team",
+    "Memorable Quotes; \"Lawrence and Yi kept me on task and also shared best practices and cutting edge developments in digital pedagogy.\"",
+    "Highlights / Most Valuable; Learning about how to design for Coursera, especially receiving learner feedback and its implications for content development and revision.; Working with an ODL veteran who was also kind and thoughtful.",
+    "What Could Have Gone Better / Lessons Learned; On Coursera, it is important to learn about the learner/conduct front-end analysis to know how to engage students, who can drop out anytime.; Coursera is very buggy and crashes often. QA is essential because what you think you've completed has not actually happened.; The collaboration has to be tailored to the SME's comfort level on Coursera.; There a",
+    "Recommendations; Create a sandbox version of the course. Give the SME a tour and let them play around and get comfortable with the technology and things like the Dialogue tool.; Use data in advance to set realistic expectations for the SME in terms of the expected number of students and revenue."
+   ],
+   "takeaways": [],
+   "key_considerations": [],
+   "completion_rate": null
+  },
+  {
+   "file": "Transforming FIN_MSBR Summer Sprint Reflection Report with Link - Google Docs.pdf",
+   "rel": "../Reflection/Transforming%20FIN_MSBR%20Summer%20Sprint%20Reflection%20Report%20with%20Link%20-%20Google%20Docs.pdf",
+   "drive_url": "https://drive.google.com/file/d/1hQEH8lb3YFovsxHFJVJcqmdr-ap_f2KS/view",
+   "doc_url": "https://docs.google.com/document/d/1IIu_RsXBt1N9G9wv9mpZfL9JODX-7GCtgzbDRKIeXIU/edit?tab=t.0",
+   "type": "report",
+   "label": "Transforming FIN_MSBR Summer Sprint Reflection Report with Link",
+   "project": "Sprint 2025: Integrating AI and LLMs for FIN and MSBR",
+   "summary": [
+    "Highlights/Most Valuable; \"The one-day retreat was spectacular. I honestly think offering that to all faculty to think about their classes would be helpful.\"; Jason appreciated the project management support, which relieved some of the pressure he felt having to manage his project partners.",
+    "Memorable Quotes; See above and, \"The team listened to what we needed and gave us space to have our summer and work on the project.\"",
+    "Highlights / Most Valuable; Even though it was only a consultation, Jason invested in the course map exercise.; \"They trusted our pedagogical and instructional design support.\"",
+    "What Could Have Gone Better / Lessons Learned; There could have been cross-team collaboration between ODL and TLT and AI Lab.; We could have had broader and deeper impact with earlier involvement, as well as continued connection to this project for the classroom implementation.; This was less of a Sprint than our paying to help support a cool and relevant project.",
+    "Recommendations; There could have been cross-team collaboration between ODL and TLT and AI Lab. We should invite Alex to be part of anything AI related.; Build a project evaluation process into the Sprints. Make it a required part of the Sprints to help us track some of the student-centered outcomes.; Maybe have separate tracks for AI and non-AI sprints."
+   ],
+   "takeaways": [],
+   "key_considerations": [],
+   "completion_rate": null
+  },
+  {
+   "file": "Ugandan Immersion.pdf",
+   "rel": "../Reflection/Ugandan%20Immersion.pdf",
+   "drive_url": "https://drive.google.com/file/d/1QmA-2QUJj9RPLr_QucQEy_3CKQ3Q56IA/view",
+   "doc_url": "https://docs.google.com/document/d/14AnFoPSQ20ftVEFRLgdr-VOfzj6QwCFlqhHm98zrvII/edit?tab=t.0#heading=h.gjdgxs",
+   "type": "report",
+   "label": "Ugandan Immersion",
+   "project": "Ugandan Immersion",
+   "summary": [
+    "ODL wrap-up meetings ODL wrap-up meetings Q10. Q10. Were there any other ODL activities and support you found effective? Please specify. Were there any other ODL activities and support you found effective? Please specify. I think the initial application for the Digital Design Sprint was helpful as it forced us to consider more clearly what we were looking for, explore what other projects/companies"
+   ],
+   "takeaways": [],
+   "key_considerations": [],
+   "completion_rate": null
+  }
+ ],
  "departments": {
   "departments": [
    {
@@ -31482,6 +32858,104 @@ window.DATA = {
     "key_considerations": [
      "In general, Prof. Myers seemed most engaged by and satisfied with the phases of the process that are more action and reflection/review focused\u2013that is, he prefers the give and take and the learning involved from engagement more so than the set up and explaining parts of the process. This is not an uncommon theme in the feedback provided by faculty partners. Perhaps there are ways for ODL to streamline or revamp our the parts of our intake, design, and pre-production processes in which we are soliciting insight and/or preparing the faculty for their more active parts in the process."
     ]
+   },
+   {
+    "project": "AI for the Notre Dame Community",
+    "report_title": "Retrospective Reflection Report_ AI for the ND Community with Survey",
+    "drive_url": "https://drive.google.com/file/d/1IefBq61lsJIDmB79t982R5gOaghVAkrk/view",
+    "date": "",
+    "key_considerations": [
+     "There were issues with Fusion and a variety of tech \"curveballs,\" including it being a Cloud project. It seemed as if we were \"pushing our technology to its limits.\"",
+     "We had a good timeline in the beginning but did not follow it (for reasons that were both within and not within our control). Exemplary project check",
+     "High quality video: overall production, narrative style, acting, satisfying SME without SME having to oversee details.",
+     "Canvas site and overall aesthetic design and integration.",
+     "Entire ODL team using its strengths on one project",
+     "(AI Transparency Statement) We need to prevent situations in which SMEs use AI in inappropriate ways (such as not checking information) or without our knowledge.",
+     "Having too many big projects at once creates risks, including work that is rushed and pressure on the team.",
+     "Hold ourselves accountable to the timelines just as we would SME/partners ______________________________________________________________________________ Faculty feedback scorecard Faculty Satisfaction Index: 4.9/5.0 Net Promoter Score: 95 Survey feedback:Roberto;Nathaniel Key Quotes/Testimonials: ODL Impact - Quotes, Testimonials"
+    ],
+    "auto": true
+   },
+   {
+    "project": "Sprint 2025: Bringing Korean to Life",
+    "report_title": "Retrospective Reflection Report_ Bringing Korean to Life",
+    "drive_url": "https://drive.google.com/file/d/1q9IjSg383v0JcaUjRioAtFSAlK3DW6SB/view",
+    "date": "",
+    "key_considerations": [
+     "While the project went smoothly, opportunities for enhancement were identified:",
+     "More support needed for interns -The question ofwhether we set our Min up for success was an ongoing theme. o More definition around documentation and process is needed o More time with other experienced team members would have helped o Need to look at what we ask of the interns during the summer - scope ask may be too big for a sprint",
+     "Learning Designers need to be familiar with new tools.From a learning perspective, designers should test out new tools and be proactive in collaborating with the media team in learning how the tools can be used in the classroom",
+     "Faculty members / Primary PI's need to be in person for any sprint project- ODL needs to be empowered to push back against any projects where the faculty member can't commit to the project needs Exemplary project check This would be a good candidate for an exemplary project.",
+     "Proper documentation and support for future interns",
+     "Continue pairing Canvas modules/courses with XR experiences for accessibility and educational enrichment ______________________________________________________________________________ Faculty feedback scorecard Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10likelihood to recommend ODL)"
+    ],
+    "auto": true
+   },
+   {
+    "project": "Sprint 2025: Visualizing Success Lab Prep",
+    "report_title": "Retrospective Summary Report_Lab Prep_with link",
+    "drive_url": "https://drive.google.com/file/d/1P2KFowiSXct339ZbeW7JixTiIbgvj3WA/view",
+    "date": "",
+    "key_considerations": [
+     "While the project went smoothly, opportunities for enhancement were identified:",
+     "More demo-facing editscould have enriched the videoseries in terms of creativity.",
+     "Additional preparation(rehearsal) would have supportedsmoother script delivery.",
+     "Expandingearly pre-production planningcould providemore flexibility and refinement.",
+     "Building on the Innovation Academy kickoff, anadditionalshort in-person session with the faculty a few weeks in could improve early coordination. Exemplary project check The Canvas site itself was not a significant outcome, but the video series was identified as a potential exemplar. Its concise, well-structured format and smooth production process provide a strong model for future lab-focused pro",
+     "Prioritize rehearsal time for facultyto strengthendelivery and reduce editing complexity.",
+     "Introduce amid-point alignment session earlyin thesprint to confirm scope and expectations.",
+     "Balancefaculty creativity with project scope - keepvideos concise but allow space for innovative filming approaches."
+    ],
+    "auto": true
+   },
+   {
+    "project": "MS-ACMS Faculty Videos",
+    "report_title": "Retrospective Summary Report_MS ACMS",
+    "drive_url": "https://drive.google.com/file/d/1Y1NLnhOY0emc2c6WQwyqnsS0oe9KJZVi/view",
+    "date": "",
+    "key_considerations": [
+     "The primary area for improvement identified was the use of Zoom interviews for remote faculty. While editing improved the overall presentation, the visual and audio quality of Zoom recordings differed noticeably from on-campus footage, leading to some inconsistency across the final video set. In addition, earlier and more proactive sharing of ODL's Zoom recording guidelines could have helped mitig",
+     "For future faculty video projects, especially those involving remote participants, the following considerations may improve outcomes:",
+     "Share Zoom recording guidelines and technical expectations earlier in the process.",
+     "Recommend or provide basic recording equipment for remote faculty when feasible.",
+     "Ensure consistent ODL oversight for all interviews to maintain visual and audio standards.",
+     "Continue leveraging informal, low-script production models for promotional or awareness- focused projects, where appropriate. _____________________________________________________________________________________ Faculty feedback scorecard Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10 likelihood to recommend ODL)"
+    ],
+    "auto": true
+   },
+   {
+    "project": "Sprint 2025: Statistics Flipped Classroom",
+    "report_title": "Retrospective Summary Report_Stat Flipped Classroom_with link",
+    "drive_url": "https://drive.google.com/file/d/1lO-m-V18H5MRN2sptvuMpQncqdHb22IE/view",
+    "date": "",
+    "key_considerations": [
+     "The scale and timing of the project created significant challenges:",
+     "A large number of videosneeded to be filmed and editedundertight deadlines.",
+     "Sprintscheduling overlappedwith another major AI-relatedproject, straining media team capacity.",
+     "New minor requestsfor videos and interactive videoquestions occasionally cameafter deadlines, complicating planning.",
+     "Workload distribution- running multiple sprint projectssimultaneously led to concentrated pressure on both learning design and media teams.",
+     "Videos were delivered in large batches,overwhelmingthefaculty's review process. Exemplary project check The final Canvas redesign and video library could serve as an exemplar, showcasing what a large-scale flipped-classroom initiative can look like. However, the underlying workflow revealed pain points that should not be replicated. The project is best used as an example of what ODL can deliver un",
+     "Extend timelines for large flipped-classroom projectsto match the scope.",
+     "Stagger project sprints across ODL toavoid overlappingmedia and design workloads."
+    ],
+    "auto": true
+   },
+   {
+    "project": "Study Abroad Canvas Redesign",
+    "report_title": "Retrospective Summary Report_Study Abroad_with link",
+    "drive_url": "https://drive.google.com/file/d/1ShxzEuLBBc2WPzv4JHD3J-fgxdbed3pg/view",
+    "date": "",
+    "key_considerations": [
+     "While the final site was functional and polished, some challenges arose:",
+     "The number and type of videosneeded werenotconsistentlyclearfromthebeginning, creating confusion at times.",
+     "Bringing teammembersinto the projectmidstreammeantcontextwas sometimes missing.",
+     "In communication-focused projects, there is ariskof prioritizing aestheticsover student usability. Exemplary project check The Canvas site itself is exemplary, reflecting a strong balance of structure, accessibility, and design. However, the videos included with the site were not ODL-produced and therefore do not represent ODL's media standards. If showcased, the project should be framed as an exa",
+     "Clarify the scope earlyregarding media expectationsand deliverables.",
+     "Stagger onboardingso contributors join with fullcontext.",
+     "Keep usability centralwhen working on communication/resource-styleprojects.",
+     "Maintain visible progress updates(weekly check-insproved valuable here)."
+    ],
+    "auto": true
    }
   ],
   "themes": [
@@ -32423,6 +33897,9 @@ function top5Link(x){
   if(x&&x.kind==="intake"){const u=(D.intake&&D.intake.board_url)||NDL_BOARD_URL;return u?{href:u,label:"Open intake board"}:null;}
   if(x&&x.kind==="timesheet")return {tab:"people",label:"See People"};
   if(x&&(x.kind==="overbudget"||x.kind==="phase"))return {tab:"projects",label:"See Projects"};
+  if(x&&(x.kind==="crossdept"||x.kind==="green"||x.kind==="hygiene")){
+    const u=x.links&&x.links[0]&&x.links[0].url;
+    return u?{href:u,label:"Open in Asana"}:{tab:"projects",label:"See Projects"};}
   const t=(x.t+" "+(x.s||"")).toLowerCase();
   if(/person is|people are|\bpeople\b/.test(t))return {tab:"people",label:"See People"};
   if(/recommendation/.test(t))return {tab:"recs",label:"See Recommendations"};
@@ -32798,12 +34275,45 @@ function briefTop5(){
       links:intake.filter(x=>x.url).map(x=>({label:x.name,url:x.url})),
       a:`Triage in this week's intake review${oldest?` — oldest has waited ${oldest}d`:""}.`});
   }
-  const openRecs=recs().filter(r=>r.status!=="Achieved"&&r.status!=="Dismissed");
-  const highRecs=openRecs.filter(r=>r.severity==="high").length;
-  if(highRecs)
-    cand.push({w:26,t:`${highRecs} high-priority ${highRecs===1?"recommendation is":"recommendations are"} still open`,
-      s:`${openRecs.length} recommendations open in total.`,
-      a:"Assign owners and target dates on the Recommendations tab."});
+  // (Recommendations deliberately stay OUT of the Top 5 — directors asked for
+  // signals about the portfolio, not our own to-do list; recs live on their tab.)
+  // ---- what the weekly updates reveal between the lines ----
+  const US=D.update_signals||{};
+  const xd=US.crossdept||[];
+  if(xd.length){
+    const top=xd.slice(0,3);
+    const nm1=x=>`${x.name} — ${(x.externals||[]).map(e=>e.name).slice(0,3).join(", ")}`;
+    const nmH=x=>{const nm=x.gid?`<a href="${esc(asanaWsProjectUrl(x.gid))}" target="_blank" rel="noopener">${esc(x.name)} ↗</a>`:esc(x.name);
+      return `${nm} — ${(x.externals||[]).map(e=>esc(e.name)).slice(0,3).join(", ")}`;};
+    const up=top.flatMap(x=>(x.upcoming||[]).map(u=>({p:x.name,date:u.date}))).slice(0,2);
+    const upTxt=up.length?` Dates promised in those updates: ${up.map(u=>`${dShort(u.date)} (${u.p})`).join("; ")}.`:"";
+    cand.push({kind:"crossdept",w:32,
+      t:`${xd.length} project${xd.length===1?" leans":"s lean"} on people outside the ODL roster`,
+      s:top.map(nm1).join("; ")+(xd.length>3?` …+${xd.length-3} more`:"")+upTxt,
+      sHtml:top.map(nmH).join("; ")+(xd.length>3?` …+${xd.length-3} more`:"")+esc(upTxt),
+      links:top.filter(x=>x.gid).map(x=>({label:x.name,url:asanaWsProjectUrl(x.gid)})),
+      a:"Cross-team hand-offs don't show in ODL capacity — confirm owners and dates with those units before they slip."});
+  }
+  const ag=US.always_green||[];
+  if(ag.length){
+    const g0=ag[0];
+    const mo=g0.since?Math.max(1,Math.round(daysBetween(g0.since,TODAY)/30)):null;
+    const gLink=g0.gid?`<a href="${esc(asanaWsProjectUrl(g0.gid))}" target="_blank" rel="noopener">${esc(g0.name)} ↗</a>`:esc(g0.name);
+    const tail=`${g0.streak} straight “On track” updates${g0.since?` since ${dShort(g0.since)}`:""}${mo?` (~${mo} months)`:""}${g0.gap_note?` — and its ${g0.gap_note}`:""}. A status that never changes stops carrying information.`;
+    cand.push({kind:"green",w:28,
+      t:`${ag.length} project${ag.length===1?" has":"s have"} been green every single week for months`,
+      s:`${g0.name}: ${tail}`,sHtml:`${gLink}: ${esc(tail)}`,
+      links:ag.slice(0,3).filter(g=>g.gid).map(g=>({label:g.name,url:asanaWsProjectUrl(g.gid)})),
+      a:"Give evergreen work a measurable goal (episodes shipped, modules delivered) and spot-check the always-green ones."});
+  }
+  const hyg=US.hygiene||[];
+  if(hyg.length){
+    const h0=hyg[0];
+    cand.push({kind:"hygiene",w:20,t:`${hyg.length} project${hyg.length===1?"'s":"s'"} weekly updates have hygiene gaps`,
+      s:hyg.slice(0,2).map(h=>`${h.name}: ${h.issues[0]}`).join("; "),
+      links:hyg.slice(0,3).filter(h=>h.gid).map(h=>({label:h.name,url:asanaWsProjectUrl(h.gid)})),
+      a:"Tidy owners and cadence in Asana so the weekly status stream stays trustworthy."});
+  }
   const soon=briefDueWithin(60);
   if(soon>=3)
     cand.push({w:22,t:`${soon} projects are due to complete within 60 days`,
@@ -32841,15 +34351,6 @@ function briefTop5(){
     cand.push({kind:"timesheet",w:40,t:`No hours logged since ${HL.date_max} — Asana time entry lapsed`,
       s:`It's been ${lag} days since the last logged hour, so recent capacity-vs-actual reads low because the data is missing, not because work stopped.`,
       a:"Resume Asana time entry; the dashboard switches back to the Timesheet report automatically once logging restarts."});
-  const rpv=briefRecsProgress();
-  if(rpv.total&&rpv.achieved===0&&rpv.inprog===0)
-    cand.push({w:24,t:`None of the ${rpv.total} tracked recommendations are underway yet`,
-      s:"Every recommendation is still marked “Not Started.”",
-      a:"Pick the top few, assign owners and target dates."});
-  else if(rpv.total)
-    cand.push({w:12,t:`${rpv.achieved} of ${rpv.total-rpv.dism} recommendations achieved (${pct(rpv.pctAchieved)})`,
-      s:`${rpv.inprog} in progress, ${rpv.notst} not started.`,
-      a:"Review the tracker and push the stalled items."});
   const yv=briefYTD();
   cand.push({w:10,t:`${yv.completed} completed and ${yv.started} started so far in ${yv.yr}`,
     s:`${yv.active} projects are active right now${yv.onHold?`, ${yv.onHold} on hold`:""}.`,
@@ -34072,6 +35573,8 @@ function archRange(a){
   if(a.min!=null&&a.max!=null)return `${fmtH(a.min)}–${fmtH(a.max)}`;
   return a.p50!=null?fmtH(a.p50):"—";
 }
+function fmtWk(x){return x==null?"—":(Math.round(x*10)/10)+" wk";}
+function dShort(iso){if(!iso)return "—";const[y,m,d]=iso.split("-");return MON[+m]+" "+(+d)+", "+y;}
 function renderPlan(){
   const c=$("#tab-plan"); c.innerHTML="";
   const PM=D.plan_model;
@@ -34079,30 +35582,79 @@ function renderPlan(){
     c.appendChild(el("div",{class:"note"},"The Plan tool needs the estimator's calibration file (calibration.json), which isn't in this snapshot. It reappears once the estimator's derived data is present."));
     return;
   }
-  c.appendChild(el("div",{class:"note"},`Rough planning aid: how much a project of each type typically costs the ODL team (in hours), and how much team capacity is free over the next few months. ${esc(PM.note||"")} <span class="src">Source: ${esc(PM.source)}</span>`));
+  c.appendChild(el("div",{class:"note"},`ODL runs as a studio serving faculty: what limits intake is rarely raw hours — it's how many builds the team can hold <b>in flight at once</b>, and whether the calendar leaves enough <b>runway before a launch target</b>. This tab answers both from real completed projects. <span class="src">Source: ${esc(PM.source)}</span>`));
 
-  // ---- 1) archetype hour ranges ----
-  const ap=el("div",{class:"panel"});
-  ap.innerHTML=`<div class="hd"><h2>What a project usually costs</h2><div class="desc">ODL-staff production hours per project type, calibrated from real completed projects (full lifecycle). Range = middle 50% (25th–75th percentile) where we have enough projects, otherwise the individual values. Faculty time is not included.</div></div>`;
-  const abd=el("div",{class:"bd"});
-  let at=`<table><thead><tr><th class="nosort">Project type</th><th class="num nosort">Typical (median)</th><th class="num nosort">Usual range</th><th class="num nosort">Projects</th><th class="nosort">Examples</th></tr></thead><tbody>`;
+  // ---- 1) slot room: how many more of each size, right now ----
+  const conc=PM.concurrency||{};
+  const sp=el("div",{class:"panel"});
+  sp.innerHTML=`<div class="hd"><h2>Room to take on more — by project size</h2><div class="desc">"In flight" = projects of a type that showed work in a month (logged hours or a weekly status update), measured over the last 12 months. Room right now = the team's typical sustained load minus what's running today. This replaces the old free-hours ÷ median arithmetic, which implied absurd counts (hours aren't what runs out — attention is).</div></div>`;
+  const sbd=el("div",{class:"bd"});
+  let st=`<table><thead><tr><th class="nosort">Size</th><th class="nosort">Project type</th><th class="num nosort">Running now</th><th class="num nosort">Typical in flight</th><th class="num nosort">Peak sustained</th><th class="nosort">Room right now</th></tr></thead><tbody>`;
   PM.archetypes.forEach(a=>{
-    at+=`<tr><td><b>${esc(a.label)}</b></td><td class="num">${fmtH(a.p50)}</td><td class="num">${archRange(a)}</td><td class="num">${a.n||a.n_examples||"—"}</td><td class="muted small">${esc((a.examples||[]).slice(0,3).join(", "))}${a.n_examples>3?", …":""}</td></tr>`;
+    const k=conc[a.key]; if(!k||(k.typical==null&&!k.now)) return;
+    let room;
+    if(k.open==null) room=`<span class="muted">—</span>`;
+    else if(k.open>0) room=`<b style="color:var(--green)">≈ ${k.open} more</b>`;
+    else if(k.peak!=null&&k.now>=k.peak) room=`<b style="color:var(--red)">at the historic peak</b>`;
+    else room=`<b style="color:var(--amber)">at typical load — room opens when one closes</b>`;
+    st+=`<tr><td>${esc(a.tier||"")}</td><td><b>${esc(a.label)}</b></td><td class="num">${k.now}</td><td class="num">${k.typical==null?"—":k.typical}</td><td class="num">${k.peak==null?"—":k.peak}</td><td>${room}</td></tr>`;
   });
-  at+=`</tbody></table>`;
-  abd.innerHTML=at;
-  abd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},"Small samples show individual project hours rather than an interpolated range (noted in the estimator's calibration)."));
-  ap.appendChild(abd); c.appendChild(ap);
+  st+=`</tbody></table>`;
+  sbd.innerHTML=st;
+  const un=PM.unclassified_active||{};
+  if(un.n)sbd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},`Plus ${un.n} active project${un.n>1?"s":""} too new to be type-classified yet (${esc((un.names||[]).slice(0,4).join(", "))}${un.n>4?", …":""}) — they occupy the same team attention, so read "room" as the optimistic end.`));
+  sp.appendChild(sbd); c.appendChild(sp);
 
-  // ---- 2) current team availability (remaining capacity hours) ----
+  // ---- 2) book-by dates against real semester launch targets ----
+  const lt=PM.lead_times||{}, tg=lt.targets||[], lrows=lt.rows||[];
+  if(lrows.length){
+    const bp=el("div",{class:"panel"});
+    bp.innerHTML=`<div class="hd"><h2>Book-by dates — is there still runway?</h2><div class="desc">Start-by = the launch target minus the type's typical (median) start-to-launch span from completed projects; "safe" uses the slower 75th percentile. When a request arrives after its start-by date, the honest answers are a scope cut or the next semester.</div></div>`;
+    const bbd=el("div",{class:"bd"});
+    let bt=`<table><thead><tr><th class="nosort">Project type</th><th class="num nosort">Typical span</th>${tg.map(t=>`<th class="nosort">${esc(t.label)}</th>`).join("")}</tr></thead><tbody>`;
+    lrows.forEach(r=>{
+      bt+=`<tr><td><b>${esc(r.label)}</b></td><td class="num">${fmtWk(r.weeks_p50)}</td>`;
+      tg.forEach(t=>{
+        const b=(r.by||{})[t.key];
+        if(!b){bt+=`<td class="muted">—</td>`;return;}
+        const col=b.verdict==="late"?"var(--red)":b.verdict==="tight"?"var(--amber)":"var(--green)";
+        const lab=b.verdict==="late"?"already late":b.verdict==="tight"?"start now":"start by "+dShort(b.start_by);
+        bt+=`<td><b style="color:${col}">${lab}</b><div class="muted small">safe: ${dShort(b.safe_by)}</div></td>`;
+      });
+      bt+=`</tr>`;
+    });
+    bt+=`</tbody></table>`;
+    bbd.innerHTML=bt;
+    bbd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},"“Already late” doesn't mean no — it means fewer modules, reused footage, or the next launch target. Use it to reset expectations in the first conversation, not the last one."));
+    bp.appendChild(bbd); c.appendChild(bp);
+  }
+
+  // ---- 3) capacity runway across the academic year ----
+  const wins=PM.windows||[];
   const av=PM.availability||{}, months=PM.avail_months||[];
   const vp=el("div",{class:"panel"});
-  vp.innerHTML=`<div class="hd"><h2>Team capacity free over the next months</h2><div class="desc">Remaining capacity (unallocated hours) per team over ${months.length?mlabFull(months[0])+" – "+mlabFull(months[months.length-1]):"the coming months"}, straight from the live Capacity Allocations sheet.${srcTag(CAP_URL,"capacity sheet")}</div></div>`;
+  vp.innerHTML=`<div class="hd"><h2>Capacity runway across the academic year</h2><div class="desc">Free (unallocated) hours from the live Capacity Allocations sheet, cut into the windows that actually shape ODL's year — semesters, breaks, and the sprint cohort — with what each window is good for.${srcTag(CAP_URL,"capacity sheet")}</div></div>`;
   const vbd=el("div",{class:"bd"});
+  if(wins.length){
+    const wrap=el("div",{style:"display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin-bottom:14px"});
+    wins.forEach(w=>{
+      const teams=Object.entries(w.free||{}).filter(([t])=>t!=="Intern");
+      const card=el("div",{style:"border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--bg)"});
+      card.innerHTML=`<div style="font-weight:700">${esc(w.label)}</div>
+        <div class="muted small">${dShort(w.start)} – ${dShort(w.end)} · ${w.weeks} wk</div>
+        <div style="font-size:16px;font-weight:700;margin:6px 0 2px">${fmtH(w.free_total)} free</div>
+        <div class="muted small">${teams.map(([t,v])=>`${esc(t)} ${fmtH(v)}`).join(" · ")||"—"}</div>
+        <ul class="small" style="margin:8px 0 0;padding-left:16px;color:var(--muted)">${(w.notes||[]).map(n=>`<li>${esc(n)}</li>`).join("")}</ul>`;
+      wrap.appendChild(card);
+    });
+    vbd.appendChild(wrap);
+  }
   const teams=Object.keys(av);
-  if(!teams.length)vbd.innerHTML=`<div class="muted">No forward capacity in the sheet yet.</div>`;
+  if(!teams.length)vbd.appendChild(el("div",{class:"muted"},"No forward capacity in the sheet yet."));
   else{
-    let vt=`<table><thead><tr><th class="nosort">Team</th>${months.map(m=>`<th class="num nosort">${mlab(m)}</th>`).join("")}<th class="num nosort">Total free</th></tr></thead><tbody>`;
+    const det=el("details");
+    det.innerHTML=`<summary class="muted small" style="cursor:pointer">Month-by-month free hours per team (next ${months.length} months)</summary>`;
+    let vt=`<table style="margin-top:8px"><thead><tr><th class="nosort">Team</th>${months.map(m=>`<th class="num nosort">${mlab(m)}</th>`).join("")}<th class="num nosort">Total free</th></tr></thead><tbody>`;
     let colTot={}; let grand=0;
     teams.forEach(t=>{
       vt+=`<tr><td><b>${esc(t)}</b></td>`;
@@ -34112,25 +35664,33 @@ function renderPlan(){
     });
     vt+=`<tr style="font-weight:700;border-top:2px solid var(--line)"><td>All teams</td>${months.map(m=>`<td class="num">${fmtH(colTot[m]||0)}</td>`).join("")}<td class="num">${fmtH(grand)}</td></tr>`;
     vt+=`</tbody></table>`;
-    vbd.innerHTML=vt;
-
-    // ---- 3) rough "how many fit" check ----
-    const check=el("div",{style:"margin-top:14px"});
-    check.innerHTML=`<div style="font-weight:600;font-size:12.5px;margin-bottom:6px">Rough capacity check</div>
-      <div class="editrow" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
-        <div><label>Project type</label><select id="planArch">${PM.archetypes.map(a=>`<option value="${esc(a.key)}">${esc(a.label)} (~${fmtH(a.p50)})</option>`).join("")}</select></div>
-        <div style="display:flex;align-items:flex-end"><div id="planFit" class="muted small"></div></div>
-      </div>
-      <div class="muted small" style="margin-top:6px">Approximate: total free team-hours ÷ the type's typical hours. It ignores which team each project leans on, so treat it as an upper bound — the per-team rows above show where the real constraint is.</div>`;
-    vbd.appendChild(check);
-    const fit=()=>{
-      const key=$("#planArch").value, a=PM.archetypes.find(x=>x.key===key);
-      const n=(a&&a.p50)?Math.floor(grand/a.p50):null;
-      $("#planFit").innerHTML=`≈ <b style="font-size:16px;color:var(--green)">${n==null?"—":n}</b> more <b>${esc(a?a.label:"")}</b> project${n===1?"":"s"} could fit in the free ${fmtH(grand)} across all teams.`;
-    };
-    setTimeout(()=>{const s=$("#planArch");if(s){s.onchange=fit;fit();}},0);
+    const tb=el("div",{html:vt}); det.appendChild(tb); vbd.appendChild(det);
+    vbd.appendChild(el("div",{class:"muted small",style:"margin-top:8px"},"Free hours are before reactive work — semester-start support, quick fixes, consults — so don't plan them to zero."));
   }
   vp.appendChild(vbd); c.appendChild(vp);
+
+  // ---- 4) cost & timeline reference per project type ----
+  const ap=el("div",{class:"panel"});
+  ap.innerHTML=`<div class="hd"><h2>What a project usually costs</h2><div class="desc">ODL-staff production hours and start-to-launch calendar spans per project type, calibrated from real completed projects (full lifecycle). Range = middle 50% (25th–75th percentile) where we have enough projects, otherwise the individual values. ${esc(PM.note||"")}</div></div>`;
+  const abd=el("div",{class:"bd"});
+  let at=`<table><thead><tr><th class="nosort">Size</th><th class="nosort">Project type</th><th class="num nosort">Typical hours</th><th class="num nosort">Usual range</th><th class="num nosort">Typical timeline</th><th class="num nosort">Projects</th><th class="nosort">Examples</th></tr></thead><tbody>`;
+  PM.archetypes.forEach(a=>{
+    const wk=a.weeks||{};
+    at+=`<tr><td>${esc(a.tier||"")}</td><td><b>${esc(a.label)}</b></td><td class="num">${fmtH(a.p50)}</td><td class="num">${archRange(a)}</td><td class="num">${fmtWk(wk.p50)}</td><td class="num">${a.n||a.n_examples||"—"}</td><td class="muted small">${esc((a.examples||[]).slice(0,3).join(", "))}${a.n_examples>3?", …":""}</td></tr>`;
+  });
+  at+=`</tbody></table>`;
+  abd.innerHTML=at;
+  abd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},"Small samples show individual project hours rather than an interpolated range (noted in the estimator's calibration). Faculty time is not included."));
+  ap.appendChild(abd); c.appendChild(ap);
+
+  // ---- 5) routing: sprints + the public faculty guide ----
+  const s=PM.sprints||{};
+  const fp=el("div",{class:"panel"});
+  fp.innerHTML=`<div class="hd"><h2>Where to route what — sprints &amp; the faculty guide</h2><div class="desc">Not every ask should enter the project pipeline; these two paths keep the pipeline for the right work.</div></div>`;
+  const fbd=el("div",{class:"bd"});
+  fbd.innerHTML=`<div class="insight"><div class="it">Sprint-sized idea? (1–3 months, exploratory)</div><div class="is">${esc(s.blurb||"")}</div><div class="ia"><b>→</b> <a class="src" href="${esc(s.url||"#")}" target="_blank" rel="noopener">ND Learning funding opportunities ↗</a></div></div>
+    <div class="insight"><div class="it">Faculty scoping their own project?</div><div class="is">The public Faculty Guide walks them through the same calibrated numbers this tab uses — phases, effort, timeline, and what's expected of them — before they ever submit an intake form. Sending it early makes the first consult a scoping conversation instead of an expectations reset.</div><div class="ia"><b>→</b> <a class="src" href="${esc(PM.guide_url||"#")}" target="_blank" rel="noopener">Open the Faculty Guide ↗</a></div></div>`;
+  fp.appendChild(fbd); c.appendChild(fp);
 }
 
 /* ===================================================================== */

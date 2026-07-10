@@ -1328,6 +1328,179 @@ def detect_status_problems(projects, updates, today):
 
 
 # --------------------------------------------------------------------------- #
+#  Update signals — what the weekly status updates reveal BETWEEN the lines:
+#  who outside ODL the work leans on (cross-department hand-offs directors care
+#  about), dated commitments buried in prose, and updates that have gone green
+#  so long they've stopped carrying information. The ODL Podcast is the type
+#  case: 22 months of weekly "On track", edits hand-off to a non-ODL editor,
+#  production dates living only in the update text.
+# --------------------------------------------------------------------------- #
+# capitalized tokens that are never people in these updates (weekdays, months,
+# seasons, tools, ODL vocabulary, sentence-start words). Compared lowercase.
+_UPDATE_STOP_NAMES = {
+    "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday",
+    "january", "february", "march", "april", "may", "june", "july", "august",
+    "september", "october", "november", "december", "jan", "feb", "mar", "apr",
+    "jun", "jul", "aug", "sep", "sept", "oct", "nov", "dec",
+    "summer", "fall", "spring", "winter", "break", "holiday", "week", "weeks",
+    "this", "next", "last", "the", "our", "new", "all", "everyone", "team",
+    "step", "steps", "update", "updates", "status", "notes", "note", "review",
+    "notre", "dame", "university", "office", "digital", "learning", "online",
+    "odl", "ndl", "tlt", "kaneb", "asana", "canvas", "zoom", "panopto", "drive",
+    "google", "youtube", "spotify", "apple", "qualtrics", "adobe", "premiere",
+    "course", "courses", "module", "modules", "video", "videos", "series",
+    "podcast", "episode", "episodes", "trailer", "production", "recording",
+    "filming", "editing", "design", "media", "graphics", "launch", "released",
+    "ready", "book", "guide", "norton", "here", "registration", "link", "fee",
+    "will", "when", "after", "before", "also", "then", "once", "still",
+    # weekly-update template boilerplate ("Summary", "Progress", "Next Steps"…)
+    "summary", "progress", "risks", "blockers", "blocker", "milestone",
+    "milestones", "accomplishments", "highlights", "overview", "recap",
+    "agenda", "action", "items", "goals", "tasks", "key", "kickoff",
+    "meeting", "meetings", "email", "emails", "follow", "continue",
+    "completed", "complete", "done", "pending", "waiting", "hold",
+    "need", "needs", "plan", "plans", "planning", "schedule", "scheduled",
+    "there", "thanks", "happy", "since", "aware", "first", "day", "today",
+    "tomorrow", "everything", "nothing", "great", "good", "with", "upcoming",
+    "events", "event",
+}
+# a lone capitalized first name only counts when it appears in a person-context
+# ("with Ted", "Jim was able to…") — bare capitalized words are too noisy.
+_NAME_CTX = re.compile(
+    r"\b(?:with|from|by|and|to)\s+([A-Z][a-z]{2,})\b"
+    r"|\b([A-Z][a-z]{2,})(?:'s)?\s+(?:will|is|was|has|had|can|working|works|found|"
+    r"finds|able|got|gets|back|editing|edits|finalizing|finished|delivered|"
+    r"delivering|continues?|recording|records|scheduled|sent|shared|asked)\b")
+# literal single spaces only — \s+ let template boilerplate glue across newlines
+# ("Summary\n\nProgress") and read as a two-word name
+_FULLNAME = re.compile(r"\b([A-Z][a-z]+(?: [A-Z][a-z]+)+)\b")
+_UPDATE_MONTH_RX = re.compile(
+    r"\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+"
+    r"(\d{1,2})(?:st|nd|rd|th)?\b")
+
+
+def _upcoming_dates(update, t0):
+    """Dates inside the latest update's text that land within the next 30 days —
+    commitments living only in prose (e.g. 'Next Production: Wednesday, July 15th')."""
+    out, blob = [], (update.get("title", "") + " " + update.get("text", ""))
+    mon_i = {m: i + 1 for i, m in enumerate(
+        ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"])}
+    for m in _UPDATE_MONTH_RX.finditer(blob):
+        mo, dd = mon_i[m.group(1)[:3]], int(m.group(2))
+        yr = t0.year + (1 if mo < t0.month - 6 else 0)   # "Jan 5" seen in Nov = next year
+        try:
+            dtx = datetime.date(yr, mo, dd)
+        except ValueError:
+            continue
+        if t0 <= dtx <= t0 + datetime.timedelta(days=30):
+            frag = re.sub(r"\s+", " ", blob[max(0, m.start() - 60):m.end() + 60]).strip()
+            out.append({"date": dtx.isoformat(), "frag": frag})
+    return out[:3]
+
+
+def build_update_signals(projects, updates, today):
+    """Scan ACTIVE projects' weekly updates (last 90 days, latest 8) for
+    (a) people outside the ODL roster the work leans on — the cross-department
+    hand-offs directors want to know about, (b) dated commitments in prose,
+    (c) always-green streaks and cadence/owner hygiene gaps. Feeds the Director
+    Brief's Top 5. Dormant ({available: False}) until status_updates.csv exists."""
+    if not updates:
+        return {"available": False, "crossdept": [], "always_green": [], "hygiene": []}
+    t0 = datetime.date.fromisoformat(today)
+    cutoff = (t0 - datetime.timedelta(days=90)).isoformat()
+    roster_first = {nm.split()[0].lower() for nm in CAPSHEET_TEAM}
+    for _t, ns in ROSTER_SEED.items():
+        roster_first |= {n.split()[0].lower() for n in ns if n}
+    cross, green, hygiene = [], [], []
+    for p in projects:
+        if not p.get("active"):
+            continue
+        a = p.get("asana") or {}
+        gid = a.get("gid")
+        ups = updates.get(gid) or []
+        if len(ups) < 3:
+            continue
+        # the project's own faculty partners are expected in its updates — exclude;
+        # ditto every word of the project's own title (updates constantly restate
+        # it, and title fragments are not people)
+        own = set()
+        for part in re.split(r"[,;&/]| and ", a.get("faculty") or ""):
+            own |= {t.lower() for t in part.strip().split()}
+        own |= {t for t in re.split(r"[^A-Za-z]+", (p.get("name") or "").lower()) if t}
+        recent = [u for u in ups if u["date"] >= cutoff][:8]
+        ext = {}
+        for u in recent:
+            blob = u["title"] + " " + u["text"]
+            fulls = set()
+            for mf in _FULLNAME.finditer(blob):
+                toks = [w.lower() for w in mf.group(1).split()]
+                if (any(w in _UPDATE_STOP_NAMES for w in toks)
+                        or toks[0] in roster_first or any(w in own for w in toks)):
+                    continue
+                fulls.add(mf.group(1))
+            first_of_full = {f.split()[0].lower() for f in fulls}
+            singles = set()
+            for ms in _NAME_CTX.finditer(blob):
+                nm1 = ms.group(1) or ms.group(2)
+                lw = (nm1 or "").lower()
+                if (not nm1 or lw in _UPDATE_STOP_NAMES or lw in roster_first
+                        or lw in own or lw in first_of_full):
+                    continue
+                singles.add(nm1)
+            for nm1 in fulls | singles:
+                ext[nm1] = ext.get(nm1, 0) + 1
+        # keep repeat mentions (any full name counts once; lone first names need 2+)
+        ext = {k: v for k, v in ext.items() if v >= 2 or len(k.split()) >= 2}
+        upcoming = _upcoming_dates(ups[0], t0)
+        if ext:
+            top = sorted(ext.items(), key=lambda kv: (-kv[1], kv[0]))[:4]
+            cross.append({"gid": gid, "name": p["name"],
+                          "externals": [{"name": k, "n": v} for k, v in top],
+                          "upcoming": upcoming, "total": sum(ext.values())})
+        # ---- hygiene: cadence gaps on a weekly reporter + owner≠updater ----
+        issues = []
+        ds = []
+        for u in ups[:14]:
+            try:
+                ds.append(datetime.date.fromisoformat(u["date"]))
+            except ValueError:
+                pass
+        gaps = [(ds[i] - ds[i + 1]).days for i in range(len(ds) - 1)]
+        med_gap = sorted(gaps)[len(gaps) // 2] if gaps else None
+        if med_gap and med_gap <= 10 and gaps:
+            big = max(gaps)
+            if big >= max(21, 2.5 * med_gap):
+                i = gaps.index(big)
+                issues.append(f"~weekly cadence, but a {big}-day silent gap "
+                              f"({ds[i + 1].isoformat()} → {ds[i].isoformat()})")
+        owner = a.get("owner") or a.get("point_person")
+        auths = [u["author"] for u in ups[:8] if u.get("author")]
+        if owner and auths:
+            dom = max(set(auths), key=auths.count)
+            if dom and dom.split()[0].lower() != owner.split()[0].lower():
+                issues.append(f"updates written by {dom} while the Asana owner is {owner}")
+        if issues:
+            hygiene.append({"gid": gid, "name": p["name"], "issues": issues})
+        # ---- always-green: a streak so long the color carries no signal ----
+        streak = 0
+        for u in ups:
+            if u["type"] == "on_track":
+                streak += 1
+            else:
+                break
+        if streak >= 13:                     # ≈ a quarter of weekly greens
+            green.append({"gid": gid, "name": p["name"], "streak": streak,
+                          "since": ups[streak - 1]["date"], "n": len(ups),
+                          "gap_note": next((i for i in issues if "gap" in i), "")})
+    cross.sort(key=lambda x: -x["total"])
+    green.sort(key=lambda x: -x["streak"])
+    # owner≠updater first (a director-level ownership question), then widest gaps
+    hygiene.sort(key=lambda h: (-sum("owner" in i for i in h["issues"]), -len(h["issues"])))
+    return {"available": True, "as_of": today, "window_days": 90,
+            "crossdept": cross[:8], "always_green": green[:5], "hygiene": hygiene[:12]}
+
+
+# --------------------------------------------------------------------------- #
 #  Timesheet compliance:  who logged time last week / the last 4 weeks
 # --------------------------------------------------------------------------- #
 def _roster_author_map(authors, team):
@@ -1544,37 +1717,242 @@ def build_intake(brief_inputs, today):
 
 
 # --------------------------------------------------------------------------- #
-#  Plan-a-project model — archetype hour ranges (estimator calibration) +
-#  current team availability from the capacity model
+#  Plan-a-project model — slot-based intake planning (how many builds the team
+#  sustains in flight), book-by lead times against real semester dates, and the
+#  capacity runway cut by the academic year — all from calibrated project data.
+#  Replaces the old "free hours ÷ median hours = 206 more single videos" check,
+#  which answered a question nobody was asking.
 # --------------------------------------------------------------------------- #
 ARCHETYPE_LABELS = {"full_course": "Full course (build)",
                     "course_redesign": "Course redesign / update",
                     "video_series": "Video series",
-                    "single_video": "Single video"}
+                    "single_video": "Single video",
+                    "xr_interactive": "XR / immersive"}
+# size tiers echo the faculty guide's S/M/L language so both sites talk the same way
+ARCHETYPE_TIERS = {"full_course": "Large", "course_redesign": "Medium",
+                   "video_series": "Medium", "single_video": "Small",
+                   "xr_interactive": "Varies"}
+
+# ND academic calendar 2026–27 (registrar.nd.edu) — the windows that actually shape
+# ODL's year. Free hours get prorated into these; the notes carry the seasonal advice
+# (ODL is a service studio for faculty: demand spikes at semester starts, filming
+# needs faculty on campus, the sprint cohort pre-books part of every summer).
+PLAN_WINDOWS = [
+    {"key": "runway", "label": "Now → Fall start", "start": None, "end": "2026-08-23",
+     "notes": ["Fall-semester asks land now — triage before classes start Aug 24",
+               "2026 sprint-cohort builds wrap up over the summer"]},
+    {"key": "fall26", "label": "Fall 2026 semester", "start": "2026-08-24", "end": "2026-12-18",
+     "notes": ["Classes Aug 24 – Dec 9 · finals Dec 11–17",
+               "First ~2 weeks: faculty-support surge — keep quick-turnaround room",
+               "Best filming: Sep – early Nov (midterm break Oct 17–25, Thanksgiving Nov 25–29)"]},
+    {"key": "winter", "label": "Winter break", "start": "2026-12-19", "end": "2027-01-10",
+     "notes": ["Faculty mostly away — filming and reviews pause",
+               "Good window for editing, course build and QA backlog"]},
+    {"key": "spring27", "label": "Spring 2027 semester", "start": "2027-01-11", "end": "2027-05-07",
+     "notes": ["Classes Jan 11 – Apr 28 · finals May 3–7",
+               "Sprint applications due early April (2026 cycle: Apr 6)",
+               "Midterm break Mar 6–14 · Easter Mar 26–29"]},
+    {"key": "summer27", "label": "Summer 2027 — sprint season", "start": "2027-05-08", "end": "2027-07-31",
+     "notes": ["Sprint accelerator ≈May 1; awarded faculty build May–Aug ($3,000 stipends)",
+               "Commencement May 14–16",
+               "Prime window to start Fall-2027 course builds"]},
+]
+
+# launch targets faculty actually ask for — "book-by" dates are computed against these
+PLAN_TARGETS = [
+    {"key": "fall26", "label": "Fall 2026 (Aug 24)", "date": "2026-08-24"},
+    {"key": "spring27", "label": "Spring 2027 (Jan 11)", "date": "2027-01-11"},
+    {"key": "fall27", "label": "Fall 2027 (≈Aug 23)", "date": "2027-08-23"},
+]
+
+SPRINTS_INFO = {
+    "url": "https://learning.nd.edu/projects-partnerships/funding-opportunities/#sprints",
+    "blurb": "Digital Learning Sprints fund faculty — a $3,000 stipend plus ODL/TLT team "
+             "support — for 1–3-month explorations (AI, flipped classrooms, COIL, async "
+             "modules, VR). Annual cycle: applications due early April (2026: Apr 6), "
+             "one-day accelerator ≈May 1, builds run over the summer — the cohort "
+             "pre-books part of ODL's summer capacity every year.",
+}
+FACULTY_GUIDE_URL = "https://nd-learning.github.io/FacultyOnboardingGuide/"
 
 
-def build_plan_model(cap, months, now):
-    """Re-power the Plan tab from the estimator's calibrated hours quartiles
-    (derived/calibration.json). The calibration's archetype→hours structure doesn't
-    map onto the old per-team point profiles, so — per the director order — we show
-    archetype HOUR RANGES + current team availability (remaining capacity hours) from
-    the live capacity model. Returns None when calibration.json is absent (tab hides)."""
+def _days_in_month(y, m):
+    return ((datetime.date(y + (m == 12), (m % 12) + 1, 1)
+             - datetime.date(y, m, 1)).days)
+
+
+def _window_free_hours(cap, start, end):
+    """Free (unallocated) hours per team between two dates, prorating each capacity
+    month by the share of its days inside the window."""
+    s = datetime.date.fromisoformat(start)
+    e = datetime.date.fromisoformat(end)
+    out = {}
+    for team in ("Design", "Media", "PM", "Intern"):
+        rem = (cap.get("remaining") or {}).get(team) or {}
+        tot, have = 0.0, False
+        for m_, pts in rem.items():
+            if pts is None:
+                continue
+            y_, mo_ = int(m_[:4]), int(m_[5:7])
+            dim = _days_in_month(y_, mo_)
+            lo = max(s, datetime.date(y_, mo_, 1))
+            hi = min(e, datetime.date(y_, mo_, dim))
+            if lo > hi:
+                continue
+            tot += pts * POINT_HOURS * (((hi - lo).days + 1) / dim)
+            have = True
+        if have:
+            out[team] = round(tot, 1)
+    return out
+
+
+def _archetype_by_gid():
+    """gid -> archetype from the estimator's reviewed classification
+    (data_all/derived/archetypes.csv). {} when the snapshot lacks it."""
+    path = os.path.join(ASANA_DIR, "derived", "archetypes.csv")
+    if not os.path.exists(path):
+        return {}
+    out = {}
+    for r in csv.DictReader(open(path, encoding="utf-8")):
+        g, a = (r.get("gid") or "").strip(), (r.get("archetype") or "").strip()
+        if g and a:
+            out[g] = a
+    return out
+
+
+def _monthly_in_flight(arch_by_gid, updates, today):
+    """How many projects of each archetype showed WORK per month — logged time
+    (time_entries.csv) or a posted weekly status update — over the last 12 full
+    months. This is the team's demonstrated sustained load, the honest basis for
+    'how many more can we take' (raw hours÷median wildly overstates it: long
+    builds spend few hours per week; attention, not hours, is what runs out)."""
+    sig = {}
+    path = os.path.join(ASANA_DIR, "time_entries.csv")
+    if os.path.exists(path):
+        for r in csv.DictReader(open(path, encoding="utf-8")):
+            a = arch_by_gid.get((r.get("project_gid") or "").strip())
+            d = (r.get("entry_date") or "")[:7]
+            if a and len(d) == 7:
+                sig.setdefault((a, d), set()).add(r.get("project_gid"))
+    for g, ups in (updates or {}).items():
+        a = arch_by_gid.get(g)
+        if not a:
+            continue
+        for u in ups:
+            d = (u.get("date") or "")[:7]
+            if len(d) == 7:
+                sig.setdefault((a, d), set()).add(g)
+    y, m = int(today[:4]), int(today[5:7])
+    months_used = sorted(f"{(y * 12 + m - 1 - k) // 12:04d}-{(y * 12 + m - 1 - k) % 12 + 1:02d}"
+                         for k in range(1, 13))
+    series = {}
+    for (a, d), gs in sig.items():
+        if d in months_used:
+            series.setdefault(a, {})[d] = len(gs)
+    return ({a: [by.get(d, 0) for d in months_used] for a, by in series.items()},
+            months_used)
+
+
+def build_plan_model(cap, months, now, projects=None, updates=None, today=None):
+    """The Plan tab's data: (1) slot room per archetype — typical/peak in-flight
+    load from 12 months of history vs what's running now; (2) book-by dates per
+    launch target from calibrated start-to-launch spans; (3) the capacity runway
+    prorated into academic-year windows; (4) sprint + faculty-guide routing.
+    Returns None when calibration.json is absent (tab hides)."""
     cal = load_json(CALIBRATION_FILE, None)
     if not isinstance(cal, dict) or not cal.get("archetype_effort_hours"):
         return None
+    today = today or datetime.date.today().isoformat()
+    weeks_cal = (cal.get("calendar") or {}).get("span_weeks_by_archetype") or {}
+
+    def _weeks_stats(key):
+        w = weeks_cal.get(key) or {}
+        p50, p75 = w.get("p50"), w.get("p75")
+        vs = sorted(w.get("values") or [])
+        if p50 is None and vs:
+            p50 = vs[len(vs) // 2]
+        if p75 is None and vs:
+            p75 = vs[-1]                     # small n: worst-seen stands in for "safe"
+        return {"n": w.get("n"), "p50": p50, "p75": p75,
+                "min": w.get("min"), "max": w.get("max")}
+
     arch = []
     for key, d in cal["archetype_effort_hours"].items():
         ph = d.get("production_hours") or {}
-        projects = sorted((d.get("projects") or {}).keys())
+        projects_named = sorted((d.get("projects") or {}).keys())
         arch.append({
             "key": key, "label": ARCHETYPE_LABELS.get(key, key.replace("_", " ").title()),
+            "tier": ARCHETYPE_TIERS.get(key, ""),
             "n": ph.get("n"), "p25": ph.get("p25"), "p50": ph.get("p50"),
             "p75": ph.get("p75"), "min": ph.get("min"), "max": ph.get("max"),
             "values": ph.get("values"), "note": ph.get("note", ""),
-            "examples": projects[:6], "n_examples": len(projects)})
-    # sort biggest median first
+            "weeks": _weeks_stats(key),
+            "examples": projects_named[:6], "n_examples": len(projects_named)})
+    # XR has calibrated durations but no effort hours yet — show it (weeks-only)
+    if "xr_interactive" not in {a["key"] for a in arch} and weeks_cal.get("xr_interactive"):
+        arch.append({"key": "xr_interactive", "label": ARCHETYPE_LABELS["xr_interactive"],
+                     "tier": ARCHETYPE_TIERS["xr_interactive"], "n": None, "p25": None,
+                     "p50": None, "p75": None, "min": None, "max": None, "values": None,
+                     "note": "staff hours not yet calibrated", "weeks": _weeks_stats("xr_interactive"),
+                     "examples": [], "n_examples": 0})
     arch.sort(key=lambda a: -(a["p50"] or 0))
+
+    # ---- slot room: demonstrated in-flight load vs what's running now ----
+    arch_by_gid = _archetype_by_gid()
+    series, conc_months = _monthly_in_flight(arch_by_gid, updates or {}, today)
+    running, unclassified = {}, []
+    for p in (projects or []):
+        if not p.get("active"):
+            continue
+        g = (p.get("asana") or {}).get("gid")
+        a = arch_by_gid.get(g) if g else None
+        if a:
+            running[a] = running.get(a, 0) + 1
+        else:
+            unclassified.append(p["name"])
+    concurrency = {}
+    for a in {x["key"] for x in arch}:
+        vals = sorted(series.get(a, []))
+        med = vals[len(vals) // 2] if vals else None
+        peak = vals[-1] if vals else None
+        now_n = running.get(a, 0)
+        concurrency[a] = {"typical": med, "peak": peak, "now": now_n,
+                          "open": (max(0, med - now_n) if med is not None else None)}
+
+    # ---- book-by dates per launch target ----
+    lead_rows = []
+    for a in arch:
+        wk = a.get("weeks") or {}
+        if not wk.get("p50"):
+            continue
+        by = {}
+        for t in PLAN_TARGETS:
+            tgt = datetime.date.fromisoformat(t["date"])
+            start_by = tgt - datetime.timedelta(weeks=wk["p50"])
+            safe_by = tgt - datetime.timedelta(weeks=wk.get("p75") or wk["p50"])
+            lead_days = (start_by - datetime.date.fromisoformat(today)).days
+            by[t["key"]] = {"start_by": start_by.isoformat(), "safe_by": safe_by.isoformat(),
+                            "verdict": ("late" if lead_days < 0 else
+                                        "tight" if lead_days < 21 else "open")}
+        lead_rows.append({"key": a["key"], "label": a["label"], "tier": a["tier"],
+                          "weeks_p50": wk["p50"], "weeks_p75": wk.get("p75"), "by": by})
+
+    # ---- capacity runway cut into academic-year windows ----
+    windows = []
+    for w in PLAN_WINDOWS:
+        if w["end"] < today:
+            continue
+        start = max(w["start"] or today, today)
+        free = _window_free_hours(cap, start, w["end"])
+        weeks = round(((datetime.date.fromisoformat(w["end"])
+                        - datetime.date.fromisoformat(start)).days + 1) / 7, 1)
+        windows.append({"key": w["key"], "label": w["label"], "start": start,
+                        "end": w["end"], "weeks": weeks, "notes": w["notes"],
+                        "free": free,
+                        "free_total": round(sum(free.values()), 1)})
+
     # current team availability = remaining capacity hours per team, next 6 months
+    # (kept for the per-month detail table under the runway cards)
     fut = [m for m in sorted(set(months)) if m >= now][:6]
     PH = POINT_HOURS
     avail = {}
@@ -1587,6 +1965,10 @@ def build_plan_model(cap, months, now):
             "provenance": (cal.get("_provenance") or {}).get("source", ""),
             "archetypes": arch, "availability": avail, "avail_months": fut,
             "point_hours": PH,
+            "concurrency": concurrency, "concurrency_months": conc_months,
+            "unclassified_active": {"n": len(unclassified), "names": sorted(unclassified)[:8]},
+            "lead_times": {"targets": PLAN_TARGETS, "rows": lead_rows},
+            "windows": windows, "sprints": SPRINTS_INFO, "guide_url": FACULTY_GUIDE_URL,
             "note": "Archetype hour ranges are the estimator's calibrated ODL-staff "
                     "production hours per project type (full lifecycle). Faculty time "
                     "is not included — the estimator has zero faculty hours logged."}
@@ -1636,9 +2018,11 @@ def compute_data(do_recs=True, write_status=True, verbose=False):
     timesheet = build_timesheet_compliance(hours_log, people, today)
     # unified "projects at risk": weekly status updates + past-due + over-plan
     status_problems = detect_status_problems(projects, updates, today)
+    # between-the-lines update signals (cross-dept names, prose dates, green streaks)
+    update_signals = build_update_signals(projects, updates, today)
     brief_inputs = load_json(BRIEF_INPUTS_FILE, {})
     intake = build_intake(brief_inputs, today)
-    plan_model = build_plan_model(cap, months, now_ym)
+    plan_model = build_plan_model(cap, months, now_ym, projects, updates, today)
 
     mset = set(months)
     for s in SCOPES:
@@ -1683,6 +2067,9 @@ def compute_data(do_recs=True, write_status=True, verbose=False):
         "est_actual": est_actual, "timesheet": timesheet,
         # unified projects-at-risk: weekly Asana status updates + past-due + over-plan.
         "status_problems": status_problems,
+        # what the weekly updates reveal between the lines (cross-dept reliance,
+        # prose-only dates, always-green streaks) — powers the Brief's Top 5.
+        "update_signals": update_signals,
         # intake queue — live from the Asana NDL tracking board (fallback: brief_inputs).
         "intake": intake,
         "faculty": faculty, "reflections": reflections, "departments": departments,
@@ -1960,6 +2347,10 @@ def redact_for_public(data):
         r["doc_url"] = None
         recs.append(r)
     data["recommendations"] = recs
+
+    # update signals quote outside collaborators / guests by name — drop for public
+    data["update_signals"] = {"available": False, "crossdept": [],
+                              "always_green": [], "hygiene": []}
 
     # strip internal links + manual weekly inputs (intake queue, etc.)
     data.setdefault("meta", {})["sources"] = {}

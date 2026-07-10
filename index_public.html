@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ODL Capacity &amp; Performance</title>
+<!-- Notre Dame golden dome on ND navy -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%230C2340'/%3E%3Crect x='15' y='39' width='34' height='15' rx='2' fill='%23C99700'/%3E%3Cpath d='M18 40a14 14 0 0 1 28 0z' fill='%23C99700'/%3E%3Crect x='30.7' y='15' width='2.6' height='7' fill='%23C99700'/%3E%3Ccircle cx='32' cy='12' r='3.2' fill='%23C99700'/%3E%3C/svg%3E">
 <style>
   :root{
     --navy:#0c2340; --navy2:#13315c; --gold:#ae9142; --gold2:#c9b079;
@@ -274,8 +276,8 @@
 <script>
 window.DATA = {
  "meta": {
-  "generated_at": "2026-07-09T23:55:40",
-  "today": "2026-07-09",
+  "generated_at": "2026-07-10T14:25:59",
+  "today": "2026-07-10",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -2572,7 +2574,7 @@ window.DATA = {
     "level": 2,
     "reasons": [
      "Update mentions: waiting on someone",
-     "No status update in 31 days (weekly cadence expected)"
+     "No status update in 32 days (weekly cadence expected)"
     ]
    }
   },
@@ -2728,7 +2730,7 @@ window.DATA = {
     "type": "complete",
     "level": 1,
     "reasons": [
-     "No status update in 24 days (weekly cadence expected)"
+     "No status update in 25 days (weekly cadence expected)"
     ]
    }
   },
@@ -3821,7 +3823,7 @@ window.DATA = {
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 57 days (weekly cadence expected)"
+     "No status update in 58 days (weekly cadence expected)"
     ]
    }
   },
@@ -5978,7 +5980,7 @@ window.DATA = {
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 59 days (weekly cadence expected)"
+     "No status update in 60 days (weekly cadence expected)"
     ]
    }
   },
@@ -8198,6 +8200,7 @@ window.DATA = {
    {
     "key": "full_course",
     "label": "Full course (build)",
+    "tier": "Large",
     "n": 14,
     "p25": 28.8,
     "p50": 47.2,
@@ -8206,6 +8209,13 @@ window.DATA = {
     "max": 286.5,
     "values": null,
     "note": "",
+    "weeks": {
+     "n": 23,
+     "p50": 31.4,
+     "p75": 41.9,
+     "min": 4.8,
+     "max": 63.6
+    },
     "examples": [
      "AI for the Notre Dame Community",
      "ASCEND Engineering",
@@ -8219,6 +8229,7 @@ window.DATA = {
    {
     "key": "video_series",
     "label": "Video series",
+    "tier": "Medium",
     "n": 2,
     "p25": null,
     "p50": 42.0,
@@ -8230,6 +8241,13 @@ window.DATA = {
      54.8
     ],
     "note": "n<4 -- raw values shown; interpolated quartiles withheld",
+    "weeks": {
+     "n": 4,
+     "p50": 12.1,
+     "p75": 14.3,
+     "min": 5.4,
+     "max": 17.4
+    },
     "examples": [
      "Radio Systems MVP",
      "Videos for Eva"
@@ -8239,6 +8257,7 @@ window.DATA = {
    {
     "key": "course_redesign",
     "label": "Course redesign / update",
+    "tier": "Medium",
     "n": 2,
     "p25": null,
     "p50": 32.8,
@@ -8250,6 +8269,13 @@ window.DATA = {
      33.4
     ],
     "note": "n<4 -- raw values shown; interpolated quartiles withheld",
+    "weeks": {
+     "n": 3,
+     "p50": 10.3,
+     "p75": 23.3,
+     "min": null,
+     "max": null
+    },
     "examples": [
      "ACE Assessment Course Redesign",
      "ND Elevate Updates"
@@ -8259,6 +8285,7 @@ window.DATA = {
    {
     "key": "single_video",
     "label": "Single video",
+    "tier": "Small",
     "n": 3,
     "p25": null,
     "p50": 15.5,
@@ -8271,12 +8298,41 @@ window.DATA = {
      23.2
     ],
     "note": "n<4 -- raw values shown; interpolated quartiles withheld",
+    "weeks": {
+     "n": 4,
+     "p50": 3.9,
+     "p75": 7.2,
+     "min": 2.0,
+     "max": 13.0
+    },
     "examples": [
      "Borgo Laudato Si' videos",
      "Program for Inclusive Education (PIE) Video #2",
      "Ultrasound Communication Video"
     ],
     "n_examples": 3
+   },
+   {
+    "key": "xr_interactive",
+    "label": "XR / immersive",
+    "tier": "Varies",
+    "n": null,
+    "p25": null,
+    "p50": null,
+    "p75": null,
+    "min": null,
+    "max": null,
+    "values": null,
+    "note": "staff hours not yet calibrated",
+    "weeks": {
+     "n": 4,
+     "p50": 16.0,
+     "p75": 22.0,
+     "min": 10.0,
+     "max": 25.3
+    },
+    "examples": [],
+    "n_examples": 0
    }
   ],
   "availability": {
@@ -8323,6 +8379,299 @@ window.DATA = {
    "2026-12"
   ],
   "point_hours": 32,
+  "concurrency": {
+   "course_redesign": {
+    "typical": 0,
+    "peak": 1,
+    "now": 0,
+    "open": 0
+   },
+   "single_video": {
+    "typical": 1,
+    "peak": 3,
+    "now": 1,
+    "open": 0
+   },
+   "video_series": {
+    "typical": 1,
+    "peak": 2,
+    "now": 1,
+    "open": 0
+   },
+   "xr_interactive": {
+    "typical": 0,
+    "peak": 2,
+    "now": 0,
+    "open": 0
+   },
+   "full_course": {
+    "typical": 12,
+    "peak": 15,
+    "now": 11,
+    "open": 1
+   }
+  },
+  "concurrency_months": [
+   "2025-07",
+   "2025-08",
+   "2025-09",
+   "2025-10",
+   "2025-11",
+   "2025-12",
+   "2026-01",
+   "2026-02",
+   "2026-03",
+   "2026-04",
+   "2026-05",
+   "2026-06"
+  ],
+  "unclassified_active": {
+   "n": 15,
+   "names": [
+    "AI Academy Fall 2026",
+    "AR Math Visualizer (Summer 2025 Pilot)",
+    "Blackburn Videos",
+    "COIL",
+    "Calc II Remodel",
+    "Flipped Classroom #1",
+    "Flipped Classroom #2",
+    "Flipped Classroom #3"
+   ]
+  },
+  "lead_times": {
+   "targets": [
+    {
+     "key": "fall26",
+     "label": "Fall 2026 (Aug 24)",
+     "date": "2026-08-24"
+    },
+    {
+     "key": "spring27",
+     "label": "Spring 2027 (Jan 11)",
+     "date": "2027-01-11"
+    },
+    {
+     "key": "fall27",
+     "label": "Fall 2027 (\u2248Aug 23)",
+     "date": "2027-08-23"
+    }
+   ],
+   "rows": [
+    {
+     "key": "full_course",
+     "label": "Full course (build)",
+     "tier": "Large",
+     "weeks_p50": 31.4,
+     "weeks_p75": 41.9,
+     "by": {
+      "fall26": {
+       "start_by": "2026-01-17",
+       "safe_by": "2025-11-04",
+       "verdict": "late"
+      },
+      "spring27": {
+       "start_by": "2026-06-06",
+       "safe_by": "2026-03-24",
+       "verdict": "late"
+      },
+      "fall27": {
+       "start_by": "2027-01-16",
+       "safe_by": "2026-11-03",
+       "verdict": "open"
+      }
+     }
+    },
+    {
+     "key": "video_series",
+     "label": "Video series",
+     "tier": "Medium",
+     "weeks_p50": 12.1,
+     "weeks_p75": 14.3,
+     "by": {
+      "fall26": {
+       "start_by": "2026-06-01",
+       "safe_by": "2026-05-16",
+       "verdict": "late"
+      },
+      "spring27": {
+       "start_by": "2026-10-19",
+       "safe_by": "2026-10-03",
+       "verdict": "open"
+      },
+      "fall27": {
+       "start_by": "2027-05-31",
+       "safe_by": "2027-05-15",
+       "verdict": "open"
+      }
+     }
+    },
+    {
+     "key": "course_redesign",
+     "label": "Course redesign / update",
+     "tier": "Medium",
+     "weeks_p50": 10.3,
+     "weeks_p75": 23.3,
+     "by": {
+      "fall26": {
+       "start_by": "2026-06-13",
+       "safe_by": "2026-03-14",
+       "verdict": "late"
+      },
+      "spring27": {
+       "start_by": "2026-10-31",
+       "safe_by": "2026-08-01",
+       "verdict": "open"
+      },
+      "fall27": {
+       "start_by": "2027-06-12",
+       "safe_by": "2027-03-13",
+       "verdict": "open"
+      }
+     }
+    },
+    {
+     "key": "single_video",
+     "label": "Single video",
+     "tier": "Small",
+     "weeks_p50": 3.9,
+     "weeks_p75": 7.2,
+     "by": {
+      "fall26": {
+       "start_by": "2026-07-28",
+       "safe_by": "2026-07-05",
+       "verdict": "tight"
+      },
+      "spring27": {
+       "start_by": "2026-12-15",
+       "safe_by": "2026-11-22",
+       "verdict": "open"
+      },
+      "fall27": {
+       "start_by": "2027-07-27",
+       "safe_by": "2027-07-04",
+       "verdict": "open"
+      }
+     }
+    },
+    {
+     "key": "xr_interactive",
+     "label": "XR / immersive",
+     "tier": "Varies",
+     "weeks_p50": 16.0,
+     "weeks_p75": 22.0,
+     "by": {
+      "fall26": {
+       "start_by": "2026-05-04",
+       "safe_by": "2026-03-23",
+       "verdict": "late"
+      },
+      "spring27": {
+       "start_by": "2026-09-21",
+       "safe_by": "2026-08-10",
+       "verdict": "open"
+      },
+      "fall27": {
+       "start_by": "2027-05-03",
+       "safe_by": "2027-03-22",
+       "verdict": "open"
+      }
+     }
+    }
+   ]
+  },
+  "windows": [
+   {
+    "key": "runway",
+    "label": "Now \u2192 Fall start",
+    "start": "2026-07-10",
+    "end": "2026-08-23",
+    "weeks": 6.4,
+    "notes": [
+     "Fall-semester asks land now \u2014 triage before classes start Aug 24",
+     "2026 sprint-cohort builds wrap up over the summer"
+    ],
+    "free": {
+     "Design": 168.0,
+     "Media": 208.4,
+     "PM": 98.9
+    },
+    "free_total": 475.3
+   },
+   {
+    "key": "fall26",
+    "label": "Fall 2026 semester",
+    "start": "2026-08-24",
+    "end": "2026-12-18",
+    "weeks": 16.7,
+    "notes": [
+     "Classes Aug 24 \u2013 Dec 9 \u00b7 finals Dec 11\u201317",
+     "First ~2 weeks: faculty-support surge \u2014 keep quick-turnaround room",
+     "Best filming: Sep \u2013 early Nov (midterm break Oct 17\u201325, Thanksgiving Nov 25\u201329)"
+    ],
+    "free": {
+     "Design": 913.6,
+     "Media": 898.0,
+     "PM": 502.3
+    },
+    "free_total": 2313.9
+   },
+   {
+    "key": "winter",
+    "label": "Winter break",
+    "start": "2026-12-19",
+    "end": "2027-01-10",
+    "weeks": 3.3,
+    "notes": [
+     "Faculty mostly away \u2014 filming and reviews pause",
+     "Good window for editing, course build and QA backlog"
+    ],
+    "free": {
+     "Design": 173.2,
+     "Media": 180.7,
+     "PM": 106.1
+    },
+    "free_total": 460.0
+   },
+   {
+    "key": "spring27",
+    "label": "Spring 2027 semester",
+    "start": "2027-01-11",
+    "end": "2027-05-07",
+    "weeks": 16.7,
+    "notes": [
+     "Classes Jan 11 \u2013 Apr 28 \u00b7 finals May 3\u20137",
+     "Sprint applications due early April (2026 cycle: Apr 6)",
+     "Midterm break Mar 6\u201314 \u00b7 Easter Mar 26\u201329"
+    ],
+    "free": {
+     "Design": 537.4,
+     "Media": 90.4,
+     "PM": 505.4
+    },
+    "free_total": 1133.2
+   },
+   {
+    "key": "summer27",
+    "label": "Summer 2027 \u2014 sprint season",
+    "start": "2027-05-08",
+    "end": "2027-07-31",
+    "weeks": 12.1,
+    "notes": [
+     "Sprint accelerator \u2248May 1; awarded faculty build May\u2013Aug ($3,000 stipends)",
+     "Commencement May 14\u201316",
+     "Prime window to start Fall-2027 course builds"
+    ],
+    "free": {
+     "Design": 385.7
+    },
+    "free_total": 385.7
+   }
+  ],
+  "sprints": {
+   "url": "https://learning.nd.edu/projects-partnerships/funding-opportunities/#sprints",
+   "blurb": "Digital Learning Sprints fund faculty \u2014 a $3,000 stipend plus ODL/TLT team support \u2014 for 1\u20133-month explorations (AI, flipped classrooms, COIL, async modules, VR). Annual cycle: applications due early April (2026: Apr 6), one-day accelerator \u2248May 1, builds run over the summer \u2014 the cohort pre-books part of ODL's summer capacity every year."
+  },
+  "guide_url": "https://nd-learning.github.io/FacultyOnboardingGuide/",
   "note": "Archetype hour ranges are the estimator's calibrated ODL-staff production hours per project type (full lifecycle). Faculty time is not included \u2014 the estimator has zero faculty hours logged."
  },
  "hours_log": {
@@ -25767,7 +26116,7 @@ window.DATA = {
   "point_hours": 32
  },
  "timesheet": {
-  "as_of": "2026-07-09",
+  "as_of": "2026-07-10",
   "team": [
    "PM A",
    "Design A",
@@ -25782,8 +26131,8 @@ window.DATA = {
   ],
   "data_max": "2026-06-24",
   "last_week": {
-   "start": "2026-07-02",
-   "end": "2026-07-09",
+   "start": "2026-07-03",
+   "end": "2026-07-10",
    "days": 7,
    "submitted": [],
    "missing": [
@@ -25801,8 +26150,8 @@ window.DATA = {
    "pct": 0.0
   },
   "last_4_weeks": {
-   "start": "2026-06-11",
-   "end": "2026-07-09",
+   "start": "2026-06-12",
+   "end": "2026-07-10",
    "days": 28,
    "submitted": [
     "Design B",
@@ -25958,7 +26307,7 @@ window.DATA = {
     "date": "2026-06-08",
     "reasons": [
      "Update mentions: waiting on someone",
-     "No status update in 31 days (weekly cadence expected)"
+     "No status update in 32 days (weekly cadence expected)"
     ]
    },
    {
@@ -25967,7 +26316,7 @@ window.DATA = {
     "level": 2,
     "date": "2026-06-15",
     "reasons": [
-     "No status update in 24 days (weekly cadence expected)",
+     "No status update in 25 days (weekly cadence expected)",
      "Over its planned hours \u2014 40h logged vs a 32h plan"
     ]
    },
@@ -25979,7 +26328,7 @@ window.DATA = {
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 57 days (weekly cadence expected)"
+     "No status update in 58 days (weekly cadence expected)"
     ]
    },
    {
@@ -25997,7 +26346,7 @@ window.DATA = {
     "level": 1,
     "date": "2026-05-11",
     "reasons": [
-     "No status update in 59 days (weekly cadence expected)"
+     "No status update in 60 days (weekly cadence expected)"
     ]
    }
   ],
@@ -26011,6 +26360,12 @@ window.DATA = {
    "Past its Asana due date and not marked Complete.",
    "Actual logged hours exceed ~120% of the planned (Capacity-sheet) hours."
   ]
+ },
+ "update_signals": {
+  "available": false,
+  "crossdept": [],
+  "always_green": [],
+  "hygiene": []
  },
  "intake": {
   "source": null,
@@ -26337,7 +26692,7 @@ window.DATA = {
    "scope": "Designing to Communicate: Strengthening Communication in Engineering Through Real-World Sustainability Contexts",
    "gid": "1212660351308233",
    "title": "Project at risk: Designing to Communicate: Strengthening Communication in Engineering Through Real-World Sustainability Contexts",
-   "detail": "Update mentions: waiting on someone \u00b7 No status update in 31 days (weekly cadence expected) (as of 2026-06-08)",
+   "detail": "Update mentions: waiting on someone \u00b7 No status update in 32 days (weekly cadence expected) (as of 2026-06-08)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": null,
@@ -26359,7 +26714,7 @@ window.DATA = {
    "scope": "FCTA - Physics I",
    "gid": "1207760971753716",
    "title": "Project at risk: FCTA - Physics I",
-   "detail": "No status update in 24 days (weekly cadence expected) \u00b7 Over its planned hours \u2014 40h logged vs a 32h plan (as of 2026-06-15)",
+   "detail": "No status update in 25 days (weekly cadence expected) \u00b7 Over its planned hours \u2014 40h logged vs a 32h plan (as of 2026-06-15)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": null,
@@ -26381,7 +26736,7 @@ window.DATA = {
    "scope": "Media Studio Sessions",
    "gid": "1213478777903328",
    "title": "Project at risk: Media Studio Sessions",
-   "detail": "No status update in 59 days (weekly cadence expected) (as of 2026-05-11)",
+   "detail": "No status update in 60 days (weekly cadence expected) (as of 2026-05-11)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": null,
@@ -26403,7 +26758,7 @@ window.DATA = {
    "scope": "Romance Languages video/podcast initiative",
    "gid": "1212660352662527",
    "title": "Project at risk: Romance Languages video/podcast initiative",
-   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 57 days (weekly cadence expected) (as of 2026-05-13)",
+   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 58 days (weekly cadence expected) (as of 2026-05-13)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": null,
@@ -26638,6 +26993,9 @@ function top5Link(x){
   if(x&&x.kind==="intake"){const u=(D.intake&&D.intake.board_url)||NDL_BOARD_URL;return u?{href:u,label:"Open intake board"}:null;}
   if(x&&x.kind==="timesheet")return {tab:"people",label:"See People"};
   if(x&&(x.kind==="overbudget"||x.kind==="phase"))return {tab:"projects",label:"See Projects"};
+  if(x&&(x.kind==="crossdept"||x.kind==="green"||x.kind==="hygiene")){
+    const u=x.links&&x.links[0]&&x.links[0].url;
+    return u?{href:u,label:"Open in Asana"}:{tab:"projects",label:"See Projects"};}
   const t=(x.t+" "+(x.s||"")).toLowerCase();
   if(/person is|people are|\bpeople\b/.test(t))return {tab:"people",label:"See People"};
   if(/recommendation/.test(t))return {tab:"recs",label:"See Recommendations"};
@@ -27013,12 +27371,45 @@ function briefTop5(){
       links:intake.filter(x=>x.url).map(x=>({label:x.name,url:x.url})),
       a:`Triage in this week's intake review${oldest?` — oldest has waited ${oldest}d`:""}.`});
   }
-  const openRecs=recs().filter(r=>r.status!=="Achieved"&&r.status!=="Dismissed");
-  const highRecs=openRecs.filter(r=>r.severity==="high").length;
-  if(highRecs)
-    cand.push({w:26,t:`${highRecs} high-priority ${highRecs===1?"recommendation is":"recommendations are"} still open`,
-      s:`${openRecs.length} recommendations open in total.`,
-      a:"Assign owners and target dates on the Recommendations tab."});
+  // (Recommendations deliberately stay OUT of the Top 5 — directors asked for
+  // signals about the portfolio, not our own to-do list; recs live on their tab.)
+  // ---- what the weekly updates reveal between the lines ----
+  const US=D.update_signals||{};
+  const xd=US.crossdept||[];
+  if(xd.length){
+    const top=xd.slice(0,3);
+    const nm1=x=>`${x.name} — ${(x.externals||[]).map(e=>e.name).slice(0,3).join(", ")}`;
+    const nmH=x=>{const nm=x.gid?`<a href="${esc(asanaWsProjectUrl(x.gid))}" target="_blank" rel="noopener">${esc(x.name)} ↗</a>`:esc(x.name);
+      return `${nm} — ${(x.externals||[]).map(e=>esc(e.name)).slice(0,3).join(", ")}`;};
+    const up=top.flatMap(x=>(x.upcoming||[]).map(u=>({p:x.name,date:u.date}))).slice(0,2);
+    const upTxt=up.length?` Dates promised in those updates: ${up.map(u=>`${dShort(u.date)} (${u.p})`).join("; ")}.`:"";
+    cand.push({kind:"crossdept",w:32,
+      t:`${xd.length} project${xd.length===1?" leans":"s lean"} on people outside the ODL roster`,
+      s:top.map(nm1).join("; ")+(xd.length>3?` …+${xd.length-3} more`:"")+upTxt,
+      sHtml:top.map(nmH).join("; ")+(xd.length>3?` …+${xd.length-3} more`:"")+esc(upTxt),
+      links:top.filter(x=>x.gid).map(x=>({label:x.name,url:asanaWsProjectUrl(x.gid)})),
+      a:"Cross-team hand-offs don't show in ODL capacity — confirm owners and dates with those units before they slip."});
+  }
+  const ag=US.always_green||[];
+  if(ag.length){
+    const g0=ag[0];
+    const mo=g0.since?Math.max(1,Math.round(daysBetween(g0.since,TODAY)/30)):null;
+    const gLink=g0.gid?`<a href="${esc(asanaWsProjectUrl(g0.gid))}" target="_blank" rel="noopener">${esc(g0.name)} ↗</a>`:esc(g0.name);
+    const tail=`${g0.streak} straight “On track” updates${g0.since?` since ${dShort(g0.since)}`:""}${mo?` (~${mo} months)`:""}${g0.gap_note?` — and its ${g0.gap_note}`:""}. A status that never changes stops carrying information.`;
+    cand.push({kind:"green",w:28,
+      t:`${ag.length} project${ag.length===1?" has":"s have"} been green every single week for months`,
+      s:`${g0.name}: ${tail}`,sHtml:`${gLink}: ${esc(tail)}`,
+      links:ag.slice(0,3).filter(g=>g.gid).map(g=>({label:g.name,url:asanaWsProjectUrl(g.gid)})),
+      a:"Give evergreen work a measurable goal (episodes shipped, modules delivered) and spot-check the always-green ones."});
+  }
+  const hyg=US.hygiene||[];
+  if(hyg.length){
+    const h0=hyg[0];
+    cand.push({kind:"hygiene",w:20,t:`${hyg.length} project${hyg.length===1?"'s":"s'"} weekly updates have hygiene gaps`,
+      s:hyg.slice(0,2).map(h=>`${h.name}: ${h.issues[0]}`).join("; "),
+      links:hyg.slice(0,3).filter(h=>h.gid).map(h=>({label:h.name,url:asanaWsProjectUrl(h.gid)})),
+      a:"Tidy owners and cadence in Asana so the weekly status stream stays trustworthy."});
+  }
   const soon=briefDueWithin(60);
   if(soon>=3)
     cand.push({w:22,t:`${soon} projects are due to complete within 60 days`,
@@ -27056,15 +27447,6 @@ function briefTop5(){
     cand.push({kind:"timesheet",w:40,t:`No hours logged since ${HL.date_max} — Asana time entry lapsed`,
       s:`It's been ${lag} days since the last logged hour, so recent capacity-vs-actual reads low because the data is missing, not because work stopped.`,
       a:"Resume Asana time entry; the dashboard switches back to the Timesheet report automatically once logging restarts."});
-  const rpv=briefRecsProgress();
-  if(rpv.total&&rpv.achieved===0&&rpv.inprog===0)
-    cand.push({w:24,t:`None of the ${rpv.total} tracked recommendations are underway yet`,
-      s:"Every recommendation is still marked “Not Started.”",
-      a:"Pick the top few, assign owners and target dates."});
-  else if(rpv.total)
-    cand.push({w:12,t:`${rpv.achieved} of ${rpv.total-rpv.dism} recommendations achieved (${pct(rpv.pctAchieved)})`,
-      s:`${rpv.inprog} in progress, ${rpv.notst} not started.`,
-      a:"Review the tracker and push the stalled items."});
   const yv=briefYTD();
   cand.push({w:10,t:`${yv.completed} completed and ${yv.started} started so far in ${yv.yr}`,
     s:`${yv.active} projects are active right now${yv.onHold?`, ${yv.onHold} on hold`:""}.`,
@@ -28287,6 +28669,8 @@ function archRange(a){
   if(a.min!=null&&a.max!=null)return `${fmtH(a.min)}–${fmtH(a.max)}`;
   return a.p50!=null?fmtH(a.p50):"—";
 }
+function fmtWk(x){return x==null?"—":(Math.round(x*10)/10)+" wk";}
+function dShort(iso){if(!iso)return "—";const[y,m,d]=iso.split("-");return MON[+m]+" "+(+d)+", "+y;}
 function renderPlan(){
   const c=$("#tab-plan"); c.innerHTML="";
   const PM=D.plan_model;
@@ -28294,30 +28678,79 @@ function renderPlan(){
     c.appendChild(el("div",{class:"note"},"The Plan tool needs the estimator's calibration file (calibration.json), which isn't in this snapshot. It reappears once the estimator's derived data is present."));
     return;
   }
-  c.appendChild(el("div",{class:"note"},`Rough planning aid: how much a project of each type typically costs the ODL team (in hours), and how much team capacity is free over the next few months. ${esc(PM.note||"")} <span class="src">Source: ${esc(PM.source)}</span>`));
+  c.appendChild(el("div",{class:"note"},`ODL runs as a studio serving faculty: what limits intake is rarely raw hours — it's how many builds the team can hold <b>in flight at once</b>, and whether the calendar leaves enough <b>runway before a launch target</b>. This tab answers both from real completed projects. <span class="src">Source: ${esc(PM.source)}</span>`));
 
-  // ---- 1) archetype hour ranges ----
-  const ap=el("div",{class:"panel"});
-  ap.innerHTML=`<div class="hd"><h2>What a project usually costs</h2><div class="desc">ODL-staff production hours per project type, calibrated from real completed projects (full lifecycle). Range = middle 50% (25th–75th percentile) where we have enough projects, otherwise the individual values. Faculty time is not included.</div></div>`;
-  const abd=el("div",{class:"bd"});
-  let at=`<table><thead><tr><th class="nosort">Project type</th><th class="num nosort">Typical (median)</th><th class="num nosort">Usual range</th><th class="num nosort">Projects</th><th class="nosort">Examples</th></tr></thead><tbody>`;
+  // ---- 1) slot room: how many more of each size, right now ----
+  const conc=PM.concurrency||{};
+  const sp=el("div",{class:"panel"});
+  sp.innerHTML=`<div class="hd"><h2>Room to take on more — by project size</h2><div class="desc">"In flight" = projects of a type that showed work in a month (logged hours or a weekly status update), measured over the last 12 months. Room right now = the team's typical sustained load minus what's running today. This replaces the old free-hours ÷ median arithmetic, which implied absurd counts (hours aren't what runs out — attention is).</div></div>`;
+  const sbd=el("div",{class:"bd"});
+  let st=`<table><thead><tr><th class="nosort">Size</th><th class="nosort">Project type</th><th class="num nosort">Running now</th><th class="num nosort">Typical in flight</th><th class="num nosort">Peak sustained</th><th class="nosort">Room right now</th></tr></thead><tbody>`;
   PM.archetypes.forEach(a=>{
-    at+=`<tr><td><b>${esc(a.label)}</b></td><td class="num">${fmtH(a.p50)}</td><td class="num">${archRange(a)}</td><td class="num">${a.n||a.n_examples||"—"}</td><td class="muted small">${esc((a.examples||[]).slice(0,3).join(", "))}${a.n_examples>3?", …":""}</td></tr>`;
+    const k=conc[a.key]; if(!k||(k.typical==null&&!k.now)) return;
+    let room;
+    if(k.open==null) room=`<span class="muted">—</span>`;
+    else if(k.open>0) room=`<b style="color:var(--green)">≈ ${k.open} more</b>`;
+    else if(k.peak!=null&&k.now>=k.peak) room=`<b style="color:var(--red)">at the historic peak</b>`;
+    else room=`<b style="color:var(--amber)">at typical load — room opens when one closes</b>`;
+    st+=`<tr><td>${esc(a.tier||"")}</td><td><b>${esc(a.label)}</b></td><td class="num">${k.now}</td><td class="num">${k.typical==null?"—":k.typical}</td><td class="num">${k.peak==null?"—":k.peak}</td><td>${room}</td></tr>`;
   });
-  at+=`</tbody></table>`;
-  abd.innerHTML=at;
-  abd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},"Small samples show individual project hours rather than an interpolated range (noted in the estimator's calibration)."));
-  ap.appendChild(abd); c.appendChild(ap);
+  st+=`</tbody></table>`;
+  sbd.innerHTML=st;
+  const un=PM.unclassified_active||{};
+  if(un.n)sbd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},`Plus ${un.n} active project${un.n>1?"s":""} too new to be type-classified yet (${esc((un.names||[]).slice(0,4).join(", "))}${un.n>4?", …":""}) — they occupy the same team attention, so read "room" as the optimistic end.`));
+  sp.appendChild(sbd); c.appendChild(sp);
 
-  // ---- 2) current team availability (remaining capacity hours) ----
+  // ---- 2) book-by dates against real semester launch targets ----
+  const lt=PM.lead_times||{}, tg=lt.targets||[], lrows=lt.rows||[];
+  if(lrows.length){
+    const bp=el("div",{class:"panel"});
+    bp.innerHTML=`<div class="hd"><h2>Book-by dates — is there still runway?</h2><div class="desc">Start-by = the launch target minus the type's typical (median) start-to-launch span from completed projects; "safe" uses the slower 75th percentile. When a request arrives after its start-by date, the honest answers are a scope cut or the next semester.</div></div>`;
+    const bbd=el("div",{class:"bd"});
+    let bt=`<table><thead><tr><th class="nosort">Project type</th><th class="num nosort">Typical span</th>${tg.map(t=>`<th class="nosort">${esc(t.label)}</th>`).join("")}</tr></thead><tbody>`;
+    lrows.forEach(r=>{
+      bt+=`<tr><td><b>${esc(r.label)}</b></td><td class="num">${fmtWk(r.weeks_p50)}</td>`;
+      tg.forEach(t=>{
+        const b=(r.by||{})[t.key];
+        if(!b){bt+=`<td class="muted">—</td>`;return;}
+        const col=b.verdict==="late"?"var(--red)":b.verdict==="tight"?"var(--amber)":"var(--green)";
+        const lab=b.verdict==="late"?"already late":b.verdict==="tight"?"start now":"start by "+dShort(b.start_by);
+        bt+=`<td><b style="color:${col}">${lab}</b><div class="muted small">safe: ${dShort(b.safe_by)}</div></td>`;
+      });
+      bt+=`</tr>`;
+    });
+    bt+=`</tbody></table>`;
+    bbd.innerHTML=bt;
+    bbd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},"“Already late” doesn't mean no — it means fewer modules, reused footage, or the next launch target. Use it to reset expectations in the first conversation, not the last one."));
+    bp.appendChild(bbd); c.appendChild(bp);
+  }
+
+  // ---- 3) capacity runway across the academic year ----
+  const wins=PM.windows||[];
   const av=PM.availability||{}, months=PM.avail_months||[];
   const vp=el("div",{class:"panel"});
-  vp.innerHTML=`<div class="hd"><h2>Team capacity free over the next months</h2><div class="desc">Remaining capacity (unallocated hours) per team over ${months.length?mlabFull(months[0])+" – "+mlabFull(months[months.length-1]):"the coming months"}, straight from the live Capacity Allocations sheet.${srcTag(CAP_URL,"capacity sheet")}</div></div>`;
+  vp.innerHTML=`<div class="hd"><h2>Capacity runway across the academic year</h2><div class="desc">Free (unallocated) hours from the live Capacity Allocations sheet, cut into the windows that actually shape ODL's year — semesters, breaks, and the sprint cohort — with what each window is good for.${srcTag(CAP_URL,"capacity sheet")}</div></div>`;
   const vbd=el("div",{class:"bd"});
+  if(wins.length){
+    const wrap=el("div",{style:"display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin-bottom:14px"});
+    wins.forEach(w=>{
+      const teams=Object.entries(w.free||{}).filter(([t])=>t!=="Intern");
+      const card=el("div",{style:"border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--bg)"});
+      card.innerHTML=`<div style="font-weight:700">${esc(w.label)}</div>
+        <div class="muted small">${dShort(w.start)} – ${dShort(w.end)} · ${w.weeks} wk</div>
+        <div style="font-size:16px;font-weight:700;margin:6px 0 2px">${fmtH(w.free_total)} free</div>
+        <div class="muted small">${teams.map(([t,v])=>`${esc(t)} ${fmtH(v)}`).join(" · ")||"—"}</div>
+        <ul class="small" style="margin:8px 0 0;padding-left:16px;color:var(--muted)">${(w.notes||[]).map(n=>`<li>${esc(n)}</li>`).join("")}</ul>`;
+      wrap.appendChild(card);
+    });
+    vbd.appendChild(wrap);
+  }
   const teams=Object.keys(av);
-  if(!teams.length)vbd.innerHTML=`<div class="muted">No forward capacity in the sheet yet.</div>`;
+  if(!teams.length)vbd.appendChild(el("div",{class:"muted"},"No forward capacity in the sheet yet."));
   else{
-    let vt=`<table><thead><tr><th class="nosort">Team</th>${months.map(m=>`<th class="num nosort">${mlab(m)}</th>`).join("")}<th class="num nosort">Total free</th></tr></thead><tbody>`;
+    const det=el("details");
+    det.innerHTML=`<summary class="muted small" style="cursor:pointer">Month-by-month free hours per team (next ${months.length} months)</summary>`;
+    let vt=`<table style="margin-top:8px"><thead><tr><th class="nosort">Team</th>${months.map(m=>`<th class="num nosort">${mlab(m)}</th>`).join("")}<th class="num nosort">Total free</th></tr></thead><tbody>`;
     let colTot={}; let grand=0;
     teams.forEach(t=>{
       vt+=`<tr><td><b>${esc(t)}</b></td>`;
@@ -28327,25 +28760,33 @@ function renderPlan(){
     });
     vt+=`<tr style="font-weight:700;border-top:2px solid var(--line)"><td>All teams</td>${months.map(m=>`<td class="num">${fmtH(colTot[m]||0)}</td>`).join("")}<td class="num">${fmtH(grand)}</td></tr>`;
     vt+=`</tbody></table>`;
-    vbd.innerHTML=vt;
-
-    // ---- 3) rough "how many fit" check ----
-    const check=el("div",{style:"margin-top:14px"});
-    check.innerHTML=`<div style="font-weight:600;font-size:12.5px;margin-bottom:6px">Rough capacity check</div>
-      <div class="editrow" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
-        <div><label>Project type</label><select id="planArch">${PM.archetypes.map(a=>`<option value="${esc(a.key)}">${esc(a.label)} (~${fmtH(a.p50)})</option>`).join("")}</select></div>
-        <div style="display:flex;align-items:flex-end"><div id="planFit" class="muted small"></div></div>
-      </div>
-      <div class="muted small" style="margin-top:6px">Approximate: total free team-hours ÷ the type's typical hours. It ignores which team each project leans on, so treat it as an upper bound — the per-team rows above show where the real constraint is.</div>`;
-    vbd.appendChild(check);
-    const fit=()=>{
-      const key=$("#planArch").value, a=PM.archetypes.find(x=>x.key===key);
-      const n=(a&&a.p50)?Math.floor(grand/a.p50):null;
-      $("#planFit").innerHTML=`≈ <b style="font-size:16px;color:var(--green)">${n==null?"—":n}</b> more <b>${esc(a?a.label:"")}</b> project${n===1?"":"s"} could fit in the free ${fmtH(grand)} across all teams.`;
-    };
-    setTimeout(()=>{const s=$("#planArch");if(s){s.onchange=fit;fit();}},0);
+    const tb=el("div",{html:vt}); det.appendChild(tb); vbd.appendChild(det);
+    vbd.appendChild(el("div",{class:"muted small",style:"margin-top:8px"},"Free hours are before reactive work — semester-start support, quick fixes, consults — so don't plan them to zero."));
   }
   vp.appendChild(vbd); c.appendChild(vp);
+
+  // ---- 4) cost & timeline reference per project type ----
+  const ap=el("div",{class:"panel"});
+  ap.innerHTML=`<div class="hd"><h2>What a project usually costs</h2><div class="desc">ODL-staff production hours and start-to-launch calendar spans per project type, calibrated from real completed projects (full lifecycle). Range = middle 50% (25th–75th percentile) where we have enough projects, otherwise the individual values. ${esc(PM.note||"")}</div></div>`;
+  const abd=el("div",{class:"bd"});
+  let at=`<table><thead><tr><th class="nosort">Size</th><th class="nosort">Project type</th><th class="num nosort">Typical hours</th><th class="num nosort">Usual range</th><th class="num nosort">Typical timeline</th><th class="num nosort">Projects</th><th class="nosort">Examples</th></tr></thead><tbody>`;
+  PM.archetypes.forEach(a=>{
+    const wk=a.weeks||{};
+    at+=`<tr><td>${esc(a.tier||"")}</td><td><b>${esc(a.label)}</b></td><td class="num">${fmtH(a.p50)}</td><td class="num">${archRange(a)}</td><td class="num">${fmtWk(wk.p50)}</td><td class="num">${a.n||a.n_examples||"—"}</td><td class="muted small">${esc((a.examples||[]).slice(0,3).join(", "))}${a.n_examples>3?", …":""}</td></tr>`;
+  });
+  at+=`</tbody></table>`;
+  abd.innerHTML=at;
+  abd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},"Small samples show individual project hours rather than an interpolated range (noted in the estimator's calibration). Faculty time is not included."));
+  ap.appendChild(abd); c.appendChild(ap);
+
+  // ---- 5) routing: sprints + the public faculty guide ----
+  const s=PM.sprints||{};
+  const fp=el("div",{class:"panel"});
+  fp.innerHTML=`<div class="hd"><h2>Where to route what — sprints &amp; the faculty guide</h2><div class="desc">Not every ask should enter the project pipeline; these two paths keep the pipeline for the right work.</div></div>`;
+  const fbd=el("div",{class:"bd"});
+  fbd.innerHTML=`<div class="insight"><div class="it">Sprint-sized idea? (1–3 months, exploratory)</div><div class="is">${esc(s.blurb||"")}</div><div class="ia"><b>→</b> <a class="src" href="${esc(s.url||"#")}" target="_blank" rel="noopener">ND Learning funding opportunities ↗</a></div></div>
+    <div class="insight"><div class="it">Faculty scoping their own project?</div><div class="is">The public Faculty Guide walks them through the same calibrated numbers this tab uses — phases, effort, timeline, and what's expected of them — before they ever submit an intake form. Sending it early makes the first consult a scoping conversation instead of an expectations reset.</div><div class="ia"><b>→</b> <a class="src" href="${esc(PM.guide_url||"#")}" target="_blank" rel="noopener">Open the Faculty Guide ↗</a></div></div>`;
+  fp.appendChild(fbd); c.appendChild(fp);
 }
 
 /* ===================================================================== */

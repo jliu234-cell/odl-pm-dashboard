@@ -21,7 +21,6 @@ on:
 
 permissions:
   contents: write              # to commit the refreshed data.json / index.html
-  actions: write               # to kick off the deploy-pages workflow after pushing
 
 concurrency:
   group: dashboard-refresh
@@ -29,9 +28,10 @@ concurrency:
 
 jobs:
   refresh:
-    # Only the live builder repo has the GDRIVE_SA_KEY secret; the
-    # ND-Learning/PMdashboard mirror hosts the public Pages site
-    # (see publish-pages.yml) and must not attempt the nightly rebuild.
+    # Only the live builder repo has the GDRIVE_SA_KEY secret and runs the
+    # nightly rebuild. Publishing is decoupled: ND-Learning/PMdashboard-site
+    # runs encrypt-and-publish on its own cron and fetches whatever this repo
+    # last built -- so this workflow just rebuilds, commits, and stops.
     if: github.repository == 'jliu234-cell/odl-pm-dashboard'
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -67,24 +67,15 @@ jobs:
         run: python3 build.py
 
       - name: Commit & push the refreshed dashboard
-        id: push
         run: |
           git config user.name  "odl-dashboard-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data.json index.html statuses.json
           if git diff --cached --quiet; then
-            echo "Nothing changed -- skipping commit + publish."
+            echo "Nothing changed -- skipping commit."
           else
             git commit -m "dashboard refresh $(date -u +%F)"
             git push
-            echo "published=true" >> "$GITHUB_OUTPUT"
           fi
-
-      # The push above is made with GITHUB_TOKEN, and GitHub will NOT auto-trigger
-      # deploy-pages from a GITHUB_TOKEN push (anti-recursion). So fire it explicitly
-      # -- workflow_dispatch IS allowed from GITHUB_TOKEN. Only when something changed.
-      - name: Publish the refreshed page to GitHub Pages
-        if: steps.push.outputs.published == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run pages.yml --ref main
+          # No publish step here: ND-Learning/PMdashboard-site's encrypt-and-publish
+          # cron picks up this commit and serves the StatiCrypt-encrypted page.

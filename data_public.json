@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-07-09T16:24:13",
+  "generated_at": "2026-07-09T23:55:40",
   "today": "2026-07-09",
   "point_hours": 32,
   "full_monthly_points": 4,
@@ -5690,7 +5690,7 @@
    "staffed_points": 0.0,
    "unstaffed_points": 0.0,
    "current_phase": null,
-   "active": false,
+   "active": true,
    "status_display": "In Progress",
    "task_est_hours": null,
    "budget_hours": null,
@@ -5699,62 +5699,12 @@
    "over_budget": false,
    "over_plan": false,
    "under_plan": false,
-   "status": null
-  },
-  {
-   "name": "Juntong's first project",
-   "asana": {
-    "gid": "1213885038281263",
-    "name": "Juntong's first project",
-    "archived": false,
-    "status": null,
-    "ndl_status": null,
-    "current_phase": null,
-    "project_type": null,
-    "est_size": null,
-    "actual_size": null,
-    "impact_tracker": null,
-    "post_status": null,
-    "owner": "\u2014",
-    "point_person": null,
-    "faculty": null,
-    "dept": null,
-    "start_on": "2026-06-10",
-    "due_on": "2026-07-08",
-    "created_at": "2026-03-30",
-    "last_completed": "2026-04-10T00:20:15.407000+00:00"
-   },
-   "est_size": null,
-   "actual_size": null,
-   "type": null,
-   "start": "2026-06",
-   "end": "2026-07",
-   "phases": [],
-   "roles": [],
-   "points_by_month": {},
-   "total_points": 0.0,
-   "planned_hours": null,
-   "first_month": "2026-06",
-   "last_month": "2026-07",
-   "plan_months": [],
-   "staffed_points": 0.0,
-   "unstaffed_points": 0.0,
-   "current_phase": null,
-   "active": true,
-   "status_display": "Unscheduled",
-   "task_est_hours": null,
-   "budget_hours": null,
-   "actual_hours": null,
-   "budget_pct": null,
-   "over_budget": false,
-   "over_plan": false,
-   "under_plan": false,
    "status": {
-    "date": "2026-06-10",
+    "date": "2026-05-11",
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 29 days (weekly cadence expected)"
+     "No status update in 59 days (weekly cadence expected)"
     ]
    }
   },
@@ -7969,13 +7919,13 @@
  "asana_only_projects": [],
  "plan_model": {
   "source": "estimator calibration.json",
-  "provenance": "data_all/time_entries.csv (2,378 entries, 2146.5h, 2024-08-19..2026-06-22, ODL staff time)",
+  "provenance": "data_all/time_entries.csv (2,405 entries, 2186.1h, 2024-07-10..2026-06-24, ODL staff time)",
   "archetypes": [
    {
     "key": "full_course",
     "label": "Full course (build)",
     "n": 14,
-    "p25": 27.8,
+    "p25": 28.8,
     "p50": 47.2,
     "p75": 77.9,
     "min": 15.7,
@@ -25057,7 +25007,8 @@
   "date_min": "2024-07-10",
   "date_max": "2026-06-24",
   "manual_count": 0,
-  "total_hours": 2186.4
+  "total_hours": 2186.4,
+  "source": "asana_time_entries"
  },
  "est_actual": {
   "projects": [
@@ -25254,6 +25205,20 @@
     "under": true,
     "has_budget": true,
     "has_planned": true,
+    "status": "In Progress",
+    "point_person": null
+   },
+   {
+    "name": "Media Studio Sessions",
+    "gid": "1213478777903328",
+    "planned_hours": null,
+    "task_est_hours": null,
+    "actual_hours": 9.25,
+    "pct": null,
+    "over": false,
+    "under": false,
+    "has_budget": false,
+    "has_planned": false,
     "status": "In Progress",
     "point_person": null
    },
@@ -25513,7 +25478,7 @@
   "n_active": 33,
   "n_with_budget": 32,
   "n_with_planned": 32,
-  "n_with_actual": 14,
+  "n_with_actual": 15,
   "n_both": 14,
   "n_over": 5,
   "method": {
@@ -25703,16 +25668,6 @@
     ]
    },
    {
-    "name": "Juntong's first project",
-    "gid": "1213885038281263",
-    "level": 3,
-    "date": "2026-06-10",
-    "reasons": [
-     "No status update in 29 days (weekly cadence expected)",
-     "Past its Asana due date (2026-07-08) and not marked Complete"
-    ]
-   },
-   {
     "name": "Radio Systems Course",
     "gid": "1209679644127773",
     "level": 3,
@@ -25761,10 +25716,19 @@
     "reasons": [
      "Over its planned hours \u2014 103h logged vs a 64h plan"
     ]
+   },
+   {
+    "name": "Media Studio Sessions",
+    "gid": "1213478777903328",
+    "level": 1,
+    "date": "2026-05-11",
+    "reasons": [
+     "No status update in 59 days (weekly cadence expected)"
+    ]
    }
   ],
   "n": 9,
-  "n_projects_with_updates": 93,
+  "n_projects_with_updates": 92,
   "available": true,
   "rules": [
    "Asana weekly status marked At risk / Off track / On hold.",
@@ -25858,28 +25822,6 @@
    "gid": "1212343204566399",
    "title": "Project at risk: ASCEND MCOB",
    "detail": "Past its Asana due date (2026-06-17) and not marked Complete \u00b7 Over its planned hours \u2014 93h logged vs a 33h plan (as of 2026-06-26)",
-   "metric": "flagged at risk",
-   "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
-   "doc_url": null,
-   "source": "auto",
-   "status": "Not Started",
-   "owner": "",
-   "target_month": "",
-   "notes": "",
-   "evidence_url": "",
-   "updated_at": "",
-   "updated_by": "",
-   "first_seen": "2026-07-09"
-  },
-  {
-   "id": "risk-1213885038281263",
-   "category": "post-project",
-   "severity": "high",
-   "scope_type": "project",
-   "scope": "Juntong's first project",
-   "gid": "1213885038281263",
-   "title": "Project at risk: Juntong's first project",
-   "detail": "No status update in 29 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-07-08) and not marked Complete (as of 2026-06-10)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": null,
@@ -26144,6 +26086,28 @@
    "gid": "1207760971753716",
    "title": "Project at risk: FCTA - Physics I",
    "detail": "No status update in 24 days (weekly cadence expected) \u00b7 Over its planned hours \u2014 40h logged vs a 32h plan (as of 2026-06-15)",
+   "metric": "flagged at risk",
+   "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
+   "doc_url": null,
+   "source": "auto",
+   "status": "Not Started",
+   "owner": "",
+   "target_month": "",
+   "notes": "",
+   "evidence_url": "",
+   "updated_at": "",
+   "updated_by": "",
+   "first_seen": "2026-07-09"
+  },
+  {
+   "id": "risk-1213478777903328",
+   "category": "post-project",
+   "severity": "medium",
+   "scope_type": "project",
+   "scope": "Media Studio Sessions",
+   "gid": "1213478777903328",
+   "title": "Project at risk: Media Studio Sessions",
+   "detail": "No status update in 59 days (weekly cadence expected) (as of 2026-05-11)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": null,

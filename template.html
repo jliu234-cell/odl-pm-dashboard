@@ -308,10 +308,16 @@ function asanaTaskUrl(gid){return gid?((SRC.asana_project_base||"https://app.asa
 // faculty / department rows come from the Impact Tracker TASK (that's where the
 // FSI lives), so link straight to that task; fall back to a project-name match.
 function asanaRowTag(row){if(!row)return "";return row.gid?srcTag(asanaTaskUrl(row.gid),"Asana"):asanaProjTag(row.project);}
-function top5Link(x){const t=(x.t+" "+x.s).toLowerCase();
+function top5Link(x){
+  // STANDING RULE: any Top-5 / brief item derived from intake tasks MUST carry its
+  // Asana link (director's rule) — intake candidates get the NDL board deep link
+  // (new tab), guarded for the public build where board_url may be stripped.
+  if(x&&x.kind==="intake"){const u=(D.intake&&D.intake.board_url)||NDL_BOARD_URL;return u?{href:u,label:"Open intake board"}:null;}
+  if(x&&x.kind==="timesheet")return {tab:"people",label:"See People"};
+  if(x&&(x.kind==="overbudget"||x.kind==="phase"))return {tab:"projects",label:"See Projects"};
+  const t=(x.t+" "+(x.s||"")).toLowerCase();
   if(/person is|people are|\bpeople\b/.test(t))return {tab:"people",label:"See People"};
   if(/recommendation/.test(t))return {tab:"recs",label:"See Recommendations"};
-  if(/intake/.test(t))return null;
   if(/capacity|headroom|full load/.test(t))return {tab:"capacity",label:"See Capacity"};
   return null;}
 let LIVE = false;
@@ -521,6 +527,21 @@ function intakeItems(){return ((D.intake&&D.intake.items)||[]).filter(x=>x&&x.na
 function briefActive(){return D.projects.filter(p=>p.active);}
 function addDays(iso,n){const d=new Date(iso+"T00:00:00");d.setDate(d.getDate()+n);  // local-field math (toISOString would shift a day east of UTC)
   const z=x=>String(x).padStart(2,"0");return d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate());}
+// whole days from ISO date a to ISO date b (positive when b is later); guarded caller-side
+function daysBetween(a,b){if(!a||!b)return null;return Math.round((new Date(b+"T00:00:00")-new Date(a+"T00:00:00"))/86400000);}
+// muted "Hours from Asana <source> through <date_max>" line + a lapse warning chip when
+// the log is >14d stale vs today. Guards every field so the public/redacted build is safe.
+function hoursSourceNote(){
+  const HL=D.hours_log||{};
+  if(!HL.date_max&&!HL.source)return "";
+  const srcLab=HL.source==="asana_timesheet"?"Timesheet report":HL.source==="asana_time_entries"?"time entries":"time tracking";
+  const dm=HL.date_max||"";
+  let html=`<div class="muted small" style="margin-top:6px">Hours from Asana ${esc(srcLab)}${dm?` through ${esc(dm)}`:""}.`;
+  const lag=dm?daysBetween(dm,TODAY):null;
+  if(dm&&lag!=null&&lag>14)
+    html+=` <span class="pill amber" style="white-space:normal;line-height:1.5">Asana time entry lapsed ${esc(dm)} — hours since then are missing; the dashboard will switch to the Asana Timesheet report automatically when logging resumes.</span>`;
+  return html+`</div>`;
+}
 function weekOf(iso){const d=new Date(iso+"T00:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));
   return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});}
 function briefPanel(title,desc){
@@ -655,10 +676,20 @@ function briefTop5(){
   // (Projects needing attention has its own section below — kept out of Top 5 so
   // the two don't duplicate. Top 5 stays at the portfolio level.)
   const intake=intakeItems();
-  if(intake.length)
-    cand.push({w:38,t:`${intake.length} new intake ${intake.length===1?"request":"requests"} awaiting a decision`,
-      s:intake.map(x=>x.name).slice(0,3).join("; ")+(intake.length>3?"…":""),
-      a:"Triage in this week's intake review."});
+  if(intake.length){
+    // STANDING RULE: any Top-5 / brief item built from intake tasks MUST carry its
+    // Asana deep link (director's rule). Link each task name; fall back to escaped
+    // plain text when the public build strips the url.
+    const oldest=intake.reduce((a,x)=>Math.max(a,x.age_days||0),0);
+    const namesHtml=intake.slice(0,3).map(x=>x.url
+      ?`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)} ↗</a>`
+      :esc(x.name)).join("; ")+(intake.length>3?` …+${intake.length-3} more`:"");
+    cand.push({kind:"intake",w:38,t:`${intake.length} new intake ${intake.length===1?"request":"requests"} awaiting a decision`,
+      s:intake.map(x=>x.name).slice(0,3).join("; ")+(intake.length>3?` …+${intake.length-3} more`:""),
+      sHtml:namesHtml,
+      links:intake.filter(x=>x.url).map(x=>({label:x.name,url:x.url})),
+      a:`Triage in this week's intake review${oldest?` — oldest has waited ${oldest}d`:""}.`});
+  }
   const openRecs=recs().filter(r=>r.status!=="Achieved"&&r.status!=="Dismissed");
   const highRecs=openRecs.filter(r=>r.severity==="high").length;
   if(highRecs)
@@ -672,14 +703,36 @@ function briefTop5(){
       a:"Protect QA and launch-review capacity for the run-up."});
   // ---- lower-weight portfolio facts: keep the brief a useful "Top 5" even on a calm week ----
   const ea=briefEstActual();
-  if(ea.n_over>0)
-    cand.push({w:34,t:`${ea.n_over} active project${ea.n_over>1?"s are":" is"} over its hour budget`,
-      s:`Logged time has passed the Asana hour estimate on ${ea.n_over} active project${ea.n_over>1?"s":""}.`,
-      a:"Re-check scope and re-estimate the remaining work."});
+  const overRows=(ea.rows||[]).filter(r=>r.over&&r.pct!=null).sort((a,b)=>b.pct-a.pct);
+  if(ea.n_over>0){
+    const top3=overRows.slice(0,3);
+    // link each offender to its Asana project (over-budget items are real projects)
+    const offHtml=top3.map(r=>{const lab=`${esc(r.name)} (${Math.round(r.pct*100)}%)`;
+      return r.gid?`<a href="${esc(asanaWsProjectUrl(r.gid))}" target="_blank" rel="noopener">${lab} ↗</a>`:lab;}).join("; ");
+    const offPlain=top3.map(r=>`${r.name} (${Math.round(r.pct*100)}%)`).join("; ");
+    const more=overRows.length>3?`, +${overRows.length-3} more`:"";
+    cand.push({kind:"overbudget",w:34,t:`${ea.n_over} active project${ea.n_over>1?"s are":" is"} over its hours budget`,
+      s:`Worst overruns: ${offPlain}${more}.`,
+      sHtml:`Worst overruns: ${offHtml}${more}.`,
+      links:overRows.filter(r=>r.gid).map(r=>({label:r.name,url:asanaWsProjectUrl(r.gid)})),
+      a:"Re-check scope and re-estimate the remaining work on these projects."});
+  }
   else if(ea.n_active&&ea.n_both<Math.max(3,Math.floor(ea.n_active/2)))
     cand.push({w:12,t:"Most active projects have no hour budget to track against",
       s:`Only ${ea.n_both} of ${ea.n_active} active projects have both an Asana hour estimate and logged time.`,
       a:"Add an Estimated time in Asana so budget-vs-actual becomes measurable."});
+  // active projects with no phase bucket — they fall out of the congestion view
+  const noPhase=briefActive().filter(p=>canonPhase(p.current_phase)==="Other / unspecified");
+  if(noPhase.length)
+    cand.push({kind:"phase",w:15,t:`${noPhase.length} active project${noPhase.length>1?"s have":" has"} no phase set in Asana`,
+      s:`Phase drives the congestion view — ${noPhase.length} active project${noPhase.length>1?"s aren't":" isn't"} counted in any pipeline stage yet.`,
+      a:"Set a current phase on each in Asana so pipeline load reads accurately."});
+  // hours-log freshness: a stale timesheet means capacity-vs-actual is unreliable
+  const HL=D.hours_log||{}, lag=HL.date_max?daysBetween(HL.date_max,TODAY):null;
+  if(lag!=null&&lag>14)
+    cand.push({kind:"timesheet",w:40,t:`No hours logged since ${HL.date_max} — Asana time entry lapsed`,
+      s:`It's been ${lag} days since the last logged hour, so recent capacity-vs-actual reads low because the data is missing, not because work stopped.`,
+      a:"Resume Asana time entry; the dashboard switches back to the Timesheet report automatically once logging restarts."});
   const rpv=briefRecsProgress();
   if(rpv.total&&rpv.achieved===0&&rpv.inprog===0)
     cand.push({w:24,t:`None of the ${rpv.total} tracked recommendations are underway yet`,
@@ -837,8 +890,13 @@ function briefAttentionView(c){
   const top=briefTop5();
   if(!top.length)P.bd.innerHTML=`<div class="muted">Nothing notable this week — capacity, recommendations and projects all look steady. 🎉</div>`;
   top.forEach((x,i)=>{const r=el("div",{class:"insight"});const lk=top5Link(x);
-    const lkHtml=lk?` <a class="src" href="#${lk.tab}" onclick="state.tab='${lk.tab}';render();return false;">${esc(lk.label)} →</a>`:"";
-    r.innerHTML=`<div class="it">${i+1}. ${esc(x.t)}</div><div class="is">${esc(x.s)}</div><div class="ia"><b>→ ${esc(x.a)}</b>${lkHtml}</div>`;
+    // external Asana deep link (new tab) vs internal tab jump; sHtml carries pre-escaped
+    // linked summaries (intake / over-budget), plain s is escaped as before.
+    let lkHtml="";
+    if(lk&&lk.href)lkHtml=` <a class="src" href="${esc(lk.href)}" target="_blank" rel="noopener">${esc(lk.label)} ↗</a>`;
+    else if(lk&&lk.tab)lkHtml=` <a class="src" href="#${esc(lk.tab)}" onclick="state.tab='${esc(lk.tab)}';render();return false;">${esc(lk.label)} →</a>`;
+    const sHtml=x.sHtml||esc(x.s);
+    r.innerHTML=`<div class="it">${i+1}. ${esc(x.t)}</div><div class="is">${sHtml}</div><div class="ia"><b>→ ${esc(x.a)}</b>${lkHtml}</div>`;
     P.bd.appendChild(r);});
   c.appendChild(P.panel);
   // Projects needing attention (cap 5, expandable)
@@ -882,17 +940,32 @@ function briefPortfolioView(c){
   // Phase congestion
   let P=briefPanel("Capacity & phase congestion","How many active projects sit in each phase, and which team it tends to tie up (mapped by ODL's standard workflow) — so you can see where work could pile up.");
   const rows=briefPhases();
-  const shown=rows.filter(r=>r.phase!=="Other / unspecified"), mx=Math.max(1,...shown.map(r=>r.n));
-  shown.forEach(r=>{const bar=el("div",{class:"phbar"});
-    bar.innerHTML=`<div class="pl">${esc(r.phase)}</div><div class="track"><div class="fill" style="width:${Math.round(r.n/mx*100)}%"></div></div><div class="pn"><b>${r.n}</b> · ${esc(r.team)}</div>`;
-    P.bd.appendChild(bar);});
-  const real=shown.filter(r=>!["On Hold","Maintenance"].includes(r.phase));
+  const N=briefActive().length;
+  P.bd.appendChild(el("div",{class:"muted small",style:"margin:0 0 8px",
+    html:`Counting all <b>${N}</b> active project${N===1?"":"s"} — a capacity plan, a recent status update, or marked In Progress in Asana.`}));
+  // include "Phase not set" (Other / unspecified) as a VISIBLE hatched bar so the bars
+  // sum to the full active universe, instead of dropping it to a footnote.
+  const shown=rows.slice(), mx=Math.max(1,...shown.map(r=>r.n));
+  const noPhaseNames=briefActive().filter(p=>canonPhase(p.current_phase)==="Other / unspecified").map(p=>p.name);
+  shown.forEach(r=>{const isUn=r.phase==="Other / unspecified";
+    const bar=el("div",{class:"phbar"});
+    const fillStyle=isUn
+      ? `width:${Math.round(r.n/mx*100)}%;background:repeating-linear-gradient(45deg,#c2c8d1,#c2c8d1 6px,#dfe3e9 6px,#dfe3e9 12px)`
+      : `width:${Math.round(r.n/mx*100)}%`;
+    bar.innerHTML=`<div class="pl">${isUn?"Phase not set":esc(r.phase)}</div><div class="track"><div class="fill" style="${fillStyle}"></div></div><div class="pn"><b>${r.n}</b> · ${isUn?"set a phase":esc(r.team)}</div>`;
+    if(isUn&&noPhaseNames.length){
+      bar.classList.add("clickable"); bar.title="Click to list the projects with no phase set";
+      const names=el("div",{class:"muted small hide",style:"margin:0 0 8px 12px"},noPhaseNames.map(esc).join(" · "));
+      bar.onclick=()=>names.classList.toggle("hide");
+      P.bd.appendChild(bar); P.bd.appendChild(names);
+    } else P.bd.appendChild(bar);});
+  const real=shown.filter(r=>!["On Hold","Maintenance","Other / unspecified"].includes(r.phase));
   if(real.length){const busiest=real.slice().sort((a,b)=>b.n-a.n)[0];
     P.bd.appendChild(el("div",{class:"note",html:busiest.n>=3
       ?`<b>${busiest.n} projects are in ${esc(busiest.phase)}</b> — watch ${esc(busiest.team)} for a bottleneck.`
       :`Work is spread fairly evenly across phases — no single team is obviously pinched right now.`}));}
   const other=rows.find(r=>r.phase==="Other / unspecified");
-  if(other)P.bd.appendChild(el("div",{class:"muted small",html:`${other.n} active projects have no clear phase recorded in Asana — setting a phase on those would sharpen this view.`}));
+  if(other)P.bd.appendChild(el("div",{class:"muted small",html:`${other.n} active project${other.n>1?"s have":" has"} no clear phase recorded in Asana — setting a phase on those would sharpen this view (click the “Phase not set” bar to see which).`}));
   c.appendChild(P.panel);
   // YTD
   const y=briefYTD();
@@ -928,6 +1001,7 @@ function briefPortfolioView(c){
   }
   const cover=`${ea.n_with_actual} of ${ea.n_active} active projects have any logged hours; timesheet data currently ends ${esc(ea.actuals_end||"—")}.`;
   P.bd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},cover));
+  {const hn=hoursSourceNote();if(hn){const w=el("div");w.innerHTML=hn;P.bd.appendChild(w.firstElementChild);}}
   if(ea.n_with_actual===0)
     P.bd.appendChild(el("div",{class:"note",html:`No active project has logged time yet — Asana time entry lapsed 6/24 and entries should resume now, so planned-vs-actual can't be measured until they do.`}));
   c.appendChild(P.panel);
@@ -942,6 +1016,7 @@ function briefPortfolioView(c){
     g3.appendChild(card("Logged last week",ts.last_week));
     g3.appendChild(card("Logged last 4 weeks",ts.last_4_weeks));
     P.bd.appendChild(g3);
+    {const hn=hoursSourceNote();if(hn){const w=el("div");w.innerHTML=hn;P.bd.appendChild(w.firstElementChild);}}
     const lw=ts.last_week||{}, l4=ts.last_4_weeks||{};
     P.bd.appendChild(el("div",{class:"muted small",style:"margin-top:6px",html:
       `<b>Logged last week (${lw.submitted?lw.submitted.length:0}/${ts.team.length}):</b> ${(lw.submitted&&lw.submitted.length)?lw.submitted.map(esc).join(", "):"nobody"}.`}));
@@ -1091,6 +1166,31 @@ function renderOverview(){
   cards.appendChild(kpi("People over capacity", overPeople, "this month", overPeople?"#cf3a3a":"#157a42"));
   cards.appendChild(kpi("Recommendations", open, "ways to improve our process", "#9a6206"));
   c.appendChild(cards);
+
+  // Projects needing action — the cockpit's working list: every active project with a
+  // reason a PM should look, each linked to its Asana project, sorted by badge count.
+  const overSet=new Set((briefEstActual().rows||[]).filter(r=>r.over).map(r=>r.name));
+  const acts=briefActive().map(pr=>{const a=pr.asana||{}, badges=[];
+    if(overSet.has(pr.name))badges.push(["over budget","red"]);
+    if(canonPhase(pr.current_phase)==="Other / unspecified")badges.push(["phase not set","gray"]);
+    // last weekly Asana update age — only when we actually have a date client-side
+    const su=pr.status, age=(su&&su.date)?daysBetween(su.date,TODAY):null;
+    if(age!=null&&age>21)badges.push([`no status update ${age}d`,"amber"]);
+    if((a.status||pr.status_display)==="On Hold")badges.push(["on hold","gray"]);
+    if((pr.unstaffed_points||0)>0)badges.push([`${round(pr.unstaffed_points,1)} pts unstaffed`,"amber"]);
+    return {pr,a,badges};}).filter(x=>x.badges.length);
+  acts.sort((x,y)=>y.badges.length-x.badges.length || x.pr.name.localeCompare(y.pr.name));
+  const na=el("div",{class:"panel"});
+  na.innerHTML=`<div class="hd"><h2>Projects needing action</h2><div class="desc">Active projects with something a PM should look at — over budget, missing phase, stale update, on hold, or unstaffed.</div><div class="spacer"></div><button class="btn ghost" onclick="state.tab='projects';render()">All projects →</button></div>`;
+  const nbd=el("div",{class:"bd"});
+  if(!acts.length)nbd.innerHTML=`<div class="muted">No active project is flagging over-budget, missing-phase, stale-update, on-hold or unstaffed right now. 🎉</div>`;
+  acts.slice(0,10).forEach(x=>{const gid=x.a.gid;
+    const nm=gid?`<a href="${esc(asanaWsProjectUrl(gid))}" target="_blank" rel="noopener">${esc(x.pr.name)} ↗</a>`:esc(x.pr.name);
+    const badges=x.badges.map(([l,cl])=>`<span class="pill ${cl}" style="font-size:9.5px">${esc(l)}</span>`).join(" ");
+    nbd.appendChild(el("div",{class:"winrow",html:`<div><b>${nm}</b> ${badges}</div>`}));});
+  if(acts.length>10)nbd.appendChild(el("div",{class:"muted small",style:"margin-top:6px",
+    html:`<a class="src" href="#projects" onclick="state.tab='projects';render();return false;">+${acts.length-10} more on the Projects tab →</a>`}));
+  na.appendChild(nbd); c.appendChild(na);
 
   // team heatmap
   c.appendChild(heatPanel("Team allocation by month", "Share of each team's capacity that is scheduled. Green = healthy, amber = tight, red = over.",
@@ -1714,7 +1814,7 @@ function renderFaculty(){
        <td class="num"><span class="pill ${r.fsi>=4.5?'green':r.fsi>=4.0?'amber':'red'}">${r.fsi}</span></td>
        <td class="num">${r.nps!=null&&r.nps!==''?r.nps:'—'}</td>
        <td>${esc(r.dept||'—')}</td><td>${esc(r.type||'—')}</td><td>${link}${asanaRowTag(r)}</td></tr>`;}).join("");
-    tp.appendChild(el("div",{class:"bd"},`<table class="wrap"><thead><tr><th class="nosort">Project</th><th class="num nosort">Faculty Satisfaction (/${f.scale})</th><th class="num nosort">NPS</th><th class="nosort">Department</th><th class="nosort">Type</th><th class="nosort">Reflection</th></tr></thead><tbody>${rows}</tbody></table>`));
+    tp.appendChild(el("div",{class:"bd"},`<details><summary style="cursor:pointer;font-weight:600;font-size:12.5px">Show all ${f.ratings.length} rated projects</summary><div style="margin-top:8px;overflow-x:auto"><table class="wrap"><thead><tr><th class="nosort">Project</th><th class="num nosort">Faculty Satisfaction (/${f.scale})</th><th class="num nosort">NPS</th><th class="nosort">Department</th><th class="nosort">Type</th><th class="nosort">Reflection</th></tr></thead><tbody>${rows}</tbody></table></div></details>`));
     c.appendChild(tp);
   }
 }
@@ -1727,8 +1827,8 @@ function renderDepartments(c){
   const bd=el("div",{class:"bd"});
   DD.forEach(d=>{
     const card=el("div",{class:"rec"});
-    const open=d.n>=4;
-    const fsiPill=d.avg_fsi!=null?`<span class="pill ${d.avg_fsi>=4.5?'green':d.avg_fsi>=4?'amber':'red'}" title="mean Faculty Satisfaction across rated projects">avg ${d.avg_fsi}</span>`:"";
+    const open=false;   // neat initial state — every department starts collapsed
+    const fsiPill=d.avg_fsi!=null?`<span class="pill ${d.avg_fsi>=4.5?'green':d.avg_fsi>=4?'amber':'red'}" title="mean Faculty Satisfaction across rated projects">avg ${d.avg_fsi}</span>`:'<span class="muted small">no FSI</span>';
     const src=d.context_source?` <a href="${esc(d.context_source)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Source: ${esc(d.context_source)}">ⓘ source</a>`:"";
     const official=(d.official_name&&d.official_name!==d.dept)?` <span class="muted">— ${esc(d.official_name)}</span>`:"";
     const projRows=d.projects.map(pr=>{
@@ -1738,9 +1838,11 @@ function renderDepartments(c){
       return `<tr><td><b>${esc(pr.project)}</b>${ndtag}</td><td class="muted">${esc(pr.faculty||'—')}</td><td>${esc(pr.type||'—')}</td><td class="num">${fp}</td><td><span class="pill gray">${esc(pr.status||'—')}</span></td><td>${link}${asanaRowTag(pr)}</td></tr>`;
     }).join("");
     card.innerHTML=`<div class="rhd"><span class="ico">🏛️</span>
-       <div style="flex:1"><div class="rtitle">${esc(d.dept)}${official}</div>
+       <div style="flex:1;min-width:0"><div class="rtitle">${esc(d.dept)}${official}</div>
          <div class="rmeta">${d.context?`<span>${esc(d.context)}</span>`:`<span class="muted">No description on file</span>`}${src}</div></div>
-       <span class="pill gray">${d.n} project${d.n>1?'s':''}</span> ${fsiPill}</div>
+       <div style="display:flex;gap:8px;align-items:center;justify-content:flex-end;flex:none">
+         <span class="pill gray" style="min-width:76px;text-align:center">${d.n} project${d.n>1?'s':''}</span>
+         <span style="min-width:60px;text-align:right">${fsiPill}</span></div></div>
      <div class="rbody">
        <table class="wrap"><thead><tr><th class="nosort">Project</th><th class="nosort">Faculty</th><th class="nosort">Type</th><th class="num nosort">FSI</th><th class="nosort">Status</th><th class="nosort">Reflection</th></tr></thead><tbody>${projRows}</tbody></table>
      </div>`;
@@ -1781,7 +1883,7 @@ function renderFacultyYears(c){
   const FYHEAD=`<tr><th class="nosort">Project</th><th class="nosort">Department</th><th class="nosort">Faculty</th><th class="nosort">Type</th><th class="num nosort">FSI</th><th class="nosort">Status</th><th class="nosort">When</th><th class="num nosort">Hours</th><th class="nosort">Reflection</th></tr>`;
   YY.forEach((y,i)=>{
     const card=el("div",{class:"rec"});
-    const open=i<2; // most-recent two open by default
+    const open=false; // neat initial state — every year starts collapsed
     const fsiPill=y.avg_fsi!=null?`<span class="pill ${y.avg_fsi>=4.5?'green':y.avg_fsi>=4?'amber':'red'}" title="mean Faculty Satisfaction across this year's rated projects">avg FSI ${y.avg_fsi}</span>`:"";
     const chips=Object.entries(y.dept_breakdown||{}).filter(([d])=>d!=="—").slice(0,8)
       .map(([d,n])=>`<span class="pill gray" style="font-size:9.5px">${esc(d)} ·${n}</span>`).join(" ");

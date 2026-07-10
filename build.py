@@ -280,31 +280,31 @@ def parse_impact_tracker():
     return tasks
 
 
-def parse_time_entries():
-    """Per-entry time log -> a compact, string-interned log the dashboard buckets
+def _load_hours_log(path, phase_col="canonical_phase"):
+    """Read one hours CSV into the compact, string-interned log the dashboard buckets
     into daily/weekly/biweekly/monthly views, grouped by person, project, or phase.
-    Source: Asana time-tracking (``data_all/time_entries.csv``, rebuilt nightly by
-    the estimator's asana_pull). The old workbook "Time Log" backup tab was never
-    rolled out and is dropped. Returns {} when there are no entries.
-
-    NB: the last Asana time entry anywhere is 2026-06-24 (Asana's entry feature
-    lapsed and was just restored), so recent windows read low — honestly."""
+    Each entry is ``[date, author_idx, project_idx, phase_idx, hours]`` — the only
+    columns any downstream consumer needs (actuals are matched by project *name*, and
+    compliance by *entry_author*). ``phase_col`` is the phase column name, since the
+    Asana Timesheet export calls it ``_phase`` rather than ``canonical_phase``.
+    Returns {} when the file is missing or has no usable rows (no "source" key —
+    the caller stamps that)."""
+    if not os.path.exists(path):
+        return {}
     people, projects, phases = {}, {}, {}        # value -> stable index
     def idx(d, v):
         v = (v or "").strip() or "—"
         return d.setdefault(v, len(d))
     entries = []
-    path = os.path.join(ASANA_DIR, "time_entries.csv")
-    if os.path.exists(path):
-        for r in csv.DictReader(open(path, encoding="utf-8")):
-            date = (r.get("entry_date") or "").strip()[:10]
-            hrs = as_num(r.get("hours"))
-            if len(date) != 10 or not hrs:       # need a real date + non-zero hours
-                continue
-            hrs = round(hrs, 2)
-            entries.append([date, idx(people, r.get("entry_author")),
-                            idx(projects, r.get("project_name")),
-                            idx(phases, r.get("canonical_phase")), hrs])
+    for r in csv.DictReader(open(path, encoding="utf-8")):
+        date = (r.get("entry_date") or "").strip()[:10]
+        hrs = as_num(r.get("hours"))
+        if len(date) != 10 or not hrs:       # need a real date + non-zero hours
+            continue
+        hrs = round(hrs, 2)
+        entries.append([date, idx(people, r.get("entry_author")),
+                        idx(projects, r.get("project_name")),
+                        idx(phases, r.get(phase_col)), hrs])
     if not entries:
         return {}
     entries.sort(key=lambda e: e[0])
@@ -313,6 +313,37 @@ def parse_time_entries():
             "entries": entries, "date_min": entries[0][0], "date_max": entries[-1][0],
             "manual_count": 0,
             "total_hours": round(sum(e[4] for e in entries), 1)}
+
+
+def parse_time_entries():
+    """Compact, string-interned hours log for the dashboard, from Asana time-tracking.
+
+    Two possible sources, whichever is FRESHER wins (later max entry_date; ties and a
+    missing/empty timesheet fall back to time_entries):
+      * ``time_entries.csv`` — per-project-page time entries (rebuilt nightly by the
+        estimator's asana_pull). The old workbook "Time Log" backup tab was never
+        rolled out and is dropped.
+      * the Asana sidebar "Timesheet" report export (``ODL_TIMESHEET_CSV`` env override,
+        else ``data_all/timesheet.csv``) — the director considers this more accurate
+        than the per-project-page entries, so it is preferred once it is at least as
+        fresh. Its phase column is ``_phase``; everything else lines up.
+
+    Stamps ``source`` = "asana_timesheet" | "asana_time_entries"; all other fields are
+    identical in shape regardless of source. Returns {} when neither source has entries.
+
+    NB: as of writing the last per-page entry is 2026-06-24 and the Timesheet export is
+    staler (2026-06-02), so time_entries still wins — recent windows read low, honestly."""
+    te = _load_hours_log(os.path.join(ASANA_DIR, "time_entries.csv"))
+    ts_path = os.environ.get("ODL_TIMESHEET_CSV") or os.path.join(ASANA_DIR, "timesheet.csv")
+    ts = _load_hours_log(ts_path, phase_col="_phase")
+    # prefer the Timesheet export only when strictly fresher; ties / missing -> time_entries.
+    if ts and ts.get("date_max", "") > te.get("date_max", ""):
+        ts["source"] = "asana_timesheet"
+        return ts
+    if not te:
+        return {}
+    te["source"] = "asana_time_entries"
+    return te
 
 
 def parse_faculty_ratings(impact):
@@ -859,8 +890,10 @@ def _new_project(name, asana, planrec):
 # --------------------------------------------------------------------------- #
 def enrich_projects(projects, updates, now, today):
     """active = the project is planned in the Capacity sheet in the current month or
-    any later month, OR (it's not archived in Asana AND has an Asana status update
-    in the last 30 days). Documented in a UI tooltip."""
+    any later month, OR (it's not archived in Asana AND EITHER it has an Asana status
+    update in the last 30 days OR its ODL Project Status is "In Progress"). The
+    In-Progress clause catches active projects whose PMs haven't posted a recent
+    status update. Documented in a UI tooltip."""
     try:
         cutoff = (datetime.date.fromisoformat(today) - datetime.timedelta(days=30)).isoformat()
     except Exception:
@@ -871,8 +904,9 @@ def enrich_projects(projects, updates, now, today):
         has_future_plan = any(m >= now for m in p.get("plan_months", []))
         ups = updates.get(gid) if gid else None
         recent_update = bool(ups and ups[0].get("date", "") >= cutoff)
-        p["active"] = bool(has_future_plan or ((not a.get("archived")) and recent_update))
         st = a.get("status")
+        in_progress = bool(st and st.strip().lower() == "in progress")
+        p["active"] = bool(has_future_plan or ((not a.get("archived")) and (recent_update or in_progress)))
         last, first = p.get("last_month"), p.get("first_month")
         if st:
             p["status_display"] = st

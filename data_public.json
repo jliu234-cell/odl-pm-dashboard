@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-07-10T14:25:59",
+  "generated_at": "2026-07-10T14:28:54",
   "today": "2026-07-10",
   "point_hours": 32,
   "full_monthly_points": 4,
@@ -8104,9 +8104,9 @@
   ],
   "point_hours": 32,
   "concurrency": {
-   "course_redesign": {
+   "xr_interactive": {
     "typical": 0,
-    "peak": 1,
+    "peak": 2,
     "now": 0,
     "open": 0
    },
@@ -8116,16 +8116,16 @@
     "now": 1,
     "open": 0
    },
+   "course_redesign": {
+    "typical": 0,
+    "peak": 1,
+    "now": 0,
+    "open": 0
+   },
    "video_series": {
     "typical": 1,
     "peak": 2,
     "now": 1,
-    "open": 0
-   },
-   "xr_interactive": {
-    "typical": 0,
-    "peak": 2,
-    "now": 0,
     "open": 0
    },
    "full_course": {

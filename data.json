@@ -9569,6 +9569,12 @@
     "now": 0,
     "open": 0
    },
+   "course_redesign": {
+    "typical": 0,
+    "peak": 1,
+    "now": 0,
+    "open": 0
+   },
    "single_video": {
     "typical": 1,
     "peak": 3,
@@ -40570,104 +40576,6 @@
     "key_considerations": [
      "In general, Prof. Myers seemed most engaged by and satisfied with the phases of the process that are more action and reflection/review focused\u2013that is, he prefers the give and take and the learning involved from engagement more so than the set up and explaining parts of the process. This is not an uncommon theme in the feedback provided by faculty partners. Perhaps there are ways for ODL to streamline or revamp our the parts of our intake, design, and pre-production processes in which we are soliciting insight and/or preparing the faculty for their more active parts in the process."
     ]
-   },
-   {
-    "project": "AI for the Notre Dame Community",
-    "report_title": "Retrospective Reflection Report_ AI for the ND Community with Survey",
-    "drive_url": "https://drive.google.com/file/d/1IefBq61lsJIDmB79t982R5gOaghVAkrk/view",
-    "date": "",
-    "key_considerations": [
-     "There were issues with Fusion and a variety of tech \"curveballs,\" including it being a Cloud project. It seemed as if we were \"pushing our technology to its limits.\"",
-     "We had a good timeline in the beginning but did not follow it (for reasons that were both within and not within our control). Exemplary project check",
-     "High quality video: overall production, narrative style, acting, satisfying SME without SME having to oversee details.",
-     "Canvas site and overall aesthetic design and integration.",
-     "Entire ODL team using its strengths on one project",
-     "(AI Transparency Statement) We need to prevent situations in which SMEs use AI in inappropriate ways (such as not checking information) or without our knowledge.",
-     "Having too many big projects at once creates risks, including work that is rushed and pressure on the team.",
-     "Hold ourselves accountable to the timelines just as we would SME/partners ______________________________________________________________________________ Faculty feedback scorecard Faculty Satisfaction Index: 4.9/5.0 Net Promoter Score: 95 Survey feedback:Roberto;Nathaniel Key Quotes/Testimonials: ODL Impact - Quotes, Testimonials"
-    ],
-    "auto": true
-   },
-   {
-    "project": "Sprint 2025: Bringing Korean to Life",
-    "report_title": "Retrospective Reflection Report_ Bringing Korean to Life",
-    "drive_url": "https://drive.google.com/file/d/1q9IjSg383v0JcaUjRioAtFSAlK3DW6SB/view",
-    "date": "",
-    "key_considerations": [
-     "While the project went smoothly, opportunities for enhancement were identified:",
-     "More support needed for interns -The question ofwhether we set our Min up for success was an ongoing theme. o More definition around documentation and process is needed o More time with other experienced team members would have helped o Need to look at what we ask of the interns during the summer - scope ask may be too big for a sprint",
-     "Learning Designers need to be familiar with new tools.From a learning perspective, designers should test out new tools and be proactive in collaborating with the media team in learning how the tools can be used in the classroom",
-     "Faculty members / Primary PI's need to be in person for any sprint project- ODL needs to be empowered to push back against any projects where the faculty member can't commit to the project needs Exemplary project check This would be a good candidate for an exemplary project.",
-     "Proper documentation and support for future interns",
-     "Continue pairing Canvas modules/courses with XR experiences for accessibility and educational enrichment ______________________________________________________________________________ Faculty feedback scorecard Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10likelihood to recommend ODL)"
-    ],
-    "auto": true
-   },
-   {
-    "project": "Sprint 2025: Visualizing Success Lab Prep",
-    "report_title": "Retrospective Summary Report_Lab Prep_with link",
-    "drive_url": "https://drive.google.com/file/d/1P2KFowiSXct339ZbeW7JixTiIbgvj3WA/view",
-    "date": "",
-    "key_considerations": [
-     "While the project went smoothly, opportunities for enhancement were identified:",
-     "More demo-facing editscould have enriched the videoseries in terms of creativity.",
-     "Additional preparation(rehearsal) would have supportedsmoother script delivery.",
-     "Expandingearly pre-production planningcould providemore flexibility and refinement.",
-     "Building on the Innovation Academy kickoff, anadditionalshort in-person session with the faculty a few weeks in could improve early coordination. Exemplary project check The Canvas site itself was not a significant outcome, but the video series was identified as a potential exemplar. Its concise, well-structured format and smooth production process provide a strong model for future lab-focused pro",
-     "Prioritize rehearsal time for facultyto strengthendelivery and reduce editing complexity.",
-     "Introduce amid-point alignment session earlyin thesprint to confirm scope and expectations.",
-     "Balancefaculty creativity with project scope - keepvideos concise but allow space for innovative filming approaches."
-    ],
-    "auto": true
-   },
-   {
-    "project": "MS-ACMS Faculty Videos",
-    "report_title": "Retrospective Summary Report_MS ACMS",
-    "drive_url": "https://drive.google.com/file/d/1Y1NLnhOY0emc2c6WQwyqnsS0oe9KJZVi/view",
-    "date": "",
-    "key_considerations": [
-     "The primary area for improvement identified was the use of Zoom interviews for remote faculty. While editing improved the overall presentation, the visual and audio quality of Zoom recordings differed noticeably from on-campus footage, leading to some inconsistency across the final video set. In addition, earlier and more proactive sharing of ODL's Zoom recording guidelines could have helped mitig",
-     "For future faculty video projects, especially those involving remote participants, the following considerations may improve outcomes:",
-     "Share Zoom recording guidelines and technical expectations earlier in the process.",
-     "Recommend or provide basic recording equipment for remote faculty when feasible.",
-     "Ensure consistent ODL oversight for all interviews to maintain visual and audio standards.",
-     "Continue leveraging informal, low-script production models for promotional or awareness- focused projects, where appropriate. _____________________________________________________________________________________ Faculty feedback scorecard Faculty Satisfaction Index: 5.0/5.0 Net Promoter Score: 100 (10/10 likelihood to recommend ODL)"
-    ],
-    "auto": true
-   },
-   {
-    "project": "Sprint 2025: Statistics Flipped Classroom",
-    "report_title": "Retrospective Summary Report_Stat Flipped Classroom_with link",
-    "drive_url": "https://drive.google.com/file/d/1lO-m-V18H5MRN2sptvuMpQncqdHb22IE/view",
-    "date": "",
-    "key_considerations": [
-     "The scale and timing of the project created significant challenges:",
-     "A large number of videosneeded to be filmed and editedundertight deadlines.",
-     "Sprintscheduling overlappedwith another major AI-relatedproject, straining media team capacity.",
-     "New minor requestsfor videos and interactive videoquestions occasionally cameafter deadlines, complicating planning.",
-     "Workload distribution- running multiple sprint projectssimultaneously led to concentrated pressure on both learning design and media teams.",
-     "Videos were delivered in large batches,overwhelmingthefaculty's review process. Exemplary project check The final Canvas redesign and video library could serve as an exemplar, showcasing what a large-scale flipped-classroom initiative can look like. However, the underlying workflow revealed pain points that should not be replicated. The project is best used as an example of what ODL can deliver un",
-     "Extend timelines for large flipped-classroom projectsto match the scope.",
-     "Stagger project sprints across ODL toavoid overlappingmedia and design workloads."
-    ],
-    "auto": true
-   },
-   {
-    "project": "Study Abroad Canvas Redesign",
-    "report_title": "Retrospective Summary Report_Study Abroad_with link",
-    "drive_url": "https://drive.google.com/file/d/1ShxzEuLBBc2WPzv4JHD3J-fgxdbed3pg/view",
-    "date": "",
-    "key_considerations": [
-     "While the final site was functional and polished, some challenges arose:",
-     "The number and type of videosneeded werenotconsistentlyclearfromthebeginning, creating confusion at times.",
-     "Bringing teammembersinto the projectmidstreammeantcontextwas sometimes missing.",
-     "In communication-focused projects, there is ariskof prioritizing aestheticsover student usability. Exemplary project check The Canvas site itself is exemplary, reflecting a strong balance of structure, accessibility, and design. However, the videos included with the site were not ODL-produced and therefore do not represent ODL's media standards. If showcased, the project should be framed as an exa",
-     "Clarify the scope earlyregarding media expectationsand deliverables.",
-     "Stagger onboardingso contributors join with fullcontext.",
-     "Keep usability centralwhen working on communication/resource-styleprojects.",
-     "Maintain visible progress updates(weekly check-insproved valuable here)."
-    ],
-    "auto": true
    }
   ],
   "themes": [

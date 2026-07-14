@@ -131,6 +131,12 @@ CAPSHEET_TEAM = {
     "Matthew Simmons": "Media", "Derrick Patrick": "Media",
     "Annie Conaghan": "PM", "Michael Lerma": "PM",
 }
+# People to hide from person-level views (leads whose project hours aren't
+# tracked). Team capacity totals are left intact. Per director feedback
+# 2026-07-14 — KC: "we don't put [hours] for him."
+PERSON_HIDE = {"kc frye", "kc"}
+def _hidden_person(nm):
+    return (nm or "").strip().lower() in PERSON_HIDE
 _MONTHS_FULL = {m.lower(): i for i, m in enumerate(
     ["", "January", "February", "March", "April", "May", "June", "July",
      "August", "September", "October", "November", "December"])}
@@ -1028,6 +1034,8 @@ def build_capacity_from_sheet(entries):
         estimated["Total"][m] = round(estimated["Total"].get(m, 0) + cap_pts, 4)
         if team in estimated:
             estimated[team][m] = round(estimated[team].get(m, 0) + cap_pts, 4)
+        if _hidden_person(e["person"]):     # keep team totals, drop the person row
+            continue
         p = per.setdefault(e["person"], {"team": team, "cap": {}, "alloc": {}, "projects": {}})
         p["cap"][m] = round(p["cap"].get(m, 0) + cap_pts, 4)
         p["alloc"][m] = round(p["alloc"].get(m, 0) + alloc_pts, 4)
@@ -1061,7 +1069,7 @@ def build_people_from_sheet(entries):
     only, in team order) — so the People tab reflects the current team exactly."""
     seen = {}
     for e in entries:
-        if e["generic"]:
+        if e["generic"] or _hidden_person(e["person"]):
             continue
         seen.setdefault(e["person"], e["team"])
     order = {t: i for i, t in enumerate(TEAM_ORDER)}
@@ -1853,6 +1861,30 @@ def _monthly_in_flight(arch_by_gid, updates, today):
             months_used)
 
 
+def _window_capacity_coverage(cap, start, end):
+    """How many named people have capacity entered in this window's months, vs the
+    roster size — so we can flag windows where the capacity sheet isn't fully filled
+    in (e.g. 2027) and avoid presenting a misleadingly low 'free hours' as a plan."""
+    persons = (cap.get("person") or {})
+    roster = len(persons)
+    if not roster:
+        return 0, 0
+    s = datetime.date.fromisoformat(start)
+    e = datetime.date.fromisoformat(end)
+    def _in(m):
+        y, mo = int(m[:4]), int(m[5:7])
+        return not (datetime.date(y, mo, _days_in_month(y, mo)) < s
+                    or datetime.date(y, mo, 1) > e)
+    wmonths = set()
+    for p in persons.values():
+        wmonths |= {m for m in (p.get("estimated") or {}) if _in(m)}
+    best = 0
+    for m in wmonths:
+        best = max(best, sum(1 for p in persons.values()
+                             if (p.get("estimated") or {}).get(m)))
+    return best, roster
+
+
 def build_plan_model(cap, months, now, projects=None, updates=None, today=None):
     """The Plan tab's data: (1) slot room per archetype — typical/peak in-flight
     load from 12 months of history vs what's running now; (2) book-by dates per
@@ -1946,10 +1978,13 @@ def build_plan_model(cap, months, now, projects=None, updates=None, today=None):
         free = _window_free_hours(cap, start, w["end"])
         weeks = round(((datetime.date.fromisoformat(w["end"])
                         - datetime.date.fromisoformat(start)).days + 1) / 7, 1)
+        cov, roster = _window_capacity_coverage(cap, start, w["end"])
         windows.append({"key": w["key"], "label": w["label"], "start": start,
                         "end": w["end"], "weeks": weeks, "notes": w["notes"],
                         "free": free,
-                        "free_total": round(sum(free.values()), 1)})
+                        "free_total": round(sum(free.values()), 1),
+                        "cap_people": cov, "roster_n": roster,
+                        "cap_complete": bool(roster and cov >= 0.6 * roster)})
 
     # current team availability = remaining capacity hours per team, next 6 months
     # (kept for the per-month detail table under the runway cards)

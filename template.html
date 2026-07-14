@@ -289,7 +289,9 @@ const PUB = !!(D && D._public);
 let MONTHS = D.meta.months;
 let PH = D.meta.point_hours, FULL = D.meta.full_monthly_points;
 let TODAY = D.meta.today, NOW = TODAY.slice(0,7);
-let SCOPES = D.capacity.scopes;
+// "Other" is hidden from the team views (director feedback 2026-07-14 — it's ~nothing);
+// its hours still roll into Total, so the totals are unchanged.
+let SCOPES = D.capacity.scopes.filter(s=>s!=="Other");
 // --- source links: every figure should point back to where it came from ---
 const SRC=(D.meta&&D.meta.sources)||{};
 const CAP_URL=SRC.capacity_sheet||"";
@@ -429,7 +431,7 @@ function applyData(newData){
   MONTHS = D.meta.months;
   PH = D.meta.point_hours; FULL = D.meta.full_monthly_points;
   TODAY = D.meta.today; NOW = TODAY.slice(0,7);
-  SCOPES = D.capacity.scopes;
+  SCOPES = D.capacity.scopes.filter(s=>s!=="Other");
   // the month list can only ever grow at the tail in practice; clamp the window
   // so saved indices stay in range after a refresh.
   state.from = clampIdx(state.from); state.to = clampIdx(state.to);
@@ -1746,7 +1748,7 @@ function openProject(p){
   let body=`<div class="kv">
     <div class="k">Status</div><div><span class="pill ${projStatusPill(p.status_display)}">${esc(p.status_display)}</span> ${a.current_phase?`· ${esc(a.current_phase)}`:""}</div>
     <div class="k">Type</div><div>${esc(p.type||a.project_type||"—")}</div>
-    <div class="k">Project size</div><div>${val(p.total_points)} ${unitLab()} <span class="muted">effort (1 pt = ${PH}h)</span>${p.unstaffed_points>0.05?` · <span class="pill amber">${val(p.unstaffed_points)} ${unitLab()} unstaffed</span>`:""}</div>
+    <div class="k">Project size</div><div>${val(p.total_points)} ${unitLab()} <span class="muted">effort (1 pt = ${PH}h)${p.asana&&a.gid?"":" · from the capacity plan (even-split estimate) — not matched to an Asana project, so no logged hours"}</span>${p.unstaffed_points>0.05?` · <span class="pill amber">${val(p.unstaffed_points)} ${unitLab()} unstaffed</span>`:""}</div>
     <div class="k">Window</div><div>${p.first_month?mlabFull(p.first_month):"—"} → ${p.last_month?mlabFull(p.last_month):"—"}</div>
     ${a.faculty?`<div class="k">Faculty</div><div>${esc(a.faculty)}</div>`:""}
     ${a.dept?`<div class="k">Department</div><div>${esc(a.dept)}</div>`:""}
@@ -2004,25 +2006,26 @@ function renderPlan(){
   }
   c.appendChild(el("div",{class:"note"},`ODL runs as a studio serving faculty: what limits intake is rarely raw hours — it's how many builds the team can hold <b>in flight at once</b>, and whether the calendar leaves enough <b>runway before a launch target</b>. This tab answers both from real completed projects. <span class="src">Source: ${esc(PM.source)}</span>`));
 
-  // ---- 1) slot room: how many more of each size, right now ----
+  // ---- 1) room to take on more — by capacity hours (director feedback 2026-07-14:
+  //      show a capacity→size picture from free hours, not raw in-flight counts) ----
   const conc=PM.concurrency||{};
+  const av0=PM.availability||{}, availTeams=Object.keys(av0).filter(t=>t!=="Intern");
+  const freeTotal=availTeams.reduce((s,t)=>s+(av0[t].total||0),0);
+  const nMon=(PM.avail_months||[]).length;
+  const un=PM.unclassified_active||{};
   const sp=el("div",{class:"panel"});
-  sp.innerHTML=`<div class="hd"><h2>Room to take on more — by project size</h2><div class="desc">"In flight" = projects of a type that showed work in a month (logged hours or a weekly status update), measured over the last 12 months. Room right now = the team's typical sustained load minus what's running today. This replaces the old free-hours ÷ median arithmetic, which implied absurd counts (hours aren't what runs out — attention is).</div></div>`;
+  sp.innerHTML=`<div class="hd"><h2>Room to take on more — by capacity hours</h2><div class="desc">Free (unallocated) staff-hours over the next ${nMon} months ÷ the calibrated effort per project size. "Running now" is what's actually in flight today, as a reality check.</div></div>`;
   const sbd=el("div",{class:"bd"});
-  let st=`<table><thead><tr><th class="nosort">Size</th><th class="nosort">Project type</th><th class="num nosort">Running now</th><th class="num nosort">Typical in flight</th><th class="num nosort">Peak sustained</th><th class="nosort">Room right now</th></tr></thead><tbody>`;
+  let st=`<div style="font-weight:600;margin-bottom:8px">Free staff-hours, next ${nMon} months: ≈ ${fmtH(freeTotal)}${availTeams.length?` <span class="muted">(${availTeams.map(t=>esc(t)+" "+fmtH(av0[t].total)).join(" · ")})</span>`:""}</div>`;
+  st+=`<table><thead><tr><th class="nosort">Size</th><th class="nosort">Project type</th><th class="num nosort">Typical effort</th><th class="num nosort">Running now</th><th class="num nosort">Fits in free hours*</th></tr></thead><tbody>`;
   PM.archetypes.forEach(a=>{
-    const k=conc[a.key]; if(!k||(k.typical==null&&!k.now)) return;
-    let room;
-    if(k.open==null) room=`<span class="muted">—</span>`;
-    else if(k.open>0) room=`<b style="color:var(--green)">≈ ${k.open} more</b>`;
-    else if(k.peak!=null&&k.now>=k.peak) room=`<b style="color:var(--red)">at the historic peak</b>`;
-    else room=`<b style="color:var(--amber)">at typical load — room opens when one closes</b>`;
-    st+=`<tr><td>${esc(a.tier||"")}</td><td><b>${esc(a.label)}</b></td><td class="num">${k.now}</td><td class="num">${k.typical==null?"—":k.typical}</td><td class="num">${k.peak==null?"—":k.peak}</td><td>${room}</td></tr>`;
+    const k=conc[a.key]||{};
+    const fits=(a.p50&&freeTotal)?Math.floor(freeTotal/a.p50):null;
+    st+=`<tr><td>${esc(a.tier||"")}</td><td><b>${esc(a.label)}</b></td><td class="num">${a.p50==null?"—":fmtH(a.p50)}</td><td class="num">${k.now==null?"—":k.now}</td><td class="num muted">${fits==null?"—":"≤ "+fits}</td></tr>`;
   });
   st+=`</tbody></table>`;
   sbd.innerHTML=st;
-  const un=PM.unclassified_active||{};
-  if(un.n)sbd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},`Plus ${un.n} active project${un.n>1?"s":""} too new to be type-classified yet (${esc((un.names||[]).slice(0,4).join(", "))}${un.n>4?", …":""}) — they occupy the same team attention, so read "room" as the optimistic end.`));
+  sbd.appendChild(el("div",{class:"note",style:"border-color:#e0cf9a;background:#fdf6e3;margin-top:10px"},`⚠ Read "fits" as a ceiling, not a plan. It spends all free hours on one size, ignores which team each project leans on, and — most important — logged staff-hours under-count real effort (PM time isn't fully logged${un.n?`, and ${un.n} active project${un.n>1?"s aren't":" isn't"} classified yet`:""}), so the counts run high. A real plan is a <b>mix</b> of sizes; the <b>Running now</b> column and the <b>Book-by dates</b> below are the trustworthy guide.`));
   sp.appendChild(sbd); c.appendChild(sp);
 
   // ---- 2) book-by dates against real semester launch targets ----
@@ -2053,17 +2056,19 @@ function renderPlan(){
   const wins=PM.windows||[];
   const av=PM.availability||{}, months=PM.avail_months||[];
   const vp=el("div",{class:"panel"});
-  vp.innerHTML=`<div class="hd"><h2>Capacity runway across the academic year</h2><div class="desc">Free (unallocated) hours from the live Capacity Allocations sheet, cut into the windows that actually shape ODL's year — semesters, breaks, and the sprint cohort — with what each window is good for.${srcTag(CAP_URL,"capacity sheet")}</div></div>`;
+  vp.innerHTML=`<div class="hd"><h2>Capacity runway across the academic year</h2><div class="desc">Free (unallocated) hours from the Capacity Allocations sheet, cut into the windows that shape ODL's year. Months where the sheet isn't fully filled in yet (few people entered — e.g. 2027) are flagged, because a low "free" there means missing data, not a busy team. Asana carries no forward per-person capacity, so this sheet is the only source.${srcTag(CAP_URL,"capacity sheet")}</div></div>`;
   const vbd=el("div",{class:"bd"});
   if(wins.length){
     const wrap=el("div",{style:"display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin-bottom:14px"});
     wins.forEach(w=>{
       const teams=Object.entries(w.free||{}).filter(([t])=>t!=="Intern");
-      const card=el("div",{style:"border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--bg)"});
+      const incomplete=w.cap_complete===false;
+      const card=el("div",{style:`border:1px solid ${incomplete?"#e0cf9a":"var(--line)"};border-radius:8px;padding:10px 12px;background:${incomplete?"#fdf6e3":"var(--bg)"}`});
       card.innerHTML=`<div style="font-weight:700">${esc(w.label)}</div>
         <div class="muted small">${dShort(w.start)} – ${dShort(w.end)} · ${w.weeks} wk</div>
         <div style="font-size:16px;font-weight:700;margin:6px 0 2px">${fmtH(w.free_total)} free</div>
         <div class="muted small">${teams.map(([t,v])=>`${esc(t)} ${fmtH(v)}`).join(" · ")||"—"}</div>
+        ${incomplete?`<div class="pill amber" style="margin-top:6px;display:inline-block">⚠ capacity only partly entered${w.roster_n?` — ${w.cap_people||0} of ${w.roster_n} people`:""}</div>`:""}
         <ul class="small" style="margin:8px 0 0;padding-left:16px;color:var(--muted)">${(w.notes||[]).map(n=>`<li>${esc(n)}</li>`).join("")}</ul>`;
       wrap.appendChild(card);
     });
@@ -2091,7 +2096,7 @@ function renderPlan(){
 
   // ---- 4) cost & timeline reference per project type ----
   const ap=el("div",{class:"panel"});
-  ap.innerHTML=`<div class="hd"><h2>What a project usually costs</h2><div class="desc">ODL-staff production hours and start-to-launch calendar spans per project type, calibrated from real completed projects (full lifecycle). Range = middle 50% (25th–75th percentile) where we have enough projects, otherwise the individual values. ${esc(PM.note||"")}</div></div>`;
+  ap.innerHTML=`<div class="hd"><h2>How long a typical project takes</h2><div class="desc">Start-to-launch calendar span and the ODL-staff effort (hours) per project type, calibrated from real completed projects (full lifecycle). Range = middle 50% (25th–75th percentile) where we have enough projects, otherwise the individual values. ${esc(PM.note||"")}</div></div>`;
   const abd=el("div",{class:"bd"});
   let at=`<table><thead><tr><th class="nosort">Size</th><th class="nosort">Project type</th><th class="num nosort">Typical hours</th><th class="num nosort">Usual range</th><th class="num nosort">Typical timeline</th><th class="num nosort">Projects</th><th class="nosort">Examples</th></tr></thead><tbody>`;
   PM.archetypes.forEach(a=>{
@@ -2102,15 +2107,6 @@ function renderPlan(){
   abd.innerHTML=at;
   abd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},"Small samples show individual project hours rather than an interpolated range (noted in the estimator's calibration). Faculty time is not included."));
   ap.appendChild(abd); c.appendChild(ap);
-
-  // ---- 5) routing: sprints + the public faculty guide ----
-  const s=PM.sprints||{};
-  const fp=el("div",{class:"panel"});
-  fp.innerHTML=`<div class="hd"><h2>Where to route what — sprints &amp; the faculty guide</h2><div class="desc">Not every ask should enter the project pipeline; these two paths keep the pipeline for the right work.</div></div>`;
-  const fbd=el("div",{class:"bd"});
-  fbd.innerHTML=`<div class="insight"><div class="it">Sprint-sized idea? (1–3 months, exploratory)</div><div class="is">${esc(s.blurb||"")}</div><div class="ia"><b>→</b> <a class="src" href="${esc(s.url||"#")}" target="_blank" rel="noopener">ND Learning funding opportunities ↗</a></div></div>
-    <div class="insight"><div class="it">Faculty scoping their own project?</div><div class="is">The public Faculty Guide walks them through the same calibrated numbers this tab uses — phases, effort, timeline, and what's expected of them — before they ever submit an intake form. Sending it early makes the first consult a scoping conversation instead of an expectations reset.</div><div class="ia"><b>→</b> <a class="src" href="${esc(PM.guide_url||"#")}" target="_blank" rel="noopener">Open the Faculty Guide ↗</a></div></div>`;
-  fp.appendChild(fbd); c.appendChild(fp);
 }
 
 /* ===================================================================== */

@@ -654,7 +654,7 @@ function estConsequence(r){
     return `Running ~${x}× its plan — if this keeps up it's crowding out ${r.point_person?esc(r.point_person)+"'s":"the team's"} other work or hiding overtime, and the next project starts later.`;
   }
   if(r.under&&r.actual_hours!=null)
-    return `Only ${Math.round((r.pct||0)*100)}% of plan logged — likely under-logged time rather than under-scoped (Asana time entry lapsed 6/24).`;
+    return `Only ${Math.round((r.pct||0)*100)}% of plan logged — the plan is a capacity-sheet even-split, so read this as under-logging or an over-generous plan, not necessarily under-work.`;
   return "";
 }
 
@@ -1034,7 +1034,7 @@ function briefPortfolioView(c){
   P.bd.appendChild(el("div",{class:"muted small",style:"margin-top:6px"},cover));
   {const hn=hoursSourceNote();if(hn){const w=el("div");w.innerHTML=hn;P.bd.appendChild(w.firstElementChild);}}
   if(ea.n_with_actual===0)
-    P.bd.appendChild(el("div",{class:"note",html:`No active project has logged time yet — Asana time entry lapsed 6/24 and entries should resume now, so planned-vs-actual can't be measured until they do.`}));
+    P.bd.appendChild(el("div",{class:"note",html:`No active project has logged time in the current snapshot yet, so planned-vs-actual can't be measured.`}));
   c.appendChild(P.panel);
   // Timesheet compliance — did people log time last week / last 4 weeks
   const ts=D.timesheet||{};
@@ -1069,7 +1069,7 @@ function briefPortfolioView(c){
       th+=`</tbody></table>`;
       const box=el("div",{style:"margin-top:6px;overflow:auto"});box.innerHTML=th;P.bd.appendChild(box);
     }
-    P.bd.appendChild(el("div",{class:"note",html:`Asana time entry lapsed 6/24–early July; entries should resume now, so recent hours read low until they do. Log ends ${esc(ts.data_max||"—")}. Zeros are real, not missing data.`}));
+    P.bd.appendChild(el("div",{class:"note",html:`Actual hours logged per person, pulled workspace-wide from Asana time-tracking. Log ends ${esc(ts.data_max||"—")}. Zeros are real (that person logged nothing that week), not missing data.`}));
   }
   c.appendChild(P.panel);
 }
@@ -1483,7 +1483,7 @@ function peopleLoggedPanel(){
   const rows=(ph.rows||[]).filter(r=>state.peopleTeam==="all"||r.team===state.peopleTeam);
   const months=ph.months||[];
   const p=el("div",{class:"panel"});
-  p.innerHTML=`<div class="hd"><h2>People — logged hours vs capacity</h2><div class="desc">Timesheet hours each person logged per month from ${months.length?mlabFull(months[0]):"2026-06"} onward, next to that month's capacity hours. From Asana time-tracking (which lapsed 6/24 and is resuming), so recent months read low.${srcTag(CAP_URL,"capacity sheet")}</div></div>`;
+  p.innerHTML=`<div class="hd"><h2>People — logged hours vs capacity</h2><div class="desc">Timesheet hours each person logged per month from ${months.length?mlabFull(months[0]):"2026-06"} onward, next to that month's capacity hours. Pulled workspace-wide from Asana time-tracking, so every person who logs time appears — not just those on the tasks we happened to fetch.${srcTag(CAP_URL,"capacity sheet")}</div></div>`;
   const bd=el("div",{class:"bd"});
   if(!rows.length||!months.length){bd.innerHTML=`<div class="muted">No logged hours from ${months.length?mlabFull(months[0]):"June 2026"} onward yet.</div>`;p.appendChild(bd);return p;}
   let th=`<table class="hm"><tr><td class="rowlab">Person</td>${months.map(m=>`<td class="mhdr">${mlab(m)}</td>`).join("")}<td class="mhdr">Total</td></tr>`;
@@ -1564,7 +1564,7 @@ function renderHoursLog(c){
   c.appendChild(el("h3",{style:"margin:22px 0 4px"},
     `⏱ Timesheet — hours people logged <span class="muted" style="font-weight:400;font-size:13px">· actual time spent</span>`));
   c.appendChild(el("div",{class:"note",style:"border-color:#cdd9ea;background:#eef4fc"},
-    `<b>Actual hours logged</b> — the real time spent, separate from the allocation plan above. Covers ${esc(HL.date_min)} → ${esc(HL.date_max)}, ${round(HL.total_hours,0)} h total. This flows from Asana time-tracking; entry lapsed 6/24–early July and should resume now, so recent weeks read low until it does.`));
+    `<b>Actual hours logged</b> — the real time spent, separate from the allocation plan above. Covers ${esc(HL.date_min)} → ${esc(HL.date_max)}, ${round(HL.total_hours,0)} h total. Pulled workspace-wide from Asana time-tracking, so every person's entries are captured.`));
   // ---- controls ----
   const bar=el("div",{class:"toolbar"});
   bar.appendChild(el("label",{},"Precision"));
@@ -1717,7 +1717,7 @@ function drawProjTable(){
   let list=filteredProjects();
   // "Size" here = the project's effort (points/hours). The qualitative T-shirt
   // size is intentionally not shown — that lives only in the Plan tab's staffing templates.
-  const get={name:p=>p.name.toLowerCase(),size:p=>p.total_points||0,
+  const get={name:p=>p.name.toLowerCase(),size:p=>p.size_h||0,
     status:p=>p.status_display,start:p=>p.first_month||"",end:p=>p.last_month||""};
   list.sort((a,b)=>{const g=get[s.k]||get.name;const x=g(a),y=g(b);return (x<y?-1:x>y?1:0)*s.dir;});
   $("#projCount").textContent=`${list.length} of ${D.projects.length}`;
@@ -1726,7 +1726,7 @@ function drawProjTable(){
   let rows="";
   list.forEach((p,i)=>{
     rows+=`<tr class="clickable" data-i="${i}"><td><b>${esc(p.name)}</b></td>
-      <td class="num" title="project effort (1 pt = 32h)">${val(p.total_points)} ${unitLab()}</td>
+      <td class="num" title="hours from Asana (logged, else estimated; blank = not scoped)">${p.size_h!=null?Math.round(p.size_h)+"h":'<span class="muted">—</span>'}</td>
       <td><span class="pill ${projStatusPill(p.status_display)}">${esc(p.status_display)}</span></td>
       <td>${p.first_month?mlab(p.first_month):"—"}</td><td>${p.last_month?mlab(p.last_month):"—"}</td>
       <td class="muted">${esc(p.current_phase||"—")}</td></tr>`;
@@ -1748,7 +1748,7 @@ function openProject(p){
   let body=`<div class="kv">
     <div class="k">Status</div><div><span class="pill ${projStatusPill(p.status_display)}">${esc(p.status_display)}</span> ${a.current_phase?`· ${esc(a.current_phase)}`:""}</div>
     <div class="k">Type</div><div>${esc(p.type||a.project_type||"—")}</div>
-    <div class="k">Project size</div><div>${val(p.total_points)} ${unitLab()} <span class="muted">effort (1 pt = ${PH}h)${p.asana&&a.gid?"":" · from the capacity plan (even-split estimate) — not matched to an Asana project, so no logged hours"}</span>${p.unstaffed_points>0.05?` · <span class="pill amber">${val(p.unstaffed_points)} ${unitLab()} unstaffed</span>`:""}</div>
+    <div class="k">Project size</div><div>${p.size_h!=null?`<b>${Math.round(p.size_h)} h</b> <span class="muted">— ${esc(p.size_src)}</span>`:`<span class="muted">— · ${esc(p.size_src||"not scoped")}</span>`}</div>
     <div class="k">Window</div><div>${p.first_month?mlabFull(p.first_month):"—"} → ${p.last_month?mlabFull(p.last_month):"—"}</div>
     ${a.faculty?`<div class="k">Faculty</div><div>${esc(a.faculty)}</div>`:""}
     ${a.dept?`<div class="k">Department</div><div>${esc(a.dept)}</div>`:""}

@@ -339,7 +339,14 @@ def parse_time_entries():
 
     NB: as of writing the last per-page entry is 2026-06-24 and the Timesheet export is
     staler (2026-06-02), so time_entries still wins — recent windows read low, honestly."""
-    te = _load_hours_log(os.path.join(ASANA_DIR, "time_entries.csv"))
+    # Prefer the workspace-wide timesheet (EVERY person's Asana time-tracking, pulled
+    # via the workspace endpoint by regen_timesheet.py in the estimator refresh) — the
+    # per-task time_entries.csv only captured whoever logged on tasks we fetched, so it
+    # missed most people. Fall back to the per-task file when the workspace one is absent.
+    te_path = os.path.join(ASANA_DIR, "timesheet_ws.csv")
+    if not os.path.exists(te_path):
+        te_path = os.path.join(ASANA_DIR, "time_entries.csv")
+    te = _load_hours_log(te_path)
     ts_path = os.environ.get("ODL_TIMESHEET_CSV") or os.path.join(ASANA_DIR, "timesheet.csv")
     ts = _load_hours_log(ts_path, phase_col="_phase")
     # prefer the Timesheet export only when strictly fresher; ties / missing -> time_entries.
@@ -731,6 +738,10 @@ def asana_record(r):
         "current_phase": g("cf::Current Phase") or g("cf::Progress"),
         "project_type": g("cf::Project Type") or g("cf::Type of Project"),
         "est_size": g("cf::Estimated T-Shirt Size"), "actual_size": g("cf::Actual T-Shirt Size"),
+        # real per-project hours straight from Asana (used for the displayed "project
+        # size" — NOT the capacity-sheet even-split). Durations like "336h 55m".
+        "actual_h": parse_asana_duration(g("cf::Actual time (total)")),
+        "est_h": parse_asana_duration(g("cf::Estimated time (total)")),
         "impact_tracker": g("cf::Impact Tracker Status"), "post_status": g("cf::Post-Project Status"),
         "owner": g("owner"), "point_person": g("cf::Project Point Person"),
         "faculty": g("cf::Faculty Members"),
@@ -869,12 +880,27 @@ def _new_project(name, asana, planrec):
                 for m, v in alloc.items():
                     points_by_month[m] = round(points_by_month.get(m, 0.0) + v, 4)
     total_points = round(planned_hours / PH, 3)
+    # ---- displayed "project size" = REAL Asana hours, with its source shown
+    # (director feedback 2026-07-14). Potential/unmatched projects with no Asana
+    # hours are NOT estimated (no capacity-sheet even-split fabricated as a size).
+    actual_h, est_h = a.get("actual_h"), a.get("est_h")
+    if a.get("gid") and actual_h:
+        size_h, size_src = round(actual_h, 1), "logged in Asana (time-tracking)"
+    elif a.get("gid") and est_h:
+        size_h, size_src = round(est_h, 1), "estimated in Asana"
+    elif a.get("gid"):
+        size_h, size_src = None, "no hours entered in Asana yet"
+    else:
+        size_h, size_src = None, "potential project — not scoped in Asana"
     ms = sorted(m for m in plan_months)
     first = ms[0] if ms else ((a.get("start_on") or "")[:7] or None)
     last = ms[-1] if ms else ((a.get("due_on") or "")[:7] or None)
     return {
         "name": name, "asana": a or None,
         "est_size": a.get("est_size"), "actual_size": a.get("actual_size"),
+        "size_h": size_h, "size_src": size_src,
+        "actual_h": (round(actual_h, 1) if actual_h else None),
+        "est_h": (round(est_h, 1) if est_h else None),
         "type": a.get("project_type"),
         "start": (a.get("start_on") or "")[:7] or first,
         "end": (a.get("due_on") or "")[:7] or last,
@@ -1126,9 +1152,9 @@ ESTIMATE_METHOD = {
                 "divide across their several projects that month."),
     "task_est": ("Task-level estimate (Asana) — a SECONDARY reference where present: "
                  "the sum of each project's tasks' 'Estimated time' in Asana."),
-    "actual": ("Actual = logged timesheet hours only (Asana time entries). Asana time "
-               "entry lapsed 2026-06-24 and has just been restored, so actuals are "
-               "sparse right now — read low numbers as under-logged, not as under-work."),
+    "actual": ("Actual = logged timesheet hours (Asana time-tracking, pulled "
+               "workspace-wide so every person's entries are captured, not just the "
+               "few on tasks we happened to fetch)."),
     "consequences_over": ("Over ~120% of plan → the work is crowding out a person's other "
                           "projects, hiding overtime, or pushing the next project's start "
                           "later."),

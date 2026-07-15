@@ -31,11 +31,11 @@ CAPACITY_NAME = "capacity_allocations.csv"
 
 
 def drive():
-    from google.oauth2 import service_account
-    from googleapiclient.discovery import build as gbuild
     key = os.environ.get("GDRIVE_SA_KEY")
     if not key:
-        sys.exit("ERROR: set GDRIVE_SA_KEY to the service-account JSON key.")
+        raise RuntimeError("GDRIVE_SA_KEY is not set")
+    from google.oauth2 import service_account
+    from googleapiclient.discovery import build as gbuild
     creds = service_account.Credentials.from_service_account_info(
         json.loads(key), scopes=["https://www.googleapis.com/auth/drive.readonly"])
     return gbuild("drive", "v3", credentials=creds)
@@ -85,8 +85,25 @@ def fetch_reflections(svc, out_dir):
 
 def main():
     out_dir = sys.argv[1] if len(sys.argv) > 1 else "_sources"
-    os.makedirs(out_dir, exist_ok=True)
-    svc = drive()
+    # Always leave the expected paths in place, so build.py resolves them even when
+    # the fetch is skipped: it reads live reflections from <out>/Reflection (an empty
+    # dir just means "no live reports" -- the committed reflection_*.json still power
+    # that panel) and capacity from the committed capacity_allocations.csv.
+    os.makedirs(os.path.join(out_dir, "Reflection"), exist_ok=True)
+
+    # Getting a Drive client is the one step that can't degrade in place, so a failure
+    # here (secret missing, rotated, or malformed JSON) must NOT hard-fail the nightly
+    # refresh -- the dashboard should still rebuild from the committed capacity CSV and
+    # curated reflections. Restore the GDRIVE_SA_KEY secret to resume the live pulls.
+    try:
+        svc = drive()
+    except Exception as e:
+        print(f"  WARNING: no Google Drive access ({e}); skipping the live fetch. "
+              f"build.py will use the committed capacity_allocations.csv and the "
+              f"curated reflection_*.json. Restore the GDRIVE_SA_KEY secret to refresh them.")
+        print("done.")
+        return
+
     try:
         fetch_capacity(svc, out_dir)
     except Exception as e:   # capacity CSV is committed; a fetch failure isn't fatal

@@ -64,7 +64,20 @@ jobs:
         env:
           ODL_ASANA_DIR: ${{ github.workspace }}/_estimator/data_all
           ODL_REFLECTION_DIR: ${{ github.workspace }}/_sources/Reflection
-        run: python3 build.py
+        run: |
+          # Build from the freshly-fetched Capacity Allocations sheet when the Drive
+          # pull succeeded (fetch_drive.py writes it to _sources/); otherwise leave
+          # ODL_CAPACITY_CSV unset so build.py falls back to the committed CSV. The
+          # raw sheet is used for the build but NOT committed -- only the already-
+          # committed data.json / index.html change (now carrying live capacity).
+          CAP="${{ github.workspace }}/_sources/capacity_allocations.csv"
+          if [ -s "$CAP" ]; then
+            echo "Building from the freshly-fetched capacity sheet ($(wc -c < "$CAP") bytes)."
+            export ODL_CAPACITY_CSV="$CAP"
+          else
+            echo "No fetched capacity sheet; using the committed capacity_allocations.csv."
+          fi
+          python3 build.py
 
       - name: Commit & push the refreshed dashboard
         run: |

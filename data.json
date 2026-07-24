@@ -1,7 +1,7 @@
 {
  "meta": {
-  "generated_at": "2026-07-23T15:16:00",
-  "today": "2026-07-23",
+  "generated_at": "2026-07-24T15:00:51",
+  "today": "2026-07-24",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -23,7 +23,7 @@
    "2027-06",
    "2027-07"
   ],
-  "asana_snapshot_date": "2026-07-23",
+  "asana_snapshot_date": "2026-07-24",
   "sources": {
    "capacity_sheet": "https://docs.google.com/spreadsheets/d/1YD9b8vLnglbA5pmFO6HsE-bvMq7wluHv1P1wY4FCujw/edit?gid=1025292964",
    "asana_project_base": "https://app.asana.com/0/",
@@ -1582,7 +1582,7 @@
     "est_size": "L",
     "actual_size": null,
     "actual_h": 336.92,
-    "est_h": 22.0,
+    "est_h": 24.0,
     "impact_tracker": "Outdated",
     "post_status": null,
     "owner": "Lawrence Greenspun",
@@ -1599,7 +1599,7 @@
    "size_h": 336.9,
    "size_src": "logged in Asana (time-tracking)",
    "actual_h": 336.9,
-   "est_h": 22.0,
+   "est_h": 24.0,
    "type": "New Course Design",
    "start": "2026-06",
    "end": "2026-07",
@@ -1748,7 +1748,7 @@
     "est_size": "L",
     "actual_size": null,
     "actual_h": 121.5,
-    "est_h": 22.0,
+    "est_h": 38.0,
     "impact_tracker": "Up to date",
     "post_status": null,
     "owner": "Annie Conaghan",
@@ -1765,7 +1765,7 @@
    "size_h": 121.5,
    "size_src": "logged in Asana (time-tracking)",
    "actual_h": 121.5,
-   "est_h": 22.0,
+   "est_h": 38.0,
    "type": "New Course Design",
    "start": "2026-06",
    "end": "2026-06",
@@ -2081,7 +2081,7 @@
     "project_type": null,
     "est_size": "M",
     "actual_size": null,
-    "actual_h": 25.75,
+    "actual_h": 26.75,
     "est_h": 82.0,
     "impact_tracker": "Up to date",
     "post_status": null,
@@ -2096,9 +2096,9 @@
    },
    "est_size": "M",
    "actual_size": null,
-   "size_h": 25.8,
+   "size_h": 26.8,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 25.8,
+   "actual_h": 26.8,
    "est_h": 82.0,
    "type": null,
    "start": "2026-06",
@@ -2497,7 +2497,7 @@
     "type": "complete",
     "level": 1,
     "reasons": [
-     "No status update in 38 days (weekly cadence expected)"
+     "No status update in 39 days (weekly cadence expected)"
     ],
     "snippet": "Status Update\n\n\n\n----------------------------------------\n\nNext Steps\n\n\n\n----------------------------------------",
     "author": "Michael Lerma"
@@ -2867,7 +2867,7 @@
     "project_type": null,
     "est_size": "XL",
     "actual_size": null,
-    "actual_h": 47.0,
+    "actual_h": 47.25,
     "est_h": 375.0,
     "impact_tracker": "Outdated",
     "post_status": null,
@@ -2882,9 +2882,9 @@
    },
    "est_size": "XL",
    "actual_size": null,
-   "size_h": 47.0,
+   "size_h": 47.2,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 47.0,
+   "actual_h": 47.2,
    "est_h": 375.0,
    "type": null,
    "start": "2026-06",
@@ -3658,7 +3658,7 @@
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 71 days (weekly cadence expected)"
+     "No status update in 72 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nThe faculty members let us know they can no longer film in May and would like to aim for August to film. Putting this on hold until then.\n\n----------------------------------------\n\nNext steps\n\n\n\n------------------------------------",
     "author": "Michael Lerma"
@@ -4274,7 +4274,7 @@
     "project_type": null,
     "est_size": null,
     "actual_size": null,
-    "actual_h": 26.5,
+    "actual_h": 27.0,
     "est_h": 87.0,
     "impact_tracker": "Up to date",
     "post_status": null,
@@ -4289,9 +4289,9 @@
    },
    "est_size": null,
    "actual_size": null,
-   "size_h": 26.5,
+   "size_h": 27.0,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 26.5,
+   "actual_h": 27.0,
    "est_h": 87.0,
    "type": null,
    "start": "2026-06",
@@ -4384,7 +4384,7 @@
     "est_size": "M",
     "actual_size": null,
     "actual_h": 51.75,
-    "est_h": 213.0,
+    "est_h": 216.0,
     "impact_tracker": "Up to date",
     "post_status": null,
     "owner": "Annie Conaghan",
@@ -4401,7 +4401,7 @@
    "size_h": 51.8,
    "size_src": "logged in Asana (time-tracking)",
    "actual_h": 51.8,
-   "est_h": 213.0,
+   "est_h": 216.0,
    "type": "New Course Design",
    "start": "2026-06",
    "end": "2026-11",
@@ -6657,7 +6657,7 @@
     "est_size": "L",
     "actual_size": null,
     "actual_h": 147.58,
-    "est_h": 9.0,
+    "est_h": 14.0,
     "impact_tracker": null,
     "post_status": null,
     "owner": "Annie Conaghan",
@@ -6674,7 +6674,7 @@
    "size_h": 147.6,
    "size_src": "logged in Asana (time-tracking)",
    "actual_h": 147.6,
-   "est_h": 9.0,
+   "est_h": 14.0,
    "type": "New Course Design",
    "start": null,
    "end": "2026-06",
@@ -7497,7 +7497,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 73 days (weekly cadence expected)"
+     "No status update in 74 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Derrick Patrick"
@@ -10333,11 +10333,11 @@
   ],
   "point_hours": 32,
   "concurrency": {
-   "video_series": {
-    "typical": 1,
-    "peak": 2,
-    "now": 1,
-    "open": 0
+   "full_course": {
+    "typical": 12,
+    "peak": 15,
+    "now": 11,
+    "open": 1
    },
    "xr_interactive": {
     "typical": 0,
@@ -10345,11 +10345,11 @@
     "now": 0,
     "open": 0
    },
-   "full_course": {
-    "typical": 12,
-    "peak": 15,
-    "now": 11,
-    "open": 1
+   "video_series": {
+    "typical": 1,
+    "peak": 2,
+    "now": 1,
+    "open": 0
    },
    "course_redesign": {
     "typical": 0,
@@ -10536,19 +10536,19 @@
    {
     "key": "runway",
     "label": "Now \u2192 Fall start",
-    "start": "2026-07-23",
+    "start": "2026-07-24",
     "end": "2026-08-23",
-    "weeks": 4.6,
+    "weeks": 4.4,
     "notes": [
      "Fall-semester asks land now \u2014 triage before classes start Aug 24",
      "2026 sprint-cohort builds wrap up over the summer"
     ],
     "free": {
-     "Design": 126.3,
-     "Media": 163.9,
-     "PM": 68.7
+     "Design": 123.0,
+     "Media": 160.4,
+     "PM": 66.3
     },
-    "free_total": 358.9,
+    "free_total": 349.7,
     "cap_people": 9,
     "roster_n": 9,
     "cap_complete": true
@@ -41741,6 +41741,13 @@
     4.0
    ],
    [
+    "2026-07-20",
+    4,
+    7,
+    0,
+    0.25
+   ],
+   [
     "2026-07-21",
     6,
     7,
@@ -41780,13 +41787,34 @@
     4,
     7,
     0,
+    1.5
+   ],
+   [
+    "2026-07-22",
+    4,
+    7,
+    0,
+    0.5
+   ],
+   [
+    "2026-07-22",
+    4,
+    7,
+    0,
     1.0
+   ],
+   [
+    "2026-07-22",
+    4,
+    7,
+    0,
+    1.25
    ]
   ],
   "date_min": "2024-07-10",
-  "date_max": "2026-07-21",
+  "date_max": "2026-07-22",
   "manual_count": 0,
-  "total_hours": 4765.8,
+  "total_hours": 4769.3,
   "source": "asana_time_entries"
  },
  "est_actual": {
@@ -42296,11 +42324,11 @@
    "consequences_under": "Under ~60% of plan with real activity \u2192 the plan was over-scoped, or (most likely right now) time is simply under-logged."
   },
   "over_ratio": 1.2,
-  "actuals_end": "2026-07-21",
+  "actuals_end": "2026-07-22",
   "point_hours": 32
  },
  "timesheet": {
-  "as_of": "2026-07-23",
+  "as_of": "2026-07-24",
   "team": [
    "Annie Conaghan",
    "Brianna Stines",
@@ -42312,29 +42340,29 @@
    "Michael Lerma",
    "Yi Lu"
   ],
-  "data_max": "2026-07-21",
+  "data_max": "2026-07-22",
   "last_week": {
-   "start": "2026-07-16",
-   "end": "2026-07-23",
+   "start": "2026-07-17",
+   "end": "2026-07-24",
    "days": 7,
    "submitted": [
     "Brianna Stines",
     "Colin Gallagher",
     "Derrick Patrick",
     "Kuangchen Hsu",
-    "Matthew Simmons",
-    "Michael Lerma",
-    "Yi Lu"
+    "Matthew Simmons"
    ],
    "missing": [
     "Annie Conaghan",
-    "Kevin DeCloedt"
+    "Kevin DeCloedt",
+    "Michael Lerma",
+    "Yi Lu"
    ],
-   "pct": 0.7778
+   "pct": 0.5556
   },
   "last_4_weeks": {
-   "start": "2026-06-25",
-   "end": "2026-07-23",
+   "start": "2026-06-26",
+   "end": "2026-07-24",
    "days": 28,
    "submitted": [
     "Annie Conaghan",
@@ -42362,9 +42390,9 @@
      "team": "Design",
      "by": {
       "2026-06": 80.33,
-      "2026-07": 53.58
+      "2026-07": 57.08
      },
-     "total": 133.9
+     "total": 137.4
     },
     {
      "name": "Kuangchen Hsu",
@@ -42469,12 +42497,12 @@
     "name": "Radio Systems Course",
     "gid": "1209679644127773",
     "level": 3,
-    "date": "2026-07-17",
+    "date": "2026-07-23",
     "reasons": [
      "Past its Asana due date (2025-12-31) and not marked Complete",
      "Over its planned hours \u2014 101h logged vs a 21h plan"
     ],
-    "snippet": "Summary\n\n    HW objectives drafted\n    Study Guide drafted\n    AI Policy drafted\n    Course build ongoing\n\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
+    "snippet": "Summary\n\n    Coursera build: On track for completion by Aug. 14 (QA planned for the week of Aug. 17)\n    Study guide: Complete\n    Homework LOs: Complete\n    We also discussed adding an AI Policy page to the Coursera Welcome module, in addi"
    },
    {
     "name": "Veterans College Math Readiness Course",
@@ -42513,7 +42541,7 @@
     "level": 2,
     "date": "2026-06-15",
     "reasons": [
-     "No status update in 38 days (weekly cadence expected)",
+     "No status update in 39 days (weekly cadence expected)",
      "Over its planned hours \u2014 42h logged vs a 32h plan"
     ],
     "snippet": "Status Update\n\n\n\n----------------------------------------\n\nNext Steps\n\n\n\n----------------------------------------"
@@ -42526,7 +42554,7 @@
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 71 days (weekly cadence expected)"
+     "No status update in 72 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nThe faculty members let us know they can no longer film in May and would like to aim for August to film. Putting this on hold until then.\n\n----------------------------------------\n\nNext steps\n\n\n\n------------------------------------"
    },
@@ -42536,7 +42564,7 @@
     "level": 1,
     "date": "2026-05-11",
     "reasons": [
-     "No status update in 73 days (weekly cadence expected)"
+     "No status update in 74 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
    }
@@ -42554,7 +42582,7 @@
  },
  "update_signals": {
   "available": true,
-  "as_of": "2026-07-23",
+  "as_of": "2026-07-24",
   "window_days": 90,
   "crossdept": [
    {
@@ -42614,20 +42642,29 @@
       "n": 3
      },
      {
-      "name": "Coursera",
-      "n": 2
-     },
-     {
-      "name": "Donut Dollars",
-      "n": 2
-     },
-     {
       "name": "Coursera Enrollment",
+      "n": 1
+     },
+     {
+      "name": "Coursera Welcome",
+      "n": 1
+     },
+     {
+      "name": "David Reed",
       "n": 1
      }
     ],
-    "upcoming": [],
-    "total": 12
+    "upcoming": [
+     {
+      "date": "2026-08-14",
+      "frag": "23 Summary Coursera build: On track for completion by Aug. 14 (QA planned for the week of Aug. 17) Study guide: Compl"
+     },
+     {
+      "date": "2026-08-17",
+      "frag": "track for completion by Aug. 14 (QA planned for the week of Aug. 17) Study guide: Complete Homework LOs: Complete W"
+     }
+    ],
+    "total": 10
    },
    {
     "gid": "1208335647365619",
@@ -42770,14 +42807,6 @@
   ],
   "hygiene": [
    {
-    "gid": "1209298164735103",
-    "name": "AI for the Notre Dame Community",
-    "issues": [
-     "~weekly cadence, but a 251-day silent gap (2025-10-07 \u2192 2026-06-15)",
-     "updates written by Michael Lerma while the Asana owner is Lawrence Greenspun"
-    ]
-   },
-   {
     "gid": "1207760971753716",
     "name": "FCTA - Physics I",
     "issues": [
@@ -42859,6 +42888,13 @@
     "issues": [
      "updates written by Brianna Stines while the Asana owner is Michael Lerma"
     ]
+   },
+   {
+    "gid": "1208335647365619",
+    "name": "Virtual Borders",
+    "issues": [
+     "updates written by Matthew Simmons while the Asana owner is Michael Lerma"
+    ]
    }
   ]
  },
@@ -42874,7 +42910,7 @@
    {
     "name": "I CAN HELP Module-Faculty",
     "section": "Received Requests - Triage Needed",
-    "age_days": 38,
+    "age_days": 39,
     "created": "2026-06-15",
     "assignee": "Michael Lerma",
     "gid": "1215738301661919",
@@ -42883,7 +42919,7 @@
    {
     "name": "Digital Learnin Suite for Talk With Your Baby Robinson Community Learning Center",
     "section": "Received Requests - Triage Needed",
-    "age_days": 35,
+    "age_days": 36,
     "created": "2026-06-18",
     "assignee": "Michael Lerma",
     "gid": "1215843918393342",
@@ -42892,7 +42928,7 @@
    {
     "name": "Personalize AI and Historical Simulation via AI",
     "section": "Received Requests - Triage Needed",
-    "age_days": 28,
+    "age_days": 29,
     "created": "2026-06-25",
     "assignee": "Michael Lerma",
     "gid": "1216050493626695",
@@ -48687,7 +48723,7 @@
    "scope": "Radio Systems Course",
    "gid": "1209679644127773",
    "title": "Project at risk: Radio Systems Course",
-   "detail": "Past its Asana due date (2025-12-31) and not marked Complete \u00b7 Over its planned hours \u2014 101h logged vs a 21h plan (as of 2026-07-17)",
+   "detail": "Past its Asana due date (2025-12-31) and not marked Complete \u00b7 Over its planned hours \u2014 101h logged vs a 21h plan (as of 2026-07-23)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1209679644127773",
@@ -48985,7 +49021,7 @@
    "scope": "FCTA - Physics I",
    "gid": "1207760971753716",
    "title": "Project at risk: FCTA - Physics I",
-   "detail": "No status update in 38 days (weekly cadence expected) \u00b7 Over its planned hours \u2014 42h logged vs a 32h plan (as of 2026-06-15)",
+   "detail": "No status update in 39 days (weekly cadence expected) \u00b7 Over its planned hours \u2014 42h logged vs a 32h plan (as of 2026-06-15)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1207760971753716",
@@ -49007,7 +49043,7 @@
    "scope": "Media Studio Sessions",
    "gid": "1213478777903328",
    "title": "Project at risk: Media Studio Sessions",
-   "detail": "No status update in 73 days (weekly cadence expected) (as of 2026-05-11)",
+   "detail": "No status update in 74 days (weekly cadence expected) (as of 2026-05-11)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1213478777903328",
@@ -49029,7 +49065,7 @@
    "scope": "Romance Languages video/podcast initiative",
    "gid": "1212660352662527",
    "title": "Project at risk: Romance Languages video/podcast initiative",
-   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 71 days (weekly cadence expected) (as of 2026-05-13)",
+   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 72 days (weekly cadence expected) (as of 2026-05-13)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1212660352662527",

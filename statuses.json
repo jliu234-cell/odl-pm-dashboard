@@ -307,7 +307,7 @@
  "person-over-matthew-simmons": {
   "status": "Not Started",
   "first_seen": "2026-07-08",
-  "_active": true
+  "_active": false
  },
  "unstaffed-design": {
   "status": "Not Started",
@@ -357,7 +357,7 @@
  "risk-1207760971753716": {
   "status": "Not Started",
   "first_seen": "2026-07-09",
-  "_active": true
+  "_active": false
  },
  "risk-1213885038281263": {
   "status": "Not Started",

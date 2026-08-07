@@ -397,7 +397,7 @@
  "risk-1211653962736510": {
   "status": "Not Started",
   "first_seen": "2026-07-27",
-  "_active": true
+  "_active": false
  },
  "risk-1212638028024693": {
   "status": "Not Started",

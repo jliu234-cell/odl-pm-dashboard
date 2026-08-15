@@ -1,7 +1,7 @@
 {
  "meta": {
-  "generated_at": "2026-08-14T14:17:44",
-  "today": "2026-08-14",
+  "generated_at": "2026-08-15T13:35:27",
+  "today": "2026-08-15",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -23,7 +23,7 @@
    "2027-06",
    "2027-07"
   ],
-  "asana_snapshot_date": "2026-08-14",
+  "asana_snapshot_date": "2026-08-15",
   "sources": {
    "capacity_sheet": "https://docs.google.com/spreadsheets/d/1YD9b8vLnglbA5pmFO6HsE-bvMq7wluHv1P1wY4FCujw/edit?gid=1025292964",
    "asana_project_base": "https://app.asana.com/0/",
@@ -2281,7 +2281,7 @@
     "est_size": "M",
     "actual_size": "M",
     "actual_h": 0.0,
-    "est_h": 12.0,
+    "est_h": 13.0,
     "impact_tracker": "Up to date",
     "post_status": null,
     "owner": "Michael Lerma",
@@ -2295,10 +2295,10 @@
    },
    "est_size": "M",
    "actual_size": "M",
-   "size_h": 12.0,
+   "size_h": 13.0,
    "size_src": "estimated in Asana",
    "actual_h": null,
-   "est_h": 12.0,
+   "est_h": 13.0,
    "type": "XR Project (VR, AR, MR)",
    "start": "2026-08",
    "end": "2026-08",
@@ -2367,7 +2367,7 @@
     "project_type": "Signature Project",
     "est_size": "XL",
     "actual_size": "XL",
-    "actual_h": 20.25,
+    "actual_h": 25.25,
     "est_h": 72.0,
     "impact_tracker": "Up to date",
     "post_status": null,
@@ -2382,9 +2382,9 @@
    },
    "est_size": "XL",
    "actual_size": "XL",
-   "size_h": 20.2,
+   "size_h": 25.2,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 20.2,
+   "actual_h": 25.2,
    "est_h": 72.0,
    "type": "Signature Project",
    "start": "2026-06",
@@ -2880,7 +2880,7 @@
     "project_type": "New Course Design",
     "est_size": "XL",
     "actual_size": "XL",
-    "actual_h": 103.25,
+    "actual_h": 124.75,
     "est_h": 375.0,
     "impact_tracker": "Outdated",
     "post_status": null,
@@ -2895,9 +2895,9 @@
    },
    "est_size": "XL",
    "actual_size": "XL",
-   "size_h": 103.2,
+   "size_h": 124.8,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 103.2,
+   "actual_h": 124.8,
    "est_h": 375.0,
    "type": "New Course Design",
    "start": "2026-06",
@@ -3523,7 +3523,7 @@
     "est_size": "L",
     "actual_size": null,
     "actual_h": 122.0,
-    "est_h": 16.0,
+    "est_h": 17.0,
     "impact_tracker": "Outdated",
     "post_status": null,
     "owner": "Lawrence Greenspun",
@@ -3540,7 +3540,7 @@
    "size_h": 122.0,
    "size_src": "logged in Asana (time-tracking)",
    "actual_h": 122.0,
-   "est_h": 16.0,
+   "est_h": 17.0,
    "type": "Research Project",
    "start": "2026-06",
    "end": "2025-12",
@@ -3671,7 +3671,7 @@
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 93 days (weekly cadence expected)"
+     "No status update in 94 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nThe faculty members let us know they can no longer film in May and would like to aim for August to film. Putting this on hold until then.\n\n----------------------------------------\n\nNext steps\n\n\n\n------------------------------------",
     "author": "Michael Lerma"
@@ -3689,8 +3689,8 @@
     "project_type": "New Course Design",
     "est_size": "M",
     "actual_size": null,
-    "actual_h": 95.75,
-    "est_h": 134.0,
+    "actual_h": 101.0,
+    "est_h": 135.0,
     "impact_tracker": null,
     "post_status": null,
     "owner": "Michael Lerma",
@@ -3704,10 +3704,10 @@
    },
    "est_size": "M",
    "actual_size": null,
-   "size_h": 95.8,
+   "size_h": 101.0,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 95.8,
-   "est_h": 134.0,
+   "actual_h": 101.0,
+   "est_h": 135.0,
    "type": "New Course Design",
    "start": "2026-04",
    "end": "2026-08",
@@ -3800,7 +3800,7 @@
     "project_type": "New Course Design",
     "est_size": "M",
     "actual_size": null,
-    "actual_h": 95.75,
+    "actual_h": 103.75,
     "est_h": 90.0,
     "impact_tracker": null,
     "post_status": null,
@@ -3815,9 +3815,9 @@
    },
    "est_size": "M",
    "actual_size": null,
-   "size_h": 95.8,
+   "size_h": 103.8,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 95.8,
+   "actual_h": 103.8,
    "est_h": 90.0,
    "type": "New Course Design",
    "start": "2026-08",
@@ -3887,7 +3887,7 @@
     "project_type": "New Course Design",
     "est_size": "M",
     "actual_size": "M",
-    "actual_h": 78.0,
+    "actual_h": 91.5,
     "est_h": 175.0,
     "impact_tracker": null,
     "post_status": null,
@@ -3902,9 +3902,9 @@
    },
    "est_size": "M",
    "actual_size": "M",
-   "size_h": 78.0,
+   "size_h": 91.5,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 78.0,
+   "actual_h": 91.5,
    "est_h": 175.0,
    "type": "New Course Design",
    "start": "2026-08",
@@ -3997,7 +3997,7 @@
     "project_type": "XR Project (VR, AR, MR)",
     "est_size": "M",
     "actual_size": null,
-    "actual_h": 351.0,
+    "actual_h": 393.5,
     "est_h": 131.0,
     "impact_tracker": "Outdated",
     "post_status": null,
@@ -4012,9 +4012,9 @@
    },
    "est_size": "M",
    "actual_size": null,
-   "size_h": 351.0,
+   "size_h": 393.5,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 351.0,
+   "actual_h": 393.5,
    "est_h": 131.0,
    "type": "XR Project (VR, AR, MR)",
    "start": "2026-08",
@@ -4165,7 +4165,7 @@
     "project_type": "New Course Design",
     "est_size": "M",
     "actual_size": "M",
-    "actual_h": 41.53,
+    "actual_h": 46.53,
     "est_h": 217.0,
     "impact_tracker": "Up to date",
     "post_status": null,
@@ -4180,9 +4180,9 @@
    },
    "est_size": "M",
    "actual_size": "M",
-   "size_h": 41.5,
+   "size_h": 46.5,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 41.5,
+   "actual_h": 46.5,
    "est_h": 217.0,
    "type": "New Course Design",
    "start": "2026-04",
@@ -4396,7 +4396,7 @@
     "project_type": "New Course Design",
     "est_size": "M",
     "actual_size": "M",
-    "actual_h": 70.5,
+    "actual_h": 79.5,
     "est_h": 216.0,
     "impact_tracker": "Up to date",
     "post_status": null,
@@ -4411,9 +4411,9 @@
    },
    "est_size": "M",
    "actual_size": "M",
-   "size_h": 70.5,
+   "size_h": 79.5,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 70.5,
+   "actual_h": 79.5,
    "est_h": 216.0,
    "type": "New Course Design",
    "start": "2026-06",
@@ -4492,8 +4492,8 @@
    "status_display": "In Progress",
    "task_est_hours": null,
    "budget_hours": 169.36,
-   "actual_hours": 37.25,
-   "budget_pct": 0.2199,
+   "actual_hours": 46.25,
+   "budget_pct": 0.2731,
    "over_budget": false,
    "over_plan": false,
    "under_plan": true,
@@ -5485,7 +5485,7 @@
     "start_on": null,
     "due_on": "2026-08-31",
     "created_at": "2024-09-18",
-    "last_completed": "2026-08-13T16:47:40.423000+00:00"
+    "last_completed": "2026-08-14T15:31:19.995000+00:00"
    },
    "est_size": "M",
    "actual_size": null,
@@ -7510,7 +7510,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 95 days (weekly cadence expected)"
+     "No status update in 96 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Derrick Patrick"
@@ -10105,7 +10105,7 @@
  "asana_only_projects": [],
  "plan_model": {
   "source": "estimator calibration.json",
-  "provenance": "data_all/time_entries.csv (3,343 entries, 2898.0h, 2024-07-10..2026-08-13, ODL staff time)",
+  "provenance": "data_all/time_entries.csv (3,345 entries, 2907.0h, 2024-07-10..2026-08-13, ODL staff time)",
   "archetypes": [
    {
     "key": "full_course",
@@ -10124,7 +10124,7 @@
      "p50": 32.3,
      "p75": 43.9,
      "min": 4.8,
-     "max": 94.3
+     "max": 94.5
     },
     "examples": [
      "AI for the Notre Dame Community",
@@ -10205,7 +10205,7 @@
     "values": [
      12.0,
      15.5,
-     37.2
+     46.2
     ],
     "note": "n<4 -- raw values shown; interpolated quartiles withheld",
     "weeks": {
@@ -10296,11 +10296,11 @@
     "now": 0,
     "open": 0
    },
-   "full_course": {
-    "typical": 12,
-    "peak": 15,
-    "now": 10,
-    "open": 2
+   "single_video": {
+    "typical": 1,
+    "peak": 3,
+    "now": 1,
+    "open": 0
    },
    "video_series": {
     "typical": 1,
@@ -10308,11 +10308,11 @@
     "now": 1,
     "open": 0
    },
-   "single_video": {
-    "typical": 1,
-    "peak": 3,
-    "now": 1,
-    "open": 0
+   "full_course": {
+    "typical": 12,
+    "peak": 15,
+    "now": 10,
+    "open": 2
    },
    "xr_interactive": {
     "typical": 0,
@@ -10493,19 +10493,19 @@
    {
     "key": "runway",
     "label": "Now \u2192 Fall start",
-    "start": "2026-08-14",
+    "start": "2026-08-15",
     "end": "2026-08-23",
-    "weeks": 1.4,
+    "weeks": 1.3,
     "notes": [
      "Fall-semester asks land now \u2014 triage before classes start Aug 24",
      "2026 sprint-cohort builds wrap up over the summer"
     ],
     "free": {
-     "Design": 42.3,
-     "Media": 57.8,
-     "PM": 20.8
+     "Design": 38.1,
+     "Media": 52.0,
+     "PM": 18.7
     },
-    "free_total": 120.9,
+    "free_total": 108.8,
     "cap_people": 9,
     "roster_n": 9,
     "cap_complete": true
@@ -43182,6 +43182,69 @@
     2.5
    ],
    [
+    "2026-08-10",
+    7,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-10",
+    7,
+    7,
+    0,
+    1.0
+   ],
+   [
+    "2026-08-10",
+    9,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-10",
+    3,
+    7,
+    0,
+    1.0
+   ],
+   [
+    "2026-08-10",
+    12,
+    7,
+    0,
+    1.5
+   ],
+   [
+    "2026-08-10",
+    12,
+    7,
+    0,
+    4.0
+   ],
+   [
+    "2026-08-10",
+    12,
+    7,
+    0,
+    1.5
+   ],
+   [
+    "2026-08-10",
+    8,
+    7,
+    0,
+    3.0
+   ],
+   [
+    "2026-08-10",
+    8,
+    7,
+    0,
+    2.0
+   ],
+   [
     "2026-08-11",
     4,
     7,
@@ -43217,6 +43280,76 @@
     0.5
    ],
    [
+    "2026-08-11",
+    7,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-11",
+    7,
+    7,
+    0,
+    1.5
+   ],
+   [
+    "2026-08-11",
+    3,
+    7,
+    0,
+    3.5
+   ],
+   [
+    "2026-08-11",
+    3,
+    7,
+    0,
+    1.0
+   ],
+   [
+    "2026-08-11",
+    12,
+    7,
+    0,
+    1.0
+   ],
+   [
+    "2026-08-11",
+    12,
+    7,
+    0,
+    3.5
+   ],
+   [
+    "2026-08-11",
+    12,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-11",
+    8,
+    7,
+    0,
+    3.0
+   ],
+   [
+    "2026-08-11",
+    8,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-11",
+    8,
+    7,
+    0,
+    2.0
+   ],
+   [
     "2026-08-12",
     4,
     7,
@@ -43226,6 +43359,104 @@
    [
     "2026-08-12",
     4,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-12",
+    7,
+    7,
+    0,
+    0.75
+   ],
+   [
+    "2026-08-12",
+    7,
+    7,
+    0,
+    1.0
+   ],
+   [
+    "2026-08-12",
+    7,
+    7,
+    0,
+    1.0
+   ],
+   [
+    "2026-08-12",
+    6,
+    67,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-12",
+    9,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-12",
+    9,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-12",
+    9,
+    7,
+    0,
+    1.0
+   ],
+   [
+    "2026-08-12",
+    3,
+    7,
+    0,
+    0.5
+   ],
+   [
+    "2026-08-12",
+    3,
+    7,
+    0,
+    1.0
+   ],
+   [
+    "2026-08-12",
+    3,
+    7,
+    0,
+    1.0
+   ],
+   [
+    "2026-08-12",
+    3,
+    7,
+    0,
+    2.5
+   ],
+   [
+    "2026-08-12",
+    12,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-12",
+    12,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-12",
+    8,
     7,
     0,
     2.0
@@ -43250,12 +43481,138 @@
     71,
     0,
     5.0
+   ],
+   [
+    "2026-08-13",
+    6,
+    67,
+    0,
+    7.0
+   ],
+   [
+    "2026-08-13",
+    9,
+    7,
+    0,
+    4.0
+   ],
+   [
+    "2026-08-13",
+    9,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-13",
+    3,
+    7,
+    0,
+    3.0
+   ],
+   [
+    "2026-08-13",
+    3,
+    7,
+    0,
+    1.0
+   ],
+   [
+    "2026-08-13",
+    3,
+    7,
+    0,
+    1.5
+   ],
+   [
+    "2026-08-13",
+    12,
+    7,
+    0,
+    1.5
+   ],
+   [
+    "2026-08-13",
+    12,
+    7,
+    0,
+    4.0
+   ],
+   [
+    "2026-08-13",
+    12,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-13",
+    8,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-13",
+    8,
+    7,
+    0,
+    1.0
+   ],
+   [
+    "2026-08-14",
+    7,
+    7,
+    0,
+    1.0
+   ],
+   [
+    "2026-08-14",
+    9,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-14",
+    3,
+    7,
+    0,
+    3.0
+   ],
+   [
+    "2026-08-14",
+    3,
+    7,
+    0,
+    3.0
+   ],
+   [
+    "2026-08-14",
+    12,
+    7,
+    0,
+    6.5
+   ],
+   [
+    "2026-08-14",
+    8,
+    7,
+    0,
+    5.0
+   ],
+   [
+    "2026-08-14",
+    8,
+    7,
+    0,
+    2.0
    ]
   ],
   "date_min": "2024-07-10",
-  "date_max": "2026-08-13",
+  "date_max": "2026-08-14",
   "manual_count": 0,
-  "total_hours": 5216.4,
+  "total_hours": 5328.2,
   "source": "asana_time_entries"
  },
  "est_actual": {
@@ -43363,8 +43720,8 @@
     "gid": "1212638027964018",
     "planned_hours": 169.4,
     "task_est_hours": null,
-    "actual_hours": 37.25,
-    "pct": 0.2199,
+    "actual_hours": 46.25,
+    "pct": 0.2731,
     "over": false,
     "under": true,
     "has_budget": true,
@@ -43751,11 +44108,11 @@
    "consequences_under": "Under ~60% of plan with real activity \u2192 the plan was over-scoped, or (most likely right now) time is simply under-logged."
   },
   "over_ratio": 1.2,
-  "actuals_end": "2026-08-13",
+  "actuals_end": "2026-08-14",
   "point_hours": 32
  },
  "timesheet": {
-  "as_of": "2026-08-14",
+  "as_of": "2026-08-15",
   "team": [
    "Annie Conaghan",
    "Brianna Stines",
@@ -43767,15 +44124,14 @@
    "Michael Lerma",
    "Yi Lu"
   ],
-  "data_max": "2026-08-13",
+  "data_max": "2026-08-14",
   "last_week": {
-   "start": "2026-08-07",
-   "end": "2026-08-14",
+   "start": "2026-08-08",
+   "end": "2026-08-15",
    "days": 7,
    "submitted": [
     "Brianna Stines",
     "Colin Gallagher",
-    "Derrick Patrick",
     "Kevin DeCloedt",
     "Kuangchen Hsu",
     "Matthew Simmons",
@@ -43783,13 +44139,14 @@
     "Yi Lu"
    ],
    "missing": [
-    "Annie Conaghan"
+    "Annie Conaghan",
+    "Derrick Patrick"
    ],
-   "pct": 0.8889
+   "pct": 0.7778
   },
   "last_4_weeks": {
-   "start": "2026-07-17",
-   "end": "2026-08-14",
+   "start": "2026-07-18",
+   "end": "2026-08-15",
    "days": 28,
    "submitted": [
     "Brianna Stines",
@@ -43830,9 +44187,9 @@
      "by": {
       "2026-06": 11.75,
       "2026-07": 30.75,
-      "2026-08": 10.75
+      "2026-08": 21.0
      },
-     "total": 53.2
+     "total": 63.5
     },
     {
      "name": "Yi Lu",
@@ -43840,9 +44197,9 @@
      "by": {
       "2026-06": 79.03,
       "2026-07": 49.0,
-      "2026-08": 22.0
+      "2026-08": 37.0
      },
-     "total": 150.0
+     "total": 165.0
     },
     {
      "name": "Colin Gallagher",
@@ -43850,9 +44207,9 @@
      "by": {
       "2026-06": 90.08,
       "2026-07": 90.0,
-      "2026-08": 14.0
+      "2026-08": 38.0
      },
-     "total": 194.1
+     "total": 218.1
     },
     {
      "name": "Derrick Patrick",
@@ -43870,9 +44227,9 @@
      "by": {
       "2026-06": 63.5,
       "2026-07": 69.75,
-      "2026-08": 19.75
+      "2026-08": 41.75
      },
-     "total": 153.0
+     "total": 175.0
     },
     {
      "name": "Matthew Simmons",
@@ -43880,9 +44237,9 @@
      "by": {
       "2026-06": 71.33,
       "2026-07": 58.75,
-      "2026-08": 11.75
+      "2026-08": 20.75
      },
-     "total": 141.8
+     "total": 150.8
     },
     {
      "name": "Annie Conaghan",
@@ -43935,12 +44292,12 @@
     "name": "Radio Systems Course",
     "gid": "1209679644127773",
     "level": 3,
-    "date": "2026-08-07",
+    "date": "2026-08-14",
     "reasons": [
      "Past its Asana due date (2025-12-31) and not marked Complete",
      "Over its planned hours \u2014 101h logged vs a 21h plan"
     ],
-    "snippet": "Summary\n\nContinued course build; plan to complete it by Aug. 14.\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
+    "snippet": "Summary\n\n    Julia has competed Coursera site build.\n        Nick needs to review the selected content and revise some figures.\n    QA will begin next week or the following week after Nick completes his review and updates.\n        Nick will"
    },
    {
     "name": "Veterans College Math Readiness Course",
@@ -43981,7 +44338,7 @@
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 93 days (weekly cadence expected)"
+     "No status update in 94 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nThe faculty members let us know they can no longer film in May and would like to aim for August to film. Putting this on hold until then.\n\n----------------------------------------\n\nNext steps\n\n\n\n------------------------------------"
    },
@@ -43991,7 +44348,7 @@
     "level": 1,
     "date": "2026-05-11",
     "reasons": [
-     "No status update in 95 days (weekly cadence expected)"
+     "No status update in 96 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
    }
@@ -44009,7 +44366,7 @@
  },
  "update_signals": {
   "available": true,
-  "as_of": "2026-08-14",
+  "as_of": "2026-08-15",
   "window_days": 90,
   "crossdept": [
    {
@@ -44065,6 +44422,10 @@
     "name": "Radio Systems Course",
     "externals": [
      {
+      "name": "Julia",
+      "n": 2
+     },
+     {
       "name": "Lawrence",
       "n": 2
      },
@@ -44075,35 +44436,10 @@
      {
       "name": "Coursera Welcome",
       "n": 1
-     },
-     {
-      "name": "Donut Dollars",
-      "n": 1
-     }
-    ],
-    "upcoming": [
-     {
-      "date": "2026-08-14",
-      "frag": "g 7 Summary Continued course build; plan to complete it by Aug. 14. ---------------------------------------- Next steps -"
-     }
-    ],
-    "total": 6
-   },
-   {
-    "gid": "1208335647365619",
-    "name": "Virtual Borders",
-    "externals": [
-     {
-      "name": "Carlos",
-      "n": 2
-     },
-     {
-      "name": "Jolie",
-      "n": 2
      }
     ],
     "upcoming": [],
-    "total": 4
+    "total": 8
    },
    {
     "gid": "1208255134985033",
@@ -44150,6 +44486,18 @@
     "total": 3
    },
    {
+    "gid": "1208335647365619",
+    "name": "Virtual Borders",
+    "externals": [
+     {
+      "name": "Carlos",
+      "n": 3
+     }
+    ],
+    "upcoming": [],
+    "total": 3
+   },
+   {
     "gid": "1209298164735103",
     "name": "AI for the Notre Dame Community",
     "externals": [
@@ -44170,9 +44518,9 @@
    {
     "gid": "1208031566113859",
     "name": "FCTA - Calculus I",
-    "streak": 88,
+    "streak": 89,
     "since": "2024-08-16",
-    "n": 88,
+    "n": 89,
     "gap_note": ""
    },
    {
@@ -44202,9 +44550,9 @@
    {
     "gid": "1208335647365619",
     "name": "Virtual Borders",
-    "streak": 42,
+    "streak": 43,
     "since": "2025-09-29",
-    "n": 75,
+    "n": 76,
     "gap_note": ""
    }
   ],
@@ -44314,7 +44662,7 @@
    {
     "name": "Personalize AI and Historical Simulation via AI",
     "section": "Received Requests - Triage Needed",
-    "age_days": 50,
+    "age_days": 51,
     "created": "2026-06-25",
     "assignee": "Michael Lerma",
     "gid": "1216050493626695",
@@ -44323,7 +44671,7 @@
    {
     "name": "Physical AI Simulations into a Mechanics II class",
     "section": "Received Requests - Triage Needed",
-    "age_days": 10,
+    "age_days": 11,
     "created": "2026-08-04",
     "assignee": "Michael Lerma",
     "gid": "1217163495978864",
@@ -44332,7 +44680,7 @@
    {
     "name": "I CAN HELP Module-Faculty",
     "section": "Under Review by Unit",
-    "age_days": 60,
+    "age_days": 61,
     "created": "2026-06-15",
     "assignee": "Michael Lerma",
     "gid": "1215738301661919",
@@ -44341,7 +44689,7 @@
    {
     "name": "Digital Learnin Suite for Talk With Your Baby Robinson Community Learning Center",
     "section": "Under Review by Unit",
-    "age_days": 57,
+    "age_days": 58,
     "created": "2026-06-18",
     "assignee": "Michael Lerma",
     "gid": "1215843918393342",
@@ -50332,7 +50680,7 @@
    "scope": "Radio Systems Course",
    "gid": "1209679644127773",
    "title": "Project at risk: Radio Systems Course",
-   "detail": "Past its Asana due date (2025-12-31) and not marked Complete \u00b7 Over its planned hours \u2014 101h logged vs a 21h plan (as of 2026-08-07)",
+   "detail": "Past its Asana due date (2025-12-31) and not marked Complete \u00b7 Over its planned hours \u2014 101h logged vs a 21h plan (as of 2026-08-14)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1209679644127773",
@@ -50609,7 +50957,7 @@
    "scope": "Media Studio Sessions",
    "gid": "1213478777903328",
    "title": "Project at risk: Media Studio Sessions",
-   "detail": "No status update in 95 days (weekly cadence expected) (as of 2026-05-11)",
+   "detail": "No status update in 96 days (weekly cadence expected) (as of 2026-05-11)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1213478777903328",
@@ -50631,7 +50979,7 @@
    "scope": "Romance Languages video/podcast initiative",
    "gid": "1212660352662527",
    "title": "Project at risk: Romance Languages video/podcast initiative",
-   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 93 days (weekly cadence expected) (as of 2026-05-13)",
+   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 94 days (weekly cadence expected) (as of 2026-05-13)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1212660352662527",

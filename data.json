@@ -1,7 +1,7 @@
 {
  "meta": {
-  "generated_at": "2026-08-29T17:03:19",
-  "today": "2026-08-29",
+  "generated_at": "2026-08-30T17:17:42",
+  "today": "2026-08-30",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -23,7 +23,7 @@
    "2027-06",
    "2027-07"
   ],
-  "asana_snapshot_date": "2026-08-29",
+  "asana_snapshot_date": "2026-08-30",
   "sources": {
    "capacity_sheet": "https://docs.google.com/spreadsheets/d/1YD9b8vLnglbA5pmFO6HsE-bvMq7wluHv1P1wY4FCujw/edit?gid=1025292964",
    "asana_project_base": "https://app.asana.com/0/",
@@ -3671,7 +3671,7 @@
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 108 days (weekly cadence expected)"
+     "No status update in 109 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nThe faculty members let us know they can no longer film in May and would like to aim for August to film. Putting this on hold until then.\n\n----------------------------------------\n\nNext steps\n\n\n\n------------------------------------",
     "author": "Michael Lerma"
@@ -4165,7 +4165,7 @@
     "project_type": "New Course Design",
     "est_size": "M",
     "actual_size": "M",
-    "actual_h": 66.03,
+    "actual_h": 75.53,
     "est_h": 218.0,
     "impact_tracker": "Up to date",
     "post_status": null,
@@ -4180,9 +4180,9 @@
    },
    "est_size": "M",
    "actual_size": "M",
-   "size_h": 66.0,
+   "size_h": 75.5,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 66.0,
+   "actual_h": 75.5,
    "est_h": 218.0,
    "type": "New Course Design",
    "start": "2026-04",
@@ -7519,7 +7519,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 110 days (weekly cadence expected)"
+     "No status update in 111 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Derrick Patrick"
@@ -10355,10 +10355,10 @@
   ],
   "point_hours": 32,
   "concurrency": {
-   "course_redesign": {
-    "typical": 0,
-    "peak": 1,
-    "now": 0,
+   "single_video": {
+    "typical": 1,
+    "peak": 3,
+    "now": 1,
     "open": 0
    },
    "full_course": {
@@ -10367,22 +10367,22 @@
     "now": 9,
     "open": 3
    },
+   "video_series": {
+    "typical": 1,
+    "peak": 2,
+    "now": 1,
+    "open": 0
+   },
    "xr_interactive": {
     "typical": 0,
     "peak": 2,
     "now": 0,
     "open": 0
    },
-   "single_video": {
-    "typical": 1,
-    "peak": 3,
-    "now": 1,
-    "open": 0
-   },
-   "video_series": {
-    "typical": 1,
-    "peak": 2,
-    "now": 1,
+   "course_redesign": {
+    "typical": 0,
+    "peak": 1,
+    "now": 0,
     "open": 0
    }
   },
@@ -10558,20 +10558,20 @@
    {
     "key": "fall26",
     "label": "Fall 2026 semester",
-    "start": "2026-08-29",
+    "start": "2026-08-30",
     "end": "2026-12-18",
-    "weeks": 16.0,
+    "weeks": 15.9,
     "notes": [
      "Classes Aug 24 \u2013 Dec 9 \u00b7 finals Dec 11\u201317",
      "First ~2 weeks: faculty-support surge \u2014 keep quick-turnaround room",
      "Best filming: Sep \u2013 early Nov (midterm break Oct 17\u201325, Thanksgiving Nov 25\u201329)"
     ],
     "free": {
-     "Design": 892.5,
-     "Media": 869.1,
-     "PM": 492.0
+     "Design": 888.2,
+     "Media": 863.3,
+     "PM": 489.9
     },
-    "free_total": 2253.6,
+    "free_total": 2241.4,
     "cap_people": 9,
     "roster_n": 9,
     "cap_complete": true
@@ -44774,6 +44774,34 @@
     2.0
    ],
    [
+    "2026-08-24",
+    9,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-24",
+    9,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-24",
+    9,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-08-24",
+    9,
+    7,
+    0,
+    2.0
+   ],
+   [
     "2026-08-25",
     4,
     7,
@@ -44828,6 +44856,20 @@
     7,
     0,
     3.25
+   ],
+   [
+    "2026-08-25",
+    9,
+    7,
+    0,
+    0.5
+   ],
+   [
+    "2026-08-25",
+    9,
+    7,
+    0,
+    1.0
    ],
    [
     "2026-08-26",
@@ -44966,7 +45008,7 @@
   "date_min": "2024-07-10",
   "date_max": "2026-08-28",
   "manual_count": 0,
-  "total_hours": 5628.8,
+  "total_hours": 5638.3,
   "source": "asana_time_entries"
  },
  "est_actual": {
@@ -45438,7 +45480,7 @@
   "point_hours": 32
  },
  "timesheet": {
-  "as_of": "2026-08-29",
+  "as_of": "2026-08-30",
   "team": [
    "Annie Conaghan",
    "Brianna Stines",
@@ -45452,27 +45494,27 @@
   ],
   "data_max": "2026-08-28",
   "last_week": {
-   "start": "2026-08-22",
-   "end": "2026-08-29",
+   "start": "2026-08-23",
+   "end": "2026-08-30",
    "days": 7,
    "submitted": [
     "Brianna Stines",
     "Colin Gallagher",
     "Kevin DeCloedt",
-    "Matthew Simmons"
+    "Matthew Simmons",
+    "Yi Lu"
    ],
    "missing": [
     "Annie Conaghan",
     "Derrick Patrick",
     "Kuangchen Hsu",
-    "Michael Lerma",
-    "Yi Lu"
+    "Michael Lerma"
    ],
-   "pct": 0.4444
+   "pct": 0.5556
   },
   "last_4_weeks": {
-   "start": "2026-08-01",
-   "end": "2026-08-29",
+   "start": "2026-08-02",
+   "end": "2026-08-30",
    "days": 28,
    "submitted": [
     "Annie Conaghan",
@@ -45522,9 +45564,9 @@
      "by": {
       "2026-06": 79.03,
       "2026-07": 49.0,
-      "2026-08": 61.75
+      "2026-08": 71.25
      },
-     "total": 189.8
+     "total": 199.3
     },
     {
      "name": "Colin Gallagher",
@@ -45654,7 +45696,7 @@
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 108 days (weekly cadence expected)"
+     "No status update in 109 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nThe faculty members let us know they can no longer film in May and would like to aim for August to film. Putting this on hold until then.\n\n----------------------------------------\n\nNext steps\n\n\n\n------------------------------------"
    },
@@ -45664,7 +45706,7 @@
     "level": 1,
     "date": "2026-05-11",
     "reasons": [
-     "No status update in 110 days (weekly cadence expected)"
+     "No status update in 111 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
    }
@@ -45682,7 +45724,7 @@
  },
  "update_signals": {
   "available": true,
-  "as_of": "2026-08-29",
+  "as_of": "2026-08-30",
   "window_days": 90,
   "crossdept": [
    {
@@ -45977,7 +46019,7 @@
    {
     "name": "Personalize AI and Historical Simulation via AI",
     "section": "Received Requests - Triage Needed",
-    "age_days": 65,
+    "age_days": 66,
     "created": "2026-06-25",
     "assignee": "Michael Lerma",
     "gid": "1216050493626695",
@@ -45986,7 +46028,7 @@
    {
     "name": "Physical AI Simulations into a Mechanics II class",
     "section": "Received Requests - Triage Needed",
-    "age_days": 25,
+    "age_days": 26,
     "created": "2026-08-04",
     "assignee": "Michael Lerma",
     "gid": "1217163495978864",
@@ -45995,7 +46037,7 @@
    {
     "name": "From Archive to Digital Edition",
     "section": "Received Requests - Triage Needed",
-    "age_days": 3,
+    "age_days": 4,
     "created": "2026-08-26",
     "assignee": "Nara Schmitt",
     "gid": "1217883561803066",
@@ -46004,7 +46046,7 @@
    {
     "name": "I CAN HELP Module-Faculty",
     "section": "Under Review by Unit",
-    "age_days": 75,
+    "age_days": 76,
     "created": "2026-06-15",
     "assignee": "Michael Lerma",
     "gid": "1215738301661919",
@@ -46013,7 +46055,7 @@
    {
     "name": "Digital Learnin Suite for Talk With Your Baby Robinson Community Learning Center",
     "section": "Under Review by Unit",
-    "age_days": 72,
+    "age_days": 73,
     "created": "2026-06-18",
     "assignee": "Michael Lerma",
     "gid": "1215843918393342",
@@ -46022,7 +46064,7 @@
    {
     "name": "i-Lab Portal per Cohort in Canvas",
     "section": "Under Review by Unit",
-    "age_days": 4,
+    "age_days": 5,
     "created": "2026-08-25",
     "assignee": "Michael Lerma",
     "gid": "1217834013007909",
@@ -52319,7 +52361,7 @@
    "scope": "Media Studio Sessions",
    "gid": "1213478777903328",
    "title": "Project at risk: Media Studio Sessions",
-   "detail": "No status update in 110 days (weekly cadence expected) (as of 2026-05-11)",
+   "detail": "No status update in 111 days (weekly cadence expected) (as of 2026-05-11)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1213478777903328",
@@ -52341,7 +52383,7 @@
    "scope": "Romance Languages video/podcast initiative",
    "gid": "1212660352662527",
    "title": "Project at risk: Romance Languages video/podcast initiative",
-   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 108 days (weekly cadence expected) (as of 2026-05-13)",
+   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 109 days (weekly cadence expected) (as of 2026-05-13)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1212660352662527",

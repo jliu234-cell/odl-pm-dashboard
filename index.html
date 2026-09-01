@@ -276,8 +276,8 @@
 <script>
 window.DATA = {
  "meta": {
-  "generated_at": "2026-08-31T19:28:06",
-  "today": "2026-08-31",
+  "generated_at": "2026-09-01T17:16:39",
+  "today": "2026-09-01",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -299,7 +299,7 @@ window.DATA = {
    "2027-06",
    "2027-07"
   ],
-  "asana_snapshot_date": "2026-08-31",
+  "asana_snapshot_date": "2026-09-01",
   "sources": {
    "capacity_sheet": "https://docs.google.com/spreadsheets/d/1YD9b8vLnglbA5pmFO6HsE-bvMq7wluHv1P1wY4FCujw/edit?gid=1025292964",
    "asana_project_base": "https://app.asana.com/0/",
@@ -1834,8 +1834,8 @@ window.DATA = {
    "staffed_points": 0.963,
    "unstaffed_points": 0.0,
    "current_phase": null,
-   "active": true,
-   "status_display": "Active (plan)",
+   "active": false,
+   "status_display": "Past",
    "task_est_hours": null,
    "budget_hours": 30.81,
    "actual_hours": null,
@@ -2078,7 +2078,16 @@ window.DATA = {
    "over_budget": true,
    "over_plan": true,
    "under_plan": false,
-   "status": null
+   "status": {
+    "date": "2026-08-10",
+    "type": "on_track",
+    "level": 1,
+    "reasons": [
+     "No status update in 22 days (weekly cadence expected)"
+    ],
+    "snippet": "Summary\n\n    Course wrap up; Juliette doing a great job at SOP!\n    Project Close\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
+    "author": "Annie Conaghan"
+   }
   },
   {
    "name": "Blackburn Videos",
@@ -3925,7 +3934,7 @@ window.DATA = {
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 110 days (weekly cadence expected)"
+     "No status update in 111 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nThe faculty members let us know they can no longer film in May and would like to aim for August to film. Putting this on hold until then.\n\n----------------------------------------\n\nNext steps\n\n\n\n------------------------------------",
     "author": "Michael Lerma"
@@ -4837,8 +4846,8 @@ window.DATA = {
    "staffed_points": 2.003,
    "unstaffed_points": 0.0,
    "current_phase": null,
-   "active": true,
-   "status_display": "Active (plan)",
+   "active": false,
+   "status_display": "Past",
    "task_est_hours": null,
    "budget_hours": 64.1,
    "actual_hours": 154.0,
@@ -7820,7 +7829,7 @@ window.DATA = {
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 112 days (weekly cadence expected)"
+     "No status update in 113 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Derrick Patrick"
@@ -10614,59 +10623,64 @@ window.DATA = {
   "availability": {
    "Design": {
     "by": {
-     "2026-08": 131.2,
      "2026-09": 238.4,
      "2026-10": 238.4,
      "2026-11": 223.2,
      "2026-12": 309.6,
-     "2027-01": 134.4
+     "2027-01": 134.4,
+     "2027-02": 128.0
     },
-    "total": 1275.2
+    "total": 1272.0
    },
    "Media": {
     "by": {
-     "2026-08": 179.3,
      "2026-09": 215.9,
      "2026-10": 227.9,
      "2026-11": 217.3,
      "2026-12": 328.3,
      "2027-01": 133.4
     },
-    "total": 1302.1
+    "total": 1122.8
    },
    "PM": {
     "by": {
-     "2026-08": 64.4,
      "2026-09": 133.1,
      "2026-10": 133.1,
      "2026-11": 132.4,
      "2026-12": 149.9,
-     "2027-01": 134.0
+     "2027-01": 134.0,
+     "2027-02": 127.6
     },
-    "total": 746.9
+    "total": 810.1
    }
   },
   "avail_months": [
-   "2026-08",
    "2026-09",
    "2026-10",
    "2026-11",
    "2026-12",
-   "2027-01"
+   "2027-01",
+   "2027-02"
   ],
   "point_hours": 32,
   "concurrency": {
-   "course_redesign": {
-    "typical": 0,
-    "peak": 1,
-    "now": 0,
-    "open": 0
-   },
    "video_series": {
     "typical": 1,
     "peak": 2,
     "now": 1,
     "open": 0
+   },
+   "full_course": {
+    "typical": 12,
+    "peak": 15,
+    "now": 9,
+    "open": 3
+   },
+   "course_redesign": {
+    "typical": null,
+    "peak": null,
+    "now": 0,
+    "open": null
    },
    "single_video": {
     "typical": 1,
@@ -10676,19 +10690,12 @@ window.DATA = {
    },
    "xr_interactive": {
     "typical": 0,
-    "peak": 2,
+    "peak": 1,
     "now": 0,
     "open": 0
-   },
-   "full_course": {
-    "typical": 12,
-    "peak": 15,
-    "now": 9,
-    "open": 3
    }
   },
   "concurrency_months": [
-   "2025-08",
    "2025-09",
    "2025-10",
    "2025-11",
@@ -10699,19 +10706,20 @@ window.DATA = {
    "2026-04",
    "2026-05",
    "2026-06",
-   "2026-07"
+   "2026-07",
+   "2026-08"
   ],
   "unclassified_active": {
-   "n": 18,
+   "n": 16,
    "names": [
-    "AI Academy Fall 2026",
     "AR Math Visualizer (Summer 2026 Pilot)",
     "Blackburn Videos",
     "COIL",
     "Calc II Remodel",
     "Flipped Classroom #1",
     "Flipped Classroom #2",
-    "Flipped Classroom #3"
+    "Flipped Classroom #3",
+    "LAITL"
    ]
   },
   "lead_times": {
@@ -10844,7 +10852,7 @@ window.DATA = {
       "spring27": {
        "start_by": "2026-09-21",
        "safe_by": "2026-08-10",
-       "verdict": "open"
+       "verdict": "tight"
       },
       "fall27": {
        "start_by": "2027-05-03",
@@ -10859,20 +10867,20 @@ window.DATA = {
    {
     "key": "fall26",
     "label": "Fall 2026 semester",
-    "start": "2026-08-31",
+    "start": "2026-09-01",
     "end": "2026-12-18",
-    "weeks": 15.7,
+    "weeks": 15.6,
     "notes": [
      "Classes Aug 24 \u2013 Dec 9 \u00b7 finals Dec 11\u201317",
      "First ~2 weeks: faculty-support surge \u2014 keep quick-turnaround room",
      "Best filming: Sep \u2013 early Nov (midterm break Oct 17\u201325, Thanksgiving Nov 25\u201329)"
     ],
     "free": {
-     "Design": 884.0,
-     "Media": 857.5,
-     "PM": 487.8
+     "Design": 879.8,
+     "Media": 851.8,
+     "PM": 485.7
     },
-    "free_total": 2229.3,
+    "free_total": 2217.3,
     "cap_people": 9,
     "roster_n": 9,
     "cap_complete": true
@@ -45442,20 +45450,6 @@ window.DATA = {
     "point_person": null
    },
    {
-    "name": "Virtual Borders",
-    "gid": "1207943893531837",
-    "planned_hours": 64.1,
-    "task_est_hours": null,
-    "actual_hours": 154.0,
-    "pct": 2.4025,
-    "over": true,
-    "under": false,
-    "has_budget": true,
-    "has_planned": true,
-    "status": "Active (plan)",
-    "point_person": null
-   },
-   {
     "name": "National Education Opportunities Network (NEON)",
     "gid": "1207942229848224",
     "planned_hours": 41.8,
@@ -45621,20 +45615,6 @@ window.DATA = {
     "has_budget": false,
     "has_planned": false,
     "status": "In Progress",
-    "point_person": null
-   },
-   {
-    "name": "AI Academy Fall 2026",
-    "gid": null,
-    "planned_hours": 30.8,
-    "task_est_hours": null,
-    "actual_hours": null,
-    "pct": null,
-    "over": false,
-    "under": false,
-    "has_budget": true,
-    "has_planned": true,
-    "status": "Active (plan)",
     "point_person": null
    },
    {
@@ -45862,12 +45842,12 @@ window.DATA = {
     "point_person": null
    }
   ],
-  "n_active": 34,
-  "n_with_budget": 29,
-  "n_with_planned": 29,
-  "n_with_actual": 15,
-  "n_both": 12,
-  "n_over": 3,
+  "n_active": 32,
+  "n_with_budget": 27,
+  "n_with_planned": 27,
+  "n_with_actual": 14,
+  "n_both": 11,
+  "n_over": 2,
   "method": {
    "planned": "Planned hours (Capacity Allocations) \u2014 the PRIMARY budget. For each person-month row on the Capacity sheet, that month's Allocated Hours are split EVENLY across the projects listed in that row, then summed per project across every month of the sheet. The even split is an assumption: the sheet doesn't record how a person's hours actually divide across their several projects that month.",
    "task_est": "Task-level estimate (Asana) \u2014 a SECONDARY reference where present: the sum of each project's tasks' 'Estimated time' in Asana.",
@@ -45880,7 +45860,7 @@ window.DATA = {
   "point_hours": 32
  },
  "timesheet": {
-  "as_of": "2026-08-31",
+  "as_of": "2026-09-01",
   "team": [
    "Annie Conaghan",
    "Brianna Stines",
@@ -45894,8 +45874,8 @@ window.DATA = {
   ],
   "data_max": "2026-08-31",
   "last_week": {
-   "start": "2026-08-24",
-   "end": "2026-08-31",
+   "start": "2026-08-25",
+   "end": "2026-09-01",
    "days": 7,
    "submitted": [
     "Annie Conaghan",
@@ -45913,8 +45893,8 @@ window.DATA = {
    "pct": 0.6667
   },
   "last_4_weeks": {
-   "start": "2026-08-03",
-   "end": "2026-08-31",
+   "start": "2026-08-04",
+   "end": "2026-09-01",
    "days": 28,
    "submitted": [
     "Annie Conaghan",
@@ -46050,6 +46030,7 @@ window.DATA = {
     "level": 3,
     "date": "2026-08-10",
     "reasons": [
+     "No status update in 22 days (weekly cadence expected)",
      "Past its Asana due date (2026-06-17) and not marked Complete",
      "Over its planned hours \u2014 93h logged vs a 33h plan"
     ],
@@ -46066,6 +46047,16 @@ window.DATA = {
     "snippet": "Summary\n\nWe're calling this one complete! We've gotten the all the videos in, finalized and delivered to Stephen. Great job Derrick!\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
    },
    {
+    "name": "Designing to Communicate: Strengthening Communication in Engineering Through Real-World Sustainability Contexts",
+    "gid": "1212660351308233",
+    "level": 3,
+    "date": "2026-08-31",
+    "reasons": [
+     "Past its Asana due date (2026-08-31) and not marked Complete"
+    ],
+    "snippet": "Summary\n\nWe met with Ming last week but unfortunately it wasn't in person. We weren't able to fully have a working session with her but we did show her Ovation and what it looked like and how easy it is to use. We are meeting with her this "
+   },
+   {
     "name": "Radio Systems Course",
     "gid": "1209679644127773",
     "level": 3,
@@ -46075,6 +46066,46 @@ window.DATA = {
      "Over its planned hours \u2014 101h logged vs a 21h plan"
     ],
     "snippet": "Summary\n\n    Implemented the first grad student\u2019s QA feedback; waiting for the second review.\n    Extending meetings a few weeks to wrap up; course launch planned for September.\n\nNext steps\n\n\n\n----------------------------------------"
+   },
+   {
+    "name": "Sprint - Free-Body Diagram Visualization and Mastery",
+    "gid": "1214783923511442",
+    "level": 3,
+    "date": "2026-08-31",
+    "reasons": [
+     "Past its Asana due date (2026-08-31) and not marked Complete"
+    ],
+    "snippet": "Summary\n\nNo new updates\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
+   },
+   {
+    "name": "Sprint - Lost in Transliteration",
+    "gid": "1215176396318246",
+    "level": 3,
+    "date": "2026-08-31",
+    "reasons": [
+     "Past its Asana due date (2026-08-31) and not marked Complete"
+    ],
+    "snippet": "Summary\n\n    Project Handover was last week; few final tweaks for Yi\n    Ted will follow up regarding the ND Hub posting.\n\n----------------------------------------\n\nNext steps\n\n    Project closing steps!\n\n-----------------------------------"
+   },
+   {
+    "name": "Sprint - Methods Applied: Proposal Scaffolded Support (MAPPS)",
+    "gid": "1214783923511436",
+    "level": 3,
+    "date": "2026-08-31",
+    "reasons": [
+     "Past its Asana due date (2026-08-31) and not marked Complete"
+    ],
+    "snippet": "Summary\n\nWorking on Final Cuts and Exports this week! Project Closing meeting with Jordyn on Tuesday. \n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
+   },
+   {
+    "name": "Sprint - Unlocking Inaccessible Korean Heritage",
+    "gid": "1214783923511446",
+    "level": 3,
+    "date": "2026-08-31",
+    "reasons": [
+     "Past its Asana due date (2026-08-31) and not marked Complete"
+    ],
+    "snippet": "Summary\n\nWe meet tomorrow to get an update on how Yi is doing with the Canvas site and the interactives. We'll also check to make sure Adam has everything he needs for audio files for the VR experience. \n\n-----------------------------------"
    },
    {
     "name": "Veterans College Math Readiness Course",
@@ -46088,14 +46119,13 @@ window.DATA = {
    },
    {
     "name": "Virtual Borders",
-    "gid": "1207943893531837",
+    "gid": "1208335647365619",
     "level": 3,
-    "date": "",
+    "date": "2026-08-28",
     "reasons": [
-     "Past its Asana due date (2024-09-13) and not marked Complete",
-     "Over its planned hours \u2014 154h logged vs a 64h plan"
+     "Past its Asana due date (2026-08-31) and not marked Complete"
     ],
-    "snippet": ""
+    "snippet": "Summary\n\n    Spending Monday and Wednesday to get the final touches on the experience together!\n    Will also draft off a handoff documentation and should begin thinking about a feedback form for students.\n\n---------------------------------"
    },
    {
     "name": "Romance Languages video/podcast initiative",
@@ -46105,7 +46135,7 @@ window.DATA = {
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 110 days (weekly cadence expected)"
+     "No status update in 111 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nThe faculty members let us know they can no longer film in May and would like to aim for August to film. Putting this on hold until then.\n\n----------------------------------------\n\nNext steps\n\n\n\n------------------------------------"
    },
@@ -46115,12 +46145,12 @@ window.DATA = {
     "level": 1,
     "date": "2026-05-11",
     "reasons": [
-     "No status update in 112 days (weekly cadence expected)"
+     "No status update in 113 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
    }
   ],
-  "n": 8,
+  "n": 13,
   "n_projects_with_updates": 105,
   "available": true,
   "rules": [
@@ -46133,7 +46163,7 @@ window.DATA = {
  },
  "update_signals": {
   "available": true,
-  "as_of": "2026-08-31",
+  "as_of": "2026-09-01",
   "window_days": 90,
   "crossdept": [
    {
@@ -46157,12 +46187,7 @@ window.DATA = {
       "n": 2
      }
     ],
-    "upcoming": [
-     {
-      "date": "2026-08-31",
-      "frag": "COIL - Aug 31 Summary UCU COIL Program Meeting with Melissa Paulsen"
-     }
-    ],
+    "upcoming": [],
     "total": 15
    },
    {
@@ -46243,12 +46268,7 @@ window.DATA = {
       "n": 4
      }
     ],
-    "upcoming": [
-     {
-      "date": "2026-08-31",
-      "frag": "AR Math Visualizer (Summer 2026 Pilot) - Aug 31 Summary We talked with Brian last week. There's three smal"
-     }
-    ],
+    "upcoming": [],
     "total": 4
    },
    {
@@ -46451,7 +46471,7 @@ window.DATA = {
    {
     "name": "Personalize AI and Historical Simulation via AI",
     "section": "Received Requests - Triage Needed",
-    "age_days": 67,
+    "age_days": 68,
     "created": "2026-06-25",
     "assignee": "Michael Lerma",
     "gid": "1216050493626695",
@@ -46460,7 +46480,7 @@ window.DATA = {
    {
     "name": "Physical AI Simulations into a Mechanics II class",
     "section": "Received Requests - Triage Needed",
-    "age_days": 27,
+    "age_days": 28,
     "created": "2026-08-04",
     "assignee": "Michael Lerma",
     "gid": "1217163495978864",
@@ -46469,7 +46489,7 @@ window.DATA = {
    {
     "name": "From Archive to Digital Edition",
     "section": "Received Requests - Triage Needed",
-    "age_days": 5,
+    "age_days": 6,
     "created": "2026-08-26",
     "assignee": "Nara Schmitt",
     "gid": "1217883561803066",
@@ -46478,7 +46498,7 @@ window.DATA = {
    {
     "name": "I CAN HELP Module-Faculty",
     "section": "Under Review by Unit",
-    "age_days": 77,
+    "age_days": 78,
     "created": "2026-06-15",
     "assignee": "Michael Lerma",
     "gid": "1215738301661919",
@@ -46487,7 +46507,7 @@ window.DATA = {
    {
     "name": "Digital Learnin Suite for Talk With Your Baby Robinson Community Learning Center",
     "section": "Under Review by Unit",
-    "age_days": 74,
+    "age_days": 75,
     "created": "2026-06-18",
     "assignee": "Michael Lerma",
     "gid": "1215843918393342",
@@ -46496,7 +46516,7 @@ window.DATA = {
    {
     "name": "i-Lab Portal per Cohort in Canvas",
     "section": "Under Review by Unit",
-    "age_days": 6,
+    "age_days": 7,
     "created": "2026-08-25",
     "assignee": "Michael Lerma",
     "gid": "1217834013007909",
@@ -47434,7 +47454,7 @@ window.DATA = {
       "dept_url": null
      },
      {
-      "project": "AR Math Visualizer (Summer 2025 Pilot)",
+      "project": "AR Math Visualizer (Summer 2026 Pilot)",
       "gid": "1211849992036472",
       "faculty": "Brian Mulholland",
       "type": "XR Project (VR, AR, MR)",
@@ -48630,7 +48650,7 @@ window.DATA = {
       "end": "2026-07-27"
      },
      {
-      "project": "AR Math Visualizer (Summer 2025 Pilot)",
+      "project": "AR Math Visualizer (Summer 2026 Pilot)",
       "gid": "1211849992036472",
       "dept": "Math",
       "dept_source": "asana",
@@ -49479,7 +49499,7 @@ window.DATA = {
       "end": "2025-05-30"
      },
      {
-      "project": "AR Math Visualizer (Summer 2025 Pilot)",
+      "project": "AR Math Visualizer (Summer 2026 Pilot)",
       "gid": "1211849992036472",
       "dept": "Math",
       "dept_source": "asana",
@@ -50196,7 +50216,7 @@ window.DATA = {
       "end": "2024-12-22"
      },
      {
-      "project": "AR Math Visualizer (Summer 2025 Pilot)",
+      "project": "AR Math Visualizer (Summer 2026 Pilot)",
       "gid": "1211849992036472",
       "dept": "Math",
       "dept_source": "asana",
@@ -52516,7 +52536,7 @@ window.DATA = {
    "scope": "ASCEND MCOB",
    "gid": "1212343204566399",
    "title": "Project at risk: ASCEND MCOB",
-   "detail": "Past its Asana due date (2026-06-17) and not marked Complete \u00b7 Over its planned hours \u2014 93h logged vs a 33h plan (as of 2026-08-10)",
+   "detail": "No status update in 22 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-06-17) and not marked Complete \u00b7 Over its planned hours \u2014 93h logged vs a 33h plan (as of 2026-08-10)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1212343204566399",
@@ -52553,6 +52573,28 @@ window.DATA = {
    "first_seen": "2026-08-16"
   },
   {
+   "id": "risk-1212660351308233",
+   "category": "post-project",
+   "severity": "high",
+   "scope_type": "project",
+   "scope": "Designing to Communicate: Strengthening Communication in Engineering Through Real-World Sustainability Contexts",
+   "gid": "1212660351308233",
+   "title": "Project at risk: Designing to Communicate: Strengthening Communication in Engineering Through Real-World Sustainability Contexts",
+   "detail": "Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-31)",
+   "metric": "flagged at risk",
+   "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
+   "doc_url": "https://app.asana.com/1/228221773618853/project/1212660351308233",
+   "source": "auto",
+   "status": "Not Started",
+   "owner": "",
+   "target_month": "",
+   "notes": "",
+   "evidence_url": "",
+   "updated_at": "",
+   "updated_by": "",
+   "first_seen": "2026-07-09"
+  },
+  {
    "id": "risk-1209679644127773",
    "category": "post-project",
    "severity": "high",
@@ -52573,6 +52615,94 @@ window.DATA = {
    "updated_at": "",
    "updated_by": "",
    "first_seen": "2026-07-09"
+  },
+  {
+   "id": "risk-1214783923511442",
+   "category": "post-project",
+   "severity": "high",
+   "scope_type": "project",
+   "scope": "Sprint - Free-Body Diagram Visualization and Mastery",
+   "gid": "1214783923511442",
+   "title": "Project at risk: Sprint - Free-Body Diagram Visualization and Mastery",
+   "detail": "Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-31)",
+   "metric": "flagged at risk",
+   "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
+   "doc_url": "https://app.asana.com/1/228221773618853/project/1214783923511442",
+   "source": "auto",
+   "status": "Not Started",
+   "owner": "",
+   "target_month": "",
+   "notes": "",
+   "evidence_url": "",
+   "updated_at": "",
+   "updated_by": "",
+   "first_seen": "2026-09-01"
+  },
+  {
+   "id": "risk-1215176396318246",
+   "category": "post-project",
+   "severity": "high",
+   "scope_type": "project",
+   "scope": "Sprint - Lost in Transliteration",
+   "gid": "1215176396318246",
+   "title": "Project at risk: Sprint - Lost in Transliteration",
+   "detail": "Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-31)",
+   "metric": "flagged at risk",
+   "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
+   "doc_url": "https://app.asana.com/1/228221773618853/project/1215176396318246",
+   "source": "auto",
+   "status": "Not Started",
+   "owner": "",
+   "target_month": "",
+   "notes": "",
+   "evidence_url": "",
+   "updated_at": "",
+   "updated_by": "",
+   "first_seen": "2026-09-01"
+  },
+  {
+   "id": "risk-1214783923511436",
+   "category": "post-project",
+   "severity": "high",
+   "scope_type": "project",
+   "scope": "Sprint - Methods Applied: Proposal Scaffolded Support (MAPPS)",
+   "gid": "1214783923511436",
+   "title": "Project at risk: Sprint - Methods Applied: Proposal Scaffolded Support (MAPPS)",
+   "detail": "Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-31)",
+   "metric": "flagged at risk",
+   "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
+   "doc_url": "https://app.asana.com/1/228221773618853/project/1214783923511436",
+   "source": "auto",
+   "status": "Not Started",
+   "owner": "",
+   "target_month": "",
+   "notes": "",
+   "evidence_url": "",
+   "updated_at": "",
+   "updated_by": "",
+   "first_seen": "2026-09-01"
+  },
+  {
+   "id": "risk-1214783923511446",
+   "category": "post-project",
+   "severity": "high",
+   "scope_type": "project",
+   "scope": "Sprint - Unlocking Inaccessible Korean Heritage",
+   "gid": "1214783923511446",
+   "title": "Project at risk: Sprint - Unlocking Inaccessible Korean Heritage",
+   "detail": "Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-31)",
+   "metric": "flagged at risk",
+   "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
+   "doc_url": "https://app.asana.com/1/228221773618853/project/1214783923511446",
+   "source": "auto",
+   "status": "Not Started",
+   "owner": "",
+   "target_month": "",
+   "notes": "",
+   "evidence_url": "",
+   "updated_at": "",
+   "updated_by": "",
+   "first_seen": "2026-09-01"
   },
   {
    "id": "risk-1211385006360353",
@@ -52597,17 +52727,17 @@ window.DATA = {
    "first_seen": "2026-07-14"
   },
   {
-   "id": "risk-1207943893531837",
+   "id": "risk-1208335647365619",
    "category": "post-project",
    "severity": "high",
    "scope_type": "project",
    "scope": "Virtual Borders",
-   "gid": "1207943893531837",
+   "gid": "1208335647365619",
    "title": "Project at risk: Virtual Borders",
-   "detail": "Past its Asana due date (2024-09-13) and not marked Complete \u00b7 Over its planned hours \u2014 154h logged vs a 64h plan",
+   "detail": "Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-28)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
-   "doc_url": "https://app.asana.com/1/228221773618853/project/1207943893531837",
+   "doc_url": "https://app.asana.com/1/228221773618853/project/1208335647365619",
    "source": "auto",
    "status": "Not Started",
    "owner": "",
@@ -52616,7 +52746,7 @@ window.DATA = {
    "evidence_url": "",
    "updated_at": "",
    "updated_by": "",
-   "first_seen": "2026-07-14"
+   "first_seen": "2026-07-09"
   },
   {
    "id": "calib-over-budget",
@@ -52624,9 +52754,9 @@ window.DATA = {
    "severity": "medium",
    "scope_type": "global",
    "scope": "Estimation",
-   "title": "3 active project(s) over their planned hours",
-   "detail": "Logged time has passed ~120% of the planned (Capacity-sheet) hours for 3 active project(s): Radio Systems Course (101h vs 21h planned); ASCEND MCOB (93h vs 33h planned); Virtual Borders (154h vs 64h planned). That crowds out other work or hides overtime.",
-   "metric": "3 over plan",
+   "title": "2 active project(s) over their planned hours",
+   "detail": "Logged time has passed ~120% of the planned (Capacity-sheet) hours for 2 active project(s): Radio Systems Course (101h vs 21h planned); ASCEND MCOB (93h vs 33h planned). That crowds out other work or hides overtime.",
+   "metric": "2 over plan",
    "suggested_action": "Check scope/timeline on these and re-estimate the remaining work.",
    "source": "auto",
    "gid": null,
@@ -52646,8 +52776,8 @@ window.DATA = {
    "scope_type": "team",
    "scope": "Design",
    "title": "Design work is committed but has no owner yet",
-   "detail": "About 252h of Design work in Aug 2026\u2013Dec 2026 is allocated to an \u201cUnassigned\u201d slot rather than a named person.",
-   "metric": "~252h unassigned",
+   "detail": "About 204h of Design work in Sep 2026\u2013Dec 2026 is allocated to an \u201cUnassigned\u201d slot rather than a named person.",
+   "metric": "~204h unassigned",
    "suggested_action": "Give it an owner, or confirm the work is real before it slips.",
    "source": "auto",
    "gid": null,
@@ -52667,8 +52797,8 @@ window.DATA = {
    "scope_type": "team",
    "scope": "Media",
    "title": "Media work is committed but has no owner yet",
-   "detail": "About 177h of Media work in Aug 2026\u2013Dec 2026 is allocated to an \u201cUnassigned\u201d slot rather than a named person.",
-   "metric": "~177h unassigned",
+   "detail": "About 153h of Media work in Sep 2026\u2013Dec 2026 is allocated to an \u201cUnassigned\u201d slot rather than a named person.",
+   "metric": "~153h unassigned",
    "suggested_action": "Give it an owner, or confirm the work is real before it slips.",
    "source": "auto",
    "gid": null,
@@ -52793,8 +52923,8 @@ window.DATA = {
    "scope_type": "team",
    "scope": "PM",
    "title": "PM work is committed but has no owner yet",
-   "detail": "About 57h of PM work in Aug 2026\u2013Dec 2026 is allocated to an \u201cUnassigned\u201d slot rather than a named person.",
-   "metric": "~57h unassigned",
+   "detail": "About 48h of PM work in Sep 2026\u2013Dec 2026 is allocated to an \u201cUnassigned\u201d slot rather than a named person.",
+   "metric": "~48h unassigned",
    "suggested_action": "Give it an owner, or confirm the work is real before it slips.",
    "source": "auto",
    "gid": null,
@@ -52808,28 +52938,6 @@ window.DATA = {
    "first_seen": "2026-07-08"
   },
   {
-   "id": "risk-1213478777903328",
-   "category": "post-project",
-   "severity": "medium",
-   "scope_type": "project",
-   "scope": "Media Studio Sessions",
-   "gid": "1213478777903328",
-   "title": "Project at risk: Media Studio Sessions",
-   "detail": "No status update in 112 days (weekly cadence expected) (as of 2026-05-11)",
-   "metric": "flagged at risk",
-   "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
-   "doc_url": "https://app.asana.com/1/228221773618853/project/1213478777903328",
-   "source": "auto",
-   "status": "Not Started",
-   "owner": "",
-   "target_month": "",
-   "notes": "",
-   "evidence_url": "",
-   "updated_at": "",
-   "updated_by": "",
-   "first_seen": "2026-07-09"
-  },
-  {
    "id": "risk-1212660352662527",
    "category": "on-hold",
    "severity": "medium",
@@ -52837,7 +52945,7 @@ window.DATA = {
    "scope": "Romance Languages video/podcast initiative",
    "gid": "1212660352662527",
    "title": "Project at risk: Romance Languages video/podcast initiative",
-   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 110 days (weekly cadence expected) (as of 2026-05-13)",
+   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 111 days (weekly cadence expected) (as of 2026-05-13)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1212660352662527",
@@ -52878,8 +52986,8 @@ window.DATA = {
    "scope_type": "team",
    "scope": "Design",
    "title": "Design has room to take on more",
-   "detail": "The Design team is below a full load in Aug 2026\u2013Nov 2026 (down to 44% in Sep 2026) \u2014 a good window to pull upcoming work forward or start something new.",
-   "metric": "as low as 44%",
+   "detail": "The Design team is below a full load in Sep 2026\u2013Dec 2026 (down to 30% in Dec 2026) \u2014 a good window to pull upcoming work forward or start something new.",
+   "metric": "as low as 30%",
    "suggested_action": "Route upcoming design work here, or schedule a project the team could pick up.",
    "source": "auto",
    "gid": null,
@@ -52899,8 +53007,8 @@ window.DATA = {
    "scope_type": "team",
    "scope": "Media",
    "title": "Media has room to take on more",
-   "detail": "The Media team is below a full load in Aug 2026\u2013Nov 2026 (down to 60% in Oct 2026) \u2014 a good window to pull upcoming work forward or start something new.",
-   "metric": "as low as 60%",
+   "detail": "The Media team is below a full load in Sep 2026\u2013Dec 2026 (down to 26% in Dec 2026) \u2014 a good window to pull upcoming work forward or start something new.",
+   "metric": "as low as 26%",
    "suggested_action": "Route upcoming media work here, or schedule a project the team could pick up.",
    "source": "auto",
    "gid": null,
@@ -52920,8 +53028,8 @@ window.DATA = {
    "scope_type": "team",
    "scope": "PM",
    "title": "PM has room to take on more",
-   "detail": "The PM team is below a full load in Sep 2026\u2013Nov 2026 (down to 51% in Nov 2026) \u2014 a good window to pull upcoming work forward or start something new.",
-   "metric": "as low as 51%",
+   "detail": "The PM team is below a full load in Sep 2026\u2013Dec 2026 (down to 49% in Dec 2026) \u2014 a good window to pull upcoming work forward or start something new.",
+   "metric": "as low as 49%",
    "suggested_action": "Route upcoming pm work here, or schedule a project the team could pick up.",
    "source": "auto",
    "gid": null,
@@ -52996,27 +53104,6 @@ window.DATA = {
    "updated_at": "",
    "updated_by": "",
    "first_seen": "2026-06-24"
-  },
-  {
-   "id": "report-1212638028070139",
-   "category": "post-project",
-   "severity": "low",
-   "scope_type": "project",
-   "scope": "CIF Video",
-   "gid": "1212638028070139",
-   "title": "Time to collect faculty feedback: CIF Video",
-   "detail": "CIF Video wrapped up recently (Apr 2026) and doesn't have a reflection on record yet \u2014 a good moment to gather the faculty partner's feedback while it's fresh.",
-   "metric": "due for reflection",
-   "suggested_action": "Send the reflection survey to the faculty partner and schedule the retro.",
-   "source": "auto",
-   "status": "Not Started",
-   "owner": "",
-   "target_month": "",
-   "notes": "",
-   "evidence_url": "",
-   "updated_at": "",
-   "updated_by": "",
-   "first_seen": "2026-06-15"
   },
   {
    "id": "report-1213393701257435",

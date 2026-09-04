@@ -1,7 +1,7 @@
 {
  "meta": {
-  "generated_at": "2026-09-03T16:59:41",
-  "today": "2026-09-03",
+  "generated_at": "2026-09-04T16:48:38",
+  "today": "2026-09-04",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -23,7 +23,7 @@
    "2027-06",
    "2027-07"
   ],
-  "asana_snapshot_date": "2026-09-03",
+  "asana_snapshot_date": "2026-09-04",
   "sources": {
    "capacity_sheet": "https://docs.google.com/spreadsheets/d/1YD9b8vLnglbA5pmFO6HsE-bvMq7wluHv1P1wY4FCujw/edit?gid=1025292964",
    "asana_project_base": "https://app.asana.com/0/",
@@ -1807,7 +1807,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 24 days (weekly cadence expected)"
+     "No status update in 25 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Course wrap up; Juliette doing a great job at SOP!\n    Project Close\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Annie Conaghan"
@@ -2515,7 +2515,7 @@
     "project_type": "New Course Design",
     "est_size": "XL",
     "actual_size": "XL",
-    "actual_h": 13.75,
+    "actual_h": 15.0,
     "est_h": 42.0,
     "impact_tracker": "Up to date",
     "post_status": null,
@@ -2530,9 +2530,9 @@
    },
    "est_size": "XL",
    "actual_size": "XL",
-   "size_h": 13.8,
+   "size_h": 15.0,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 13.8,
+   "actual_h": 15.0,
    "est_h": 42.0,
    "type": "New Course Design",
    "start": "2026-06",
@@ -2867,7 +2867,7 @@
     "project_type": "New Course Design",
     "est_size": "XL",
     "actual_size": "XL",
-    "actual_h": 175.08,
+    "actual_h": 176.25,
     "est_h": 371.0,
     "impact_tracker": "Outdated",
     "post_status": null,
@@ -2882,9 +2882,9 @@
    },
    "est_size": "XL",
    "actual_size": "XL",
-   "size_h": 175.1,
+   "size_h": 176.2,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 175.1,
+   "actual_h": 176.2,
    "est_h": 371.0,
    "type": "New Course Design",
    "start": "2026-06",
@@ -3412,7 +3412,7 @@
     "project_type": "Special Project",
     "est_size": "Unique",
     "actual_size": null,
-    "actual_h": 18.92,
+    "actual_h": 20.92,
     "est_h": 26.0,
     "impact_tracker": null,
     "post_status": null,
@@ -3427,9 +3427,9 @@
    },
    "est_size": "Unique",
    "actual_size": null,
-   "size_h": 18.9,
+   "size_h": 20.9,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 18.9,
+   "actual_h": 20.9,
    "est_h": 26.0,
    "type": "Special Project",
    "start": "2026-06",
@@ -3658,7 +3658,7 @@
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 113 days (weekly cadence expected)"
+     "No status update in 114 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nThe faculty members let us know they can no longer film in May and would like to aim for August to film. Putting this on hold until then.\n\n----------------------------------------\n\nNext steps\n\n\n\n------------------------------------",
     "author": "Michael Lerma"
@@ -5517,7 +5517,7 @@
     "project_type": "Design + Media Project",
     "est_size": "M",
     "actual_size": null,
-    "actual_h": 104.5,
+    "actual_h": 114.75,
     "est_h": 118.0,
     "impact_tracker": "Up to date",
     "post_status": null,
@@ -5532,9 +5532,9 @@
    },
    "est_size": "M",
    "actual_size": null,
-   "size_h": 104.5,
+   "size_h": 114.8,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 104.5,
+   "actual_h": 114.8,
    "est_h": 118.0,
    "type": "Design + Media Project",
    "start": null,
@@ -7553,7 +7553,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 115 days (weekly cadence expected)"
+     "No status update in 116 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Derrick Patrick"
@@ -10388,16 +10388,10 @@
   ],
   "point_hours": 32,
   "concurrency": {
-   "course_redesign": {
-    "typical": null,
-    "peak": null,
-    "now": 0,
-    "open": null
-   },
-   "xr_interactive": {
-    "typical": 0,
-    "peak": 1,
-    "now": 0,
+   "video_series": {
+    "typical": 1,
+    "peak": 2,
+    "now": 1,
     "open": 0
    },
    "single_video": {
@@ -10412,10 +10406,16 @@
     "now": 9,
     "open": 3
    },
-   "video_series": {
-    "typical": 1,
-    "peak": 2,
-    "now": 1,
+   "course_redesign": {
+    "typical": null,
+    "peak": null,
+    "now": 0,
+    "open": null
+   },
+   "xr_interactive": {
+    "typical": 0,
+    "peak": 1,
+    "now": 0,
     "open": 0
    }
   },
@@ -10591,20 +10591,20 @@
    {
     "key": "fall26",
     "label": "Fall 2026 semester",
-    "start": "2026-09-03",
+    "start": "2026-09-04",
     "end": "2026-12-18",
-    "weeks": 15.3,
+    "weeks": 15.1,
     "notes": [
      "Classes Aug 24 \u2013 Dec 9 \u00b7 finals Dec 11\u201317",
      "First ~2 weeks: faculty-support surge \u2014 keep quick-turnaround room",
      "Best filming: Sep \u2013 early Nov (midterm break Oct 17\u201325, Thanksgiving Nov 25\u201329)"
     ],
     "free": {
-     "Design": 863.9,
-     "Media": 837.4,
-     "PM": 476.8
+     "Design": 855.9,
+     "Media": 830.2,
+     "PM": 472.4
     },
-    "free_total": 2178.1,
+    "free_total": 2158.5,
     "cap_people": 9,
     "roster_n": 9,
     "cap_complete": true
@@ -45165,6 +45165,20 @@
     4.0
    ],
    [
+    "2026-08-31",
+    6,
+    7,
+    0,
+    1.25
+   ],
+   [
+    "2026-08-31",
+    6,
+    7,
+    0,
+    1.25
+   ],
+   [
     "2026-09-01",
     11,
     7,
@@ -45193,6 +45207,13 @@
     1.0
    ],
    [
+    "2026-09-01",
+    6,
+    7,
+    0,
+    2.0
+   ],
+   [
     "2026-09-02",
     14,
     7,
@@ -45212,12 +45233,61 @@
     7,
     0,
     1.0
+   ],
+   [
+    "2026-09-02",
+    6,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-09-02",
+    6,
+    7,
+    0,
+    2.0
+   ],
+   [
+    "2026-09-02",
+    4,
+    7,
+    0,
+    0.25
+   ],
+   [
+    "2026-09-03",
+    14,
+    7,
+    0,
+    0.33
+   ],
+   [
+    "2026-09-03",
+    14,
+    7,
+    0,
+    1.17
+   ],
+   [
+    "2026-09-03",
+    6,
+    7,
+    0,
+    5.0
+   ],
+   [
+    "2026-09-04",
+    4,
+    7,
+    0,
+    1.0
    ]
   ],
   "date_min": "2024-07-10",
-  "date_max": "2026-09-02",
+  "date_max": "2026-09-04",
   "manual_count": 0,
-  "total_hours": 5693.1,
+  "total_hours": 5709.3,
   "source": "asana_time_entries"
  },
  "est_actual": {
@@ -45657,11 +45727,11 @@
    "consequences_under": "Under ~60% of plan with real activity \u2192 the plan was over-scoped, or (most likely right now) time is simply under-logged."
   },
   "over_ratio": 1.2,
-  "actuals_end": "2026-09-02",
+  "actuals_end": "2026-09-04",
   "point_hours": 32
  },
  "timesheet": {
-  "as_of": "2026-09-03",
+  "as_of": "2026-09-04",
   "team": [
    "Annie Conaghan",
    "Brianna Stines",
@@ -45673,29 +45743,29 @@
    "Michael Lerma",
    "Yi Lu"
   ],
-  "data_max": "2026-09-02",
+  "data_max": "2026-09-04",
   "last_week": {
-   "start": "2026-08-27",
-   "end": "2026-09-03",
+   "start": "2026-08-28",
+   "end": "2026-09-04",
    "days": 7,
    "submitted": [
     "Annie Conaghan",
     "Brianna Stines",
     "Colin Gallagher",
-    "Kevin DeCloedt"
+    "Kevin DeCloedt",
+    "Matthew Simmons"
    ],
    "missing": [
     "Derrick Patrick",
     "Kuangchen Hsu",
-    "Matthew Simmons",
     "Michael Lerma",
     "Yi Lu"
    ],
-   "pct": 0.4444
+   "pct": 0.5556
   },
   "last_4_weeks": {
-   "start": "2026-08-06",
-   "end": "2026-09-03",
+   "start": "2026-08-07",
+   "end": "2026-09-04",
    "days": 28,
    "submitted": [
     "Annie Conaghan",
@@ -45727,9 +45797,9 @@
       "2026-06": 80.33,
       "2026-07": 74.99,
       "2026-08": 52.83,
-      "2026-09": 0.0
+      "2026-09": 1.25
      },
-     "total": 208.1
+     "total": 209.4
     },
     {
      "name": "Kuangchen Hsu",
@@ -45792,10 +45862,10 @@
      "by": {
       "2026-06": 71.33,
       "2026-07": 58.75,
-      "2026-08": 39.5,
-      "2026-09": 0.0
+      "2026-08": 42.0,
+      "2026-09": 11.0
      },
-     "total": 169.6
+     "total": 183.1
     },
     {
      "name": "Annie Conaghan",
@@ -45841,7 +45911,7 @@
     "level": 3,
     "date": "2026-08-10",
     "reasons": [
-     "No status update in 24 days (weekly cadence expected)",
+     "No status update in 25 days (weekly cadence expected)",
      "Past its Asana due date (2026-06-17) and not marked Complete",
      "Over its planned hours \u2014 93h logged vs a 33h plan"
     ],
@@ -45871,12 +45941,12 @@
     "name": "Radio Systems Course",
     "gid": "1209679644127773",
     "level": 3,
-    "date": "2026-08-27",
+    "date": "2026-09-04",
     "reasons": [
      "Past its Asana due date (2025-12-31) and not marked Complete",
      "Over its planned hours \u2014 101h logged vs a 21h plan"
     ],
-    "snippet": "Summary\n\n    Implemented the first grad student\u2019s QA feedback; waiting for the second review.\n    Extending meetings a few weeks to wrap up; course launch planned for September.\n\nNext steps\n\n\n\n----------------------------------------"
+    "snippet": "Summary\n\n    Implemented QA feedback from Nick\u2019s graduate students.\n        Nick needs to follow up with his second student, who has only reviewed Lessons 2.1\u20132.3.\n    Helping Clemson Online wrap up two courses; their designers are new to b"
    },
    {
     "name": "Sprint - Free-Body Diagram Visualization and Mastery",
@@ -45932,11 +46002,11 @@
     "name": "Virtual Borders",
     "gid": "1208335647365619",
     "level": 3,
-    "date": "2026-08-28",
+    "date": "2026-09-04",
     "reasons": [
      "Past its Asana due date (2026-08-31) and not marked Complete"
     ],
-    "snippet": "Summary\n\n    Spending Monday and Wednesday to get the final touches on the experience together!\n    Will also draft off a handoff documentation and should begin thinking about a feedback form for students.\n\n---------------------------------"
+    "snippet": "Summary\n\n    Editing has wrapped and I am working with Michael to get the final deliverables ready for handoff. \n    Will probably schedule a handoff meeting with Eva and Erin. \n\n----------------------------------------"
    },
    {
     "name": "Romance Languages video/podcast initiative",
@@ -45946,7 +46016,7 @@
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 113 days (weekly cadence expected)"
+     "No status update in 114 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nThe faculty members let us know they can no longer film in May and would like to aim for August to film. Putting this on hold until then.\n\n----------------------------------------\n\nNext steps\n\n\n\n------------------------------------"
    },
@@ -45956,7 +46026,7 @@
     "level": 1,
     "date": "2026-05-11",
     "reasons": [
-     "No status update in 115 days (weekly cadence expected)"
+     "No status update in 116 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
    }
@@ -45974,7 +46044,7 @@
  },
  "update_signals": {
   "available": true,
-  "as_of": "2026-09-03",
+  "as_of": "2026-09-04",
   "window_days": 90,
   "crossdept": [
    {
@@ -46007,28 +46077,19 @@
     "externals": [
      {
       "name": "Annette Vee",
-      "n": 5
+      "n": 4
      },
      {
       "name": "Rebecca Goldstein",
-      "n": 5
+      "n": 4
      },
      {
-      "name": "Ted",
+      "name": "Hinda Mandell",
       "n": 2
-     },
-     {
-      "name": "Derek Bruff",
-      "n": 1
      }
     ],
-    "upcoming": [
-     {
-      "date": "2026-09-10",
-      "frag": "September to me) Next recording scheduled for Thursday, September 10th with Hinda Mandell From Jim: \"[...] has been writin"
-     }
-    ],
-    "total": 14
+    "upcoming": [],
+    "total": 10
    },
    {
     "gid": "1207942229848224",
@@ -46044,26 +46105,6 @@
      },
      {
       "name": "Kate Berkley",
-      "n": 1
-     }
-    ],
-    "upcoming": [],
-    "total": 4
-   },
-   {
-    "gid": "1209679644127773",
-    "name": "Radio Systems Course",
-    "externals": [
-     {
-      "name": "Julia",
-      "n": 2
-     },
-     {
-      "name": "Coursera Enrollment",
-      "n": 1
-     },
-     {
-      "name": "Coursera Welcome",
       "n": 1
      }
     ],
@@ -46096,6 +46137,31 @@
      }
     ],
     "upcoming": [],
+    "total": 3
+   },
+   {
+    "gid": "1209679644127773",
+    "name": "Radio Systems Course",
+    "externals": [
+     {
+      "name": "Julia",
+      "n": 2
+     },
+     {
+      "name": "Coursera Welcome",
+      "n": 1
+     }
+    ],
+    "upcoming": [
+     {
+      "date": "2026-09-04",
+      "frag": "Radio Systems Course - Sep 4 Summary Implemented QA feedback from Nick\u2019s graduate s"
+     },
+     {
+      "date": "2026-10-01",
+      "frag": "s in Coursera. SpectrumX plans to launch the courses on October 1. Next steps ----------------------------------------"
+     }
+    ],
     "total": 3
    },
    {
@@ -46139,9 +46205,9 @@
    {
     "gid": "1208031566113859",
     "name": "FCTA - Calculus I",
-    "streak": 91,
+    "streak": 92,
     "since": "2024-08-16",
-    "n": 91,
+    "n": 92,
     "gap_note": ""
    },
    {
@@ -46155,9 +46221,9 @@
    {
     "gid": "1208255134985064",
     "name": "ODL Podcast",
-    "streak": 65,
+    "streak": 66,
     "since": "2024-09-20",
-    "n": 65,
+    "n": 66,
     "gap_note": "~weekly cadence, but a 31-day silent gap (2026-05-01 \u2192 2026-06-01)"
    },
    {
@@ -46171,9 +46237,9 @@
    {
     "gid": "1208335647365619",
     "name": "Virtual Borders",
-    "streak": 45,
+    "streak": 46,
     "since": "2025-09-29",
-    "n": 78,
+    "n": 79,
     "gap_note": ""
    }
   ],
@@ -46208,14 +46274,6 @@
     "issues": [
      "~weekly cadence, but a 21-day silent gap (2026-07-27 \u2192 2026-08-17)",
      "updates written by Brianna Stines while the Asana owner is Michael Lerma"
-    ]
-   },
-   {
-    "gid": "1212638027964018",
-    "name": "Ultrasound Communication Video",
-    "issues": [
-     "~weekly cadence, but a 24-day silent gap (2026-05-08 \u2192 2026-06-01)",
-     "updates written by Matthew Simmons while the Asana owner is Annie Conaghan"
     ]
    },
    {
@@ -46262,6 +46320,13 @@
     ]
    },
    {
+    "gid": "1212638027964018",
+    "name": "Ultrasound Communication Video",
+    "issues": [
+     "updates written by Matthew Simmons while the Asana owner is Annie Conaghan"
+    ]
+   },
+   {
     "gid": "1208335647365619",
     "name": "Virtual Borders",
     "issues": [
@@ -46282,25 +46347,16 @@
    {
     "name": "Physical AI Simulations into a Mechanics II class",
     "section": "Received Requests - Triage Needed",
-    "age_days": 30,
+    "age_days": 31,
     "created": "2026-08-04",
     "assignee": "Michael Lerma",
     "gid": "1217163495978864",
     "url": "https://app.asana.com/1/228221773618853/task/1217163495978864"
    },
    {
-    "name": "From Archive to Digital Edition",
-    "section": "Received Requests - Triage Needed",
-    "age_days": 8,
-    "created": "2026-08-26",
-    "assignee": "Nara Schmitt",
-    "gid": "1217883561803066",
-    "url": "https://app.asana.com/1/228221773618853/task/1217883561803066"
-   },
-   {
     "name": "I CAN HELP Module-Faculty",
     "section": "Under Review by Unit",
-    "age_days": 80,
+    "age_days": 81,
     "created": "2026-06-15",
     "assignee": "Michael Lerma",
     "gid": "1215738301661919",
@@ -46309,7 +46365,7 @@
    {
     "name": "Digital Learnin Suite for Talk With Your Baby Robinson Community Learning Center",
     "section": "Under Review by Unit",
-    "age_days": 77,
+    "age_days": 78,
     "created": "2026-06-18",
     "assignee": "Michael Lerma",
     "gid": "1215843918393342",
@@ -46318,7 +46374,7 @@
    {
     "name": "i-Lab Portal per Cohort in Canvas",
     "section": "Under Review by Unit",
-    "age_days": 9,
+    "age_days": 10,
     "created": "2026-08-25",
     "assignee": "Michael Lerma",
     "gid": "1217834013007909",
@@ -46658,7 +46714,7 @@
     "nps": null,
     "reach": null,
     "status": "Complete",
-    "dept": null,
+    "dept": "Psychology",
     "type": "New Course Design",
     "assets": 0.0,
     "faculty": "Prof. Erin McDonnell, Prof. Terry McDonnell",
@@ -46669,6 +46725,186 @@
  "reflections": [],
  "departments": {
   "departments": [
+   {
+    "dept": "ND Learning",
+    "n": 13,
+    "avg_fsi": 4.86,
+    "official_name": "Notre Dame Learning",
+    "college": "",
+    "context": "University unit advancing teaching and learning, housing the Kaneb Center for Teaching Excellence and the Office of Digital Learning.",
+    "context_source": "https://learning.nd.edu/about/",
+    "projects": [
+     {
+      "project": "AI Video -- Ardeo Russo",
+      "gid": "1211658757368215",
+      "faculty": "Prof. Andrea Russo",
+      "type": "Media Creation",
+      "fsi": 5.0,
+      "status": "Complete",
+      "reflink": "https://docs.google.com/document/d/1wpOHSMS2IPstYWBuHig_Zbvw0V3oft_1u_dxnPLd-do/edit?tab=t.0#heading=h.gjdgxs",
+      "summary": null,
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "AI Literacy Course",
+      "gid": "1211592424865734",
+      "faculty": "Prof. Roberto Casarez; Prof. Nathaniel Myers",
+      "type": "New Course Design",
+      "fsi": 4.9,
+      "status": "Complete",
+      "reflink": "https://docs.google.com/document/d/1iQZfiihAkV3HZgKKG4H2aZgMsNXSRJi08POBShD1Obk/edit?tab=t.0",
+      "summary": "Design and development of asynchronous, online student AI literacy learning experience and courseware for Notre Dame on Canvas.",
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "AI Video -- Nathaniel Myers",
+      "gid": "1211882045652588",
+      "faculty": "Prof. Nathaniel Myers",
+      "type": "Media Creation",
+      "fsi": 4.69,
+      "status": "Complete",
+      "reflink": "https://docs.google.com/document/d/1RRChEllSk18ffee-1evUW2_q4-nU0yolSZY5bv5Vdeg/edit?tab=t.0#heading=h.gjdgxs",
+      "summary": null,
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "360 XR Workshop",
+      "gid": "1211645503190089",
+      "faculty": null,
+      "type": "Special Project / Internal NDL Project",
+      "fsi": null,
+      "status": "Complete",
+      "reflink": null,
+      "summary": "Hands-on workshop that provides tools to leverage VR technology in classrooms.",
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "AI for Instructional Design",
+      "gid": "1211645503190093",
+      "faculty": null,
+      "type": "Special Project / Internal NDL Project",
+      "fsi": null,
+      "status": "Complete",
+      "reflink": null,
+      "summary": "Each ODL team attempted to integrate AI in their workflow in some way; culminated in being used in an Online Pedagogy course that Kuangchen taught.",
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "CIF Video",
+      "gid": "1212799971807638",
+      "faculty": "Ron, Adrea, Maura",
+      "type": "Media Creation",
+      "fsi": null,
+      "status": "Complete",
+      "reflink": null,
+      "summary": "Create a video outlining the importance of the CIF process and filling it out for students.",
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "Digital Accessibility",
+      "gid": "1213393696009369",
+      "faculty": null,
+      "type": "Special Project / Internal NDL Project",
+      "fsi": null,
+      "status": "Complete",
+      "reflink": null,
+      "summary": null,
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "Equity XR Project",
+      "gid": "1211645506389405",
+      "faculty": "Kaneb Center for Teaching Excellence, Center for Student Support and Care \nBrent Fragnoli, Dr. Horane Diatta-Holgate",
+      "type": "XR Project (VR, AR, MR)",
+      "fsi": null,
+      "status": "Complete",
+      "reflink": null,
+      "summary": "Design and development of XR experience with asynchronous and synchronous guided reflections to learn about inclusive learning for diverse range of students.",
+      "dept_source": "nd.edu",
+      "dept_confidence": "high",
+      "dept_url": "https://learning.nd.edu/about/team-bios/horane-holgate/"
+     },
+     {
+      "project": "FINS",
+      "gid": "1211645506389411",
+      "faculty": "Ron Metoyer",
+      "type": "Special Project / Internal NDL Project",
+      "fsi": null,
+      "status": "Complete",
+      "reflink": null,
+      "summary": null,
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "ODL Lookbook",
+      "gid": "1214956156492719",
+      "faculty": null,
+      "type": "Special Project / Internal NDL Project",
+      "fsi": null,
+      "status": "Complete",
+      "reflink": null,
+      "summary": null,
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "ODL Podcast",
+      "gid": "1211645506389399",
+      "faculty": "Jim Lang",
+      "type": "Special Project / Internal NDL Project",
+      "fsi": null,
+      "status": "In Progress",
+      "reflink": null,
+      "summary": "Audio podcast that features informal, unscripted conversation with Notre Dame Learning team members and campus collaborators to be released once per month all year round.",
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "ODL Project Reflection Report",
+      "gid": "1215193337323940",
+      "faculty": "Internal",
+      "type": "Special Project / Internal NDL Project",
+      "fsi": null,
+      "status": "In Progress",
+      "reflink": null,
+      "summary": null,
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "Teaching Everyone",
+      "gid": "1211658757368312",
+      "faculty": "Prof. Horane Ditta-Holgate, Dr. Amanda Leary, Jamie Trost",
+      "type": "New Course Design",
+      "fsi": null,
+      "status": "Complete",
+      "reflink": null,
+      "summary": "Design and development of asynchronous online learning experience on Diversity Inclusivity Framework to support instructors in developing learner-centered courses.",
+      "dept_source": "nd.edu",
+      "dept_confidence": "high",
+      "dept_url": "https://learning.nd.edu/about/team-bios/horane-holgate/"
+     }
+    ]
+   },
    {
     "dept": "Mendoza",
     "n": 12,
@@ -46837,173 +47073,6 @@
     ]
    },
    {
-    "dept": "ND Learning",
-    "n": 12,
-    "avg_fsi": 4.86,
-    "official_name": "Notre Dame Learning",
-    "college": "",
-    "context": "University unit advancing teaching and learning, housing the Kaneb Center for Teaching Excellence and the Office of Digital Learning.",
-    "context_source": "https://learning.nd.edu/about/",
-    "projects": [
-     {
-      "project": "AI Video -- Ardeo Russo",
-      "gid": "1211658757368215",
-      "faculty": "Prof. Andrea Russo",
-      "type": "Media Creation",
-      "fsi": 5.0,
-      "status": "Complete",
-      "reflink": "https://docs.google.com/document/d/1wpOHSMS2IPstYWBuHig_Zbvw0V3oft_1u_dxnPLd-do/edit?tab=t.0#heading=h.gjdgxs",
-      "summary": null,
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     },
-     {
-      "project": "AI Literacy Course",
-      "gid": "1211592424865734",
-      "faculty": "Prof. Roberto Casarez; Prof. Nathaniel Myers",
-      "type": "New Course Design",
-      "fsi": 4.9,
-      "status": "Complete",
-      "reflink": "https://docs.google.com/document/d/1iQZfiihAkV3HZgKKG4H2aZgMsNXSRJi08POBShD1Obk/edit?tab=t.0",
-      "summary": "Design and development of asynchronous, online student AI literacy learning experience and courseware for Notre Dame on Canvas.",
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     },
-     {
-      "project": "AI Video -- Nathaniel Myers",
-      "gid": "1211882045652588",
-      "faculty": "Prof. Nathaniel Myers",
-      "type": "Media Creation",
-      "fsi": 4.69,
-      "status": "Complete",
-      "reflink": "https://docs.google.com/document/d/1RRChEllSk18ffee-1evUW2_q4-nU0yolSZY5bv5Vdeg/edit?tab=t.0#heading=h.gjdgxs",
-      "summary": null,
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     },
-     {
-      "project": "360 XR Workshop",
-      "gid": "1211645503190089",
-      "faculty": null,
-      "type": "Special Project / Internal NDL Project",
-      "fsi": null,
-      "status": "Complete",
-      "reflink": null,
-      "summary": "Hands-on workshop that provides tools to leverage VR technology in classrooms.",
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     },
-     {
-      "project": "AI for Instructional Design",
-      "gid": "1211645503190093",
-      "faculty": null,
-      "type": "Special Project / Internal NDL Project",
-      "fsi": null,
-      "status": "Complete",
-      "reflink": null,
-      "summary": "Each ODL team attempted to integrate AI in their workflow in some way; culminated in being used in an Online Pedagogy course that Kuangchen taught.",
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     },
-     {
-      "project": "CIF Video",
-      "gid": "1212799971807638",
-      "faculty": "Ron, Adrea, Maura",
-      "type": "Media Creation",
-      "fsi": null,
-      "status": "Complete",
-      "reflink": null,
-      "summary": "Create a video outlining the importance of the CIF process and filling it out for students.",
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     },
-     {
-      "project": "Digital Accessibility",
-      "gid": "1213393696009369",
-      "faculty": null,
-      "type": "Special Project / Internal NDL Project",
-      "fsi": null,
-      "status": "Complete",
-      "reflink": null,
-      "summary": null,
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     },
-     {
-      "project": "Equity XR Project",
-      "gid": "1211645506389405",
-      "faculty": "Kaneb Center for Teaching Excellence, Center for Student Support and Care \nBrent Fragnoli, Dr. Horane Diatta-Holgate",
-      "type": "XR Project (VR, AR, MR)",
-      "fsi": null,
-      "status": "Complete",
-      "reflink": null,
-      "summary": "Design and development of XR experience with asynchronous and synchronous guided reflections to learn about inclusive learning for diverse range of students.",
-      "dept_source": "nd.edu",
-      "dept_confidence": "high",
-      "dept_url": "https://learning.nd.edu/about/team-bios/horane-holgate/"
-     },
-     {
-      "project": "ODL Lookbook",
-      "gid": "1214956156492719",
-      "faculty": null,
-      "type": "Special Project / Internal NDL Project",
-      "fsi": null,
-      "status": "Complete",
-      "reflink": null,
-      "summary": null,
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     },
-     {
-      "project": "ODL Podcast",
-      "gid": "1211645506389399",
-      "faculty": "Jim Lang",
-      "type": "Special Project / Internal NDL Project",
-      "fsi": null,
-      "status": "In Progress",
-      "reflink": null,
-      "summary": "Audio podcast that features informal, unscripted conversation with Notre Dame Learning team members and campus collaborators to be released once per month all year round.",
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     },
-     {
-      "project": "ODL Project Reflection Report",
-      "gid": "1215193337323940",
-      "faculty": "Internal",
-      "type": "Special Project / Internal NDL Project",
-      "fsi": null,
-      "status": "In Progress",
-      "reflink": null,
-      "summary": null,
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     },
-     {
-      "project": "Teaching Everyone",
-      "gid": "1211658757368312",
-      "faculty": "Prof. Horane Ditta-Holgate, Dr. Amanda Leary, Jamie Trost",
-      "type": "New Course Design",
-      "fsi": null,
-      "status": "Complete",
-      "reflink": null,
-      "summary": "Design and development of asynchronous online learning experience on Diversity Inclusivity Framework to support instructors in developing learner-centered courses.",
-      "dept_source": "nd.edu",
-      "dept_confidence": "high",
-      "dept_url": "https://learning.nd.edu/about/team-bios/horane-holgate/"
-     }
-    ]
-   },
-   {
     "dept": "Arts and Letters",
     "n": 9,
     "avg_fsi": 5.0,
@@ -47133,7 +47202,7 @@
    },
    {
     "dept": "Engineering",
-    "n": 7,
+    "n": 8,
     "avg_fsi": null,
     "official_name": "College of Engineering",
     "college": "College of Engineering",
@@ -47227,6 +47296,19 @@
       "status": "Complete",
       "reflink": null,
       "summary": "Course development guidance to two Spectrum X faculty members for the production of planning and content documents for two courses.",
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "Sprint - Free-Body Diagram Visualization and Mastery",
+      "gid": "1215307423399130",
+      "faculty": "Maria Holland",
+      "type": "New Course Design",
+      "fsi": null,
+      "status": "In Progress",
+      "reflink": null,
+      "summary": null,
       "dept_source": "asana",
       "dept_confidence": null,
       "dept_url": null
@@ -47588,6 +47670,106 @@
     ]
    },
    {
+    "dept": "NEON",
+    "n": 3,
+    "avg_fsi": null,
+    "official_name": "National Education Opportunity Network (NEON)",
+    "college": "Notre Dame Learning / Office of Digital Learning (ODL)",
+    "context": "An external network Notre Dame's Office of Digital Learning partners with to deliver online credit-bearing courses to Title I high school students.",
+    "context_source": "https://learning.nd.edu/news/notre-dame-receives-aws-grant-to-enhance-ai-access-in-neon-partner-high-schools/",
+    "projects": [
+     {
+      "project": "NEON - POLS 30022 (Poly Sci)",
+      "gid": "1213391962382175",
+      "faculty": "Prof. Angela McCarthy",
+      "type": "New Course Design",
+      "fsi": null,
+      "status": "In Progress",
+      "reflink": null,
+      "summary": "Design and development of bichronous online learning experience on the topic of Responsible and Ethical AI as part of NEON's effort to offer credit-bearing courses to high school students.",
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "NEON - R&E AI",
+      "gid": "1215193422477776",
+      "faculty": "Valya",
+      "type": null,
+      "fsi": null,
+      "status": "In Progress",
+      "reflink": null,
+      "summary": null,
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "National Education Opportunities Network (NEON)",
+      "gid": "1212220695975548",
+      "faculty": null,
+      "type": "Inter-organizational Project",
+      "fsi": null,
+      "status": "In Progress",
+      "reflink": null,
+      "summary": null,
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     }
+    ]
+   },
+   {
+    "dept": "Psychology",
+    "n": 3,
+    "avg_fsi": 4.4,
+    "official_name": "",
+    "college": "",
+    "context": "",
+    "context_source": "",
+    "projects": [
+     {
+      "project": "Force for Good Video Project",
+      "gid": "1211645506389413",
+      "faculty": "Prof. Erin McDonnell, Prof. Terry McDonnell",
+      "type": "New Course Design",
+      "fsi": 4.4,
+      "status": "Complete",
+      "reflink": null,
+      "summary": "Design and develop an asynchronous online student video learning experience on the topic of Becoming a Force for Social Good as part of a Fall 2025 semester course.",
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "Sprint - Methods Applied: Proposal Scaffolded Support (MAPPS)",
+      "gid": "1215699957184017",
+      "faculty": "Jordyn Wilcox",
+      "type": "New Course Design",
+      "fsi": null,
+      "status": "In Progress",
+      "reflink": null,
+      "summary": null,
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     },
+     {
+      "project": "Ultrasound Communication Video",
+      "gid": "1212799971807630",
+      "faculty": "Kaylin Hill",
+      "type": "New Course Design",
+      "fsi": null,
+      "status": "In Progress",
+      "reflink": null,
+      "summary": null,
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     }
+    ]
+   },
+   {
     "dept": "Theology",
     "n": 3,
     "avg_fsi": 4.8,
@@ -47860,43 +48042,6 @@
     ]
    },
    {
-    "dept": "NEON",
-    "n": 2,
-    "avg_fsi": null,
-    "official_name": "National Education Opportunity Network (NEON)",
-    "college": "Notre Dame Learning / Office of Digital Learning (ODL)",
-    "context": "An external network Notre Dame's Office of Digital Learning partners with to deliver online credit-bearing courses to Title I high school students.",
-    "context_source": "https://learning.nd.edu/news/notre-dame-receives-aws-grant-to-enhance-ai-access-in-neon-partner-high-schools/",
-    "projects": [
-     {
-      "project": "NEON - POLS 30022 (Poly Sci)",
-      "gid": "1213391962382175",
-      "faculty": "Prof. Angela McCarthy",
-      "type": "New Course Design",
-      "fsi": null,
-      "status": "In Progress",
-      "reflink": null,
-      "summary": "Design and development of bichronous online learning experience on the topic of Responsible and Ethical AI as part of NEON's effort to offer credit-bearing courses to high school students.",
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     },
-     {
-      "project": "National Education Opportunities Network (NEON)",
-      "gid": "1212220695975548",
-      "faculty": null,
-      "type": "Inter-organizational Project",
-      "fsi": null,
-      "status": "In Progress",
-      "reflink": null,
-      "summary": null,
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     }
-    ]
-   },
-   {
     "dept": "Philosophy",
     "n": 2,
     "avg_fsi": 4.75,
@@ -47930,43 +48075,6 @@
       "dept_source": "nd.edu",
       "dept_confidence": "medium",
       "dept_url": "https://philosophy.nd.edu/people/faculty/don-howard/"
-     }
-    ]
-   },
-   {
-    "dept": "Psychology",
-    "n": 2,
-    "avg_fsi": null,
-    "official_name": "",
-    "college": "",
-    "context": "",
-    "context_source": "",
-    "projects": [
-     {
-      "project": "Sprint - Methods Applied: Proposal Scaffolded Support (MAPPS)",
-      "gid": "1215699957184017",
-      "faculty": "Jordyn Wilcox",
-      "type": "New Course Design",
-      "fsi": null,
-      "status": "In Progress",
-      "reflink": null,
-      "summary": null,
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
-     },
-     {
-      "project": "Ultrasound Communication Video",
-      "gid": "1212799971807630",
-      "faculty": "Kaylin Hill",
-      "type": "New Course Design",
-      "fsi": null,
-      "status": "In Progress",
-      "reflink": null,
-      "summary": null,
-      "dept_source": "asana",
-      "dept_confidence": null,
-      "dept_url": null
      }
     ]
    },
@@ -48115,6 +48223,30 @@
     ]
    },
    {
+    "dept": "IBM Tech Ethics",
+    "n": 1,
+    "avg_fsi": null,
+    "official_name": "",
+    "college": "",
+    "context": "",
+    "context_source": "",
+    "projects": [
+     {
+      "project": "ND-IBM Tech Ethics Lab Video Content Development",
+      "gid": "1212973723347393",
+      "faculty": "Michael Infantine",
+      "type": "Media Creation",
+      "fsi": null,
+      "status": "In Progress",
+      "reflink": null,
+      "summary": null,
+      "dept_source": "asana",
+      "dept_confidence": null,
+      "dept_url": null
+     }
+    ]
+   },
+   {
     "dept": "Institute for Social Concerns",
     "n": 1,
     "avg_fsi": null,
@@ -48235,30 +48367,6 @@
     ]
    },
    {
-    "dept": "Sociology",
-    "n": 1,
-    "avg_fsi": 4.4,
-    "official_name": "",
-    "college": "",
-    "context": "",
-    "context_source": "",
-    "projects": [
-     {
-      "project": "Force for Good Video Project",
-      "gid": "1211645506389413",
-      "faculty": "Prof. Erin McDonnell, Prof. Terry McDonnell",
-      "type": "New Course Design",
-      "fsi": 4.4,
-      "status": "Complete",
-      "reflink": null,
-      "summary": "Design and develop an asynchronous online student video learning experience on the topic of Becoming a Force for Social Good as part of a Fall 2025 semester course.",
-      "dept_source": "nd.edu",
-      "dept_confidence": "high",
-      "dept_url": "https://sociology.nd.edu/people/erin-mcdonnell/"
-     }
-    ]
-   },
-   {
     "dept": "Study Abroad",
     "n": 1,
     "avg_fsi": null,
@@ -48307,7 +48415,7 @@
     ]
    }
   ],
-  "unknown_count": 50,
+  "unknown_count": 46,
   "unknown_projects": [
    "360 Video for Digital Peace Building",
    "ASCEND Portfolio",
@@ -48330,7 +48438,6 @@
    "EIH Training Videos",
    "Econ w/ Eva",
    "Engineering Course Trailer",
-   "FINS",
    "For John Corba",
    "Free Speech Introductions",
    "ITAO Coding Fun",
@@ -48342,16 +48449,13 @@
    "MCoB Mini-Course POC",
    "MLM Faculty Intro",
    "Media Studio Sessions",
-   "ND-IBM Tech Ethics Lab Video Content Development",
    "NDIAS 23-24: Global Catholicism",
-   "NEON - R&E AI",
    "ODL Media Studio Sessions",
    "Online Pedagogy 1 Credit Course",
    "PHIL 20655 - Data Ethics",
    "Political Science Summer Online",
    "Python Summer Online Revisions",
    "Spring Readiness '21: GGL",
-   "Sprint - Free-Body Diagram Visualization and Mastery",
    "Sprints 2023: Crisis Comms",
    "Sprints 2024: Nydia Morales Sotto",
    "Summer Online 2026",
@@ -48399,19 +48503,19 @@
     "hours": null,
     "n_depts": 15,
     "dept_breakdown": {
-     "\u2014": 5,
+     "Engineering": 4,
      "Arts and Letters": 3,
-     "Engineering": 3,
      "Math": 3,
      "Mendoza": 3,
+     "\u2014": 3,
      "Math and Engineering": 2,
      "ND Learning": 2,
+     "NEON": 2,
      "Psychology": 2,
      "ACE": 1,
      "Data Science": 1,
      "Hesburgh Library": 1,
      "Institute for Educational Initiatives (IEI)": 1,
-     "NEON": 1,
      "ResLife": 1,
      "Science": 1,
      "Writing Faculty": 1
@@ -48726,8 +48830,8 @@
      {
       "project": "NEON - R&E AI",
       "gid": "1215193422477776",
-      "dept": "\u2014",
-      "dept_source": null,
+      "dept": "NEON",
+      "dept_source": "asana",
       "faculty": "Valya",
       "type": null,
       "fsi": null,
@@ -48790,8 +48894,8 @@
      {
       "project": "Sprint - Free-Body Diagram Visualization and Mastery",
       "gid": "1215307423399130",
-      "dept": "\u2014",
-      "dept_source": null,
+      "dept": "Engineering",
+      "dept_source": "asana",
       "faculty": "Maria Holland",
       "type": "New Course Design",
       "fsi": null,
@@ -48940,7 +49044,7 @@
     "n": 42,
     "avg_fsi": 4.85,
     "hours": 5301.0,
-    "n_depts": 21,
+    "n_depts": 22,
     "dept_breakdown": {
      "ACE": 4,
      "Arts and Letters": 4,
@@ -48948,21 +49052,22 @@
      "Engineering": 3,
      "Math": 3,
      "ND Learning": 3,
-     "\u2014": 3,
      "MSAN": 2,
      "Math and Engineering": 2,
      "Writing Faculty": 2,
+     "\u2014": 2,
      "CSE": 1,
      "Data Science": 1,
      "Global Health": 1,
+     "IBM Tech Ethics": 1,
      "Law School": 1,
      "Lucy": 1,
      "Music": 1,
      "Notre Dame Global": 1,
      "Philosophy": 1,
+     "Psychology": 1,
      "ResLife": 1,
      "Science": 1,
-     "Sociology": 1,
      "Study Abroad": 1
     },
     "projects": [
@@ -49231,8 +49336,8 @@
      {
       "project": "Force for Good Video Project",
       "gid": "1211645506389413",
-      "dept": "Sociology",
-      "dept_source": "nd.edu",
+      "dept": "Psychology",
+      "dept_source": "asana",
       "faculty": "Prof. Erin McDonnell, Prof. Terry McDonnell",
       "type": "New Course Design",
       "fsi": 4.4,
@@ -49481,8 +49586,8 @@
      {
       "project": "ND-IBM Tech Ethics Lab Video Content Development",
       "gid": "1212973723347393",
-      "dept": "\u2014",
-      "dept_source": null,
+      "dept": "IBM Tech Ethics",
+      "dept_source": "asana",
       "faculty": "Michael Infantine",
       "type": "Media Creation",
       "fsi": null,
@@ -51215,8 +51320,8 @@
    {
     "project": "FINS",
     "gid": "1211645506389411",
-    "dept": "\u2014",
-    "dept_source": null,
+    "dept": "ND Learning",
+    "dept_source": "asana",
     "faculty": "Ron Metoyer",
     "type": "Special Project / Internal NDL Project",
     "fsi": null,
@@ -52338,7 +52443,7 @@
    "scope": "ASCEND MCOB",
    "gid": "1212343204566399",
    "title": "Project at risk: ASCEND MCOB",
-   "detail": "No status update in 24 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-06-17) and not marked Complete \u00b7 Over its planned hours \u2014 93h logged vs a 33h plan (as of 2026-08-10)",
+   "detail": "No status update in 25 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-06-17) and not marked Complete \u00b7 Over its planned hours \u2014 93h logged vs a 33h plan (as of 2026-08-10)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1212343204566399",
@@ -52404,7 +52509,7 @@
    "scope": "Radio Systems Course",
    "gid": "1209679644127773",
    "title": "Project at risk: Radio Systems Course",
-   "detail": "Past its Asana due date (2025-12-31) and not marked Complete \u00b7 Over its planned hours \u2014 101h logged vs a 21h plan (as of 2026-08-27)",
+   "detail": "Past its Asana due date (2025-12-31) and not marked Complete \u00b7 Over its planned hours \u2014 101h logged vs a 21h plan (as of 2026-09-04)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1209679644127773",
@@ -52536,7 +52641,7 @@
    "scope": "Virtual Borders",
    "gid": "1208335647365619",
    "title": "Project at risk: Virtual Borders",
-   "detail": "Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-28)",
+   "detail": "Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-09-04)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1208335647365619",
@@ -52747,7 +52852,7 @@
    "scope": "Romance Languages video/podcast initiative",
    "gid": "1212660352662527",
    "title": "Project at risk: Romance Languages video/podcast initiative",
-   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 113 days (weekly cadence expected) (as of 2026-05-13)",
+   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 114 days (weekly cadence expected) (as of 2026-05-13)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1212660352662527",

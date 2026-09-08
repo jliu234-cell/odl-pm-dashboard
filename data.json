@@ -1,7 +1,7 @@
 {
  "meta": {
-  "generated_at": "2026-09-07T18:11:37",
-  "today": "2026-09-07",
+  "generated_at": "2026-09-08T17:11:59",
+  "today": "2026-09-08",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -23,7 +23,7 @@
    "2027-06",
    "2027-07"
   ],
-  "asana_snapshot_date": "2026-09-07",
+  "asana_snapshot_date": "2026-09-08",
   "sources": {
    "capacity_sheet": "https://docs.google.com/spreadsheets/d/1YD9b8vLnglbA5pmFO6HsE-bvMq7wluHv1P1wY4FCujw/edit?gid=1025292964",
    "asana_project_base": "https://app.asana.com/0/",
@@ -1807,7 +1807,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 28 days (weekly cadence expected)"
+     "No status update in 29 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Course wrap up; Juliette doing a great job at SOP!\n    Project Close\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Annie Conaghan"
@@ -1819,7 +1819,7 @@
     "gid": "1215646180453827",
     "name": "CAD 2026 - Stephen Blackburn Videos",
     "archived": false,
-    "status": "In Progress",
+    "status": "Complete",
     "ndl_status": null,
     "current_phase": "Post-Production / Course Building",
     "project_type": "Course Redesign / Refresh",
@@ -1890,7 +1890,7 @@
    "unstaffed_points": 0.0,
    "current_phase": "Post-Production / Course Building",
    "active": true,
-   "status_display": "In Progress",
+   "status_display": "Complete",
    "task_est_hours": null,
    "budget_hours": 51.22,
    "actual_hours": null,
@@ -2867,7 +2867,7 @@
     "project_type": "New Course Design",
     "est_size": "XL",
     "actual_size": "XL",
-    "actual_h": 188.0,
+    "actual_h": 188.17,
     "est_h": 371.0,
     "impact_tracker": "Outdated",
     "post_status": null,
@@ -2882,9 +2882,9 @@
    },
    "est_size": "XL",
    "actual_size": "XL",
-   "size_h": 188.0,
+   "size_h": 188.2,
    "size_src": "logged in Asana (time-tracking)",
-   "actual_h": 188.0,
+   "actual_h": 188.2,
    "est_h": 371.0,
    "type": "New Course Design",
    "start": "2026-06",
@@ -3658,7 +3658,7 @@
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 117 days (weekly cadence expected)"
+     "No status update in 118 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nThe faculty members let us know they can no longer film in May and would like to aim for August to film. Putting this on hold until then.\n\n----------------------------------------\n\nNext steps\n\n\n\n------------------------------------",
     "author": "Michael Lerma"
@@ -7553,7 +7553,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 119 days (weekly cadence expected)"
+     "No status update in 120 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Derrick Patrick"
@@ -10388,12 +10388,6 @@
   ],
   "point_hours": 32,
   "concurrency": {
-   "xr_interactive": {
-    "typical": 0,
-    "peak": 1,
-    "now": 0,
-    "open": 0
-   },
    "course_redesign": {
     "typical": null,
     "peak": null,
@@ -10405,6 +10399,12 @@
     "peak": 15,
     "now": 9,
     "open": 3
+   },
+   "xr_interactive": {
+    "typical": 0,
+    "peak": 1,
+    "now": 0,
+    "open": 0
    },
    "single_video": {
     "typical": 1,
@@ -10591,20 +10591,20 @@
    {
     "key": "fall26",
     "label": "Fall 2026 semester",
-    "start": "2026-09-07",
+    "start": "2026-09-08",
     "end": "2026-12-18",
-    "weeks": 14.7,
+    "weeks": 14.6,
     "notes": [
      "Classes Aug 24 \u2013 Dec 9 \u00b7 finals Dec 11\u201317",
      "First ~2 weeks: faculty-support surge \u2014 keep quick-turnaround room",
      "Best filming: Sep \u2013 early Nov (midterm break Oct 17\u201325, Thanksgiving Nov 25\u201329)"
     ],
     "free": {
-     "Design": 832.1,
-     "Media": 808.6,
-     "PM": 459.1
+     "Design": 824.1,
+     "Media": 801.4,
+     "PM": 454.7
     },
-    "free_total": 2099.8,
+    "free_total": 2080.2,
     "cap_people": 9,
     "roster_n": 9,
     "cap_complete": true
@@ -45457,12 +45457,26 @@
     7,
     0,
     1.0
+   ],
+   [
+    "2026-09-08",
+    14,
+    7,
+    0,
+    0.75
+   ],
+   [
+    "2026-09-08",
+    14,
+    7,
+    0,
+    0.17
    ]
   ],
   "date_min": "2024-07-10",
-  "date_max": "2026-09-04",
+  "date_max": "2026-09-08",
   "manual_count": 0,
-  "total_hours": 5749.6,
+  "total_hours": 5750.5,
   "source": "asana_time_entries"
  },
  "est_actual": {
@@ -45674,7 +45688,7 @@
     "under": false,
     "has_budget": true,
     "has_planned": true,
-    "status": "In Progress",
+    "status": "Complete",
     "point_person": null
    },
    {
@@ -45902,11 +45916,11 @@
    "consequences_under": "Under ~60% of plan with real activity \u2192 the plan was over-scoped, or (most likely right now) time is simply under-logged."
   },
   "over_ratio": 1.2,
-  "actuals_end": "2026-09-04",
+  "actuals_end": "2026-09-08",
   "point_hours": 32
  },
  "timesheet": {
-  "as_of": "2026-09-07",
+  "as_of": "2026-09-08",
   "team": [
    "Annie Conaghan",
    "Brianna Stines",
@@ -45918,10 +45932,10 @@
    "Michael Lerma",
    "Yi Lu"
   ],
-  "data_max": "2026-09-04",
+  "data_max": "2026-09-08",
   "last_week": {
-   "start": "2026-08-31",
-   "end": "2026-09-07",
+   "start": "2026-09-01",
+   "end": "2026-09-08",
    "days": 7,
    "submitted": [
     "Annie Conaghan",
@@ -45939,8 +45953,8 @@
    "pct": 0.6667
   },
   "last_4_weeks": {
-   "start": "2026-08-10",
-   "end": "2026-09-07",
+   "start": "2026-08-11",
+   "end": "2026-09-08",
    "days": 28,
    "submitted": [
     "Annie Conaghan",
@@ -46086,31 +46100,21 @@
     "level": 3,
     "date": "2026-08-10",
     "reasons": [
-     "No status update in 28 days (weekly cadence expected)",
+     "No status update in 29 days (weekly cadence expected)",
      "Past its Asana due date (2026-06-17) and not marked Complete",
      "Over its planned hours \u2014 93h logged vs a 33h plan"
     ],
     "snippet": "Summary\n\n    Course wrap up; Juliette doing a great job at SOP!\n    Project Close\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
    },
    {
-    "name": "Blackburn Videos",
-    "gid": "1215646180453827",
-    "level": 3,
-    "date": "2026-08-31",
-    "reasons": [
-     "Past its Asana due date (2026-08-15) and not marked Complete"
-    ],
-    "snippet": "Summary\n\nWe're calling this one complete! We've gotten the all the videos in, finalized and delivered to Stephen. Great job Derrick!\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
-   },
-   {
     "name": "Designing to Communicate: Strengthening Communication in Engineering Through Real-World Sustainability Contexts",
     "gid": "1212660351308233",
     "level": 3,
-    "date": "2026-08-31",
+    "date": "2026-09-08",
     "reasons": [
      "Past its Asana due date (2026-08-31) and not marked Complete"
     ],
-    "snippet": "Summary\n\nWe met with Ming last week but unfortunately it wasn't in person. We weren't able to fully have a working session with her but we did show her Ovation and what it looked like and how easy it is to use. We are meeting with her this "
+    "snippet": "Summary\n\nWe met with Ming last week in person and she was very impressed with the experience. We decided that this will actually be the final project in her course.\nNext steps for the project:\n    Ming needs a couple of weeks to get togethe"
    },
    {
     "name": "Radio Systems Course",
@@ -46191,7 +46195,7 @@
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 117 days (weekly cadence expected)"
+     "No status update in 118 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nThe faculty members let us know they can no longer film in May and would like to aim for August to film. Putting this on hold until then.\n\n----------------------------------------\n\nNext steps\n\n\n\n------------------------------------"
    },
@@ -46201,12 +46205,12 @@
     "level": 1,
     "date": "2026-05-11",
     "reasons": [
-     "No status update in 119 days (weekly cadence expected)"
+     "No status update in 120 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
    }
   ],
-  "n": 13,
+  "n": 12,
   "n_projects_with_updates": 105,
   "available": true,
   "rules": [
@@ -46219,7 +46223,7 @@
  },
  "update_signals": {
   "available": true,
-  "as_of": "2026-09-07",
+  "as_of": "2026-09-08",
   "window_days": 90,
   "crossdept": [
    {
@@ -46518,7 +46522,7 @@
    {
     "name": "Physical AI Simulations into a Mechanics II class",
     "section": "Received Requests - Triage Needed",
-    "age_days": 34,
+    "age_days": 35,
     "created": "2026-08-04",
     "assignee": "Michael Lerma",
     "gid": "1217163495978864",
@@ -46527,7 +46531,7 @@
    {
     "name": "I CAN HELP Module-Faculty",
     "section": "Under Review by Unit",
-    "age_days": 84,
+    "age_days": 85,
     "created": "2026-06-15",
     "assignee": "Michael Lerma",
     "gid": "1215738301661919",
@@ -46536,7 +46540,7 @@
    {
     "name": "Digital Learnin Suite for Talk With Your Baby Robinson Community Learning Center",
     "section": "Under Review by Unit",
-    "age_days": 81,
+    "age_days": 82,
     "created": "2026-06-18",
     "assignee": "Michael Lerma",
     "gid": "1215843918393342",
@@ -46545,7 +46549,7 @@
    {
     "name": "i-Lab Portal per Cohort in Canvas",
     "section": "Under Review by Unit",
-    "age_days": 13,
+    "age_days": 14,
     "created": "2026-08-25",
     "assignee": "Michael Lerma",
     "gid": "1217834013007909",
@@ -52614,7 +52618,7 @@
    "scope": "ASCEND MCOB",
    "gid": "1212343204566399",
    "title": "Project at risk: ASCEND MCOB",
-   "detail": "No status update in 28 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-06-17) and not marked Complete \u00b7 Over its planned hours \u2014 93h logged vs a 33h plan (as of 2026-08-10)",
+   "detail": "No status update in 29 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-06-17) and not marked Complete \u00b7 Over its planned hours \u2014 93h logged vs a 33h plan (as of 2026-08-10)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1212343204566399",
@@ -52629,28 +52633,6 @@
    "first_seen": "2026-07-09"
   },
   {
-   "id": "risk-1215646180453827",
-   "category": "post-project",
-   "severity": "high",
-   "scope_type": "project",
-   "scope": "Blackburn Videos",
-   "gid": "1215646180453827",
-   "title": "Project at risk: Blackburn Videos",
-   "detail": "Past its Asana due date (2026-08-15) and not marked Complete (as of 2026-08-31)",
-   "metric": "flagged at risk",
-   "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
-   "doc_url": "https://app.asana.com/1/228221773618853/project/1215646180453827",
-   "source": "auto",
-   "status": "Not Started",
-   "owner": "",
-   "target_month": "",
-   "notes": "",
-   "evidence_url": "",
-   "updated_at": "",
-   "updated_by": "",
-   "first_seen": "2026-08-16"
-  },
-  {
    "id": "risk-1212660351308233",
    "category": "post-project",
    "severity": "high",
@@ -52658,7 +52640,7 @@
    "scope": "Designing to Communicate: Strengthening Communication in Engineering Through Real-World Sustainability Contexts",
    "gid": "1212660351308233",
    "title": "Project at risk: Designing to Communicate: Strengthening Communication in Engineering Through Real-World Sustainability Contexts",
-   "detail": "Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-31)",
+   "detail": "Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-09-08)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1212660351308233",
@@ -53016,6 +52998,28 @@
    "first_seen": "2026-07-08"
   },
   {
+   "id": "risk-1213478777903328",
+   "category": "post-project",
+   "severity": "medium",
+   "scope_type": "project",
+   "scope": "Media Studio Sessions",
+   "gid": "1213478777903328",
+   "title": "Project at risk: Media Studio Sessions",
+   "detail": "No status update in 120 days (weekly cadence expected) (as of 2026-05-11)",
+   "metric": "flagged at risk",
+   "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
+   "doc_url": "https://app.asana.com/1/228221773618853/project/1213478777903328",
+   "source": "auto",
+   "status": "Not Started",
+   "owner": "",
+   "target_month": "",
+   "notes": "",
+   "evidence_url": "",
+   "updated_at": "",
+   "updated_by": "",
+   "first_seen": "2026-07-09"
+  },
+  {
    "id": "risk-1212660352662527",
    "category": "on-hold",
    "severity": "medium",
@@ -53023,7 +53027,7 @@
    "scope": "Romance Languages video/podcast initiative",
    "gid": "1212660352662527",
    "title": "Project at risk: Romance Languages video/podcast initiative",
-   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 117 days (weekly cadence expected) (as of 2026-05-13)",
+   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 118 days (weekly cadence expected) (as of 2026-05-13)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1212660352662527",

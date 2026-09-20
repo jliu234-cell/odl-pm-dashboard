@@ -1,7 +1,7 @@
 {
  "meta": {
-  "generated_at": "2026-09-19T16:20:52",
-  "today": "2026-09-19",
+  "generated_at": "2026-09-20T16:43:59",
+  "today": "2026-09-20",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -23,7 +23,7 @@
    "2027-06",
    "2027-07"
   ],
-  "asana_snapshot_date": "2026-09-19",
+  "asana_snapshot_date": "2026-09-20",
   "sources": {
    "capacity_sheet": "https://docs.google.com/spreadsheets/d/1YD9b8vLnglbA5pmFO6HsE-bvMq7wluHv1P1wY4FCujw/edit?gid=1025292964",
    "asana_project_base": "https://app.asana.com/0/",
@@ -1807,7 +1807,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 40 days (weekly cadence expected)"
+     "No status update in 41 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Course wrap up; Juliette doing a great job at SOP!\n    Project Close\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Annie Conaghan"
@@ -3078,7 +3078,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 26 days (weekly cadence expected)"
+     "No status update in 27 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nFilming Wednesday afternoon and practicing with the light board some more.\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Derrick Patrick"
@@ -3667,7 +3667,7 @@
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 129 days (weekly cadence expected)"
+     "No status update in 130 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nThe faculty members let us know they can no longer film in May and would like to aim for August to film. Putting this on hold until then.\n\n----------------------------------------\n\nNext steps\n\n\n\n------------------------------------",
     "author": "Michael Lerma"
@@ -7562,7 +7562,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 131 days (weekly cadence expected)"
+     "No status update in 132 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Derrick Patrick"
@@ -10565,6 +10565,18 @@
   ],
   "point_hours": 32,
   "concurrency": {
+   "xr_interactive": {
+    "typical": 0,
+    "peak": 1,
+    "now": 0,
+    "open": 0
+   },
+   "single_video": {
+    "typical": 1,
+    "peak": 3,
+    "now": 1,
+    "open": 0
+   },
    "course_redesign": {
     "typical": null,
     "peak": null,
@@ -10581,18 +10593,6 @@
     "typical": 1,
     "peak": 2,
     "now": 1,
-    "open": 0
-   },
-   "single_video": {
-    "typical": 1,
-    "peak": 3,
-    "now": 1,
-    "open": 0
-   },
-   "xr_interactive": {
-    "typical": 0,
-    "peak": 1,
-    "now": 0,
     "open": 0
    }
   },
@@ -10768,20 +10768,20 @@
    {
     "key": "fall26",
     "label": "Fall 2026 semester",
-    "start": "2026-09-19",
+    "start": "2026-09-20",
     "end": "2026-12-18",
-    "weeks": 13.0,
+    "weeks": 12.9,
     "notes": [
      "Classes Aug 24 \u2013 Dec 9 \u00b7 finals Dec 11\u201317",
      "First ~2 weeks: faculty-support surge \u2014 keep quick-turnaround room",
      "Best filming: Sep \u2013 early Nov (midterm break Oct 17\u201325, Thanksgiving Nov 25\u201329)"
     ],
     "free": {
-     "Design": 736.7,
-     "Media": 722.2,
-     "PM": 405.8
+     "Design": 728.8,
+     "Media": 715.0,
+     "PM": 401.4
     },
-    "free_total": 1864.7,
+    "free_total": 1845.2,
     "cap_people": 9,
     "roster_n": 9,
     "cap_complete": true
@@ -46840,7 +46840,7 @@
   "point_hours": 32
  },
  "timesheet": {
-  "as_of": "2026-09-19",
+  "as_of": "2026-09-20",
   "team": [
    "Annie Conaghan",
    "Brianna Stines",
@@ -46854,8 +46854,8 @@
   ],
   "data_max": "2026-09-18",
   "last_week": {
-   "start": "2026-09-12",
-   "end": "2026-09-19",
+   "start": "2026-09-13",
+   "end": "2026-09-20",
    "days": 7,
    "submitted": [
     "Annie Conaghan",
@@ -46873,8 +46873,8 @@
    "pct": 0.5556
   },
   "last_4_weeks": {
-   "start": "2026-08-22",
-   "end": "2026-09-19",
+   "start": "2026-08-23",
+   "end": "2026-09-20",
    "days": 28,
    "submitted": [
     "Annie Conaghan",
@@ -47021,7 +47021,7 @@
     "level": 3,
     "date": "2026-08-10",
     "reasons": [
-     "No status update in 40 days (weekly cadence expected)",
+     "No status update in 41 days (weekly cadence expected)",
      "Past its Asana due date (2026-06-17) and not marked Complete",
      "Over its planned hours \u2014 93h logged vs a 33h plan"
     ],
@@ -47116,7 +47116,7 @@
     "reasons": [
      "Asana status: On hold",
      "Update mentions: blocked / stalled",
-     "No status update in 129 days (weekly cadence expected)"
+     "No status update in 130 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nThe faculty members let us know they can no longer film in May and would like to aim for August to film. Putting this on hold until then.\n\n----------------------------------------\n\nNext steps\n\n\n\n------------------------------------"
    },
@@ -47126,7 +47126,7 @@
     "level": 1,
     "date": "2026-05-11",
     "reasons": [
-     "No status update in 131 days (weekly cadence expected)"
+     "No status update in 132 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
    },
@@ -47136,7 +47136,7 @@
     "level": 1,
     "date": "2026-08-24",
     "reasons": [
-     "No status update in 26 days (weekly cadence expected)"
+     "No status update in 27 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nFilming Wednesday afternoon and practicing with the light board some more.\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
    }
@@ -47154,7 +47154,7 @@
  },
  "update_signals": {
   "available": true,
-  "as_of": "2026-09-19",
+  "as_of": "2026-09-20",
   "window_days": 90,
   "crossdept": [
    {
@@ -47455,7 +47455,7 @@
    {
     "name": "I CAN HELP Module-Faculty",
     "section": "Under Review by Unit",
-    "age_days": 96,
+    "age_days": 97,
     "created": "2026-06-15",
     "assignee": "Michael Lerma",
     "gid": "1215738301661919",
@@ -47464,7 +47464,7 @@
    {
     "name": "Digital Learnin Suite for Talk With Your Baby Robinson Community Learning Center",
     "section": "Under Review by Unit",
-    "age_days": 93,
+    "age_days": 94,
     "created": "2026-06-18",
     "assignee": "Michael Lerma",
     "gid": "1215843918393342",
@@ -47473,7 +47473,7 @@
    {
     "name": "Physical AI Simulations into a Mechanics II class",
     "section": "Under Review by Unit",
-    "age_days": 46,
+    "age_days": 47,
     "created": "2026-08-04",
     "assignee": "Michael Lerma",
     "gid": "1217163495978864",
@@ -47482,7 +47482,7 @@
    {
     "name": "i-Lab Portal per Cohort in Canvas",
     "section": "Under Review by Unit",
-    "age_days": 25,
+    "age_days": 26,
     "created": "2026-08-25",
     "assignee": "Michael Lerma",
     "gid": "1217834013007909",
@@ -53585,7 +53585,7 @@
    "scope": "ASCEND MCOB",
    "gid": "1212343204566399",
    "title": "Project at risk: ASCEND MCOB",
-   "detail": "No status update in 40 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-06-17) and not marked Complete \u00b7 Over its planned hours \u2014 93h logged vs a 33h plan (as of 2026-08-10)",
+   "detail": "No status update in 41 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-06-17) and not marked Complete \u00b7 Over its planned hours \u2014 93h logged vs a 33h plan (as of 2026-08-10)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1212343204566399",
@@ -53972,7 +53972,7 @@
    "scope": "Media Studio Sessions",
    "gid": "1213478777903328",
    "title": "Project at risk: Media Studio Sessions",
-   "detail": "No status update in 131 days (weekly cadence expected) (as of 2026-05-11)",
+   "detail": "No status update in 132 days (weekly cadence expected) (as of 2026-05-11)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1213478777903328",
@@ -53994,7 +53994,7 @@
    "scope": "Romance Languages video/podcast initiative",
    "gid": "1212660352662527",
    "title": "Project at risk: Romance Languages video/podcast initiative",
-   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 129 days (weekly cadence expected) (as of 2026-05-13)",
+   "detail": "Asana status: On hold \u00b7 Update mentions: blocked / stalled \u00b7 No status update in 130 days (weekly cadence expected) (as of 2026-05-13)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1212660352662527",

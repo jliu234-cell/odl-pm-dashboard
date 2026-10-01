@@ -67,7 +67,7 @@
  "report-1212627165986472": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "hold-1207760971753709": {
   "status": "Not Started",
@@ -127,7 +127,7 @@
  "report-1213393701257435": {
   "status": "Not Started",
   "first_seen": "2026-06-15",
-  "_active": true
+  "_active": false
  },
  "impact-1213551317973102": {
   "status": "Not Started",
@@ -372,12 +372,12 @@
  "risk-1212660352662527": {
   "status": "Not Started",
   "first_seen": "2026-07-09",
-  "_active": true
+  "_active": false
  },
  "risk-1213478777903328": {
   "status": "Not Started",
   "first_seen": "2026-07-09",
-  "_active": false
+  "_active": true
  },
  "hold-1212660246856608": {
   "status": "Not Started",
@@ -407,7 +407,7 @@
  "risk-1215646180453827": {
   "status": "Not Started",
   "first_seen": "2026-08-16",
-  "_active": true
+  "_active": false
  },
  "report-1211653962736510": {
   "status": "Not Started",

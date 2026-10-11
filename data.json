@@ -1,7 +1,7 @@
 {
  "meta": {
-  "generated_at": "2026-10-10T17:44:01",
-  "today": "2026-10-10",
+  "generated_at": "2026-10-11T17:58:34",
+  "today": "2026-10-11",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -23,7 +23,7 @@
    "2027-06",
    "2027-07"
   ],
-  "asana_snapshot_date": "2026-10-10",
+  "asana_snapshot_date": "2026-10-11",
   "sources": {
    "capacity_sheet": "https://docs.google.com/spreadsheets/d/1YD9b8vLnglbA5pmFO6HsE-bvMq7wluHv1P1wY4FCujw/edit?gid=1025292964",
    "asana_project_base": "https://app.asana.com/0/",
@@ -1807,7 +1807,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 61 days (weekly cadence expected)"
+     "No status update in 62 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Course wrap up; Juliette doing a great job at SOP!\n    Project Close\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Annie Conaghan"
@@ -3777,7 +3777,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 40 days (weekly cadence expected)"
+     "No status update in 41 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nNo new updates\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Annie Conaghan"
@@ -3873,7 +3873,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 40 days (weekly cadence expected)"
+     "No status update in 41 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Project Handover was last week; few final tweaks for Yi\n    Ted will follow up regarding the ND Hub posting.\n\n----------------------------------------\n\nNext steps\n\n    Project closing steps!\n\n-----------------------------------",
     "author": "Annie Conaghan"
@@ -3992,7 +3992,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 40 days (weekly cadence expected)"
+     "No status update in 41 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nWorking on Final Cuts and Exports this week! Project Closing meeting with Jordyn on Tuesday. \n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Kevin DeCloedt"
@@ -4400,7 +4400,7 @@
     "type": "complete",
     "level": 1,
     "reasons": [
-     "No status update in 26 days (weekly cadence expected)"
+     "No status update in 27 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Michael Lerma"
@@ -7588,7 +7588,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 152 days (weekly cadence expected)"
+     "No status update in 153 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Derrick Patrick"
@@ -7877,7 +7877,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 22 days (weekly cadence expected)"
+     "No status update in 23 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    RCs are being sent to Kate for her review\n\n----------------------------------------\n\nNext steps\n\n    Render final cuts of Kate's choosing and deliver\n\n----------------------------------------",
     "author": "Matthew Simmons"
@@ -10599,23 +10599,17 @@
   ],
   "point_hours": 32,
   "concurrency": {
-   "xr_interactive": {
-    "typical": 0,
-    "peak": 1,
+   "course_redesign": {
+    "typical": null,
+    "peak": null,
     "now": 0,
-    "open": 0
+    "open": null
    },
    "single_video": {
     "typical": 1,
     "peak": 3,
     "now": 1,
     "open": 0
-   },
-   "course_redesign": {
-    "typical": null,
-    "peak": null,
-    "now": 0,
-    "open": null
    },
    "full_course": {
     "typical": 12,
@@ -10627,6 +10621,12 @@
     "typical": 1,
     "peak": 2,
     "now": 1,
+    "open": 0
+   },
+   "xr_interactive": {
+    "typical": 0,
+    "peak": 1,
+    "now": 0,
     "open": 0
    }
   },
@@ -10739,7 +10739,7 @@
       "spring27": {
        "start_by": "2026-10-31",
        "safe_by": "2026-08-01",
-       "verdict": "open"
+       "verdict": "tight"
       },
       "fall27": {
        "start_by": "2027-06-12",
@@ -10802,20 +10802,20 @@
    {
     "key": "fall26",
     "label": "Fall 2026 semester",
-    "start": "2026-10-10",
+    "start": "2026-10-11",
     "end": "2026-12-18",
-    "weeks": 10.0,
+    "weeks": 9.9,
     "notes": [
      "Classes Aug 24 \u2013 Dec 9 \u00b7 finals Dec 11\u201317",
      "First ~2 weeks: faculty-support surge \u2014 keep quick-turnaround room",
      "Best filming: Sep \u2013 early Nov (midterm break Oct 17\u201325, Thanksgiving Nov 25\u201329)"
     ],
     "free": {
-     "Design": 572.2,
-     "Media": 569.7,
-     "PM": 313.9
+     "Design": 564.5,
+     "Media": 562.3,
+     "PM": 309.6
     },
-    "free_total": 1455.8,
+    "free_total": 1436.4,
     "cap_people": 9,
     "roster_n": 9,
     "cap_complete": true
@@ -48303,7 +48303,7 @@
   "point_hours": 32
  },
  "timesheet": {
-  "as_of": "2026-10-10",
+  "as_of": "2026-10-11",
   "team": [
    "Annie Conaghan",
    "Brianna Stines",
@@ -48317,8 +48317,8 @@
   ],
   "data_max": "2026-10-09",
   "last_week": {
-   "start": "2026-10-03",
-   "end": "2026-10-10",
+   "start": "2026-10-04",
+   "end": "2026-10-11",
    "days": 7,
    "submitted": [
     "Annie Conaghan",
@@ -48336,8 +48336,8 @@
    "pct": 0.7778
   },
   "last_4_weeks": {
-   "start": "2026-09-12",
-   "end": "2026-10-10",
+   "start": "2026-09-13",
+   "end": "2026-10-11",
    "days": 28,
    "submitted": [
     "Annie Conaghan",
@@ -48494,7 +48494,7 @@
     "level": 3,
     "date": "2026-08-10",
     "reasons": [
-     "No status update in 61 days (weekly cadence expected)",
+     "No status update in 62 days (weekly cadence expected)",
      "Past its Asana due date (2026-06-17) and not marked Complete",
      "Over its planned hours \u2014 93h logged vs a 33h plan"
     ],
@@ -48516,7 +48516,7 @@
     "level": 3,
     "date": "2026-08-31",
     "reasons": [
-     "No status update in 40 days (weekly cadence expected)",
+     "No status update in 41 days (weekly cadence expected)",
      "Past its Asana due date (2026-08-31) and not marked Complete"
     ],
     "snippet": "Summary\n\nNo new updates\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
@@ -48527,7 +48527,7 @@
     "level": 3,
     "date": "2026-08-31",
     "reasons": [
-     "No status update in 40 days (weekly cadence expected)",
+     "No status update in 41 days (weekly cadence expected)",
      "Past its Asana due date (2026-08-31) and not marked Complete"
     ],
     "snippet": "Summary\n\n    Project Handover was last week; few final tweaks for Yi\n    Ted will follow up regarding the ND Hub posting.\n\n----------------------------------------\n\nNext steps\n\n    Project closing steps!\n\n-----------------------------------"
@@ -48538,7 +48538,7 @@
     "level": 3,
     "date": "2026-08-31",
     "reasons": [
-     "No status update in 40 days (weekly cadence expected)",
+     "No status update in 41 days (weekly cadence expected)",
      "Past its Asana due date (2026-08-31) and not marked Complete"
     ],
     "snippet": "Summary\n\nWorking on Final Cuts and Exports this week! Project Closing meeting with Jordyn on Tuesday. \n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
@@ -48589,7 +48589,7 @@
     "level": 1,
     "date": "2026-09-18",
     "reasons": [
-     "No status update in 22 days (weekly cadence expected)"
+     "No status update in 23 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    RCs are being sent to Kate for her review\n\n----------------------------------------\n\nNext steps\n\n    Render final cuts of Kate's choosing and deliver\n\n----------------------------------------"
    },
@@ -48599,7 +48599,7 @@
     "level": 1,
     "date": "2026-05-11",
     "reasons": [
-     "No status update in 152 days (weekly cadence expected)"
+     "No status update in 153 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
    },
@@ -48609,7 +48609,7 @@
     "level": 1,
     "date": "2026-09-14",
     "reasons": [
-     "No status update in 26 days (weekly cadence expected)"
+     "No status update in 27 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
    }
@@ -48627,7 +48627,7 @@
  },
  "update_signals": {
   "available": true,
-  "as_of": "2026-10-10",
+  "as_of": "2026-10-11",
   "window_days": 90,
   "crossdept": [
    {
@@ -48931,7 +48931,7 @@
    {
     "name": "NotebookLM Accuracy for Academic Work",
     "section": "Received Requests - Triage Needed",
-    "age_days": 3,
+    "age_days": 4,
     "created": "2026-10-07",
     "assignee": "Michael Lerma",
     "gid": "1219273519511435",
@@ -48940,7 +48940,7 @@
    {
     "name": "Faculty Idea Exchange: AI-Aware Teaching Practices or Faculty",
     "section": "Leadership Review or Approval Needed",
-    "age_days": 5,
+    "age_days": 6,
     "created": "2026-10-05",
     "assignee": "Nara Schmitt",
     "gid": "1219178704744429",
@@ -48949,7 +48949,7 @@
    {
     "name": "I CAN HELP Module-Faculty",
     "section": "Under Review by Unit",
-    "age_days": 117,
+    "age_days": 118,
     "created": "2026-06-15",
     "assignee": "Michael Lerma",
     "gid": "1215738301661919",
@@ -48958,7 +48958,7 @@
    {
     "name": "Digital Learnin Suite for Talk With Your Baby Robinson Community Learning Center",
     "section": "Under Review by Unit",
-    "age_days": 114,
+    "age_days": 115,
     "created": "2026-06-18",
     "assignee": "Michael Lerma",
     "gid": "1215843918393342",
@@ -48967,7 +48967,7 @@
    {
     "name": "Physical AI Simulations into a Mechanics II class",
     "section": "Under Review by Unit",
-    "age_days": 67,
+    "age_days": 68,
     "created": "2026-08-04",
     "assignee": "Michael Lerma",
     "gid": "1217163495978864",
@@ -48976,7 +48976,7 @@
    {
     "name": "i-Lab Portal per Cohort in Canvas",
     "section": "Under Review by Unit",
-    "age_days": 46,
+    "age_days": 47,
     "created": "2026-08-25",
     "assignee": "Michael Lerma",
     "gid": "1217834013007909",
@@ -48985,7 +48985,7 @@
    {
     "name": "St. Josephine Bakhita Educational Film",
     "section": "Under Review by Unit",
-    "age_days": 3,
+    "age_days": 4,
     "created": "2026-10-07",
     "assignee": "Michael Lerma",
     "gid": "1219273269446682",
@@ -57906,7 +57906,7 @@
    "scope": "ASCEND MCOB",
    "gid": "1212343204566399",
    "title": "Project at risk: ASCEND MCOB",
-   "detail": "No status update in 61 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-06-17) and not marked Complete \u00b7 Over its planned hours \u2014 93h logged vs a 33h plan (as of 2026-08-10)",
+   "detail": "No status update in 62 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-06-17) and not marked Complete \u00b7 Over its planned hours \u2014 93h logged vs a 33h plan (as of 2026-08-10)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1212343204566399",
@@ -57950,7 +57950,7 @@
    "scope": "Sprint - Free-Body Diagram Visualization and Mastery",
    "gid": "1214783923511442",
    "title": "Project at risk: Sprint - Free-Body Diagram Visualization and Mastery",
-   "detail": "No status update in 40 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-31)",
+   "detail": "No status update in 41 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-31)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1214783923511442",
@@ -57972,7 +57972,7 @@
    "scope": "Sprint - Lost in Transliteration",
    "gid": "1215176396318246",
    "title": "Project at risk: Sprint - Lost in Transliteration",
-   "detail": "No status update in 40 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-31)",
+   "detail": "No status update in 41 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-31)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1215176396318246",
@@ -57994,7 +57994,7 @@
    "scope": "Sprint - Methods Applied: Proposal Scaffolded Support (MAPPS)",
    "gid": "1214783923511436",
    "title": "Project at risk: Sprint - Methods Applied: Proposal Scaffolded Support (MAPPS)",
-   "detail": "No status update in 40 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-31)",
+   "detail": "No status update in 41 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-31)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1214783923511436",
@@ -58271,7 +58271,7 @@
    "scope": "Kate the Chemist",
    "gid": "1218406245983939",
    "title": "Project at risk: Kate the Chemist",
-   "detail": "No status update in 22 days (weekly cadence expected) (as of 2026-09-18)",
+   "detail": "No status update in 23 days (weekly cadence expected) (as of 2026-09-18)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1218406245983939",
@@ -58293,7 +58293,7 @@
    "scope": "Media Studio Sessions",
    "gid": "1213478777903328",
    "title": "Project at risk: Media Studio Sessions",
-   "detail": "No status update in 152 days (weekly cadence expected) (as of 2026-05-11)",
+   "detail": "No status update in 153 days (weekly cadence expected) (as of 2026-05-11)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1213478777903328",

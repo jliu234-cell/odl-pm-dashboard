@@ -442,7 +442,7 @@
  "risk-1218406245983939": {
   "status": "Not Started",
   "first_seen": "2026-10-10",
-  "_active": true
+  "_active": false
  },
  "report-1208335647365619": {
   "status": "Not Started",

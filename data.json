@@ -1,7 +1,7 @@
 {
  "meta": {
-  "generated_at": "2026-10-31T17:36:22",
-  "today": "2026-10-31",
+  "generated_at": "2026-11-01T18:20:55",
+  "today": "2026-11-01",
   "point_hours": 32,
   "full_monthly_points": 4,
   "months": [
@@ -23,7 +23,7 @@
    "2027-06",
    "2027-07"
   ],
-  "asana_snapshot_date": "2026-10-31",
+  "asana_snapshot_date": "2026-11-01",
   "sources": {
    "capacity_sheet": "https://docs.google.com/spreadsheets/d/1YD9b8vLnglbA5pmFO6HsE-bvMq7wluHv1P1wY4FCujw/edit?gid=1025292964",
    "asana_project_base": "https://app.asana.com/0/",
@@ -1807,7 +1807,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 82 days (weekly cadence expected)"
+     "No status update in 83 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Course wrap up; Juliette doing a great job at SOP!\n    Project Close\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Annie Conaghan"
@@ -3573,7 +3573,7 @@
     "type": "complete",
     "level": 1,
     "reasons": [
-     "No status update in 26 days (weekly cadence expected)"
+     "No status update in 27 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Michael Lerma"
@@ -3786,7 +3786,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 61 days (weekly cadence expected)"
+     "No status update in 62 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nNo new updates\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Annie Conaghan"
@@ -6785,7 +6785,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 26 days (weekly cadence expected)"
+     "No status update in 27 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\nFinal adjustments to the Academic Letters for participants and we developed a system for these letters. \n\n----------------------------------------\n\nNext Steps\n\n\n\n----------------------------------------",
     "author": "Annie Conaghan"
@@ -7588,7 +7588,7 @@
     "type": "on_track",
     "level": 1,
     "reasons": [
-     "No status update in 173 days (weekly cadence expected)"
+     "No status update in 174 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------",
     "author": "Derrick Patrick"
@@ -10606,51 +10606,50 @@
   "availability": {
    "Design": {
     "by": {
-     "2026-10": 238.4,
      "2026-11": 223.2,
      "2026-12": 309.6,
      "2027-01": 134.4,
      "2027-02": 128.0,
-     "2027-03": 147.2
+     "2027-03": 147.2,
+     "2027-04": 140.8
     },
-    "total": 1180.8
+    "total": 1083.2
    },
    "Media": {
     "by": {
-     "2026-10": 227.9,
      "2026-11": 217.3,
      "2026-12": 328.3,
      "2027-01": 133.4
     },
-    "total": 906.9
+    "total": 679.0
    },
    "PM": {
     "by": {
-     "2026-10": 133.1,
      "2026-11": 132.4,
      "2026-12": 149.9,
      "2027-01": 134.0,
      "2027-02": 127.6,
-     "2027-03": 146.7
+     "2027-03": 146.7,
+     "2027-04": 140.3
     },
-    "total": 823.7
+    "total": 830.9
    }
   },
   "avail_months": [
-   "2026-10",
    "2026-11",
    "2026-12",
    "2027-01",
    "2027-02",
-   "2027-03"
+   "2027-03",
+   "2027-04"
   ],
   "point_hours": 32,
   "concurrency": {
-   "course_redesign": {
-    "typical": null,
-    "peak": null,
-    "now": 0,
-    "open": null
+   "single_video": {
+    "typical": 1,
+    "peak": 3,
+    "now": 1,
+    "open": 0
    },
    "video_series": {
     "typical": 1,
@@ -10664,11 +10663,11 @@
     "now": 7,
     "open": 5
    },
-   "single_video": {
-    "typical": 1,
-    "peak": 3,
-    "now": 1,
-    "open": 0
+   "course_redesign": {
+    "typical": null,
+    "peak": null,
+    "now": 0,
+    "open": null
    },
    "xr_interactive": {
     "typical": 0,
@@ -10678,7 +10677,6 @@
    }
   },
   "concurrency_months": [
-   "2025-10",
    "2025-11",
    "2025-12",
    "2026-01",
@@ -10689,7 +10687,8 @@
    "2026-06",
    "2026-07",
    "2026-08",
-   "2026-09"
+   "2026-09",
+   "2026-10"
   ],
   "unclassified_active": {
    "n": 18,
@@ -10786,7 +10785,7 @@
       "spring27": {
        "start_by": "2026-10-31",
        "safe_by": "2026-08-01",
-       "verdict": "tight"
+       "verdict": "late"
       },
       "fall27": {
        "start_by": "2027-06-12",
@@ -10849,20 +10848,20 @@
    {
     "key": "fall26",
     "label": "Fall 2026 semester",
-    "start": "2026-10-31",
+    "start": "2026-11-01",
     "end": "2026-12-18",
-    "weeks": 7.0,
+    "weeks": 6.9,
     "notes": [
      "Classes Aug 24 \u2013 Dec 9 \u00b7 finals Dec 11\u201317",
      "First ~2 weeks: faculty-support surge \u2014 keep quick-turnaround room",
      "Best filming: Sep \u2013 early Nov (midterm break Oct 17\u201325, Thanksgiving Nov 25\u201329)"
     ],
     "free": {
-     "Design": 410.7,
-     "Media": 415.3,
-     "PM": 223.7
+     "Design": 403.0,
+     "Media": 407.9,
+     "PM": 219.4
     },
-    "free_total": 1049.7,
+    "free_total": 1030.3,
     "cap_people": 9,
     "roster_n": 9,
     "cap_complete": true
@@ -49436,7 +49435,7 @@
   "point_hours": 32
  },
  "timesheet": {
-  "as_of": "2026-10-31",
+  "as_of": "2026-11-01",
   "team": [
    "Annie Conaghan",
    "Brianna Stines",
@@ -49450,8 +49449,8 @@
   ],
   "data_max": "2026-10-30",
   "last_week": {
-   "start": "2026-10-24",
-   "end": "2026-10-31",
+   "start": "2026-10-25",
+   "end": "2026-11-01",
    "days": 7,
    "submitted": [
     "Annie Conaghan",
@@ -49469,8 +49468,8 @@
    "pct": 0.6667
   },
   "last_4_weeks": {
-   "start": "2026-10-03",
-   "end": "2026-10-31",
+   "start": "2026-10-04",
+   "end": "2026-11-01",
    "days": 28,
    "submitted": [
     "Annie Conaghan",
@@ -49627,7 +49626,7 @@
     "level": 3,
     "date": "2026-08-10",
     "reasons": [
-     "No status update in 82 days (weekly cadence expected)",
+     "No status update in 83 days (weekly cadence expected)",
      "Past its Asana due date (2026-06-17) and not marked Complete",
      "Over its planned hours \u2014 93h logged vs a 33h plan"
     ],
@@ -49649,7 +49648,7 @@
     "level": 3,
     "date": "2026-08-31",
     "reasons": [
-     "No status update in 61 days (weekly cadence expected)",
+     "No status update in 62 days (weekly cadence expected)",
      "Past its Asana due date (2026-08-31) and not marked Complete"
     ],
     "snippet": "Summary\n\nNo new updates\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
@@ -49690,7 +49689,7 @@
     "level": 3,
     "date": "2026-10-05",
     "reasons": [
-     "No status update in 26 days (weekly cadence expected)",
+     "No status update in 27 days (weekly cadence expected)",
      "Past its Asana due date (2026-06-10) and not marked Complete"
     ],
     "snippet": "Summary\n\nFinal adjustments to the Academic Letters for participants and we developed a system for these letters. \n\n----------------------------------------\n\nNext Steps\n\n\n\n----------------------------------------"
@@ -49701,7 +49700,7 @@
     "level": 2,
     "date": "2026-10-05",
     "reasons": [
-     "No status update in 26 days (weekly cadence expected)",
+     "No status update in 27 days (weekly cadence expected)",
      "Over its planned hours \u2014 101h logged vs a 21h plan"
     ],
     "snippet": "Summary\n\n\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
@@ -49722,7 +49721,7 @@
     "level": 1,
     "date": "2026-05-11",
     "reasons": [
-     "No status update in 173 days (weekly cadence expected)"
+     "No status update in 174 days (weekly cadence expected)"
     ],
     "snippet": "Summary\n\n    Discussing FC1 with Brad this week. \n    Creating best practices doc for studio sessions\n\n----------------------------------------\n\nNext steps\n\n\n\n----------------------------------------"
    }
@@ -49740,7 +49739,7 @@
  },
  "update_signals": {
   "available": true,
-  "as_of": "2026-10-31",
+  "as_of": "2026-11-01",
   "window_days": 90,
   "crossdept": [
    {
@@ -50052,7 +50051,7 @@
    {
     "name": "NotebookLM Accuracy for Academic Work",
     "section": "Received Requests - Triage Needed",
-    "age_days": 24,
+    "age_days": 25,
     "created": "2026-10-07",
     "assignee": "Michael Lerma",
     "gid": "1219273519511435",
@@ -50061,7 +50060,7 @@
    {
     "name": "I CAN HELP Module-Faculty",
     "section": "Under Review by Unit",
-    "age_days": 138,
+    "age_days": 139,
     "created": "2026-06-15",
     "assignee": "Michael Lerma",
     "gid": "1215738301661919",
@@ -50070,7 +50069,7 @@
    {
     "name": "Digital Learnin Suite for Talk With Your Baby Robinson Community Learning Center",
     "section": "Under Review by Unit",
-    "age_days": 135,
+    "age_days": 136,
     "created": "2026-06-18",
     "assignee": "Michael Lerma",
     "gid": "1215843918393342",
@@ -50079,7 +50078,7 @@
    {
     "name": "Physical AI Simulations into a Mechanics II class",
     "section": "Under Review by Unit",
-    "age_days": 88,
+    "age_days": 89,
     "created": "2026-08-04",
     "assignee": "Michael Lerma",
     "gid": "1217163495978864",
@@ -50088,7 +50087,7 @@
    {
     "name": "i-Lab Portal per Cohort in Canvas",
     "section": "Under Review by Unit",
-    "age_days": 67,
+    "age_days": 68,
     "created": "2026-08-25",
     "assignee": "Michael Lerma",
     "gid": "1217834013007909",
@@ -50097,7 +50096,7 @@
    {
     "name": "St. Josephine Bakhita Educational Film",
     "section": "Under Review by Unit",
-    "age_days": 24,
+    "age_days": 25,
     "created": "2026-10-07",
     "assignee": "Michael Lerma",
     "gid": "1219273269446682",
@@ -59120,7 +59119,7 @@
    "scope": "ASCEND MCOB",
    "gid": "1212343204566399",
    "title": "Project at risk: ASCEND MCOB",
-   "detail": "No status update in 82 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-06-17) and not marked Complete \u00b7 Over its planned hours \u2014 93h logged vs a 33h plan (as of 2026-08-10)",
+   "detail": "No status update in 83 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-06-17) and not marked Complete \u00b7 Over its planned hours \u2014 93h logged vs a 33h plan (as of 2026-08-10)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1212343204566399",
@@ -59164,7 +59163,7 @@
    "scope": "Sprint - Free-Body Diagram Visualization and Mastery",
    "gid": "1214783923511442",
    "title": "Project at risk: Sprint - Free-Body Diagram Visualization and Mastery",
-   "detail": "No status update in 61 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-31)",
+   "detail": "No status update in 62 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-08-31) and not marked Complete (as of 2026-08-31)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1214783923511442",
@@ -59252,7 +59251,7 @@
    "scope": "Veterans College Math Readiness Course",
    "gid": "1211385006360353",
    "title": "Project at risk: Veterans College Math Readiness Course",
-   "detail": "No status update in 26 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-06-10) and not marked Complete (as of 2026-10-05)",
+   "detail": "No status update in 27 days (weekly cadence expected) \u00b7 Past its Asana due date (2026-06-10) and not marked Complete (as of 2026-10-05)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1211385006360353",
@@ -59294,8 +59293,8 @@
    "scope_type": "team",
    "scope": "Design",
    "title": "Design work is committed but has no owner yet",
-   "detail": "About 144h of Design work in Oct 2026\u2013Dec 2026 is allocated to an \u201cUnassigned\u201d slot rather than a named person.",
-   "metric": "~144h unassigned",
+   "detail": "About 84h of Design work in Nov 2026\u2013Dec 2026 is allocated to an \u201cUnassigned\u201d slot rather than a named person.",
+   "metric": "~84h unassigned",
    "suggested_action": "Give it an owner, or confirm the work is real before it slips.",
    "source": "auto",
    "gid": null,
@@ -59315,8 +59314,8 @@
    "scope_type": "team",
    "scope": "Media",
    "title": "Media work is committed but has no owner yet",
-   "detail": "About 105h of Media work in Oct 2026\u2013Dec 2026 is allocated to an \u201cUnassigned\u201d slot rather than a named person.",
-   "metric": "~105h unassigned",
+   "detail": "About 57h of Media work in Nov 2026\u2013Dec 2026 is allocated to an \u201cUnassigned\u201d slot rather than a named person.",
+   "metric": "~57h unassigned",
    "suggested_action": "Give it an owner, or confirm the work is real before it slips.",
    "source": "auto",
    "gid": null,
@@ -59441,8 +59440,8 @@
    "scope_type": "team",
    "scope": "PM",
    "title": "PM work is committed but has no owner yet",
-   "detail": "About 36h of PM work in Oct 2026\u2013Dec 2026 is allocated to an \u201cUnassigned\u201d slot rather than a named person.",
-   "metric": "~36h unassigned",
+   "detail": "About 24h of PM work in Nov 2026\u2013Dec 2026 is allocated to an \u201cUnassigned\u201d slot rather than a named person.",
+   "metric": "~24h unassigned",
    "suggested_action": "Give it an owner, or confirm the work is real before it slips.",
    "source": "auto",
    "gid": null,
@@ -59463,7 +59462,7 @@
    "scope": "Media Studio Sessions",
    "gid": "1213478777903328",
    "title": "Project at risk: Media Studio Sessions",
-   "detail": "No status update in 173 days (weekly cadence expected) (as of 2026-05-11)",
+   "detail": "No status update in 174 days (weekly cadence expected) (as of 2026-05-11)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1213478777903328",
@@ -59485,7 +59484,7 @@
    "scope": "Radio Systems Course",
    "gid": "1209679644127773",
    "title": "Project at risk: Radio Systems Course",
-   "detail": "No status update in 26 days (weekly cadence expected) \u00b7 Over its planned hours \u2014 101h logged vs a 21h plan (as of 2026-10-05)",
+   "detail": "No status update in 27 days (weekly cadence expected) \u00b7 Over its planned hours \u2014 101h logged vs a 21h plan (as of 2026-10-05)",
    "metric": "flagged at risk",
    "suggested_action": "Read the weekly update and follow up on the blocker or timeline.",
    "doc_url": "https://app.asana.com/1/228221773618853/project/1209679644127773",
@@ -59548,7 +59547,7 @@
    "scope_type": "team",
    "scope": "Design",
    "title": "Design has room to take on more",
-   "detail": "The Design team is below a full load in Oct 2026\u2013Jan 2027 (down to 0% in Jan 2027) \u2014 a good window to pull upcoming work forward or start something new.",
+   "detail": "The Design team is below a full load in Nov 2026\u2013Feb 2027 (down to 0% in Jan 2027) \u2014 a good window to pull upcoming work forward or start something new.",
    "metric": "as low as 0%",
    "suggested_action": "Route upcoming design work here, or schedule a project the team could pick up.",
    "source": "auto",
@@ -59569,7 +59568,7 @@
    "scope_type": "team",
    "scope": "Media",
    "title": "Media has room to take on more",
-   "detail": "The Media team is below a full load in Oct 2026\u2013Jan 2027 (down to 1% in Jan 2027) \u2014 a good window to pull upcoming work forward or start something new.",
+   "detail": "The Media team is below a full load in Nov 2026\u2013Jan 2027 (down to 1% in Jan 2027) \u2014 a good window to pull upcoming work forward or start something new.",
    "metric": "as low as 1%",
    "suggested_action": "Route upcoming media work here, or schedule a project the team could pick up.",
    "source": "auto",
@@ -59590,7 +59589,7 @@
    "scope_type": "team",
    "scope": "PM",
    "title": "PM has room to take on more",
-   "detail": "The PM team is below a full load in Oct 2026\u2013Jan 2027 (down to 0% in Jan 2027) \u2014 a good window to pull upcoming work forward or start something new.",
+   "detail": "The PM team is below a full load in Nov 2026\u2013Feb 2027 (down to 0% in Jan 2027) \u2014 a good window to pull upcoming work forward or start something new.",
    "metric": "as low as 0%",
    "suggested_action": "Route upcoming pm work here, or schedule a project the team could pick up.",
    "source": "auto",
